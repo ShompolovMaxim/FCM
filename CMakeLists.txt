@@ -14,11 +14,13 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 set(TS_FILES FCM_ru_RU.ts)
 
+
+
 set(PROJECT_SOURCES
-        main.cpp
-        main_window.cpp
-        main_window.h
-        main_window.ui
+        src/main.cpp
+        src/ui/main_window/main_window.cpp
+        src/ui/main_window/main_window.h
+        src/ui/main_window/main_window.ui
         ${TS_FILES}
 )
 
@@ -26,6 +28,41 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FCM
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        src/ui/graph_editor/node_item.h src/ui/graph_editor/node_item.cpp
+        src/ui/graph_editor/edge_item.h src/ui/graph_editor/edge_item.cpp
+        src/ui/graph_editor/graph_scene.h src/ui/graph_editor/graph_scene.cpp
+        src/ui/graph_editor/graph_view.h src/ui/graph_editor/graph_view.cpp
+
+        src/ui/graph_editor/color_value_adapter/IColorValueAdapter.h
+        src/ui/graph_editor/color_value_adapter/color_value_adapter.h src/ui/graph_editor/color_value_adapter/color_value_adapter.cpp
+        src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
+        src/presenter/prediction_parameters.h
+        src/presenter/simulation_parameters.h
+        src/model/activation_functions/activation_function.h
+        src/model/activation_functions/bivalent.h src/model/activation_functions/bivalent.cpp
+        src/model/activation_functions/trivalent.h src/model/activation_functions/trivalent.cpp
+        src/model/activation_functions/threshold_linear.h src/model/activation_functions/threshold_linear.cpp
+        src/model/activation_functions/sigmoid.h src/model/activation_functions/sigmoid.cpp
+        src/model/activation_functions/tanh.h src/model/activation_functions/tanh.cpp
+        src/model/activation_functions/fabric.h src/model/activation_functions/fabric.cpp
+        src/model/element_type.h
+        src/model/algorithms/algorithm.h
+        src/model/algorithms/standard.h src/model/algorithms/standard.cpp
+        src/model/metrics/metric.h
+        src/model/metrics/mse.h src/model/metrics/mse.cpp
+        src/model/entities/calculation_fcm.h
+        src/model/predictor.h src/model/predictor.cpp
+        src/model/entities/term.h
+        src/model/fuzzy_logic/fuzzifier.h
+        src/model/fuzzy_logic/numeric_fuzzifier.h src/model/fuzzy_logic/numeric_fuzzifier.cpp
+        src/model/entities/concept.h
+        src/model/entities/weight.h
+        src/model/entities/fcm.h
+        src/presenter/graph_presenter.h src/presenter/graph_presenter.cpp
+        src/presenter/edit_mode.h
+        src/ui/graph_editor/edit_mode.h
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FCM APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -50,6 +87,10 @@ else()
 endif()
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+target_include_directories(FCM PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
