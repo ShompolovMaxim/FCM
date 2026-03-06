@@ -9,12 +9,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(MINGW)
+    add_compile_options(-Wa,-mbig-obj)
+endif()
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
 set(TS_FILES FCM_ru_RU.ts)
-
-
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -61,7 +64,20 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/presenter/graph_presenter.h src/presenter/graph_presenter.cpp
         src/presenter/edit_mode.h
         src/ui/graph_editor/edit_mode.h
+        src/model/entities/experiment.h
+        src/model/stop_conditions/stop_condition.h
+        src/model/stop_conditions/fixed_steps.h src/model/stop_conditions/fixed_steps.cpp
+        src/ui/concept_window/concept_window.h src/ui/concept_window/concept_window.cpp src/ui/concept_window/concept_window.ui
+        src/ui/weight_window/weight_window.h src/ui/weight_window/weight_window.cpp src/ui/weight_window/weight_window.ui
+        src/repository/models_repository.h src/repository/models_repository.cpp
+        src/repository/migration_manager.h src/repository/migration_manager.cpp
+        src/resources.qrc
+        src/ui/load_model_window/load_model_window.h src/ui/load_model_window/load_model_window.cpp src/ui/load_model_window/load_model_window.ui
 
+        src/lib/qcustomplot/qcustomplot.h src/lib/qcustomplot/qcustomplot.cpp
+        src/repository/json_repository.h src/repository/json_repository.cpp
+        src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
+        src/presenter/static_analysis_presenter.h src/presenter/static_analysis_presenter.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -86,7 +102,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql Qt6::PrintSupport)
 
 target_include_directories(FCM PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -116,3 +132,10 @@ install(TARGETS FCM
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FCM)
 endif()
+
+qt_add_resources(PROJECT_RESOURCES
+    src/resources.qrc
+)
+
+target_sources(FCM PRIVATE ${PROJECT_RESOURCES})
+

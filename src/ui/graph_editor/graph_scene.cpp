@@ -1,7 +1,32 @@
 #include "graph_scene.h"
 #include "model/fuzzy_logic/numeric_fuzzifier.h"
 
-GraphScene::GraphScene(std::shared_ptr<FCM> fcm) : fuzzifier(std::make_shared<NumericFuzzifier>()), fcm(fcm) {}
+#include "ui/concept_window/concept_window.h"
+#include "ui/weight_window/weight_window.h"
+
+GraphScene::GraphScene(std::shared_ptr<FCM> fcm) : fuzzifier(std::make_shared<NumericFuzzifier>()), fcm(fcm) {
+    if (!fcm) {
+        return;
+    }
+    std::map<size_t, NodeItem*> nodes;
+    for (const auto& [_, concept] : fcm->concepts) {
+        auto* n = new NodeItem("F" + QString::number(counter), counter, std::make_shared<Concept>(concept));
+        counter++;
+        addItem(n);
+        n->setPos(concept.pos);
+        n->setValue(concept.value);
+        nodes[concept.id] = n;
+    }
+
+    for (const auto& [_, weight] : fcm->weights) {
+        auto* ed = new EdgeItem(nodes[weight.fromConceptId], nodes[weight.toConceptId], weight.id);
+        addItem(ed);
+        nodes[weight.fromConceptId]->addEdge(ed);
+        nodes[weight.toConceptId]->addEdge(ed);
+        ed->updatePosition();
+        ed->setValue(weight.value);
+    }
+}
 
 void GraphScene::switchMode() {
     if (mode == EditMode::Create) {
@@ -18,49 +43,31 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
     bool editable = e->widget() == views()[0]->viewport();
 
-    QStringList termsNames = {};
-    for (const auto& term : fcm->terms) {
-        termsNames.append(term.second.name);
-    }
-    termsNames.sort();
-
     if (mode == EditMode::Create && editable) {
 
         if (e->button() == Qt::LeftButton && !item) {
-            auto* n = new NodeItem("F" + QString::number(counter), counter);
+            fcm->concepts[counter].id = counter;
+            auto* n = new NodeItem("F" + QString::number(counter), counter, std::make_shared<Concept>(fcm->concepts[counter]));
             counter++;
             addItem(n);
             n->setPos(e->scenePos());
             fcm->concepts[n->getId()].id = n->getId();
+            fcm->concepts[n->getId()].pos = e->scenePos();
 
-            /*bool ok;
-            double v = QInputDialog::getDouble(
-                nullptr, "Node value", "Value:", 0.0, 0, 1, 3, &ok);
-            if (ok) {
-                n->setValue(v);
-            }*/
+            ConceptWindow* conceptWindow =
+                new ConceptWindow(fcm->terms, fcm->concepts[n->getId()], n->getPredictedValues(), views().first()->window());
 
-            bool ok;
-            QString value = QInputDialog::getItem(
-                nullptr,
-                "Выбор значения",
-                "Выберите элемент:",
-                termsNames,
-                0,
-                false,
-                &ok
-                );
+            conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-            if (ok) {
-                Term t;
-                for (const auto& term : fcm->terms) {
-                    if (term.second.name == value) {
-                        t = term.second;
-                    }
-                }
-                n->setValue(t.value);
-                fcm->concepts[n->getId()].termId = t.id;
-            }
+            connect(conceptWindow, &ConceptWindow::applied,
+                    [=](const Concept& concept)
+                    {
+                        fcm->concepts[n->getId()] = concept;
+                        n->setConcept(std::make_shared<Concept>(concept));
+                    });
+
+            n->setWindow(conceptWindow);
+            conceptWindow->show();
         }
 
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
@@ -80,36 +87,19 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 fcm->weights[ed->getId()].fromConceptId = ed->src->getId();
                 fcm->weights[ed->getId()].toConceptId = ed->dst->getId();
 
-                /*bool ok;
-                double v = QInputDialog::getDouble(
-                    nullptr, "Edge value", "Value:", 0.0, -1, 1, 3, &ok);
-                if (ok) {
-                    ed->setValue(v);
-                }*/
+                WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[ed->getId()], views().first()->window());
 
-                bool ok;
-                QString value = QInputDialog::getItem(
-                    nullptr,
-                    "Выбор значения",
-                    "Выберите элемент:",
-                    termsNames,
-                    0,          // индекс по умолчанию
-                    false,      // можно ли вводить вручную
-                    &ok
-                    );
+                weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-                if (ok) {
-                    Term t;
-                    for (const auto& term : fcm->terms) {
-                        if (term.second.name == value) {
-                            t = term.second;
-                        }
-                    }
-                    ed->setValue(t.value);
-                    fcm->weights[ed->getId()].termId = t.id;
-                }
+                connect(weightWindow, &WeightWindow::applied,
+                        [=](const Weight& weight)
+                        {
+                            fcm->weights[ed->getId()] = weight;
+                            ed->setValue(weight.value);
+                            firstNode = nullptr;
+                        });
 
-                firstNode = nullptr;
+                weightWindow->show();
             }
         }
     }
@@ -117,79 +107,38 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     if ((mode == EditMode::EditValues || !editable) && e->button() == Qt::RightButton) {
 
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-            /*bool ok;
-            double v = QInputDialog::getDouble(
-                nullptr, "Node value", "Value:",
-                n->getValue(), -1000, 1000, 3, &ok);
-            if (ok) n->setValue(v);*/
 
-            auto currentTerm = fuzzifier->fuzzify(fcm, n->getValue());
-            size_t currentTermInd = 0;
-            for (size_t i = 0; i < termsNames.size(); ++i) {
-                if (termsNames[i] == currentTerm.name) {
-                    currentTermInd = i;
-                }
-            }
+            ConceptWindow* conceptWindow =
+                new ConceptWindow(fcm->terms, fcm->concepts[n->getId()], n->getPredictedValues(), views().first()->window());
 
-            bool ok;
-            QString value = QInputDialog::getItem(
-                nullptr,
-                "Выбор значения",
-                "Выберите элемент:",
-                termsNames,
-                currentTermInd,
-                false,
-                &ok
-                );
+            conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-            if (ok) {
-                double v;
-                for (const auto& term : fcm->terms) {
-                    if (term.second.name == value) {
-                        v = term.second.value;
-                    }
-                }
-                n->setValue(v);
-            }
+            connect(conceptWindow, &ConceptWindow::applied,
+                    [=](const Concept& concept)
+                    {
+                        fcm->concepts[n->getId()] = concept;
+                        n->setConcept(std::make_shared<Concept>(concept));
+                    });
+
+            n->setWindow(conceptWindow);
+
+            conceptWindow->show();
         }
 
         if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
-            /*bool ok;
-            double v = QInputDialog::getDouble(
-                nullptr, "Edge value", "Value:",
-                ed->getValue(), -1000, 1000, 3, &ok);
-            if (ok) {
-                ed->setValue(v);
-            }*/
 
-            auto currentTerm = fuzzifier->fuzzify(fcm, ed->getValue());
-            size_t currentTermInd = 0;
-            for (size_t i = 0; i < termsNames.size(); ++i) {
-                if (termsNames[i] == currentTerm.name) {
-                    currentTermInd = i;
-                }
-            }
+            WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[ed->getId()], views().first()->window());
 
-            bool ok;
-            QString value = QInputDialog::getItem(
-                nullptr,
-                "Выбор значения",
-                "Выберите элемент:",
-                termsNames,
-                currentTermInd,
-                false,
-                &ok
-                );
+            weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-            if (ok) {
-                double v;
-                for (const auto& term : fcm->terms) {
-                    if (term.second.name == value) {
-                        v = term.second.value;
-                    }
-                }
-                ed->setValue(v);
-            }
+            connect(weightWindow, &WeightWindow::applied,
+                    [=](const Weight& weight)
+                    {
+                        fcm->weights[ed->getId()] = weight;
+                        ed->setValue(weight.value);
+                    });
+
+            weightWindow->show();
         }
     }
     if (mode == EditMode::Create && editable) {
@@ -201,14 +150,16 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 }
 
 GraphScene* GraphScene::copy() const {
-    auto copyScene = new GraphScene(std::make_shared<FCM>(*fcm));
+    auto copyScene = new GraphScene({});
+    copyScene->setFCM(std::make_shared<FCM>(*fcm));
     QList<NodeItem*> nodes(counter);
     for (QGraphicsItem* item : items()) {
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-            auto newNode = new NodeItem(n->getName(), n->getId());
+            auto newNode = new NodeItem(n->getName(), n->getId(), n->getConcept());
             copyScene->addItem(newNode);
             newNode->setPos(n->pos());
             newNode->setValue(n->getValue());
+            newNode->setWindow(n->getWindow());
             nodes[newNode->getId()] = newNode;
         }
     }

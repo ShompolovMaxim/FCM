@@ -7,7 +7,9 @@
 
 #include "model/entities/fcm.h"
 #include "presenter/simulation_presenter.h"
+#include "presenter/static_analysis_presenter.h"
 #include "ui/graph_editor/edit_mode.h"
+#include "repository/models_repository.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,6 +31,12 @@ public slots:
     void updateModeButtonText(EditMode newMode);
     void predict();
     void resetPredictionScene();
+    void pauseResumePrediction();
+    void speedUp();
+    void slowDown();
+    void stepForward();
+    void stepBack();
+    void updateProgress(size_t value);
 
     void onListWidgetContextMenu(const QPoint &pos);
     void onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
@@ -38,12 +46,31 @@ public slots:
     void onTermValueUChanged(double value);
     void onItemChanged(QListWidgetItem *item);
 
+    void onPredictToStaticChanged(bool checked);
+
+    void saveAs();
+    void open();
+    void onExportPng();
+    void onExportJson();
+    void onImportJson();
+
 private:
+    void simulationFinished();
+
+    void updateFCM();
+    PredictionParameters getPredictionParameters();
+    void addExperiment(const Experiment& experiment);
+
+    void updateFuzzyValuePlot();
+
     Ui::MainWindow *ui;
     SimulationPresenter presenter = SimulationPresenter(nullptr);
+    StaticAnalysisPresenter* staticAnalysisPresenter;
     std::map<QListWidgetItem*, Term> terms;
     std::shared_ptr<FCM> fcm;
     QListWidgetItem* currentTerm;
+
+    std::shared_ptr<ModelsRepository> modelsRepository;
 
 };
 #endif // MAIN_WINDOW_H

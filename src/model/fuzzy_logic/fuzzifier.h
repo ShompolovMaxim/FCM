@@ -11,5 +11,5 @@ public:
     Fuzzifier() {}
     virtual ~Fuzzifier() = default;
 
-    virtual Term fuzzify(std::shared_ptr<FCM> fcm, double value) = 0;
+    virtual Term fuzzify(const std::map<size_t, Term>& terms, double value) = 0;
 };

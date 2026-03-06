@@ -10,7 +10,7 @@ CalculationFCM StandardPredictionAlgorithm::step(const CalculationFCM& fcm) cons
     for (size_t i = 0; i < fcm.concepts.size(); ++i) {
         result.concepts[i] = fcm.concepts[i];
         for (size_t j = 0; j < fcm.concepts.size(); ++j) {
-            result.concepts[i] += fcm.concepts[j] * fcm.weights[j][i];
+            result.concepts[i] = activationFunction->activate(result.concepts[i] + fcm.concepts[j] * fcm.weights[j][i]);
         }
     }
     return result;

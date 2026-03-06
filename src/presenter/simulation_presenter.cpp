@@ -1,5 +1,3 @@
-#pragma once
-#include "model/predictor.h"
 #include "simulation_presenter.h"
 #include "ui/graph_editor/edge_item.h"
 
@@ -12,12 +10,14 @@ SimulationPresenter::~SimulationPresenter()
     }
 }
 
-void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes) {
+void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_) {
+    nodes = nodes_;
+
     if (workerThread.joinable()) {
         workerThread.join();
     }
 
-    step = 0;
+    step = -1;
 
     CalculationFCM fcm;
     fcm.concepts = std::vector<double>(nodes.size());
@@ -32,26 +32,70 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
         }
     }
 
-    auto predictor = std::make_shared<Predictor>(predictionParameters, fcm);
-    workerThread = std::thread([this, predictor]() {
+    predictor = std::make_shared<Predictor>(predictionParameters, fcm);
+    workerThread = std::thread([this]() {
         predictor->perform();
     });
 
+    iterationTime = static_cast<int>(1000 / simulationParameters.stepsPerSecond);
+
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, [this, nodes, predictor, predictionParameters]() {
-        if (step >= predictionParameters.fixedSteps) {
+    connect(timer, &QTimer::timeout, this, [this, predictionParameters]() {
+        if (step + 1 >= predictionParameters.fixedSteps) {
             timer->stop();
             return;
         }
 
-        if (predictor->getCount() > step) {
+        /*if (predictor->getCount() > step + 1) {
+            ++step;
             auto newFCM = predictor->getFCM(step);
             for (auto* node : nodes) {
                 node->setValue(newFCM.concepts[node->getId()]);
             }
-            ++step;
-        }
+        }*/
+
+        goToStep(step+1);
+
     });
 
-    timer->start(1000);
+    timer->start(iterationTime);
+}
+
+bool SimulationPresenter::goToStep(size_t newStep) {
+    if (predictor->getCount() > newStep) {
+        auto newFCM = predictor->getFCM(newStep);
+        for (auto* node : nodes) {
+            node->setValue(newFCM.concepts[node->getId()]);
+            node->setPredictedValues(predictor->getConceptHistoryValues(node->getId(), newStep));
+        }
+        step = newStep;
+        updateProgress(step);
+        return true;
+    }
+    return false;
+}
+
+bool SimulationPresenter::moveStep(int delta) {
+    int newStep = step + delta;
+    if (newStep < 0) {
+        return false;
+    }
+    if (!goToStep(newStep)) {
+        return false;
+    }
+    return true;
+}
+
+void SimulationPresenter::speedUp() {
+    iterationTime = static_cast<int>(iterationTime / speedUpFactor);
+    if (timer && timer->isActive()) {
+        timer->start(iterationTime);
+    }
+}
+
+void SimulationPresenter::slowDown() {
+    iterationTime = static_cast<int>(iterationTime * slowDownFactor);
+    if (timer && timer->isActive()) {
+        timer->start(iterationTime);
+    }
 }

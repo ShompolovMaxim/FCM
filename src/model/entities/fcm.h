@@ -1,7 +1,8 @@
 #pragma once
 
-#include "term.h"
 #include "concept.h"
+#include "experiment.h"
+#include "term.h"
 #include "weight.h"
 
 #include <map>
@@ -13,6 +14,8 @@ struct FCM {
     std::map<size_t, Term> terms;
     std::map<size_t, Concept> concepts;
     std::map<size_t, Weight> weights;
+    PredictionParameters predictionParameters;
+    std::vector<Experiment> experiments;
 
     size_t termsCounter = 0;
     size_t conceptsCounter = 0;

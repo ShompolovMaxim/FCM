@@ -20,6 +20,8 @@ public:
     CalculationFCM getFCM(size_t step);
 
     double getCount();
+
+    std::vector<double> getConceptHistoryValues(size_t conceptId, size_t step);
 private:
     PredictionParameters _predictionParameters;
     std::vector<CalculationFCM> _fcms;

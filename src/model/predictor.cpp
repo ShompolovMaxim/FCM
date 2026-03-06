@@ -27,3 +27,13 @@ CalculationFCM Predictor::getFCM(size_t step) {
 double Predictor::getCount() {
     return _count.load();
 }
+
+std::vector<double> Predictor::getConceptHistoryValues(size_t conceptId, size_t step) {
+    std::lock_guard<std::mutex> lock(_mutex);
+    std::vector<double> result;
+    result.reserve(step + 1);
+    for (size_t i = 0; i <= step; ++i) {
+        result.push_back(_fcms[i].concepts[conceptId]);
+    }
+    return result;
+}

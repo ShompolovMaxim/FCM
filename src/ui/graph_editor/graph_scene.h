@@ -19,6 +19,8 @@ public:
 
     void setMode(EditMode m) { mode = m; }
 
+    void setFCM(std::shared_ptr<FCM> newFCM) { fcm = newFCM; }
+
     GraphScene* copy() const;
 
 public slots:

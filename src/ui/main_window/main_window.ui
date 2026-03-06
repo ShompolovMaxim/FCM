@@ -14,7 +14,7 @@
    <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Program for Software Quality Simulation Based on FCM</string>
+   <string>Program for Problematic Situations Discussion Results Simulation Based on FCM</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -30,24 +30,24 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="modelSettings">
      <attribute name="title">
       <string>Model settings</string>
      </attribute>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="modelName">
       <property name="geometry">
        <rect>
         <x>20</x>
         <y>10</y>
         <width>1591</width>
-        <height>61</height>
+        <height>62</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>40</pointsize>
+        <pointsize>32</pointsize>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -55,6 +55,9 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="placeholderText">
+       <string>FCM name</string>
       </property>
      </widget>
      <widget class="QListWidget" name="listWidgetTerms">
@@ -80,7 +83,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Термы</string>
+       <string>Terms:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_5">
@@ -119,7 +122,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Нечёткое значение:</string>
+       <string>Fuzzy value:</string>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="termValueU">
@@ -136,6 +139,12 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+      </property>
+      <property name="minimum">
+       <double>-1.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1.000000000000000</double>
       </property>
      </widget>
      <widget class="QLabel" name="label_6">
@@ -161,7 +170,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Численное значение:</string>
+       <string>Numeric value:</string>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="termValueL">
@@ -179,6 +188,12 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
+      <property name="minimum">
+       <double>-1.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1.000000000000000</double>
+      </property>
      </widget>
      <widget class="QDoubleSpinBox" name="termValueM">
       <property name="enabled">
@@ -194,6 +209,12 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+      </property>
+      <property name="minimum">
+       <double>-1.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1.000000000000000</double>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="termValue">
@@ -211,15 +232,11 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
-     </widget>
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>200</y>
-        <width>631</width>
-        <height>281</height>
-       </rect>
+      <property name="minimum">
+       <double>-1.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1.000000000000000</double>
       </property>
      </widget>
      <widget class="QTextEdit" name="textEdit">
@@ -229,6 +246,45 @@
         <y>490</y>
         <width>631</width>
         <height>231</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Term notes</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="modelNotes">
+      <property name="geometry">
+       <rect>
+        <x>1020</x>
+        <y>200</y>
+        <width>631</width>
+        <height>521</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>FCM notes</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>1020</x>
+        <y>170</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>FCM notes:</string>
+      </property>
+     </widget>
+     <widget class="QCustomPlot" name="fuzzyValuePlot" native="true">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>200</y>
+        <width>631</width>
+        <height>281</height>
        </rect>
       </property>
      </widget>
@@ -305,6 +361,55 @@
      <attribute name="title">
       <string>Static analysis</string>
      </attribute>
+     <widget class="QLabel" name="densityLabel">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>30</y>
+        <width>321</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>FCM density: </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="complexityLabel">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>80</y>
+        <width>341</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>FCM complexity: </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="hierarchyLabel">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>130</y>
+        <width>351</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>FCM hierarchy index: </string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="factorsStatsTable">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>10</y>
+        <width>791</width>
+        <height>671</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="simulation">
      <attribute name="title">
@@ -478,6 +583,9 @@
          </item>
          <item>
           <widget class="QComboBox" name="comboBoxMetric">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <item>
             <property name="text">
              <string>MSE</string>
@@ -508,6 +616,9 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="doubleSpinBoxThreshold">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
@@ -526,6 +637,9 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinBoxMetricSteps">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
@@ -613,6 +727,9 @@
           <widget class="QSpinBox" name="spinBoxMoveSteps">
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="value">
+            <number>1</number>
            </property>
           </widget>
          </item>
@@ -764,6 +881,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <attribute name="title">
       <string>Experiments</string>
      </attribute>
+     <widget class="QTableView" name="experimantsTable">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1571</width>
+        <height>821</height>
+       </rect>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="sensitivityAnalysis">
      <attribute name="title">
@@ -785,6 +915,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionExportPNG"/>
+     <addaction name="actionExportJSON"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionOpenTemplate"/>
@@ -794,7 +931,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <addaction name="actionAutoSave"/>
     <addaction name="separator"/>
     <addaction name="actionImport"/>
-    <addaction name="actionExport"/>
+    <addaction name="menuExport"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -892,11 +1029,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>Import</string>
    </property>
   </action>
-  <action name="actionExport">
-   <property name="text">
-    <string>Export</string>
-   </property>
-  </action>
   <action name="actionUndo">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::EditUndo"/>
@@ -946,12 +1078,28 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>Disable Tips</string>
    </property>
   </action>
+  <action name="actionExportPNG">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionExportJSON">
+   <property name="text">
+    <string>JSON</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>GraphView</class>
    <extends>QGraphicsView</extends>
    <header>ui/graph_editor/graph_view.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>lib\qcustomplot\qcustomplot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

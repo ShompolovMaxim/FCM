@@ -4,5 +4,5 @@
 
 class NumericFuzzifier : public Fuzzifier {
 public:
-    Term fuzzify(std::shared_ptr<FCM> fcm, double value) override;
+    Term fuzzify(const std::map<size_t, Term>& terms, double value) override;
 };
