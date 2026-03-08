@@ -74,7 +74,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/resources.qrc
         src/ui/load_model_window/load_model_window.h src/ui/load_model_window/load_model_window.cpp src/ui/load_model_window/load_model_window.ui
 
-        src/lib/qcustomplot/qcustomplot.h src/lib/qcustomplot/qcustomplot.cpp
+        src/libs/qcustomplot/qcustomplot.h src/libs/qcustomplot/qcustomplot.cpp
         src/repository/json_repository.h src/repository/json_repository.cpp
         src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
         src/presenter/static_analysis_presenter.h src/presenter/static_analysis_presenter.cpp

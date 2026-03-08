@@ -34,7 +34,7 @@ void StaticAnalysisPresenter::update()
     int row = 0;
 
     for (const auto& f : result.factors) {
-        table->setItem(row,0, new QTableWidgetItem(QString::number(f.conceptId)));
+        table->setItem(row,0, new QTableWidgetItem(f.conceptName));
         table->setItem(row,1, new QTableWidgetItem(QString::number(f.outDegree)));
         table->setItem(row,2, new QTableWidgetItem(QString::number(f.inDegree)));
         table->setItem(row,3, new QTableWidgetItem(QString::number(f.centrality)));

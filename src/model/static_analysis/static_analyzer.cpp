@@ -45,7 +45,7 @@ StaticAnalysisResult StaticAnalyzer::analyze(const FCM& fcm)
 
         FactorMetrics m;
 
-        m.conceptId = idConcept;
+        m.conceptName = concept.name;
         m.outDegree = od[idConcept];
         m.inDegree = id[idConcept];
         m.centrality = m.outDegree + m.inDegree;

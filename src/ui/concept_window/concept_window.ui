@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="configuration">
     <attribute name="title">
@@ -152,7 +152,7 @@
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>lib\qcustomplot\qcustomplot.h</header>
+   <header>libs\qcustomplot\qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

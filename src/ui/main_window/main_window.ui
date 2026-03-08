@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="modelSettings">
      <attribute name="title">
@@ -403,7 +403,7 @@
      <widget class="QTableWidget" name="factorsStatsTable">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>320</x>
         <y>10</y>
         <width>791</width>
         <height>671</height>
@@ -736,7 +736,7 @@
          <item>
           <widget class="QLabel" name="labelMoveSteps">
            <property name="text">
-            <string>steps</string>
+            <string>step(s)</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -860,7 +860,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        <enum>QProgressBar::Direction::TopToBottom</enum>
       </property>
       <property name="format">
-       <string>%v шаг</string>
+       <string>step %v</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelMetricValue">
@@ -873,7 +873,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
       <property name="text">
-       <string>Значение метрики: 0,4</string>
+       <string>Metric value: 0,4</string>
       </property>
      </widget>
     </widget>
@@ -1098,7 +1098,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>lib\qcustomplot\qcustomplot.h</header>
+   <header>libs\qcustomplot\qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

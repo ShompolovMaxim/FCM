@@ -1,8 +1,6 @@
 #include "concept_window.h"
 #include "ui_concept_window.h"
 
-#include "lib/qcustomplot/qcustomplot.h"
-
 #include <QPushButton>
 
 ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, Concept currentConcept, std::vector<double> predictedValues, QWidget *parent)

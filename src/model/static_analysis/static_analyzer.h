@@ -7,7 +7,7 @@
 
 struct FactorMetrics
 {
-    size_t conceptId;
+    QString conceptName;
 
     double outDegree;
     double inDegree;
