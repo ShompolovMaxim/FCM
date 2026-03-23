@@ -3,19 +3,21 @@
 
 #include <QPushButton>
 
-ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, Concept currentConcept, std::vector<double> predictedValues, QWidget *parent)
+ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, std::shared_ptr<Concept> currentConcept, std::vector<double> predictedValues, QWidget *parent)
     : terms(terms), currentConcept(currentConcept), QDialog(parent), ui(new Ui::ConceptWindow)
 {
     ui->setupUi(this);
 
-    if (currentConcept.name.isEmpty()) {
+    if (currentConcept->name.isEmpty()) {
         setWindowTitle("Create concept");
+        creation = true;
     } else {
-        setWindowTitle(currentConcept.name);
-        ui->nameField->setText(currentConcept.name);
+        setWindowTitle(currentConcept->name);
+        ui->nameField->setText(currentConcept->name);
+        creation = false;
     }
-    ui->notesField->setPlainText(currentConcept.description);
-    ui->startStepField->setValue(currentConcept.startStep);
+    ui->notesField->setPlainText(currentConcept->description);
+    ui->startStepField->setValue(currentConcept->startStep);
 
     QStringList termsNames = {};
     for (const auto& term : terms) {
@@ -24,7 +26,7 @@ ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, Concept curren
     termsNames.sort();
     ui->valueField->addItems(termsNames);
 
-    auto currentTerm = fuzzifier->fuzzify(terms, currentConcept.value);
+    auto currentTerm = fuzzifier->fuzzify(terms, currentConcept->value);
     size_t currentTermInd = 0;
     for (size_t i = 0; i < termsNames.size(); ++i) {
         if (termsNames[i] == currentTerm.name) {
@@ -35,7 +37,8 @@ ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, Concept curren
 
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &ConceptWindow::onApplyClicked);
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ConceptWindow::onOkClicked);
-    connect(ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &QDialog::close);
+    connect(ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &ConceptWindow::onCancelClicked);
+    connect(ui->deleteButton, &QPushButton::clicked, this, &ConceptWindow::onDelete);
 
     ui->plot->addGraph();
     ui->plot->yAxis->setRange(0, 1.1);
@@ -76,7 +79,19 @@ void ConceptWindow::onApplyClicked()
 {
     updateCurrentConcept();
     emit applied(currentConcept);
-    setWindowTitle(currentConcept.name);
+    creation = false;
+    setWindowTitle(currentConcept->name);
+}
+
+void ConceptWindow::onCancelClicked() {
+    if (creation) {
+        emit deleted(currentConcept->id);
+    }
+    close();
+}
+
+void ConceptWindow::closeEvent(QCloseEvent* event) {
+    onCancelClicked();
 }
 
 void ConceptWindow::onOkClicked()
@@ -86,17 +101,23 @@ void ConceptWindow::onOkClicked()
     close();
 }
 
+void ConceptWindow::onDelete() {
+    emit deleted(currentConcept->id);
+    creation = false;
+    close();
+}
+
 void ConceptWindow::updateCurrentConcept() {
-    currentConcept.name = ui->nameField->text();
-    currentConcept.description = ui->notesField->toPlainText();
+    currentConcept->name = ui->nameField->text();
+    currentConcept->description = ui->notesField->toPlainText();
 
     Term t;
     for (const auto& term : terms) {
         if (term.second.name == ui->valueField->currentText()) {
-            currentConcept.value = term.second.value;
+            currentConcept->value = term.second.value;
             break;
         }
     }
 
-    currentConcept.startStep = ui->startStepField->value();
+    currentConcept->startStep = ui->startStepField->value();
 }

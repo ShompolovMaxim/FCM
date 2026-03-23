@@ -1,6 +1,8 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
+#include "term_list/term_list_item.h"
+
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/load_model_window/load_model_window.h"
 
@@ -23,7 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     fcm = std::make_shared<FCM>();
 
-    auto* scene = new GraphScene(fcm);
+    creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
+    ui->adjacencyTableView->setPresenter(creationPresenter);
+    presenter = std::make_shared<SimulationPresenter>(creationPresenter, nullptr);
+
+    auto* scene = new GraphScene(fcm, creationPresenter);
     ui->graphicsViewGraph->setScene(scene);
     ui->graphicsViewPredict->setScene(scene);
 
@@ -40,12 +46,14 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->pushButtonSlowDown, &QPushButton::clicked, this, &MainWindow::slowDown);
     QObject::connect(ui->pushButtonForward, &QPushButton::clicked, this, &MainWindow::stepForward);
     QObject::connect(ui->pushButtonBack, &QPushButton::clicked, this, &MainWindow::stepBack);
-    QObject::connect(&presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
-    QObject::connect(&presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
+    QObject::connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
+    QObject::connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     QObject::connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &MainWindow::onPredictToStaticChanged);
 
-    ui->listWidgetTerms->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->listWidgetTerms, &QListWidget::customContextMenuRequested, this, &MainWindow::onListWidgetContextMenu);
+    //ui->listWidgetTerms->setContextMenuPolicy(Qt::CustomContextMenu);
+    //connect(ui->listWidgetTerms, &QListWidget::customContextMenuRequested, this, &MainWindow::onListWidgetContextMenu);
+    connect(ui->createTermButton, &QPushButton::clicked, this, &MainWindow::onCreateTerm);
+    connect(ui->deleteTermButton, &QPushButton::clicked, this, &MainWindow::onDeleteTerm);
     ui->listWidgetTerms->setDragEnabled(true);
     ui->listWidgetTerms->setAcceptDrops(true);
     ui->listWidgetTerms->setDropIndicatorShown(true);
@@ -134,7 +142,9 @@ void MainWindow::predict() {
 
     Experiment experiment;
     experiment.terms = fcm->terms;
-    experiment.concepts = fcm->concepts;
+    for (const auto& [id, concept] : fcm->concepts) {
+        experiment.concepts[id] = *fcm->concepts[id];
+    }
     experiment.weights = fcm->weights;
     experiment.predictionParameters = predictionParameters;
     experiment.timestamp = QDateTime::currentDateTime();
@@ -149,15 +159,19 @@ void MainWindow::predict() {
     }
 
     QList<NodeItem*> nodes;
+    QMap<size_t, EdgeItem*> edges;
     for (QGraphicsItem* item : predictScene->items()) {
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
             nodes.append(n);
+        }
+        if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
+            edges[ed->getId()] = ed;
         }
     }
 
     ui->progressBarPredict->setMaximum(predictionParameters.fixedSteps);
 
-    presenter.simulate(predictionParameters, simulationParameters, nodes);
+    presenter->simulate(predictionParameters, simulationParameters, nodes, edges, fcm);
 }
 
 void MainWindow::resetPredictionScene() {
@@ -170,31 +184,31 @@ void MainWindow::resetPredictionScene() {
 void MainWindow::pauseResumePrediction() {
     if (ui->pushButtonPause->text() == "Pause") {
         ui->pushButtonPause->setText("Resume");
-        presenter.pause();
+        presenter->pause();
     } else {
         ui->pushButtonPause->setText("Pause");
-        presenter.resume();
+        presenter->resume();
     }
 }
 
 void MainWindow::speedUp() {
-    presenter.speedUp();
-    ui->doubleSpinBoxStepsPerSecond->setValue(presenter.getStepsPerSecond());
+    presenter->speedUp();
+    ui->doubleSpinBoxStepsPerSecond->setValue(presenter->getStepsPerSecond());
 }
 
 void MainWindow::slowDown() {
-    presenter.slowDown();
-    ui->doubleSpinBoxStepsPerSecond->setValue(presenter.getStepsPerSecond());
+    presenter->slowDown();
+    ui->doubleSpinBoxStepsPerSecond->setValue(presenter->getStepsPerSecond());
 }
 
 void MainWindow::stepForward() {
-    if (!presenter.moveStep(ui->spinBoxMoveSteps->value())) {
+    if (!presenter->moveStep(ui->spinBoxMoveSteps->value())) {
         QMessageBox::critical(this, "Error", "Value of step is not calculated or step out of range!");
     }
 }
 
 void MainWindow::stepBack() {
-    if (!presenter.moveStep(-ui->spinBoxMoveSteps->value())) {
+    if (!presenter->moveStep(ui->spinBoxMoveSteps->value())) {
         QMessageBox::critical(this, "Error", "Value of step is not calculated or step out of range!");
     }
 }
@@ -208,99 +222,101 @@ void MainWindow::updateProgress(size_t value) {
     ui->progressBarPredict->setValue(value+1);
 }
 
-void MainWindow::onListWidgetContextMenu(const QPoint &pos)
-{
-    QListWidgetItem *item = ui->listWidgetTerms->itemAt(pos);
+void MainWindow::onCreateTerm() {
+    TermListItem *newItem = new TermListItem("New term");
+    newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
+    auto id = ++fcm->termsCounter;
+    newItem->setTermId(id);
+    fcm->terms[id].id = id;
+    fcm->terms[id].name = "New term";
 
-    QMenu menu(this);
+    ui->listWidgetTerms->addItem(newItem);
 
-    QAction *addAction = menu.addAction("Add");
-    QAction *deleteAction = menu.addAction("Delete");
+    ui->listWidgetTerms->setCurrentItem(newItem);
+    ui->listWidgetTerms->editItem(newItem);
+}
 
-    QAction *selectedAction = menu.exec(ui->listWidgetTerms->mapToGlobal(pos));
-
-    if (selectedAction == addAction) {
-        QListWidgetItem *newItem = new QListWidgetItem("New term");
-        newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
-        terms[newItem];
-        terms[newItem].name = "New term";
-        terms[newItem].id = ++fcm->termsCounter;
-        fcm->terms[terms[newItem].id] = terms[newItem];
-
-        ui->listWidgetTerms->addItem(newItem);
-
-        ui->listWidgetTerms->setCurrentItem(newItem);
-        ui->listWidgetTerms->editItem(newItem);
-    }
-    if (selectedAction == deleteAction && item) {
-        delete item;
+void MainWindow::onDeleteTerm() {
+    QListWidgetItem *current =  ui->listWidgetTerms->currentItem();
+    if (current) {
+        fcm->terms.erase(currentTermId);
+        ui->listWidgetTerms->takeItem( ui->listWidgetTerms->row(current));
+        delete current;
     }
 }
 
-void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
+void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
+    if (!current) {
+        ui->termValue->setValue(0);
+        ui->termValueL->setValue(0);
+        ui->termValueM->setValue(0);
+        ui->termValueU->setValue(0);
+        ui->termValue->setEnabled(false);
+        ui->termValueL->setEnabled(false);
+        ui->termValueM->setEnabled(false);
+        ui->termValueU->setEnabled(false);
+        updateFuzzyValuePlot();
+        return;
+    }
+
     ui->termValue->setEnabled(true);
     ui->termValueL->setEnabled(true);
     ui->termValueM->setEnabled(true);
     ui->termValueU->setEnabled(true);
-    currentTerm = current;
+    currentTermId = dynamic_cast<TermListItem*>(current)->getTermId();
 
     QSignalBlocker b1(ui->termValue);
     QSignalBlocker b2(ui->termValueL);
     QSignalBlocker b3(ui->termValueM);
     QSignalBlocker b4(ui->termValueU);
 
-    ui->termValue->setValue(terms[current].value);
-    ui->termValueL->setValue(terms[current].fuzzyValueL);
-    ui->termValueM->setValue(terms[current].fuzzyValueM);
-    ui->termValueU->setValue(terms[current].fuzzyValueU);
+    ui->termValue->setValue(fcm->terms[currentTermId].value);
+    ui->termValueL->setValue(fcm->terms[currentTermId].fuzzyValueL);
+    ui->termValueM->setValue(fcm->terms[currentTermId].fuzzyValueM);
+    ui->termValueU->setValue(fcm->terms[currentTermId].fuzzyValueU);
     updateFuzzyValuePlot();
 }
 
 void MainWindow::onTermValueChanged(double value) {
-    terms[currentTerm].value = value;
-    fcm->terms[terms[currentTerm].id].value = value;
+    fcm->terms[currentTermId].value = value;
 }
 
 void MainWindow::onTermValueLChanged(double value) {
     if (ui->termValueM->value() < value) {
         ui->termValueM->setValue(value);
-        fcm->terms[terms[currentTerm].id].fuzzyValueM = value;
+        fcm->terms[currentTermId].fuzzyValueM = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[terms[currentTerm].id].fuzzyValueU = value;
+        fcm->terms[currentTermId].fuzzyValueU = value;
     }
-    terms[currentTerm].fuzzyValueL = value;
-    fcm->terms[terms[currentTerm].id].fuzzyValueL = value;
+    fcm->terms[currentTermId].fuzzyValueL = value;
     updateFuzzyValuePlot();
 }
 
 void MainWindow::onTermValueMChanged(double value) {
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[terms[currentTerm].id].fuzzyValueL = value;
+        fcm->terms[currentTermId].fuzzyValueL = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[terms[currentTerm].id].fuzzyValueU = value;
+        fcm->terms[currentTermId].fuzzyValueU = value;
     }
-    terms[currentTerm].fuzzyValueM = value;
-    fcm->terms[terms[currentTerm].id].fuzzyValueM = value;
+    fcm->terms[currentTermId].fuzzyValueM = value;
     updateFuzzyValuePlot();
 }
 
 void MainWindow::onTermValueUChanged(double value) {
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[terms[currentTerm].id].fuzzyValueL = value;
+        fcm->terms[currentTermId].fuzzyValueL = value;
     }
     if (ui->termValueM->value() > value) {
         ui->termValueM->setValue(value);
-        fcm->terms[terms[currentTerm].id].fuzzyValueM = value;
+        fcm->terms[currentTermId].fuzzyValueM = value;
     }
-    terms[currentTerm].fuzzyValueU = value;
-    fcm->terms[terms[currentTerm].id].fuzzyValueU = value;
+    fcm->terms[currentTermId].fuzzyValueU = value;
     updateFuzzyValuePlot();
 }
 
@@ -310,8 +326,7 @@ void MainWindow::updateFuzzyValuePlot() {
 }
 
 void MainWindow::onItemChanged(QListWidgetItem *item) {
-    terms[item].name = item->text();
-    fcm->terms[terms[item].id].name = item->text();
+    fcm->terms[currentTermId].name = item->text();
 }
 
 void MainWindow::onPredictToStaticChanged(bool checked) {
@@ -361,22 +376,21 @@ void MainWindow::open() {
     if (!model) {
         return;
     }
-    fcm = std::make_shared<FCM>(*model);
+    *fcm = *model;
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
 
     ui->listWidgetTerms->clear();
-    terms.clear();
     for (auto& [id, term] : fcm->terms) {
-        QListWidgetItem* item = new QListWidgetItem(term.name);
+        TermListItem* item = new TermListItem(term.name);
+        item->setTermId(id);
         ui->listWidgetTerms->addItem(item);
-        terms[item] = term;
     }
     if (!fcm->terms.empty()) {
         ui->listWidgetTerms->setCurrentRow(0);
     }
 
-    auto newScene = new GraphScene(fcm);
+    auto newScene = new GraphScene(fcm, creationPresenter);
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
     QObject::connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     auto oldSceneCreate = ui->graphicsViewGraph->scene();
@@ -466,22 +480,21 @@ void MainWindow::onImportJson() {
         QMessageBox::warning(this, "Error", "Failed to load file.");
     }
 
-    fcm = std::make_shared<FCM>(*model);
+    *fcm = *model;
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
 
     ui->listWidgetTerms->clear();
-    terms.clear();
     for (auto& [id, term] : fcm->terms) {
-        QListWidgetItem* item = new QListWidgetItem(term.name);
+        TermListItem* item = new TermListItem(term.name);
+        item->setTermId(id);
         ui->listWidgetTerms->addItem(item);
-        terms[item] = term;
     }
     if (!fcm->terms.empty()) {
         ui->listWidgetTerms->setCurrentRow(0);
     }
 
-    auto newScene = new GraphScene(fcm);
+    auto newScene = new GraphScene(fcm, creationPresenter);
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
     QObject::connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     auto oldSceneCreate = ui->graphicsViewGraph->scene();

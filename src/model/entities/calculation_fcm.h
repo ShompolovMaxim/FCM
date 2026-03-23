@@ -1,8 +1,11 @@
 #pragma once
-#include <vector>
+
+#include "calculation_weight.h"
+
+#include <unordered_map>
 
 struct CalculationFCM {
-    std::vector<double> concepts;
-    std::vector<std::vector<double>> weights;
-    std::vector<size_t> conceptsStartSteps;
+    std::unordered_map<size_t, double> concepts;
+    std::unordered_map<size_t, CalculationWeight> weights;
+    std::unordered_map<size_t, size_t> conceptsStartSteps;
 };

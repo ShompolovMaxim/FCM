@@ -4,18 +4,19 @@
 #include "ui/concept_window/concept_window.h"
 #include "ui/weight_window/weight_window.h"
 
-GraphScene::GraphScene(std::shared_ptr<FCM> fcm) : fuzzifier(std::make_shared<NumericFuzzifier>()), fcm(fcm) {
+GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter) : fuzzifier(std::make_shared<NumericFuzzifier>()), fcm(fcm), presenter(presenter) {
     if (!fcm) {
         return;
     }
+
     std::map<size_t, NodeItem*> nodes;
     for (const auto& [_, concept] : fcm->concepts) {
-        auto* n = new NodeItem("F" + QString::number(counter), counter, std::make_shared<Concept>(concept));
+        auto* n = new NodeItem(concept);
         counter++;
         addItem(n);
-        n->setPos(concept.pos);
-        n->setValue(concept.value);
-        nodes[concept.id] = n;
+        n->setPos(concept->pos);
+        n->setValue(concept->value);
+        nodes[concept->id] = n;
     }
 
     for (const auto& [_, weight] : fcm->weights) {
@@ -25,7 +26,15 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm) : fuzzifier(std::make_shared<Nu
         nodes[weight.toConceptId]->addEdge(ed);
         ed->updatePosition();
         ed->setValue(weight.value);
+        edges[weight.id] = ed;
     }
+
+    connect(presenter.get(), &CreationPresenter::conceptCreated, this, &GraphScene::conceptCreated);
+    connect(presenter.get(), &CreationPresenter::conceptUpdated, this, &GraphScene::conceptUpdated);
+    connect(presenter.get(), &CreationPresenter::weightCreated, this, &GraphScene::weightCreated);
+    connect(presenter.get(), &CreationPresenter::weightUpdated, this, &GraphScene::weightUpdated);
+    connect(presenter.get(), &CreationPresenter::conceptDeleted, this, &GraphScene::conceptDeleted);
+    connect(presenter.get(), &CreationPresenter::weightDeleted, this, &GraphScene::weightDeleted);
 }
 
 void GraphScene::switchMode() {
@@ -37,6 +46,52 @@ void GraphScene::switchMode() {
     modeChanged(mode);
 }
 
+void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
+    auto* n = new NodeItem(concept);
+    addItem(n);
+    n->setPos(concept->pos);
+    n->setValue(concept->value);
+    n->setConcept(concept);
+    nodes[concept->id] = n;
+    counter++;
+}
+
+void GraphScene::weightCreated(std::shared_ptr<Weight> weight) {
+    auto* ed = new EdgeItem(nodes[weight->fromConceptId], nodes[weight->toConceptId], weight->id);
+    addItem(ed);
+    nodes[weight->fromConceptId]->addEdge(ed);
+    nodes[weight->toConceptId]->addEdge(ed);
+    ed->updatePosition();
+    edges[weight->id] = ed;
+}
+
+void GraphScene::conceptUpdated(std::shared_ptr<Concept> concept) {
+    nodes[concept->id]->setPos(concept->pos);
+    nodes[concept->id]->setName(concept->name);
+    nodes[concept->id]->setValue(concept->value);
+}
+
+void GraphScene::weightUpdated(std::shared_ptr<Weight> weight) {
+    edges[weight->id]->setValue(weight->value);
+}
+
+void GraphScene::conceptDeleted(size_t id) {
+    NodeItem* node = nodes[id];
+    removeItem(node);
+    nodes.erase(id);
+    delete node;
+}
+
+void GraphScene::weightDeleted(size_t id) {
+    EdgeItem* edge = edges[id];
+    edge->src->removeEdge(edge);
+    edge->dst->removeEdge(edge);
+
+    removeItem(edge);
+    edges.erase(id);
+    delete edge;
+}
+
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     QGraphicsItem* item = itemAt(e->scenePos(), QTransform());
@@ -46,61 +101,11 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     if (mode == EditMode::Create && editable) {
 
         if (e->button() == Qt::LeftButton && !item) {
-            fcm->concepts[counter].id = counter;
-            auto* n = new NodeItem("F" + QString::number(counter), counter, std::make_shared<Concept>(fcm->concepts[counter]));
-            counter++;
-            addItem(n);
-            n->setPos(e->scenePos());
-            fcm->concepts[n->getId()].id = n->getId();
-            fcm->concepts[n->getId()].pos = e->scenePos();
-
-            ConceptWindow* conceptWindow =
-                new ConceptWindow(fcm->terms, fcm->concepts[n->getId()], n->getPredictedValues(), views().first()->window());
-
-            conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
-
-            connect(conceptWindow, &ConceptWindow::applied,
-                    [=](const Concept& concept)
-                    {
-                        fcm->concepts[n->getId()] = concept;
-                        n->setConcept(std::make_shared<Concept>(concept));
-                    });
-
-            n->setWindow(conceptWindow);
-            conceptWindow->show();
+            presenter->createConcept(e->scenePos());
         }
 
-        if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-            if (!firstNode) {
-                firstNode = n;
-            } else {
-                if (firstNode == n) {
-                    firstNode = nullptr;
-                    return;
-                }
-                auto* ed = new EdgeItem(firstNode, n, edgesCounter++);
-                addItem(ed);
-                firstNode->addEdge(ed);
-                n->addEdge(ed);
-                ed->updatePosition();
-                fcm->weights[ed->getId()].id = ed->getId();
-                fcm->weights[ed->getId()].fromConceptId = ed->src->getId();
-                fcm->weights[ed->getId()].toConceptId = ed->dst->getId();
-
-                WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[ed->getId()], views().first()->window());
-
-                weightWindow->setAttribute(Qt::WA_DeleteOnClose);
-
-                connect(weightWindow, &WeightWindow::applied,
-                        [=](const Weight& weight)
-                        {
-                            fcm->weights[ed->getId()] = weight;
-                            ed->setValue(weight.value);
-                            firstNode = nullptr;
-                        });
-
-                weightWindow->show();
-            }
+        if (auto n = qgraphicsitem_cast<NodeItem*>(item); n && e->button() == Qt::RightButton) {
+            presenter->createWeight(n->getId());
         }
     }
 
@@ -108,37 +113,11 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
 
-            ConceptWindow* conceptWindow =
-                new ConceptWindow(fcm->terms, fcm->concepts[n->getId()], n->getPredictedValues(), views().first()->window());
-
-            conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
-
-            connect(conceptWindow, &ConceptWindow::applied,
-                    [=](const Concept& concept)
-                    {
-                        fcm->concepts[n->getId()] = concept;
-                        n->setConcept(std::make_shared<Concept>(concept));
-                    });
-
-            n->setWindow(conceptWindow);
-
-            conceptWindow->show();
+            presenter->updateConcept(n->getId());
         }
 
         if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
-
-            WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[ed->getId()], views().first()->window());
-
-            weightWindow->setAttribute(Qt::WA_DeleteOnClose);
-
-            connect(weightWindow, &WeightWindow::applied,
-                    [=](const Weight& weight)
-                    {
-                        fcm->weights[ed->getId()] = weight;
-                        ed->setValue(weight.value);
-                    });
-
-            weightWindow->show();
+            presenter->updateWeight(ed->getId());
         }
     }
     if (mode == EditMode::Create && editable) {
@@ -146,16 +125,15 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     } else {
         e->accept();
     }
-    //QGraphicsScene::mousePressEvent(e);
 }
 
 GraphScene* GraphScene::copy() const {
-    auto copyScene = new GraphScene({});
+    auto copyScene = new GraphScene({}, presenter);
     copyScene->setFCM(std::make_shared<FCM>(*fcm));
-    QList<NodeItem*> nodes(counter);
+    QMap<size_t, NodeItem*> nodes;
     for (QGraphicsItem* item : items()) {
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-            auto newNode = new NodeItem(n->getName(), n->getId(), n->getConcept());
+            auto newNode = new NodeItem(n->getConcept());
             copyScene->addItem(newNode);
             newNode->setPos(n->pos());
             newNode->setValue(n->getValue());

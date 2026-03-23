@@ -1,7 +1,5 @@
 #pragma once
 
-#include "term.h"
-
 #include <QPointF>
 #include <QString>
 
@@ -12,4 +10,5 @@ struct Concept {
     double value;
     QPointF pos;
     size_t startStep;
+    std::vector<double> predictedValues;
 };

@@ -1,7 +1,9 @@
 #pragma once
 
+#include "creation_presenter.h"
 #include "prediction_parameters.h"
 #include "simulation_parameters.h"
+
 #include "ui/graph_editor/node_item.h"
 
 #include "model/predictor.h"
@@ -10,10 +12,10 @@ class SimulationPresenter : public QObject
 {
     Q_OBJECT
 public:
-    SimulationPresenter(QObject* parent = nullptr);
+    SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent = nullptr);
     ~SimulationPresenter();
 
-    void simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes);
+    void simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes, QMap<size_t, EdgeItem*> edges, std::shared_ptr<FCM> fcm);
 
     void pause() { if (timer) timer->stop(); }
     void resume() { if (timer) timer->start(iterationTime); }
@@ -38,5 +40,8 @@ private:
     double speedUpFactor = 2;
     double slowDownFactor = 2;
     QList<NodeItem*> nodes;
+    QMap<size_t, EdgeItem*> edges;
     std::shared_ptr<Predictor> predictor;
+    std::shared_ptr<CreationPresenter> creationPresenter;
+    std::shared_ptr<FCM> fcm;
 };

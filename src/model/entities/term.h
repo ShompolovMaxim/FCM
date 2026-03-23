@@ -7,9 +7,9 @@ struct Term {
     size_t id;
     QString name;
     QString description;
-    double value;
-    double fuzzyValueL;
-    double fuzzyValueM;
-    double fuzzyValueU;
+    double value = 0;
+    double fuzzyValueL = 0;
+    double fuzzyValueM = 0;
+    double fuzzyValueU = 0;
     QColor color;
 };

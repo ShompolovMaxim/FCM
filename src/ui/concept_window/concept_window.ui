@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="configuration">
     <attribute name="title">
@@ -146,6 +146,19 @@
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="deleteButton">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>480</y>
+     <width>90</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>

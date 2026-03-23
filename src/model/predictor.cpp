@@ -1,4 +1,11 @@
+#include "activation_functions/fabric.h"
+
+#include "algorithms/fabric.h"
+
+#include "element_type.h"
 #include "predictor.h"
+
+
 #include <qdebug.h>
 
 Predictor::Predictor(PredictionParameters predictionParameters, const CalculationFCM& fcm) : _predictionParameters(predictionParameters) {
@@ -6,10 +13,11 @@ Predictor::Predictor(PredictionParameters predictionParameters, const Calculatio
 }
 
 void Predictor::perform() {
-    auto activationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Node, 1);
-    auto algorithm = StandardPredictionAlgorithm(activationFunction);
+    auto conceptActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Node, 1);
+    auto weightActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Edge, 1);
+    auto algorithm = AlgorithmsFabric().create(_predictionParameters.algorithm, conceptActivationFunction, weightActivationFunction);
     for (size_t i = 0; i < _predictionParameters.fixedSteps; ++i) {
-        auto next = algorithm.step(_fcms[i]);
+        auto next = algorithm->step(_fcms[i]);
 
         {
             std::lock_guard<std::mutex> lock(_mutex);
@@ -34,6 +42,16 @@ std::vector<double> Predictor::getConceptHistoryValues(size_t conceptId, size_t 
     result.reserve(step + 1);
     for (size_t i = 0; i <= step; ++i) {
         result.push_back(_fcms[i].concepts[conceptId]);
+    }
+    return result;
+}
+
+std::vector<double> Predictor::getWeightHistoryValues(size_t weightId, size_t step) {
+    std::lock_guard<std::mutex> lock(_mutex);
+    std::vector<double> result;
+    result.reserve(step + 1);
+    for (size_t i = 0; i <= step; ++i) {
+        result.push_back(_fcms[i].weights[weightId].value);
     }
     return result;
 }

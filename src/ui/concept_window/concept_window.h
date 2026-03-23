@@ -16,22 +16,27 @@ class ConceptWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConceptWindow(const std::map<size_t, Term>& terms, Concept currentConcept, std::vector<double> predictedValues, QWidget *parent = nullptr);
+    explicit ConceptWindow(const std::map<size_t, Term>& terms, std::shared_ptr<Concept> currentConcept, std::vector<double> predictedValues, QWidget *parent = nullptr);
     ~ConceptWindow();
 
     void setPredictedValues(std::vector<double> predictedValues);
 
 signals:
-    void applied(const Concept& value);
+    void applied(const std::shared_ptr<Concept>& value);
+    void deleted(size_t id);
 
 private slots:
     void onApplyClicked();
+    void onCancelClicked();
+    void closeEvent(QCloseEvent* event) override;
     void onOkClicked();
+    void onDelete();
 
 private:
+    bool creation;
     Ui::ConceptWindow *ui;
     const std::map<size_t, Term>& terms;
-    Concept currentConcept;
+    std::shared_ptr<Concept> currentConcept;
     std::shared_ptr<Fuzzifier> fuzzifier = std::make_shared<NumericFuzzifier>();
 
     void updateCurrentConcept();

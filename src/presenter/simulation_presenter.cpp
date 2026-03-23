@@ -1,7 +1,7 @@
 #include "simulation_presenter.h"
 #include "ui/graph_editor/edge_item.h"
 
-SimulationPresenter::SimulationPresenter(QObject* parent) : QObject(parent) {}
+SimulationPresenter::SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent) : QObject(parent), creationPresenter(creationPresenter) {}
 
 SimulationPresenter::~SimulationPresenter()
 {
@@ -10,8 +10,10 @@ SimulationPresenter::~SimulationPresenter()
     }
 }
 
-void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_) {
+void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_, QMap<size_t, EdgeItem*> edges_, std::shared_ptr<FCM> fcm) {
+    this->fcm = fcm;
     nodes = nodes_;
+    edges = edges_;
 
     if (workerThread.joinable()) {
         workerThread.join();
@@ -19,20 +21,22 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
 
     step = -1;
 
-    CalculationFCM fcm;
-    fcm.concepts = std::vector<double>(nodes.size());
-    fcm.weights = std::vector<std::vector<double>>(nodes.size(), std::vector<double>(nodes.size()));
+    CalculationFCM calculationFCM;
 
-    for (const auto& node : nodes) {
-        fcm.concepts[node->getId()] = node->getValue();
-        for (const auto& edge : node->getEdges()) {
-            if (edge->src == node) {
-                fcm.weights[node->getId()][edge->dst->getId()] = edge->getValue();
-            }
-        }
+    for (const auto& [id, concept] : fcm->concepts) {
+        calculationFCM.concepts[id] = concept->value;
+        calculationFCM.conceptsStartSteps[id] = concept->startStep;
+    }
+    for (const auto& [id, weight] : fcm->weights) {
+        calculationFCM.weights[id] = CalculationWeight{
+            id,
+            weight.value,
+            weight.fromConceptId,
+            weight.toConceptId
+        };
     }
 
-    predictor = std::make_shared<Predictor>(predictionParameters, fcm);
+    predictor = std::make_shared<Predictor>(predictionParameters, calculationFCM);
     workerThread = std::thread([this]() {
         predictor->perform();
     });
@@ -46,14 +50,6 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
             return;
         }
 
-        /*if (predictor->getCount() > step + 1) {
-            ++step;
-            auto newFCM = predictor->getFCM(step);
-            for (auto* node : nodes) {
-                node->setValue(newFCM.concepts[node->getId()]);
-            }
-        }*/
-
         goToStep(step+1);
 
     });
@@ -66,7 +62,13 @@ bool SimulationPresenter::goToStep(size_t newStep) {
         auto newFCM = predictor->getFCM(newStep);
         for (auto* node : nodes) {
             node->setValue(newFCM.concepts[node->getId()]);
-            node->setPredictedValues(predictor->getConceptHistoryValues(node->getId(), newStep));
+            fcm->concepts[node->getId()]->predictedValues = predictor->getConceptHistoryValues(node->getId(), newStep);
+            creationPresenter->setConceptPredictedValues(node->getId());
+        }
+        for (auto* edge : edges) {
+            edge->setValue(newFCM.weights[edge->getId()].value);
+            fcm->weights[edge->getId()].predictedValues = predictor->getConceptHistoryValues(edge->getId(), newStep);
+            creationPresenter->setWeightPredictedValues(edge->getId());
         }
         step = newStep;
         updateProgress(step);

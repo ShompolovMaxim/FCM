@@ -54,16 +54,16 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path)
     {
         QJsonObject c;
 
-        c["id"] = static_cast<qint64>(concept.id);
-        c["name"] = concept.name;
-        c["description"] = concept.description;
+        c["id"] = static_cast<qint64>(concept->id);
+        c["name"] = concept->name;
+        c["description"] = concept->description;
 
-        c["value"] = concept.value;
+        c["value"] = concept->value;
 
-        c["first_step"] = static_cast<qint64>(concept.startStep);
+        c["first_step"] = static_cast<qint64>(concept->startStep);
 
-        c["x_pos"] = concept.pos.x();
-        c["y_pos"] = concept.pos.y();
+        c["x_pos"] = concept->pos.x();
+        c["y_pos"] = concept->pos.y();
 
         conceptsArray.append(c);
     }
@@ -171,7 +171,7 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path)
             static_cast<size_t>(obj["first_step"].toInt())
         };
 
-        fcm.concepts[concept.id] = concept;
+        fcm.concepts[concept.id] = std::make_shared<Concept>(concept);
     }
 
     for (auto w : root["weights"].toArray())

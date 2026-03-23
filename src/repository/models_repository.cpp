@@ -145,13 +145,16 @@ std::optional<size_t> ModelsRepository::createModel(const FCM& fcm) {
     for (const auto& experiment : fcm.experiments) {
         createExperiment(experiment, modelId);
     }
-    const auto currentExperiment = Experiment{
+    auto currentExperiment = Experiment{
         fcm.terms,
-        fcm.concepts,
+        {},
         fcm.weights,
         fcm.predictionParameters,
         QDateTime::currentDateTime()
     };
+    for (const auto& [id, concept] : fcm.concepts) {
+        currentExperiment.concepts[id] = *concept;
+    }
     createExperiment(currentExperiment, modelId);
 
     db.commit();
@@ -333,7 +336,9 @@ std::optional<FCM> ModelsRepository::getModel(const QString modelName) {
     auto currentExperiment = (*experiments)[experiments->size() - 1];
     experiments->pop_back();
     fcm.terms = currentExperiment.terms;
-    fcm.concepts = currentExperiment.concepts;
+    for (const auto& [id, concept] : currentExperiment.concepts) {
+        fcm.concepts[id] = std::make_shared<Concept>(concept);
+    }
     fcm.weights = currentExperiment.weights;
     fcm.predictionParameters = currentExperiment.predictionParameters;
     fcm.experiments = *experiments;

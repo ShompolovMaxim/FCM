@@ -15,9 +15,10 @@ endif()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
-set(TS_FILES FCM_ru_RU.ts)
+set(TS_FILES translations/FCM_ru_RU.ts)
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -61,7 +62,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/concept.h
         src/model/entities/weight.h
         src/model/entities/fcm.h
-        src/presenter/graph_presenter.h src/presenter/graph_presenter.cpp
+
         src/presenter/edit_mode.h
         src/ui/graph_editor/edit_mode.h
         src/model/entities/experiment.h
@@ -78,6 +79,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/repository/json_repository.h src/repository/json_repository.cpp
         src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
         src/presenter/static_analysis_presenter.h src/presenter/static_analysis_presenter.cpp
+        src/presenter/creation_presenter.h src/presenter/creation_presenter.cpp
+        src/ui/adjacency_table/adjacency_table_view.h src/ui/adjacency_table/adjacency_table_view.cpp
+        src/ui/main_window/term_list/term_list_item.h
+        src/model/entities/calculation_weight.h
+        src/model/algorithms/weights_prediction.h src/model/algorithms/weights_prediction.cpp
+        src/model/algorithms/fabric.h src/model/algorithms/fabric.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -103,6 +110,7 @@ else()
 endif()
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql Qt6::PrintSupport)
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
 target_include_directories(FCM PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -139,3 +147,5 @@ qt_add_resources(PROJECT_RESOURCES
 
 target_sources(FCM PRIVATE ${PROJECT_RESOURCES})
 
+enable_testing()
+add_subdirectory(tests)

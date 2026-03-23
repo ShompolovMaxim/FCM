@@ -6,10 +6,14 @@
 #include <memory>
 
 #include "model/entities/fcm.h"
+
+#include "presenter/creation_presenter.h"
 #include "presenter/simulation_presenter.h"
 #include "presenter/static_analysis_presenter.h"
-#include "ui/graph_editor/edit_mode.h"
+
 #include "repository/models_repository.h"
+
+#include "ui/graph_editor/edit_mode.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -38,7 +42,9 @@ public slots:
     void stepBack();
     void updateProgress(size_t value);
 
-    void onListWidgetContextMenu(const QPoint &pos);
+    //void onListWidgetContextMenu(const QPoint &pos);
+    void onCreateTerm();
+    void onDeleteTerm();
     void onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void onTermValueChanged(double value);
     void onTermValueLChanged(double value);
@@ -64,11 +70,11 @@ private:
     void updateFuzzyValuePlot();
 
     Ui::MainWindow *ui;
-    SimulationPresenter presenter = SimulationPresenter(nullptr);
+    std::shared_ptr<SimulationPresenter> presenter;
     StaticAnalysisPresenter* staticAnalysisPresenter;
-    std::map<QListWidgetItem*, Term> terms;
+    std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM> fcm;
-    QListWidgetItem* currentTerm;
+    size_t currentTermId;
 
     std::shared_ptr<ModelsRepository> modelsRepository;
 

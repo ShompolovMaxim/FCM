@@ -14,14 +14,16 @@ class EdgeItem;
 class NodeItem : public QGraphicsEllipseItem
 {
 public:
-    NodeItem(const QString& name, size_t id, std::shared_ptr<Concept> concept);
+    NodeItem(std::shared_ptr<Concept> concept);
 
     void addEdge(EdgeItem* e) { edges.append(e); }
     QList<EdgeItem*> getEdges() const { return edges; }
+    void removeEdge(EdgeItem* edge) { edges.removeOne(edge); }
 
     void setValue(double v);
 
     QString getName() const { return nodeName; }
+    void setName(QString name);
 
     double getValue() const { return value; }
 
@@ -29,9 +31,6 @@ public:
 
     std::shared_ptr<Concept> getConcept() { return concept; };
     void setConcept(std::shared_ptr<Concept> newConcept);
-
-    void setPredictedValues(std::vector<double> values);
-    std::vector<double> getPredictedValues() { return predictedValues; };
 
     ConceptWindow* getWindow() { return window; };
     void setWindow(ConceptWindow* newWindow) { window = newWindow; };

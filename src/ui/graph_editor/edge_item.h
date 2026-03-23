@@ -23,8 +23,12 @@ public:
     NodeItem* src;
     NodeItem* dst;
 
+protected:
+    QPainterPath shape() const override;
+
 private:
     double value = 0.0;
     size_t id;
     std::unique_ptr<IColorValueAdapter> colorValueAdapter;
+    QGraphicsPolygonItem* arrowItem = nullptr;
 };

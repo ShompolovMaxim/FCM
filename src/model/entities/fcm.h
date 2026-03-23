@@ -12,7 +12,7 @@ struct FCM {
     QString name;
     QString description;
     std::map<size_t, Term> terms;
-    std::map<size_t, Concept> concepts;
+    std::map<size_t, std::shared_ptr<Concept>> concepts;
     std::map<size_t, Weight> weights;
     PredictionParameters predictionParameters;
     std::vector<Experiment> experiments;
