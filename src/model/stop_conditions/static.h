@@ -2,10 +2,11 @@
 
 #include "stop_condition.h"
 
-class FixedStepsCondition : public StopCondition
+class StaticCondition : public StopCondition
 {
 public:
-    FixedStepsCondition(const PredictionParameters& predictionParameters);
+    StaticCondition(const PredictionParameters& predictionParameters);
 
     bool finished(const std::vector<CalculationFCM>& fcms) override;
 };
+

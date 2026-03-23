@@ -27,7 +27,7 @@ public:
 
 signals:
     void finished();
-    void updateProgress(int value);
+    void updateProgress(size_t step, size_t maxStep, double metricValue);
 private:
     bool goToStep(size_t newStep);
 
@@ -35,7 +35,6 @@ private:
     QTimer* timer = new QTimer(this);
     int step = 0;
     int lastStep = 0;
-    QList<double> newNodesValues;
     size_t iterationTime = 1000;
     double speedUpFactor = 2;
     double slowDownFactor = 2;
@@ -44,4 +43,5 @@ private:
     std::shared_ptr<Predictor> predictor;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM> fcm;
+    PredictionParameters predictionParameters;
 };

@@ -40,7 +40,7 @@ public slots:
     void slowDown();
     void stepForward();
     void stepBack();
-    void updateProgress(size_t value);
+    void updateProgress(size_t value, size_t maxStep, double metricValue);
 
     //void onListWidgetContextMenu(const QPoint &pos);
     void onCreateTerm();

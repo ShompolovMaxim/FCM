@@ -626,7 +626,7 @@
          <item>
           <widget class="QComboBox" name="comboBoxMetric">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <item>
             <property name="text">
@@ -684,6 +684,9 @@
            </property>
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="minimum">
+            <number>1</number>
            </property>
           </widget>
          </item>
@@ -887,13 +890,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
       <property name="minimum">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="maximum">
        <number>17</number>
       </property>
       <property name="value">
-       <number>1</number>
+       <number>0</number>
+      </property>
+      <property name="textVisible">
+       <bool>true</bool>
       </property>
       <property name="invertedAppearance">
        <bool>false</bool>
@@ -915,7 +921,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
       <property name="text">
-       <string>Metric value: 0,4</string>
+       <string>Metric value: </string>
       </property>
      </widget>
     </widget>

@@ -51,7 +51,7 @@ void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
     addItem(n);
     n->setPos(concept->pos);
     n->setValue(concept->value);
-    n->setConcept(concept);
+    //n->setConcept(concept);
     nodes[concept->id] = n;
     counter++;
 }
@@ -137,7 +137,7 @@ GraphScene* GraphScene::copy() const {
             copyScene->addItem(newNode);
             newNode->setPos(n->pos());
             newNode->setValue(n->getValue());
-            newNode->setWindow(n->getWindow());
+            //newNode->setWindow(n->getWindow());
             nodes[newNode->getId()] = newNode;
         }
     }

@@ -11,6 +11,7 @@ SimulationPresenter::~SimulationPresenter()
 }
 
 void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_, QMap<size_t, EdgeItem*> edges_, std::shared_ptr<FCM> fcm) {
+    this->predictionParameters = predictionParameters;
     this->fcm = fcm;
     nodes = nodes_;
     edges = edges_;
@@ -45,12 +46,12 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this, predictionParameters]() {
-        if (step + 1 >= predictionParameters.fixedSteps) {
+        goToStep(step+1);
+
+        if (predictor->getFinished() && step >= predictor->getCount()) {
             timer->stop();
             return;
         }
-
-        goToStep(step+1);
 
     });
 
@@ -58,7 +59,7 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
 }
 
 bool SimulationPresenter::goToStep(size_t newStep) {
-    if (predictor->getCount() > newStep) {
+    if (predictor->getCount() >= newStep) {
         auto newFCM = predictor->getFCM(newStep);
         for (auto* node : nodes) {
             node->setValue(newFCM.concepts[node->getId()]);
@@ -71,7 +72,14 @@ bool SimulationPresenter::goToStep(size_t newStep) {
             creationPresenter->setWeightPredictedValues(edge->getId());
         }
         step = newStep;
-        updateProgress(step);
+        auto maxStep = predictor->getCount();
+        if (!predictor->getFinished() && maxStep < 15) {
+            maxStep = 10000000;
+        }
+        if (!predictionParameters.predictToStatic) {
+            maxStep = predictionParameters.fixedSteps;
+        }
+        updateProgress(step, maxStep, newFCM.metricValue);
         return true;
     }
     return false;

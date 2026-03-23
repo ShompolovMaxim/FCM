@@ -85,6 +85,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/calculation_weight.h
         src/model/algorithms/weights_prediction.h src/model/algorithms/weights_prediction.cpp
         src/model/algorithms/fabric.h src/model/algorithms/fabric.cpp
+        src/model/metrics/mae.h src/model/metrics/mae.cpp
+        src/model/metrics/mape.h src/model/metrics/mape.cpp
+        src/model/metrics/fabric.h src/model/metrics/fabric.cpp
+        src/model/metrics_manager.h src/model/metrics_manager.cpp
+        src/model/stop_conditions/fabric.h src/model/stop_conditions/fabric.cpp
+        src/model/stop_conditions/static.h src/model/stop_conditions/static.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -15,6 +15,7 @@ public:
     CalculationFCM getFCM(size_t step);
 
     double getCount();
+    double getFinished();
 
     std::vector<double> getConceptHistoryValues(size_t conceptId, size_t step);
     std::vector<double> getWeightHistoryValues(size_t weightId, size_t step);
@@ -23,5 +24,6 @@ private:
     std::vector<CalculationFCM> _fcms;
     std::mutex _mutex;
     std::atomic_size_t _count = 0;
+    std::atomic_bool finished = false;
 };
 

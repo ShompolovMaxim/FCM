@@ -85,11 +85,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fuzzyValuePlot->addGraph();
 
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, fcm);
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index)
-            {
-                if (ui->tabWidget->widget(index) == ui->staticAnalysis)
-                    staticAnalysisPresenter->update();
-            });
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index){
+        if (ui->tabWidget->widget(index) == ui->staticAnalysis) {
+            staticAnalysisPresenter->update();
+        }
+    });
 }
 
 MainWindow::~MainWindow()
@@ -169,7 +169,7 @@ void MainWindow::predict() {
         }
     }
 
-    ui->progressBarPredict->setMaximum(predictionParameters.fixedSteps);
+    //ui->progressBarPredict->setMaximum(predictionParameters.fixedSteps);
 
     presenter->simulate(predictionParameters, simulationParameters, nodes, edges, fcm);
 }
@@ -208,7 +208,7 @@ void MainWindow::stepForward() {
 }
 
 void MainWindow::stepBack() {
-    if (!presenter->moveStep(ui->spinBoxMoveSteps->value())) {
+    if (!presenter->moveStep(-ui->spinBoxMoveSteps->value())) {
         QMessageBox::critical(this, "Error", "Value of step is not calculated or step out of range!");
     }
 }
@@ -218,8 +218,10 @@ void MainWindow::simulationFinished() {
     ui->doubleSpinBoxStepsPerSecond->setEnabled(true);
 }
 
-void MainWindow::updateProgress(size_t value) {
-    ui->progressBarPredict->setValue(value+1);
+void MainWindow::updateProgress(size_t value, size_t maxStep, double metricValue) {
+    ui->progressBarPredict->setMaximum(maxStep);
+    ui->progressBarPredict->setValue(value);
+    ui->labelMetricValue->setText(QString("Metric value: %1").arg(metricValue, 0, 'f', 4));
 }
 
 void MainWindow::onCreateTerm() {
@@ -330,7 +332,6 @@ void MainWindow::onItemChanged(QListWidgetItem *item) {
 }
 
 void MainWindow::onPredictToStaticChanged(bool checked) {
-    ui->comboBoxMetric->setEnabled(checked);
     ui->doubleSpinBoxThreshold->setEnabled(checked);
     ui->spinBoxMetricSteps->setEnabled(checked);
     ui->spinBoxFixedSteps->setEnabled(!checked);

@@ -9,4 +9,5 @@ std::shared_ptr<PredictionAlgorithm> AlgorithmsFabric::create(QString name, std:
     if (name == "changing weights") {
         return std::make_shared<WeightsPredictionAlgorithm>(conceptsActivationFunction, weightsActivationFunction);
     }
+    return nullptr;
 }
