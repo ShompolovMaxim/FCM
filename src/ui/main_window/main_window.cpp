@@ -378,6 +378,14 @@ void MainWindow::open() {
         return;
     }
     *fcm = *model;
+    for (const auto [id, _] : fcm->concepts) {
+        fcm->conceptsCounter = std::max(fcm->conceptsCounter, id);
+    }
+    ++fcm->conceptsCounter;
+    for (const auto [id, _] : fcm->weights) {
+        fcm->weightsCounter = std::max(fcm->weightsCounter, id);
+    }
+    ++fcm->weightsCounter;
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
 

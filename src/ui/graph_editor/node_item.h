@@ -29,7 +29,6 @@ public:
     size_t getId() const { return id; }
 
     std::shared_ptr<Concept> getConcept() { return concept; };
-    //void setConcept(std::shared_ptr<Concept> newConcept);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& val) override;

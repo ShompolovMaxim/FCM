@@ -22,13 +22,6 @@ void NodeItem::setValue(double v) {
     setBrush(colorValueAdapter->getColor(value, 0, 1));
 }
 
-/*void NodeItem::setConcept(std::shared_ptr<Concept> newConcept) {
-    setValue(newConcept->value);
-    concept = newConcept;
-
-    update();
-}*/
-
 QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant& val) {
     if (change == ItemPositionHasChanged) {
         concept->pos = scenePos();

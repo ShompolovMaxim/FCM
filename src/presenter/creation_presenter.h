@@ -22,7 +22,7 @@ public:
     void setConceptPredictedValues(size_t id);
     void setWeightPredictedValues(size_t id);
 
-public slots:
+private slots:
     void deleteConcept(size_t id);
     void deleteWeight(size_t id);
 

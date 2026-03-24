@@ -1,15 +1,11 @@
 #include "graph_scene.h"
 #include "model/fuzzy_logic/numeric_fuzzifier.h"
 
-#include "ui/concept_window/concept_window.h"
-#include "ui/weight_window/weight_window.h"
-
 GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter) : fuzzifier(std::make_shared<NumericFuzzifier>()), fcm(fcm), presenter(presenter) {
     if (!fcm) {
         return;
     }
 
-    std::map<size_t, NodeItem*> nodes;
     for (const auto& [_, concept] : fcm->concepts) {
         auto* n = new NodeItem(concept);
         counter++;

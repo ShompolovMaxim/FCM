@@ -76,12 +76,12 @@ void CreationPresenter::createWeight(size_t fromNodeId, size_t toNodeId) {
     fcm->weights[id].toConceptId = toNodeId;
     emit weightCreated(std::make_shared<Weight>(fcm->weights[id]));
 
+
     WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], fcm->weights[id].predictedValues, dynamic_cast<QWidget*>(parent()));
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,
-            [=](const Weight& weight)
-            {
+            [=](const Weight& weight) {
                 fcm->weights[id] = weight;
                 emit weightUpdated(std::make_shared<Weight>(fcm->weights[id]));
             });
@@ -105,8 +105,7 @@ void CreationPresenter::updateWeight(size_t id) {
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,
-            [=](const Weight& weight)
-            {
+            [=](const Weight& weight) {
                 fcm->weights[id] = weight;
                 emit weightUpdated(std::make_shared<Weight>(fcm->weights[id]));
             });
