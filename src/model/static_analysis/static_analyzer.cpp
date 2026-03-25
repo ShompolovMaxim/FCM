@@ -26,8 +26,10 @@ StaticAnalysisResult StaticAnalyzer::analyze(const FCM& fcm)
 
     for (const auto& [idWeight, weight] : fcm.weights)
     {
-        od[weight.fromConceptId] += weight.value;
-        id[weight.toConceptId] += weight.value;
+        if (weight->term) {
+            od[weight->fromConceptId] += weight->term->value;
+            id[weight->toConceptId] += weight->term->value;
+        }
     }
 
     size_t R = 0;

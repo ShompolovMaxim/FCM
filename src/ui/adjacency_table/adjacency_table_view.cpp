@@ -49,14 +49,22 @@ void AdjacencyTableView::conceptUpdated(std::shared_ptr<Concept> concept) {
     int idx = conceptsRows[concept->id];
     model->setHeaderData(idx, Qt::Horizontal, concept->name);
     model->setHeaderData(idx, Qt::Vertical, concept->name);
-    model->setHeaderData(idx, Qt::Horizontal, colorValueAdapter->getColor(concept->value, 0, 1), Qt::BackgroundRole);
-    model->setHeaderData(idx, Qt::Vertical, colorValueAdapter->getColor(concept->value, 0, 1), Qt::BackgroundRole);
+    auto color = QColor(255, 255, 255);
+    if (concept->term) {
+        color = colorValueAdapter->getColor(concept->term->value, 0, 1);
+    }
+    model->setHeaderData(idx, Qt::Horizontal, color, Qt::BackgroundRole);
+    model->setHeaderData(idx, Qt::Vertical, color, Qt::BackgroundRole);
 }
 
 void AdjacencyTableView::weightUpdated(std::shared_ptr<Weight> weight) {
     QModelIndex idx = model->index(conceptsRows[weight->fromConceptId], conceptsRows[weight->toConceptId]);
     model->setData(idx, weight->name);
-    model->setData(idx, colorValueAdapter->getColor(weight->value, -1, 1), Qt::BackgroundRole);
+    auto color = QColor(255, 255, 255);
+    if (weight->term) {
+        color = colorValueAdapter->getColor(weight->term->value, -1, 1);
+    }
+    model->setData(idx, color, Qt::BackgroundRole);
 }
 
 void AdjacencyTableView::weightDeleted(size_t weightId) {

@@ -25,15 +25,15 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
     CalculationFCM calculationFCM;
 
     for (const auto& [id, concept] : fcm->concepts) {
-        calculationFCM.concepts[id] = concept->value;
+        calculationFCM.concepts[id] = concept->term->value;
         calculationFCM.conceptsStartSteps[id] = concept->startStep;
     }
     for (const auto& [id, weight] : fcm->weights) {
         calculationFCM.weights[id] = CalculationWeight{
             id,
-            weight.value,
-            weight.fromConceptId,
-            weight.toConceptId
+            weight->term->value,
+            weight->fromConceptId,
+            weight->toConceptId
         };
     }
 
@@ -68,7 +68,7 @@ bool SimulationPresenter::goToStep(size_t newStep) {
         }
         for (auto* edge : edges) {
             edge->setValue(newFCM.weights[edge->getId()].value);
-            fcm->weights[edge->getId()].predictedValues = predictor->getConceptHistoryValues(edge->getId(), newStep);
+            fcm->weights[edge->getId()]->predictedValues = predictor->getConceptHistoryValues(edge->getId(), newStep);
             creationPresenter->setWeightPredictedValues(edge->getId());
         }
         step = newStep;

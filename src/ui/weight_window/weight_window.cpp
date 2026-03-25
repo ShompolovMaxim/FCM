@@ -3,36 +3,22 @@
 
 #include <QPushButton>
 
-WeightWindow::WeightWindow(const std::map<size_t, Term>& terms, Weight currentWeight, std::vector<double> predictedValues, QWidget *parent)
+WeightWindow::WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, std::vector<double> predictedValues, QWidget *parent)
     : terms(terms), currentWeight(currentWeight), QDialog(parent), ui(new Ui::WeightWindow)
 {
     ui->setupUi(this);
 
-    if (currentWeight.name.isEmpty()) {
+    if (currentWeight->name.isEmpty()) {
         setWindowTitle("Create weight");
         creation = true;
     } else {
-        setWindowTitle(currentWeight.name);
-        ui->nameField->setText(currentWeight.name);
+        setWindowTitle(currentWeight->name);
+        ui->nameField->setText(currentWeight->name);
         creation = false;
     }
-    ui->notesField->setPlainText(currentWeight.description);
+    ui->notesField->setPlainText(currentWeight->description);
 
-    QStringList termsNames = {};
-    for (const auto& term : terms) {
-        termsNames.append(term.second.name);
-    }
-    termsNames.sort();
-    ui->valueField->addItems(termsNames);
-
-    auto currentTerm = fuzzifier->fuzzify(terms, currentWeight.value);
-    size_t currentTermInd = 0;
-    for (size_t i = 0; i < termsNames.size(); ++i) {
-        if (termsNames[i] == currentTerm.name) {
-            currentTermInd = i;
-        }
-    }
-    ui->valueField->setCurrentIndex(currentTermInd);
+    updateTermsList();
 
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &WeightWindow::onApplyClicked);
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &WeightWindow::onOkClicked);
@@ -62,9 +48,8 @@ void WeightWindow::setPredictedValues(std::vector<double> predictedValues) {
 
     auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
 
-    for (const auto& [_, term] : terms)
-    {
-        textTicker->addTick(term.value, term.name);
+    for (const auto& [_, term] : terms) {
+        textTicker->addTick(term->value, term->name);
     }
     ui->plot->yAxis->setTicker(textTicker);
     ui->plot->yAxis->setTickLabelRotation(0);
@@ -73,16 +58,31 @@ void WeightWindow::setPredictedValues(std::vector<double> predictedValues) {
     ui->plot->replot();
 }
 
-void WeightWindow::onApplyClicked()
-{
+void WeightWindow::updateTermsList() {
+    QStringList termsNames = {};
+    for (const auto& term : terms) {
+        termsNames.append(term.second->name);
+    }
+    termsNames.sort();
+    termsNames.prepend("");
+    ui->valueField->clear();
+    ui->valueField->addItems(termsNames);
+
+    if (currentWeight->term) {
+        ui->valueField->setCurrentText(currentWeight->term->name);
+    } else {
+        ui->valueField->setCurrentText("");
+    }
+}
+
+void WeightWindow::onApplyClicked() {
     updateCurrentWeight();
     emit applied(currentWeight);
     creation = false;
-    setWindowTitle(currentWeight.name);
+    setWindowTitle(currentWeight->name);
 }
 
-void WeightWindow::onOkClicked()
-{
+void WeightWindow::onOkClicked() {
     updateCurrentWeight();
     emit applied(currentWeight);
     close();
@@ -90,7 +90,7 @@ void WeightWindow::onOkClicked()
 
 void WeightWindow::onCancelClicked() {
     if (creation) {
-        emit deleted(currentWeight.id);
+        emit deleted(currentWeight->id);
     }
     close();
 }
@@ -100,20 +100,20 @@ void WeightWindow::closeEvent(QCloseEvent* event) {
 }
 
 void WeightWindow::onDelete() {
-    emit deleted(currentWeight.id);
+    emit deleted(currentWeight->id);
     creation = false;
     close();
 }
 
 void WeightWindow::updateCurrentWeight() {
-    currentWeight.name = ui->nameField->text();
-    currentWeight.description = ui->notesField->toPlainText();
+    currentWeight->name = ui->nameField->text();
+    currentWeight->description = ui->notesField->toPlainText();
 
-    Term t;
     for (const auto& term : terms) {
-        if (term.second.name == ui->valueField->currentText()) {
-            currentWeight.value = term.second.value;
-            break;
+        if (term.second->name == ui->valueField->currentText()) {
+            currentWeight->term = term.second;
+            return;
         }
     }
+    currentWeight->term = nullptr;
 }

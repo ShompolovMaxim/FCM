@@ -8,7 +8,7 @@ NodeItem::NodeItem(std::shared_ptr<Concept> concept)
     : nodeName(concept->name), id(concept->id), concept(concept), colorValueAdapter(std::make_unique<ColorValueAdapter>()) {
     setRect(-25, -25, 50, 50);
     setFlags(ItemIsMovable | ItemIsSelectable | ItemSendsGeometryChanges);
-    setValue(0.0);
+    setValue(nullptr);
 }
 
 void NodeItem::setName(QString name) {
@@ -17,8 +17,16 @@ void NodeItem::setName(QString name) {
     update();
 }
 
-void NodeItem::setValue(double v) {
-    value = v;
+void NodeItem::setValue(std::shared_ptr<Term> newTerm) {
+    term = newTerm;
+    if (term) {
+        setBrush(colorValueAdapter->getColor(term->value, 0, 1));
+    } else {
+        setBrush(QColor(255, 255, 255));
+    }
+}
+
+void NodeItem::setValue(double value) {
     setBrush(colorValueAdapter->getColor(value, 0, 1));
 }
 

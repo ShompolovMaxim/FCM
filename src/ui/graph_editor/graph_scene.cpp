@@ -11,18 +11,18 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresent
         counter++;
         addItem(n);
         n->setPos(concept->pos);
-        n->setValue(concept->value);
+        n->setValue(concept->term);
         nodes[concept->id] = n;
     }
 
     for (const auto& [_, weight] : fcm->weights) {
-        auto* ed = new EdgeItem(nodes[weight.fromConceptId], nodes[weight.toConceptId], weight.id);
+        auto* ed = new EdgeItem(nodes[weight->fromConceptId], nodes[weight->toConceptId], weight->id);
         addItem(ed);
-        nodes[weight.fromConceptId]->addEdge(ed);
-        nodes[weight.toConceptId]->addEdge(ed);
+        nodes[weight->fromConceptId]->addEdge(ed);
+        nodes[weight->toConceptId]->addEdge(ed);
         ed->updatePosition();
-        ed->setValue(weight.value);
-        edges[weight.id] = ed;
+        ed->setValue(weight->term);
+        edges[weight->id] = ed;
     }
 
     connect(presenter.get(), &CreationPresenter::conceptCreated, this, &GraphScene::conceptCreated);
@@ -46,7 +46,7 @@ void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
     auto* n = new NodeItem(concept);
     addItem(n);
     n->setPos(concept->pos);
-    n->setValue(concept->value);
+    n->setValue(concept->term);
     //n->setConcept(concept);
     nodes[concept->id] = n;
     counter++;
@@ -64,11 +64,11 @@ void GraphScene::weightCreated(std::shared_ptr<Weight> weight) {
 void GraphScene::conceptUpdated(std::shared_ptr<Concept> concept) {
     nodes[concept->id]->setPos(concept->pos);
     nodes[concept->id]->setName(concept->name);
-    nodes[concept->id]->setValue(concept->value);
+    nodes[concept->id]->setValue(concept->term);
 }
 
 void GraphScene::weightUpdated(std::shared_ptr<Weight> weight) {
-    edges[weight->id]->setValue(weight->value);
+    edges[weight->id]->setValue(weight->term);
 }
 
 void GraphScene::conceptDeleted(size_t id) {
@@ -132,8 +132,7 @@ GraphScene* GraphScene::copy() const {
             auto newNode = new NodeItem(n->getConcept());
             copyScene->addItem(newNode);
             newNode->setPos(n->pos());
-            newNode->setValue(n->getValue());
-            //newNode->setWindow(n->getWindow());
+            newNode->setValue(fcm->concepts[n->getId()]->term);
             nodes[newNode->getId()] = newNode;
         }
     }
@@ -142,7 +141,7 @@ GraphScene* GraphScene::copy() const {
             auto newEdge = new EdgeItem(nodes[e->src->getId()], nodes[e->dst->getId()], e->getId());
             copyScene->addItem(newEdge);
             newEdge->setPos(e->pos());
-            newEdge->setValue(e->getValue());
+            newEdge->setValue(fcm->weights[e->getId()]->term);
             nodes[e->src->getId()]->addEdge(newEdge);
             nodes[e->dst->getId()]->addEdge(newEdge);
             newEdge->updatePosition();

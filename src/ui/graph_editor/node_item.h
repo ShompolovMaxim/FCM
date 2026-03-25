@@ -7,8 +7,6 @@
 
 #include "model/entities/concept.h"
 
-#include "ui/concept_window/concept_window.h"
-
 class EdgeItem;
 
 class NodeItem : public QGraphicsEllipseItem
@@ -19,12 +17,13 @@ public:
     void addEdge(EdgeItem* e) { edges.append(e); }
     void removeEdge(EdgeItem* edge) { edges.removeOne(edge); }
 
-    void setValue(double v);
+    void setValue(std::shared_ptr<Term> newTerm);
+    void setValue(double value);
 
     QString getName() const { return nodeName; }
     void setName(QString name);
 
-    double getValue() const { return value; }
+    //std::shared_ptr<Term> getValue() const { return term; }
 
     size_t getId() const { return id; }
 
@@ -39,7 +38,7 @@ private:
     QString nodeName;
     std::shared_ptr<Concept> concept;
     QList<EdgeItem*> edges;
-    double value = 0.0;
+    std::shared_ptr<Term> term;
     size_t id;
     std::unique_ptr<IColorValueAdapter> colorValueAdapter;
     std::vector<double> predictedValues;

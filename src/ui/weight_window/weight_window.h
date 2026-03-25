@@ -16,13 +16,15 @@ class WeightWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WeightWindow(const std::map<size_t, Term>& terms, Weight currentWeight, std::vector<double> predictedValues, QWidget *parent = nullptr);
+    explicit WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, std::vector<double> predictedValues, QWidget *parent = nullptr);
     ~WeightWindow();
 
     void setPredictedValues(std::vector<double> predictedValues);
 
+    void updateTermsList();
+
 signals:
-    void applied(const Weight& value);
+    void applied(const std::shared_ptr<Weight>& value);
     void deleted(size_t id);
 
 private slots:
@@ -34,8 +36,8 @@ private slots:
 
 private:
     Ui::WeightWindow *ui;
-    const std::map<size_t, Term>& terms;
-    Weight currentWeight;
+    const std::map<size_t, std::shared_ptr<Term>>& terms;
+    std::shared_ptr<Weight> currentWeight;
     std::shared_ptr<Fuzzifier> fuzzifier = std::make_shared<NumericFuzzifier>();
     bool creation;
 

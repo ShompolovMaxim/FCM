@@ -22,6 +22,9 @@ public:
     void setConceptPredictedValues(size_t id);
     void setWeightPredictedValues(size_t id);
 
+    void updateTerm(size_t id);
+    void deleteTerm(size_t id);
+
 private slots:
     void deleteConcept(size_t id);
     void deleteWeight(size_t id);
@@ -35,6 +38,8 @@ signals:
     void weightDeleted(size_t id);
 
 private:
+    void updateTermsLists();
+
     std::shared_ptr<FCM> fcm;
     std::map<size_t, ConceptWindow*> conceptWindows;
     std::map<size_t, WeightWindow*> weightWindows;

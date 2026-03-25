@@ -5,8 +5,7 @@
 #include <QJsonArray>
 #include <QFile>
 
-bool JsonRepository::exportToJson(const FCM& fcm, const QString& path)
-{
+bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
     QJsonObject root;
 
     root["name"] = fcm.name;
@@ -29,19 +28,19 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path)
     {
         QJsonObject t;
 
-        t["id"] = static_cast<qint64>(term.id);
-        t["name"] = term.name;
-        t["description"] = term.description;
+        t["id"] = static_cast<qint64>(term->id);
+        t["name"] = term->name;
+        t["description"] = term->description;
 
-        t["numeric_value"] = term.value;
+        t["numeric_value"] = term->value;
 
-        t["tr_value_l"] = term.fuzzyValueL;
-        t["tr_value_m"] = term.fuzzyValueM;
-        t["tr_value_h"] = term.fuzzyValueU;
+        t["tr_value_l"] = term->fuzzyValueL;
+        t["tr_value_m"] = term->fuzzyValueM;
+        t["tr_value_h"] = term->fuzzyValueU;
 
-        t["color_r"] = term.color.red();
-        t["color_g"] = term.color.green();
-        t["color_b"] = term.color.blue();
+        t["color_r"] = term->color.red();
+        t["color_g"] = term->color.green();
+        t["color_b"] = term->color.blue();
 
         termsArray.append(t);
     }
@@ -58,7 +57,10 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path)
         c["name"] = concept->name;
         c["description"] = concept->description;
 
-        c["value"] = concept->value;
+        if (concept->term)
+            c["term_id"] = static_cast<qint64>(concept->term->id);
+        else
+            c["term_id"] = QJsonValue();
 
         c["first_step"] = static_cast<qint64>(concept->startStep);
 
@@ -72,18 +74,21 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path)
 
     QJsonArray weightsArray;
 
-    for (const auto& [id, weight] : fcm.weights)
+    for (const auto& [id, weightPtr] : fcm.weights)
     {
         QJsonObject w;
 
-        w["id"] = static_cast<qint64>(weight.id);
-        w["name"] = weight.name;
-        w["description"] = weight.description;
+        w["id"] = static_cast<qint64>(weightPtr->id);
+        w["name"] = weightPtr->name;
+        w["description"] = weightPtr->description;
 
-        w["value"] = weight.value;
+        if (weightPtr->term)
+            w["term_id"] = static_cast<qint64>(weightPtr->term->id);
+        else
+            w["term_id"] = QJsonValue();
 
-        w["concept_from_id"] = static_cast<qint64>(weight.fromConceptId);
-        w["concept_to_id"] = static_cast<qint64>(weight.toConceptId);
+        w["concept_from_id"] = static_cast<qint64>(weightPtr->fromConceptId);
+        w["concept_to_id"] = static_cast<qint64>(weightPtr->toConceptId);
 
         weightsArray.append(w);
     }
@@ -93,12 +98,10 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path)
     QJsonDocument doc(root);
 
     QFile file(path);
-
     if (!file.open(QIODevice::WriteOnly))
         return false;
 
     file.write(doc.toJson());
-
     return true;
 }
 
@@ -112,7 +115,6 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path)
     QByteArray data = file.readAll();
 
     QJsonDocument doc = QJsonDocument::fromJson(data);
-
     if (!doc.isObject())
         return {};
 
@@ -137,7 +139,7 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path)
     {
         auto obj = t.toObject();
 
-        Term term{
+        auto term = std::make_shared<Term>(Term{
             static_cast<size_t>(obj["id"].toInt()),
             obj["name"].toString(),
             obj["description"].toString(),
@@ -150,44 +152,58 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path)
                 obj["color_g"].toInt(),
                 obj["color_b"].toInt()
                 )
-        };
+        });
 
-        fcm.terms[term.id] = term;
+        fcm.terms[term->id] = term;
     }
 
     for (auto c : root["concepts"].toArray())
     {
         auto obj = c.toObject();
 
-        Concept concept{
+        std::shared_ptr<Term> termPtr = nullptr;
+
+        if (!obj["term_id"].isNull()) {
+            size_t termId = static_cast<size_t>(obj["term_id"].toInt());
+            termPtr = fcm.terms.at(termId);
+        }
+
+        auto concept = std::make_shared<Concept>(Concept{
             static_cast<size_t>(obj["id"].toInt()),
             obj["name"].toString(),
             obj["description"].toString(),
-            obj["value"].toDouble(),
+            termPtr,
             QPointF(
                 obj["x_pos"].toDouble(),
                 obj["y_pos"].toDouble()
                 ),
             static_cast<size_t>(obj["first_step"].toInt())
-        };
+        });
 
-        fcm.concepts[concept.id] = std::make_shared<Concept>(concept);
+        fcm.concepts[concept->id] = concept;
     }
 
     for (auto w : root["weights"].toArray())
     {
         auto obj = w.toObject();
 
-        Weight weight{
+        std::shared_ptr<Term> termPtr = nullptr;
+
+        if (!obj["term_id"].isNull()) {
+            size_t termId = static_cast<size_t>(obj["term_id"].toInt());
+            termPtr = fcm.terms.at(termId);
+        }
+
+        auto weight = std::make_shared<Weight>(Weight{
             static_cast<size_t>(obj["id"].toInt()),
             obj["name"].toString(),
             obj["description"].toString(),
-            obj["value"].toDouble(),
+            termPtr,
             static_cast<size_t>(obj["concept_from_id"].toInt()),
             static_cast<size_t>(obj["concept_to_id"].toInt())
-        };
+        });
 
-        fcm.weights[weight.id] = weight;
+        fcm.weights[weight->id] = weight;
     }
 
     return fcm;

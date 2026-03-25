@@ -2,10 +2,10 @@
 
 #include <cmath>
 
-Term NumericFuzzifier::fuzzify(const std::map<size_t, Term>& terms, double value) {
-    Term result = (terms).begin()->second;
+std::shared_ptr<Term> NumericFuzzifier::fuzzify(const std::map<size_t, std::shared_ptr<Term>>& terms, double value) {
+    auto result = (terms).begin()->second;
     for (const auto& term : terms) {
-        if (std::abs(result.value - value) > std::abs(term.second.value - value)) {
+        if (std::abs(result->value - value) > std::abs(term.second->value - value)) {
             result = term.second;
         }
     }

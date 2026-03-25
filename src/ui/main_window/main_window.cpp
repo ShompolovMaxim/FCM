@@ -9,10 +9,7 @@
 #include "repository/json_repository.h"
 #include "repository/migration_manager.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -50,16 +47,10 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     QObject::connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &MainWindow::onPredictToStaticChanged);
 
-    //ui->listWidgetTerms->setContextMenuPolicy(Qt::CustomContextMenu);
-    //connect(ui->listWidgetTerms, &QListWidget::customContextMenuRequested, this, &MainWindow::onListWidgetContextMenu);
     connect(ui->createTermButton, &QPushButton::clicked, this, &MainWindow::onCreateTerm);
     connect(ui->deleteTermButton, &QPushButton::clicked, this, &MainWindow::onDeleteTerm);
-    ui->listWidgetTerms->setDragEnabled(true);
-    ui->listWidgetTerms->setAcceptDrops(true);
-    ui->listWidgetTerms->setDropIndicatorShown(true);
-    ui->listWidgetTerms->setDragDropMode(QAbstractItemView::InternalMove);
+    connect(ui->termColorButton, &QPushButton::clicked, this, &MainWindow::onChooseTermColor);
     connect(ui->listWidgetTerms, &QListWidget::currentItemChanged, this, &MainWindow::onCurrentItemChanged);
-
     connect(ui->termValue, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueChanged);
     connect(ui->termValueL, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueLChanged);
     connect(ui->termValueM, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueMChanged);
@@ -69,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
     QStandardItemModel* experimentsModel = new QStandardItemModel();
     experimentsModel->setHorizontalHeaderLabels({"Algorithm", "Activation function", "Metric", "Predict to static", "Threshold", "Steps less threshold", "Fixed steps", "Timestamp", ""});
     ui->experimantsTable->setModel(experimentsModel);
-    ui->experimantsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
@@ -92,8 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
@@ -141,11 +130,17 @@ void MainWindow::predict() {
     };
 
     Experiment experiment;
-    experiment.terms = fcm->terms;
+    for (auto& [id, term] : fcm->terms) {
+        experiment.terms[id] = *term;
+    }
     for (const auto& [id, concept] : fcm->concepts) {
         experiment.concepts[id] = *fcm->concepts[id];
+        experiment.concepts[id].term = std::make_shared<Term>(experiment.terms[fcm->concepts[id]->term->id]);
     }
-    experiment.weights = fcm->weights;
+    for (const auto& [id, weight] : fcm->weights) {
+        experiment.weights[id] = *fcm->weights[id];
+        experiment.weights[id].term = std::make_shared<Term>(experiment.terms[fcm->weights[id]->term->id]);
+    }
     experiment.predictionParameters = predictionParameters;
     experiment.timestamp = QDateTime::currentDateTime();
     fcm->experiments.push_back(experiment);
@@ -168,8 +163,6 @@ void MainWindow::predict() {
             edges[ed->getId()] = ed;
         }
     }
-
-    //ui->progressBarPredict->setMaximum(predictionParameters.fixedSteps);
 
     presenter->simulate(predictionParameters, simulationParameters, nodes, edges, fcm);
 }
@@ -229,21 +222,34 @@ void MainWindow::onCreateTerm() {
     newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
     auto id = ++fcm->termsCounter;
     newItem->setTermId(id);
-    fcm->terms[id].id = id;
-    fcm->terms[id].name = "New term";
+    fcm->terms[id] = std::make_shared<Term>();
+    fcm->terms[id]->id = id;
+    fcm->terms[id]->name = "New term";
+    fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value);
 
     ui->listWidgetTerms->addItem(newItem);
 
     ui->listWidgetTerms->setCurrentItem(newItem);
     ui->listWidgetTerms->editItem(newItem);
+
+    creationPresenter->updateTerm(id);
 }
 
 void MainWindow::onDeleteTerm() {
-    QListWidgetItem *current =  ui->listWidgetTerms->currentItem();
+    QListWidgetItem *current = ui->listWidgetTerms->currentItem();
     if (current) {
-        fcm->terms.erase(currentTermId);
-        ui->listWidgetTerms->takeItem( ui->listWidgetTerms->row(current));
+        creationPresenter->deleteTerm(currentTermId);
+        ui->listWidgetTerms->takeItem(ui->listWidgetTerms->row(current));
         delete current;
+    }
+}
+
+void MainWindow::onChooseTermColor() {
+    QColor color = QColorDialog::getColor(Qt::white, this, QString("Choose term %1 color").arg(fcm->terms[currentTermId]->name));
+    if (color.isValid()) {
+        fcm->terms[currentTermId]->color = color;
+        ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(color.name()));
+        creationPresenter->updateTerm(currentTermId);
     }
 }
 
@@ -272,54 +278,63 @@ void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem 
     QSignalBlocker b3(ui->termValueM);
     QSignalBlocker b4(ui->termValueU);
 
-    ui->termValue->setValue(fcm->terms[currentTermId].value);
-    ui->termValueL->setValue(fcm->terms[currentTermId].fuzzyValueL);
-    ui->termValueM->setValue(fcm->terms[currentTermId].fuzzyValueM);
-    ui->termValueU->setValue(fcm->terms[currentTermId].fuzzyValueU);
+    ui->termValue->setValue(fcm->terms[currentTermId]->value);
+    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValueL);
+    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValueM);
+    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValueU);
+    ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
     updateFuzzyValuePlot();
 }
 
 void MainWindow::onTermValueChanged(double value) {
-    fcm->terms[currentTermId].value = value;
+    fcm->terms[currentTermId]->value = value;
+    if (ui->autoColorConfiguration->checkState()) {
+        fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(value);
+        ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
+    }
+    creationPresenter->updateTerm(currentTermId);
 }
 
 void MainWindow::onTermValueLChanged(double value) {
     if (ui->termValueM->value() < value) {
         ui->termValueM->setValue(value);
-        fcm->terms[currentTermId].fuzzyValueM = value;
+        fcm->terms[currentTermId]->fuzzyValueM = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[currentTermId].fuzzyValueU = value;
+        fcm->terms[currentTermId]->fuzzyValueU = value;
     }
-    fcm->terms[currentTermId].fuzzyValueL = value;
+    fcm->terms[currentTermId]->fuzzyValueL = value;
     updateFuzzyValuePlot();
+    creationPresenter->updateTerm(currentTermId);
 }
 
 void MainWindow::onTermValueMChanged(double value) {
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[currentTermId].fuzzyValueL = value;
+        fcm->terms[currentTermId]->fuzzyValueL = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[currentTermId].fuzzyValueU = value;
+        fcm->terms[currentTermId]->fuzzyValueU = value;
     }
-    fcm->terms[currentTermId].fuzzyValueM = value;
+    fcm->terms[currentTermId]->fuzzyValueM = value;
     updateFuzzyValuePlot();
+    creationPresenter->updateTerm(currentTermId);
 }
 
 void MainWindow::onTermValueUChanged(double value) {
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[currentTermId].fuzzyValueL = value;
+        fcm->terms[currentTermId]->fuzzyValueL = value;
     }
     if (ui->termValueM->value() > value) {
         ui->termValueM->setValue(value);
-        fcm->terms[currentTermId].fuzzyValueM = value;
+        fcm->terms[currentTermId]->fuzzyValueM = value;
     }
-    fcm->terms[currentTermId].fuzzyValueU = value;
+    fcm->terms[currentTermId]->fuzzyValueU = value;
     updateFuzzyValuePlot();
+    creationPresenter->updateTerm(currentTermId);
 }
 
 void MainWindow::updateFuzzyValuePlot() {
@@ -328,7 +343,8 @@ void MainWindow::updateFuzzyValuePlot() {
 }
 
 void MainWindow::onItemChanged(QListWidgetItem *item) {
-    fcm->terms[currentTermId].name = item->text();
+    fcm->terms[currentTermId]->name = item->text();
+    creationPresenter->updateTerm(currentTermId);
 }
 
 void MainWindow::onPredictToStaticChanged(bool checked) {
@@ -360,24 +376,13 @@ void MainWindow::saveAs() {
     modelsRepository->createModel(*fcm);
 }
 
-void MainWindow::open() {
-    const auto modelsNames = modelsRepository->getModelsNames();
+void MainWindow::loadFCM(const FCM& newFCM) {
+    *fcm = newFCM;
 
-    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, this);
-
-    if (loadModelWindow->exec() != QDialog::Accepted) {
-        return;
+    for (const auto [id, _] : fcm->terms) {
+        fcm->termsCounter = std::max(fcm->termsCounter, id);
     }
-    QString modelName = loadModelWindow->selectedModelName();
-    if (modelName.isEmpty()) {
-        return;
-    }
-
-    auto model = modelsRepository->getModel(modelName);
-    if (!model) {
-        return;
-    }
-    *fcm = *model;
+    ++fcm->termsCounter;
     for (const auto [id, _] : fcm->concepts) {
         fcm->conceptsCounter = std::max(fcm->conceptsCounter, id);
     }
@@ -386,12 +391,12 @@ void MainWindow::open() {
         fcm->weightsCounter = std::max(fcm->weightsCounter, id);
     }
     ++fcm->weightsCounter;
+
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
-
     ui->listWidgetTerms->clear();
     for (auto& [id, term] : fcm->terms) {
-        TermListItem* item = new TermListItem(term.name);
+        TermListItem* item = new TermListItem(term->name);
         item->setTermId(id);
         ui->listWidgetTerms->addItem(item);
     }
@@ -422,6 +427,27 @@ void MainWindow::open() {
     ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
     ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
     ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
+}
+
+void MainWindow::open() {
+    const auto modelsNames = modelsRepository->getModelsNames();
+
+    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, this);
+
+    if (loadModelWindow->exec() != QDialog::Accepted) {
+        return;
+    }
+    QString modelName = loadModelWindow->selectedModelName();
+    if (modelName.isEmpty()) {
+        return;
+    }
+
+    auto model = modelsRepository->getModel(modelName);
+    if (!model) {
+        return;
+    }
+
+    loadFCM(*model);
 }
 
 void MainWindow::onExportPng()
@@ -479,51 +505,15 @@ void MainWindow::onImportJson() {
         "JSON files (*.json)"
         );
 
-    if (fileName.isEmpty())
+    if (fileName.isEmpty()) {
         return;
+    }
 
     auto model = JsonRepository::importFromJson(fileName);
 
-    if (!fcm)
-    {
+    if (!model) {
         QMessageBox::warning(this, "Error", "Failed to load file.");
     }
 
-    *fcm = *model;
-    ui->modelName->setText(fcm->name);
-    ui->modelNotes->setPlainText(fcm->description);
-
-    ui->listWidgetTerms->clear();
-    for (auto& [id, term] : fcm->terms) {
-        TermListItem* item = new TermListItem(term.name);
-        item->setTermId(id);
-        ui->listWidgetTerms->addItem(item);
-    }
-    if (!fcm->terms.empty()) {
-        ui->listWidgetTerms->setCurrentRow(0);
-    }
-
-    auto newScene = new GraphScene(fcm, creationPresenter);
-    QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
-    QObject::connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
-    auto oldSceneCreate = ui->graphicsViewGraph->scene();
-    auto oldScenePredict = ui->graphicsViewPredict->scene();
-    ui->graphicsViewGraph->setScene(newScene);
-    ui->graphicsViewPredict->setScene(newScene);
-    if (oldSceneCreate != oldScenePredict) {
-        delete oldScenePredict;
-    }
-    delete oldSceneCreate;
-
-    for (const auto& experiment : fcm->experiments) {
-        addExperiment(experiment);
-    }
-
-    ui->comboBoxAlgorithm->setCurrentText(fcm->predictionParameters.algorithm);
-    ui->comboBoxActivation->setCurrentText(fcm->predictionParameters.activationFunction);
-    ui->comboBoxMetric->setCurrentText(fcm->predictionParameters.metric);
-    ui->checkBoxPredictToStatic->setChecked(fcm->predictionParameters.predictToStatic);
-    ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
-    ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
-    ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
+    loadFCM(*model);
 }

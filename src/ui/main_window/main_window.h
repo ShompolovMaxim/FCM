@@ -2,7 +2,6 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
-#include <map>
 #include <memory>
 
 #include "model/entities/fcm.h"
@@ -42,9 +41,9 @@ public slots:
     void stepBack();
     void updateProgress(size_t value, size_t maxStep, double metricValue);
 
-    //void onListWidgetContextMenu(const QPoint &pos);
     void onCreateTerm();
     void onDeleteTerm();
+    void onChooseTermColor();
     void onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void onTermValueChanged(double value);
     void onTermValueLChanged(double value);
@@ -68,6 +67,8 @@ private:
     void addExperiment(const Experiment& experiment);
 
     void updateFuzzyValuePlot();
+
+    void loadFCM(const FCM& newFCM);
 
     Ui::MainWindow *ui;
     std::shared_ptr<SimulationPresenter> presenter;

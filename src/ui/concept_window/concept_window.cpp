@@ -3,7 +3,7 @@
 
 #include <QPushButton>
 
-ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, std::shared_ptr<Concept> currentConcept, std::vector<double> predictedValues, QWidget *parent)
+ConceptWindow::ConceptWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, std::vector<double> predictedValues, QWidget *parent)
     : terms(terms), currentConcept(currentConcept), QDialog(parent), ui(new Ui::ConceptWindow)
 {
     ui->setupUi(this);
@@ -19,21 +19,7 @@ ConceptWindow::ConceptWindow(const std::map<size_t, Term>& terms, std::shared_pt
     ui->notesField->setPlainText(currentConcept->description);
     ui->startStepField->setValue(currentConcept->startStep);
 
-    QStringList termsNames = {};
-    for (const auto& term : terms) {
-        termsNames.append(term.second.name);
-    }
-    termsNames.sort();
-    ui->valueField->addItems(termsNames);
-
-    auto currentTerm = fuzzifier->fuzzify(terms, currentConcept->value);
-    size_t currentTermInd = 0;
-    for (size_t i = 0; i < termsNames.size(); ++i) {
-        if (termsNames[i] == currentTerm.name) {
-            currentTermInd = i;
-        }
-    }
-    ui->valueField->setCurrentIndex(currentTermInd);
+    updateTermsList();
 
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &ConceptWindow::onApplyClicked);
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ConceptWindow::onOkClicked);
@@ -61,13 +47,30 @@ void ConceptWindow::setPredictedValues(std::vector<double> predictedValues) {
 
     for (const auto& [_, term] : terms)
     {
-        textTicker->addTick(term.value, term.name);
+        textTicker->addTick(term->value, term->name);
     }
     ui->plot->yAxis->setTicker(textTicker);
     ui->plot->yAxis->setTickLabelRotation(0);
     ui->plot->yAxis->setSubTicks(false);
 
     ui->plot->replot();
+}
+
+void ConceptWindow::updateTermsList() {
+    QStringList termsNames = {};
+    for (const auto& term : terms) {
+        termsNames.append(term.second->name);
+    }
+    termsNames.sort();
+    termsNames.prepend("");
+    ui->valueField->clear();
+    ui->valueField->addItems(termsNames);
+
+    if (currentConcept->term) {
+        ui->valueField->setCurrentText(currentConcept->term->name);
+    } else {
+        ui->valueField->setCurrentText("");
+    }
 }
 
 ConceptWindow::~ConceptWindow()
@@ -110,14 +113,13 @@ void ConceptWindow::onDelete() {
 void ConceptWindow::updateCurrentConcept() {
     currentConcept->name = ui->nameField->text();
     currentConcept->description = ui->notesField->toPlainText();
+    currentConcept->startStep = ui->startStepField->value();
 
-    Term t;
-    for (const auto& term : terms) {
-        if (term.second.name == ui->valueField->currentText()) {
-            currentConcept->value = term.second.value;
-            break;
+    for (const auto& [id, term] : terms) {
+        if (term->name == ui->valueField->currentText()) {
+            currentConcept->term = term;
+            return;
         }
     }
-
-    currentConcept->startStep = ui->startStepField->value();
+    currentConcept->term = nullptr;
 }

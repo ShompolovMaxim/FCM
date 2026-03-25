@@ -6,17 +6,34 @@
 EdgeItem::EdgeItem(NodeItem* s, NodeItem* d, size_t id)
     : src(s), dst(d), colorValueAdapter(std::make_unique<ColorValueAdapter>()), id(id) {
     setZValue(-1);
-    setValue(0.0);
+    setValue(nullptr);
 
     arrowItem = new QGraphicsPolygonItem(this);
     arrowItem->setPen(Qt::NoPen);
-    arrowItem->setBrush(colorValueAdapter->getColor(value, -1, 1));
+    arrowItem->setBrush(QColor(0, 0, 0));
     arrowItem->setZValue(1);
 }
 
-void EdgeItem::setValue(double v) {
-    value = v;
+void EdgeItem::setValue(double value) {
     QColor c = colorValueAdapter->getColor(value, -1, 1);
+
+    QPen pen(c, 2);
+    pen.setCosmetic(true);
+    setPen(pen);
+    setBrush(Qt::NoBrush);
+
+    if (arrowItem) {
+        arrowItem->setBrush(c);
+    }
+}
+
+void EdgeItem::setValue(std::shared_ptr<Term> newTerm) {
+    term = newTerm;
+
+    auto c = QColor(0, 0, 0);
+    if (term) {
+        c = colorValueAdapter->getColor(term->value, -1, 1);
+    }
 
     QPen pen(c, 2);
     pen.setCosmetic(true);

@@ -50,11 +50,12 @@ CREATE TABLE IF NOT EXISTS concepts (
     name TEXT,
     description TEXT,
     experiment_id INTEGER,
-    value REAL,
+    term_id INTEGER,
     first_step INTEGER,
     x_pos REAL,
     y_pos REAL,
-    FOREIGN KEY (experiment_id) REFERENCES experiments(id)
+    FOREIGN KEY (experiment_id) REFERENCES experiments(id),
+    FOREIGN KEY (term_id) REFERENCES terms(id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_concepts_experiment
@@ -65,12 +66,20 @@ CREATE TABLE IF NOT EXISTS weights (
     name TEXT,
     description TEXT,
     experiment_id INTEGER,
-    value REAL,
+    term_id INTEGER,
     concept_from_id INTEGER,
     concept_to_id INTEGER,
+    FOREIGN KEY (experiment_id) REFERENCES experiments(id),
+    FOREIGN KEY (term_id) REFERENCES terms(id),
     FOREIGN KEY (concept_from_id) REFERENCES concepts(id),
     FOREIGN KEY (concept_to_id) REFERENCES concepts(id)
 );
+
+CREATE INDEX IF NOT EXISTS idx_weights_experiment
+ON weights(experiment_id);
+
+CREATE INDEX IF NOT EXISTS idx_weights_term
+ON weights(term_id);
 
 CREATE INDEX IF NOT EXISTS idx_weights_from
 ON weights(concept_from_id);
@@ -113,10 +122,12 @@ CREATE TABLE IF NOT EXISTS templates_weights (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     concept_from_id INTEGER,
     concept_to_id INTEGER,
+    term_id INTEGER,
     name TEXT,
     description TEXT,
     FOREIGN KEY (concept_from_id) REFERENCES templates_concepts(id),
-    FOREIGN KEY (concept_to_id) REFERENCES templates_concepts(id)
+    FOREIGN KEY (concept_to_id) REFERENCES templates_concepts(id),
+    FOREIGN KEY (term_id) REFERENCES terms(id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_templates_weights_from
@@ -124,3 +135,6 @@ ON templates_weights(concept_from_id);
 
 CREATE INDEX IF NOT EXISTS idx_templates_weights_to
 ON templates_weights(concept_to_id);
+
+CREATE INDEX IF NOT EXISTS idx_templates_weights_term
+ON templates_weights(term_id);
