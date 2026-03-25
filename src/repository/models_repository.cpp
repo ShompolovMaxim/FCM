@@ -86,9 +86,10 @@ std::optional<size_t> ModelsRepository::createTerm(const Term& term, const size_
 
     QSqlQuery query(db);
     query.prepare(
-        "INSERT INTO terms (name, description, experiment_id, numeric_value, tr_value_l, tr_value_m, tr_value_h, color_r, color_g, color_b) "
-        "VALUES (:name, :description, :experiment_id, :numeric_value, :tr_value_l, :tr_value_m, :tr_value_h, :color_r, :color_g, :color_b)"
+        "INSERT INTO terms (name, description, experiment_id, numeric_value, tr_value_l, tr_value_m, tr_value_h, color_r, color_g, color_b, type) "
+        "VALUES (:name, :description, :experiment_id, :numeric_value, :tr_value_l, :tr_value_m, :tr_value_h, :color_r, :color_g, :color_b, :type)"
         );
+
     query.bindValue(":name", term.name);
     query.bindValue(":description", term.description);
     query.bindValue(":experiment_id", experimentId);
@@ -99,6 +100,7 @@ std::optional<size_t> ModelsRepository::createTerm(const Term& term, const size_
     query.bindValue(":color_r", term.color.red());
     query.bindValue(":color_g", term.color.green());
     query.bindValue(":color_b", term.color.blue());
+    query.bindValue(":type", elementTypeToString(term.type));
 
     if (!query.exec()) {
         db.rollback();
@@ -317,11 +319,9 @@ std::optional<std::vector<Weight>> ModelsRepository::getExperimentWeights(const 
 std::optional<std::map<size_t, std::shared_ptr<Term>>> ModelsRepository::getExperimentTerms(const size_t experimentId) {
     QSqlQuery query(db);
     query.prepare(
-        "SELECT id, name, description, numeric_value, tr_value_l, tr_value_m, tr_value_h, color_r, color_g, color_b "
-        "FROM terms "
-        "WHERE experiment_id = :experiment_id"
+        "SELECT id, name, description, numeric_value, tr_value_l, tr_value_m, tr_value_h, color_r, color_g, color_b, type "
+        "FROM terms WHERE experiment_id = :experiment_id"
         );
-
     query.bindValue(":experiment_id", experimentId);
 
     if (!query.exec()) {
@@ -339,7 +339,8 @@ std::optional<std::map<size_t, std::shared_ptr<Term>>> ModelsRepository::getExpe
             query.value("tr_value_l").toDouble(),
             query.value("tr_value_m").toDouble(),
             query.value("tr_value_h").toDouble(),
-            QColor(query.value("color_r").toInt(), query.value("color_g").toInt(), query.value("color_b").toInt())
+            QColor(query.value("color_r").toInt(), query.value("color_g").toInt(), query.value("color_b").toInt()),
+            elementTypeFromString(query.value("type").toString())
         });
 
         result[term->id] = term;

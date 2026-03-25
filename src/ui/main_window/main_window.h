@@ -44,12 +44,12 @@ public slots:
     void onCreateTerm();
     void onDeleteTerm();
     void onChooseTermColor();
-    void onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void onCurrentItemChanged(QTreeWidgetItem  *current, QTreeWidgetItem *previous);
     void onTermValueChanged(double value);
     void onTermValueLChanged(double value);
     void onTermValueMChanged(double value);
     void onTermValueUChanged(double value);
-    void onItemChanged(QListWidgetItem *item);
+    void onItemChanged(QTreeWidgetItem  *item, int column);
 
     void onPredictToStaticChanged(bool checked);
 
@@ -76,6 +76,8 @@ private:
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM> fcm;
     size_t currentTermId;
+    QTreeWidgetItem* conceptsGroup;
+    QTreeWidgetItem* weightsGroup;
 
     std::shared_ptr<ModelsRepository> modelsRepository;
 

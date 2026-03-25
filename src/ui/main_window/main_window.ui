@@ -60,31 +60,6 @@
        <string>FCM name</string>
       </property>
      </widget>
-     <widget class="QListWidget" name="listWidgetTerms">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>120</y>
-        <width>351</width>
-        <height>791</height>
-       </rect>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="dragEnabled">
-       <bool>true</bool>
-      </property>
-      <property name="dragDropMode">
-       <enum>QAbstractItemView::DragDropMode::InternalMove</enum>
-      </property>
-      <property name="selectionRectVisible">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
@@ -301,6 +276,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="createTermButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>70</x>
@@ -314,6 +292,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="deleteTermButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>170</x>
@@ -327,6 +308,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="termColorButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>270</x>
@@ -354,6 +338,37 @@
       <property name="checked">
        <bool>true</bool>
       </property>
+     </widget>
+     <widget class="QTreeWidget" name="treeWidgetTerms">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>120</y>
+        <width>341</width>
+        <height>791</height>
+       </rect>
+      </property>
+      <property name="uniformRowHeights">
+       <bool>false</bool>
+      </property>
+      <property name="itemsExpandable">
+       <bool>true</bool>
+      </property>
+      <property name="animated">
+       <bool>false</bool>
+      </property>
+      <attribute name="headerVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="headerCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="headerHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="headerShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
      </widget>
     </widget>
     <widget class="QWidget" name="graph">

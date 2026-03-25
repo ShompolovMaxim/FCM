@@ -1,5 +1,7 @@
 #pragma once
 
+#include "model/element_type.h"
+
 #include <QColor>
 #include <QString>
 
@@ -12,4 +14,5 @@ struct Term {
     double fuzzyValueM = 0;
     double fuzzyValueU = 0;
     QColor color;
+    ElementType type = ElementType::Node;
 };

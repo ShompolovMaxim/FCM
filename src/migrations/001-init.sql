@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS terms (
     tr_value_h REAL,
     color_r INTEGER,
     color_g INTEGER,
-    color_b INTEGER
+    color_b INTEGER,
+    type TEXT DEFAULT 'Node',
+    FOREIGN KEY (experiment_id) REFERENCES experiments(id)
 );
 
 CREATE TABLE IF NOT EXISTS experiments (

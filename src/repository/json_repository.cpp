@@ -42,6 +42,8 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
         t["color_g"] = term->color.green();
         t["color_b"] = term->color.blue();
 
+        t["type"] = elementTypeToString(term->type);
+
         termsArray.append(t);
     }
 
@@ -147,11 +149,8 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path)
             obj["tr_value_l"].toDouble(),
             obj["tr_value_m"].toDouble(),
             obj["tr_value_h"].toDouble(),
-            QColor(
-                obj["color_r"].toInt(),
-                obj["color_g"].toInt(),
-                obj["color_b"].toInt()
-                )
+            QColor(obj["color_r"].toInt(), obj["color_g"].toInt(), obj["color_b"].toInt()),
+            elementTypeFromString(obj["type"].toString())
         });
 
         fcm.terms[term->id] = term;

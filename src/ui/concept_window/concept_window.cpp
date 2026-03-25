@@ -58,8 +58,10 @@ void ConceptWindow::setPredictedValues(std::vector<double> predictedValues) {
 
 void ConceptWindow::updateTermsList() {
     QStringList termsNames = {};
-    for (const auto& term : terms) {
-        termsNames.append(term.second->name);
+    for (const auto& [id, term] : terms) {
+        if (term->type == ElementType::Node) {
+            termsNames.append(term->name);
+        }
     }
     termsNames.sort();
     termsNames.prepend("");

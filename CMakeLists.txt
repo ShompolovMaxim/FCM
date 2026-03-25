@@ -81,7 +81,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/presenter/static_analysis_presenter.h src/presenter/static_analysis_presenter.cpp
         src/presenter/creation_presenter.h src/presenter/creation_presenter.cpp
         src/ui/adjacency_table/adjacency_table_view.h src/ui/adjacency_table/adjacency_table_view.cpp
-        src/ui/main_window/term_list/term_list_item.h
         src/model/entities/calculation_weight.h
         src/model/algorithms/weights_prediction.h src/model/algorithms/weights_prediction.cpp
         src/model/algorithms/fabric.h src/model/algorithms/fabric.cpp

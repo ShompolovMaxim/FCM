@@ -1,8 +1,6 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
-#include "term_list/term_list_item.h"
-
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/load_model_window/load_model_window.h"
 
@@ -22,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     fcm = std::make_shared<FCM>();
 
-    creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
+    creationPresenter = std::make_shared<CreationPresenter>(fcm, nullptr);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     presenter = std::make_shared<SimulationPresenter>(creationPresenter, nullptr);
 
@@ -50,12 +48,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->createTermButton, &QPushButton::clicked, this, &MainWindow::onCreateTerm);
     connect(ui->deleteTermButton, &QPushButton::clicked, this, &MainWindow::onDeleteTerm);
     connect(ui->termColorButton, &QPushButton::clicked, this, &MainWindow::onChooseTermColor);
-    connect(ui->listWidgetTerms, &QListWidget::currentItemChanged, this, &MainWindow::onCurrentItemChanged);
     connect(ui->termValue, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueChanged);
     connect(ui->termValueL, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueLChanged);
     connect(ui->termValueM, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueMChanged);
     connect(ui->termValueU, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueUChanged);
-    connect(ui->listWidgetTerms, &QListWidget::itemChanged, this, &MainWindow::onItemChanged);
+
+    conceptsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
+    conceptsGroup->setText(0, "Concepts terms");
+    weightsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
+    weightsGroup->setText(0, "Weights terms");
+    connect(ui->treeWidgetTerms, &QTreeWidget::currentItemChanged, this, &MainWindow::onCurrentItemChanged);
+    connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &MainWindow::onItemChanged);
 
     QStandardItemModel* experimentsModel = new QStandardItemModel();
     experimentsModel->setHorizontalHeaderLabels({"Algorithm", "Activation function", "Metric", "Predict to static", "Threshold", "Steps less threshold", "Fixed steps", "Timestamp", ""});
@@ -218,29 +221,53 @@ void MainWindow::updateProgress(size_t value, size_t maxStep, double metricValue
 }
 
 void MainWindow::onCreateTerm() {
-    TermListItem *newItem = new TermListItem("New term");
-    newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
+    QTreeWidgetItem* currentItem = ui->treeWidgetTerms->currentItem();
+
+    QTreeWidgetItem* targetGroup = conceptsGroup;
+    ElementType type = ElementType::Node;
+
+    if (currentItem) {
+        if (currentItem == weightsGroup || (currentItem->parent() == weightsGroup)) {
+            targetGroup = weightsGroup;
+            type = ElementType::Edge;
+        }
+    }
+
     auto id = ++fcm->termsCounter;
-    newItem->setTermId(id);
+
     fcm->terms[id] = std::make_shared<Term>();
     fcm->terms[id]->id = id;
     fcm->terms[id]->name = "New term";
-    fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value);
+    fcm->terms[id]->type = type;
 
-    ui->listWidgetTerms->addItem(newItem);
+    if (type == ElementType::Node) {
+        fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value, 0, 1);
+    } else {
+        fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value, -1, 1);
+    }
 
-    ui->listWidgetTerms->setCurrentItem(newItem);
-    ui->listWidgetTerms->editItem(newItem);
+
+    QTreeWidgetItem* item = new QTreeWidgetItem();
+    item->setText(0, "New term");
+    item->setData(0, Qt::UserRole, QVariant::fromValue((qulonglong)id));
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+    targetGroup->addChild(item);
+
+    ui->treeWidgetTerms->setCurrentItem(item);
+    ui->treeWidgetTerms->editItem(item, 0);
 
     creationPresenter->updateTerm(id);
 }
 
 void MainWindow::onDeleteTerm() {
-    QListWidgetItem *current = ui->listWidgetTerms->currentItem();
-    if (current) {
-        creationPresenter->deleteTerm(currentTermId);
-        ui->listWidgetTerms->takeItem(ui->listWidgetTerms->row(current));
+    QTreeWidgetItem  *current = ui->treeWidgetTerms->currentItem();
+    if (current && current->parent()) {
+        auto* parent = current->parent();
+        auto id = current->data(0, Qt::UserRole).toULongLong();
+        creationPresenter->deleteTerm(id);
         delete current;
+        ui->treeWidgetTerms->setCurrentItem(parent);
     }
 }
 
@@ -253,8 +280,15 @@ void MainWindow::onChooseTermColor() {
     }
 }
 
-void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
-    if (!current) {
+void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous) {
+    ui->createTermButton->setEnabled(current);
+
+    QSignalBlocker b1(ui->termValue);
+    QSignalBlocker b2(ui->termValueL);
+    QSignalBlocker b3(ui->termValueM);
+    QSignalBlocker b4(ui->termValueU);
+
+    if (!current || !current->parent()) {
         ui->termValue->setValue(0);
         ui->termValueL->setValue(0);
         ui->termValueM->setValue(0);
@@ -263,6 +297,9 @@ void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem 
         ui->termValueL->setEnabled(false);
         ui->termValueM->setEnabled(false);
         ui->termValueU->setEnabled(false);
+        ui->deleteTermButton->setEnabled(false);
+        ui->termColorButton->setEnabled(false);
+        ui->termColorButton->setStyleSheet("");
         updateFuzzyValuePlot();
         return;
     }
@@ -271,12 +308,9 @@ void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem 
     ui->termValueL->setEnabled(true);
     ui->termValueM->setEnabled(true);
     ui->termValueU->setEnabled(true);
-    currentTermId = dynamic_cast<TermListItem*>(current)->getTermId();
-
-    QSignalBlocker b1(ui->termValue);
-    QSignalBlocker b2(ui->termValueL);
-    QSignalBlocker b3(ui->termValueM);
-    QSignalBlocker b4(ui->termValueU);
+    ui->deleteTermButton->setEnabled(true);
+    ui->termColorButton->setEnabled(true);
+    currentTermId = current->data(0, Qt::UserRole).toULongLong();
 
     ui->termValue->setValue(fcm->terms[currentTermId]->value);
     ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValueL);
@@ -289,7 +323,11 @@ void MainWindow::onCurrentItemChanged(QListWidgetItem *current, QListWidgetItem 
 void MainWindow::onTermValueChanged(double value) {
     fcm->terms[currentTermId]->value = value;
     if (ui->autoColorConfiguration->checkState()) {
-        fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(value);
+        if (fcm->terms[currentTermId]->type == ElementType::Node) {
+            fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(value, 0, 1);
+        } else {
+            fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(value, -1, 1);
+        }
         ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
     }
     creationPresenter->updateTerm(currentTermId);
@@ -342,9 +380,10 @@ void MainWindow::updateFuzzyValuePlot() {
     ui->fuzzyValuePlot->replot();
 }
 
-void MainWindow::onItemChanged(QListWidgetItem *item) {
-    fcm->terms[currentTermId]->name = item->text();
-    creationPresenter->updateTerm(currentTermId);
+void MainWindow::onItemChanged(QTreeWidgetItem  *item, int column) {
+    auto id = item->data(0, Qt::UserRole).toULongLong();
+    fcm->terms[id]->name = item->text(0);
+    creationPresenter->updateTerm(id);
 }
 
 void MainWindow::onPredictToStaticChanged(bool checked) {
@@ -394,15 +433,28 @@ void MainWindow::loadFCM(const FCM& newFCM) {
 
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
-    ui->listWidgetTerms->clear();
+
+    qDeleteAll(conceptsGroup->takeChildren());
+    qDeleteAll(weightsGroup->takeChildren());
+
+    QTreeWidgetItem* firstItem = nullptr;
+
     for (auto& [id, term] : fcm->terms) {
-        TermListItem* item = new TermListItem(term->name);
-        item->setTermId(id);
-        ui->listWidgetTerms->addItem(item);
+        QTreeWidgetItem* item = new QTreeWidgetItem();
+        item->setText(0, term->name);
+        item->setData(0, Qt::UserRole, QVariant::fromValue((qulonglong)id));
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+        if (term->type == ElementType::Node) {
+            conceptsGroup->addChild(item);
+        } else {
+            weightsGroup->addChild(item);
+        }
+
+        if (!firstItem) firstItem = item;
     }
-    if (!fcm->terms.empty()) {
-        ui->listWidgetTerms->setCurrentRow(0);
-    }
+
+    ui->treeWidgetTerms->expandAll();
 
     auto newScene = new GraphScene(fcm, creationPresenter);
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
