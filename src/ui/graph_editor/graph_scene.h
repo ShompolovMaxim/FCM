@@ -27,6 +27,10 @@ public:
 
     GraphScene* copy() const;
 
+    void setConceptColor(size_t id, QColor color, bool highlight);
+
+    void blockConceptCreationColorEdit(bool flag);
+
 public slots:
     void switchMode();
     void conceptCreated(std::shared_ptr<Concept> concept);
@@ -53,4 +57,5 @@ private:
     std::shared_ptr<CreationPresenter> presenter;
     std::map<size_t, NodeItem*> nodes;
     std::map<size_t, EdgeItem*> edges;
+    bool conceptCreationColorEditBlocked = false;
 };

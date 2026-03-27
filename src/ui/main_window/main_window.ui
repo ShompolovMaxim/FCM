@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="modelSettings">
      <attribute name="title">
@@ -369,6 +369,11 @@
       <attribute name="headerShowSortIndicator" stdset="0">
        <bool>false</bool>
       </attribute>
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
      </widget>
     </widget>
     <widget class="QWidget" name="graph">
@@ -441,10 +446,10 @@
      <widget class="AdjacencyTableView" name="adjacencyTableView">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>10</x>
         <y>10</y>
-        <width>1261</width>
-        <height>701</height>
+        <width>1781</width>
+        <height>901</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -459,54 +464,165 @@
      <attribute name="title">
       <string>Static analysis</string>
      </attribute>
-     <widget class="QLabel" name="densityLabel">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>30</y>
-        <width>321</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>FCM density: </string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="complexityLabel">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>80</y>
-        <width>341</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>FCM complexity: </string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="hierarchyLabel">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>130</y>
-        <width>351</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>FCM hierarchy index: </string>
-      </property>
-     </widget>
      <widget class="QTableWidget" name="factorsStatsTable">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>10</x>
         <y>10</y>
-        <width>791</width>
-        <height>671</height>
+        <width>402</width>
+        <height>901</height>
        </rect>
       </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="supportedDragActions">
+       <set>Qt::DropAction::IgnoreAction</set>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>125</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Concept name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Out degree</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>In degree</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Centrality</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="GraphView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>100</y>
+        <width>1351</width>
+        <height>811</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>50</y>
+        <width>1351</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Graphical influence</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="influenceDirection">
+         <item>
+          <property name="text">
+           <string>from</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>on</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="graphConcept"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>with</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="influenceSteps">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>step(s)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>10</y>
+        <width>1351</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QLabel" name="densityLabel">
+         <property name="text">
+          <string>FCM density: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="complexityLabel">
+         <property name="text">
+          <string>FCM complexity: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="hierarchyLabel">
+         <property name="text">
+          <string>FCM hierarchy index: </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="simulation">
@@ -1006,6 +1122,394 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <attribute name="title">
       <string>Sensitivity analysis</string>
      </attribute>
+     <widget class="GraphView" name="graphicsViewSensitivity">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1321</width>
+        <height>871</height>
+       </rect>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="interactive">
+       <bool>true</bool>
+      </property>
+      <property name="sceneRect">
+       <rectf>
+        <x>0.000000000000000</x>
+        <y>0.000000000000000</y>
+        <width>1200.000000000000000</width>
+        <height>800.000000000000000</height>
+       </rectf>
+      </property>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>1340</x>
+        <y>10</y>
+        <width>451</width>
+        <height>871</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_29">
+         <item>
+          <widget class="QPushButton" name="pushButtonPredictSensitivity">
+           <property name="text">
+            <string>Analyze</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonResetSensitivity">
+           <property name="text">
+            <string>Reset</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_30">
+         <item>
+          <widget class="QLabel" name="labelAlgorithmSensitivity">
+           <property name="text">
+            <string>Algorithm:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxAlgorithmSensitivity">
+           <item>
+            <property name="text">
+             <string>const weights</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>changing weights</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>training weights</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_31">
+         <item>
+          <widget class="QLabel" name="labelActivationSensitivity">
+           <property name="text">
+            <string>Activation function:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxActivationSensitivity">
+           <item>
+            <property name="text">
+             <string>bivalent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>trivalent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>threshold-linear</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>sigmoid</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>hyperbolic tangent</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_5">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <strikeout>false</strikeout>
+           <stylestrategy>PreferDefault</stylestrategy>
+           <kerning>true</kerning>
+           <fontweight>Medium</fontweight>
+          </font>
+         </property>
+         <property name="midLineWidth">
+          <number>3</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxPredictToStaticSensitivity">
+         <property name="text">
+          <string>Predict to static</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_32">
+         <item>
+          <widget class="QLabel" name="labelMetricSensitivity">
+           <property name="text">
+            <string>Change evaluation metric:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxMetricSensitivity">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <item>
+            <property name="text">
+             <string>MSE</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>MAE</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>MAPE</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_33">
+         <item>
+          <widget class="QLabel" name="labelThresholdSensitivity">
+           <property name="text">
+            <string>Metric threshold:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxThresholdSensitivity">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_34">
+         <item>
+          <widget class="QLabel" name="labelMetricStepsSensitivity">
+           <property name="text">
+            <string>Steps less threshold to stop:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBoxMetricStepsSensitivity">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_35">
+         <item>
+          <widget class="QLabel" name="labelFixedStepsSensitivity">
+           <property name="text">
+            <string>Fixed steps count:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBoxFixedStepsSensitivity">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_6">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <strikeout>false</strikeout>
+           <stylestrategy>PreferDefault</stylestrategy>
+           <kerning>true</kerning>
+           <fontweight>Medium</fontweight>
+          </font>
+         </property>
+         <property name="midLineWidth">
+          <number>3</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_36">
+         <item>
+          <widget class="QLabel" name="labelMaxChange">
+           <property name="text">
+            <string>Max value change:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxMaxChange">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_37">
+         <item>
+          <widget class="QCheckBox" name="changeConcepts">
+           <property name="text">
+            <string>Change concepts</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="changeWeights">
+           <property name="text">
+            <string>Change weights</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="textBrowserNotesSensitivity">
+         <property name="html">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_39">
+         <item>
+          <widget class="QLabel" name="labelScaleSensitivity">
+           <property name="text">
+            <string>Scale: 100%</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonScaleSensitivity">
+           <property name="text">
+            <string>Scale to 100%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QProgressBar" name="progressBarSensitivity">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>890</y>
+        <width>1781</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="textVisible">
+       <bool>true</bool>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="textDirection">
+       <enum>QProgressBar::Direction::TopToBottom</enum>
+      </property>
+      <property name="format">
+       <string>%v%</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

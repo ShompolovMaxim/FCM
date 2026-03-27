@@ -59,21 +59,29 @@ void WeightWindow::setPredictedValues(std::vector<double> predictedValues) {
 }
 
 void WeightWindow::updateTermsList() {
-    QStringList termsNames = {};
+    ui->valueField->clear();
+    ui->valueField->addItem("", QVariant());
+
+    std::vector<std::pair<QString, size_t>> sortedTerms;
     for (const auto& [id, term] : terms) {
         if (term->type == ElementType::Edge) {
-            termsNames.append(term->name);
+            sortedTerms.emplace_back(term->name, id);
         }
     }
-    termsNames.sort();
-    termsNames.prepend("");
-    ui->valueField->clear();
-    ui->valueField->addItems(termsNames);
+    std::sort(sortedTerms.begin(), sortedTerms.end(),
+              [](const auto& a, const auto& b){ return a.first < b.first; });
+
+    for (const auto& [name, id] : sortedTerms) {
+        ui->valueField->addItem(name, QVariant::fromValue(id));
+    }
 
     if (currentWeight->term) {
-        ui->valueField->setCurrentText(currentWeight->term->name);
+        size_t termId = currentWeight->term->id;
+        int index = ui->valueField->findData(QVariant::fromValue(termId));
+        if (index >= 0) ui->valueField->setCurrentIndex(index);
+        else ui->valueField->setCurrentIndex(0);
     } else {
-        ui->valueField->setCurrentText("");
+        ui->valueField->setCurrentIndex(0);
     }
 }
 
@@ -111,9 +119,12 @@ void WeightWindow::updateCurrentWeight() {
     currentWeight->name = ui->nameField->text();
     currentWeight->description = ui->notesField->toPlainText();
 
-    for (const auto& term : terms) {
-        if (term.second->name == ui->valueField->currentText()) {
-            currentWeight->term = term.second;
+    QVariant data = ui->valueField->currentData();
+    if (data.isValid()) {
+        size_t id = data.toULongLong();
+        auto it = terms.find(id);
+        if (it != terms.end()) {
+            currentWeight->term = it->second;
             return;
         }
     }

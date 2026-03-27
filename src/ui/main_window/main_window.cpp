@@ -28,6 +28,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->graphicsViewGraph->setScene(scene);
     ui->graphicsViewPredict->setScene(scene);
 
+    auto* staticAnalysisScene = new GraphScene(fcm, creationPresenter);
+    staticAnalysisScene->setMode(EditMode::EditValues);
+    staticAnalysisScene->blockConceptCreationColorEdit(true);
+    ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
+
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
     QObject::connect(scene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     QObject::connect(ui->graphicsViewGraph, &GraphView::scaleChanged, this, &MainWindow::updateGraphScaleLabel);
@@ -77,12 +82,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->fuzzyValuePlot->yAxis->setLabel("μ(x)");
     ui->fuzzyValuePlot->addGraph();
 
-    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, fcm);
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index){
-        if (ui->tabWidget->widget(index) == ui->staticAnalysis) {
-            staticAnalysisPresenter->update();
-        }
-    });
+    ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
+
+    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
+    connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
+
+    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivationSensitivity, &QComboBox::setCurrentIndex);
+    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivation, &QComboBox::setCurrentIndex);
+
+    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, ui->checkBoxPredictToStaticSensitivity, &QCheckBox::setChecked);
+    connect(ui->checkBoxPredictToStaticSensitivity, &QCheckBox::toggled, ui->checkBoxPredictToStatic, &QCheckBox::setChecked);
+
+    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetricSensitivity, &QComboBox::setCurrentIndex);
+    connect(ui->comboBoxMetricSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetric, &QComboBox::setCurrentIndex);
+
+    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThresholdSensitivity, &QDoubleSpinBox::setValue);
+    connect(ui->doubleSpinBoxThresholdSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThreshold, &QDoubleSpinBox::setValue);
+
+    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricStepsSensitivity, &QSpinBox::setValue);
+    connect(ui->spinBoxMetricStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricSteps, &QSpinBox::setValue);
+
+    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedStepsSensitivity, &QSpinBox::setValue);
+    connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
 }
 
 MainWindow::~MainWindow() {
@@ -390,6 +412,10 @@ void MainWindow::onPredictToStaticChanged(bool checked) {
     ui->doubleSpinBoxThreshold->setEnabled(checked);
     ui->spinBoxMetricSteps->setEnabled(checked);
     ui->spinBoxFixedSteps->setEnabled(!checked);
+
+    ui->doubleSpinBoxThresholdSensitivity->setEnabled(checked);
+    ui->spinBoxMetricStepsSensitivity->setEnabled(checked);
+    ui->spinBoxFixedStepsSensitivity->setEnabled(!checked);
 }
 
 void MainWindow::updateFCM() {
@@ -467,6 +493,16 @@ void MainWindow::loadFCM(const FCM& newFCM) {
         delete oldScenePredict;
     }
     delete oldSceneCreate;
+
+    auto* oldStaticAnalysisScene = ui->staticAnalysis->findChild<GraphView*>("graphicsView")->scene();
+    auto* newStaticAnalysisScene = new GraphScene(fcm, creationPresenter);
+    newStaticAnalysisScene->blockConceptCreationColorEdit(true);
+    newStaticAnalysisScene->setMode(EditMode::EditValues);
+    ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(newStaticAnalysisScene);
+    delete oldStaticAnalysisScene;
+
+    delete staticAnalysisPresenter;
+    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
 
     for (const auto& experiment : fcm->experiments) {
         addExperiment(experiment);

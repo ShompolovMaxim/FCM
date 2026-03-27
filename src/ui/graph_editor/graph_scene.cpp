@@ -46,8 +46,9 @@ void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
     auto* n = new NodeItem(concept);
     addItem(n);
     n->setPos(concept->pos);
-    n->setValue(concept->term);
-    //n->setConcept(concept);
+    if (!conceptCreationColorEditBlocked) {
+        n->setValue(concept->term);
+    }
     nodes[concept->id] = n;
     counter++;
 }
@@ -64,7 +65,9 @@ void GraphScene::weightCreated(std::shared_ptr<Weight> weight) {
 void GraphScene::conceptUpdated(std::shared_ptr<Concept> concept) {
     nodes[concept->id]->setPos(concept->pos);
     nodes[concept->id]->setName(concept->name);
-    nodes[concept->id]->setValue(concept->term);
+    if (!conceptCreationColorEditBlocked) {
+        nodes[concept->id]->setValue(concept->term);
+    }
 }
 
 void GraphScene::weightUpdated(std::shared_ptr<Weight> weight) {
@@ -86,6 +89,15 @@ void GraphScene::weightDeleted(size_t id) {
     removeItem(edge);
     edges.erase(id);
     delete edge;
+}
+
+void GraphScene::setConceptColor(size_t id, QColor color, bool highlight) {
+    nodes[id]->setBrush(color);
+    nodes[id]->highlight(highlight);
+}
+
+void GraphScene::blockConceptCreationColorEdit(bool flag) {
+    conceptCreationColorEditBlocked = flag;
 }
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)

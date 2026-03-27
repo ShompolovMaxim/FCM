@@ -45,3 +45,9 @@ void NodeItem::paint(QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w)
     p->setPen(Qt::black);
     p->drawText(rect(), Qt::AlignCenter, concept->name);
 }
+
+void NodeItem::highlight(bool flag) {
+    QPen pen(flag ? Qt::blue : Qt::black);
+    setPen(pen);
+    update();
+}

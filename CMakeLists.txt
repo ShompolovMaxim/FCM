@@ -90,6 +90,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/metrics_manager.h src/model/metrics_manager.cpp
         src/model/stop_conditions/fabric.h src/model/stop_conditions/fabric.cpp
         src/model/stop_conditions/static.h src/model/stop_conditions/static.cpp
+        src/model/static_analysis/result.h
 
     )
 # Define target properties for Android with Qt 6 as:

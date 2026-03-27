@@ -29,6 +29,8 @@ public:
 
     std::shared_ptr<Concept> getConcept() { return concept; };
 
+    void highlight(bool flag);
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& val) override;
 

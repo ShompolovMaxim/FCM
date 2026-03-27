@@ -11,5 +11,6 @@ struct Weight {
     std::shared_ptr<Term> term;
     size_t fromConceptId;
     size_t toConceptId;
+
     std::vector<double> predictedValues;
 };

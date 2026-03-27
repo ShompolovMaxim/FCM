@@ -12,5 +12,6 @@ struct Concept {
     std::shared_ptr<Term> term;
     QPointF pos;
     size_t startStep;
+
     std::vector<double> predictedValues;
 };
