@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="modelSettings">
      <attribute name="title">
@@ -715,6 +715,13 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="useFuzzyValues">
+         <property name="text">
+          <string>Use fuzzy values</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QLabel" name="labelActivation">
@@ -1208,6 +1215,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="useFuzzyValuesSensitivity">
+         <property name="text">
+          <string>Use fuzzy values</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_31">
          <item>
           <widget class="QLabel" name="labelActivationSensitivity">
@@ -1676,7 +1690,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   </action>
   <action name="actionTerms">
    <property name="text">
-    <string>Terms</string>
+    <string>Default Terms</string>
    </property>
   </action>
   <action name="actionLanguage">

@@ -88,6 +88,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
 
+    connect(ui->useFuzzyValues, &QCheckBox::toggled, ui->useFuzzyValuesSensitivity, &QCheckBox::setChecked);
+    connect(ui->useFuzzyValuesSensitivity, &QCheckBox::toggled, ui->useFuzzyValues, &QCheckBox::setChecked);
+
     connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivationSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivation, &QComboBox::setCurrentIndex);
 
@@ -335,9 +338,9 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
     currentTermId = current->data(0, Qt::UserRole).toULongLong();
 
     ui->termValue->setValue(fcm->terms[currentTermId]->value);
-    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValueL);
-    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValueM);
-    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValueU);
+    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
+    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
+    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
     ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
     updateFuzzyValuePlot();
 }
@@ -358,13 +361,13 @@ void MainWindow::onTermValueChanged(double value) {
 void MainWindow::onTermValueLChanged(double value) {
     if (ui->termValueM->value() < value) {
         ui->termValueM->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValueM = value;
+        fcm->terms[currentTermId]->fuzzyValue.m = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValueU = value;
+        fcm->terms[currentTermId]->fuzzyValue.u = value;
     }
-    fcm->terms[currentTermId]->fuzzyValueL = value;
+    fcm->terms[currentTermId]->fuzzyValue.l = value;
     updateFuzzyValuePlot();
     creationPresenter->updateTerm(currentTermId);
 }
@@ -372,13 +375,13 @@ void MainWindow::onTermValueLChanged(double value) {
 void MainWindow::onTermValueMChanged(double value) {
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValueL = value;
+        fcm->terms[currentTermId]->fuzzyValue.l = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValueU = value;
+        fcm->terms[currentTermId]->fuzzyValue.u = value;
     }
-    fcm->terms[currentTermId]->fuzzyValueM = value;
+    fcm->terms[currentTermId]->fuzzyValue.m = value;
     updateFuzzyValuePlot();
     creationPresenter->updateTerm(currentTermId);
 }
@@ -386,13 +389,13 @@ void MainWindow::onTermValueMChanged(double value) {
 void MainWindow::onTermValueUChanged(double value) {
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValueL = value;
+        fcm->terms[currentTermId]->fuzzyValue.l = value;
     }
     if (ui->termValueM->value() > value) {
         ui->termValueM->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValueM = value;
+        fcm->terms[currentTermId]->fuzzyValue.m = value;
     }
-    fcm->terms[currentTermId]->fuzzyValueU = value;
+    fcm->terms[currentTermId]->fuzzyValue.u = value;
     updateFuzzyValuePlot();
     creationPresenter->updateTerm(currentTermId);
 }
@@ -427,6 +430,7 @@ void MainWindow::updateFCM() {
 PredictionParameters MainWindow::getPredictionParameters() {
     return PredictionParameters{
         ui->comboBoxAlgorithm->currentText(),
+        ui->useFuzzyValues->isChecked(),
         ui->comboBoxActivation->currentText(),
         ui->comboBoxMetric->currentText(),
         ui->checkBoxPredictToStatic->isChecked(),

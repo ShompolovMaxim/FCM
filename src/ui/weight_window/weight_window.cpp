@@ -3,7 +3,7 @@
 
 #include <QPushButton>
 
-WeightWindow::WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, std::vector<double> predictedValues, QWidget *parent)
+WeightWindow::WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent)
     : terms(terms), currentWeight(currentWeight), QDialog(parent), ui(new Ui::WeightWindow)
 {
     ui->setupUi(this);
@@ -26,36 +26,28 @@ WeightWindow::WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms,
     connect(ui->deleteButton, &QPushButton::clicked, this, &WeightWindow::onDelete);
 
     ui->plot->addGraph();
-    ui->plot->yAxis->setRange(0, 1.1);
+    ui->plot->yAxis->setRange(-1.1, 1.1);
     ui->plot->xAxis->setLabel("step");
     ui->plot->yAxis->setLabel("weight value");
     ui->plot->addGraph();
-    setPredictedValues(predictedValues);
+    ui->plot->addGraph();
+    ui->plot->addGraph();
+    ui->plot->graph(0)->setPen(QPen(Qt::red));
+    ui->plot->graph(1)->setPen(QPen(QColorConstants::Svg::orange));
+    ui->plot->graph(2)->setPen(QPen(Qt::green));
+    setPredictedValues();
 }
 
 WeightWindow::~WeightWindow() {
     delete ui;
 }
 
-void WeightWindow::setPredictedValues(std::vector<double> predictedValues) {
-    QVector<double> x;
-    for (size_t i = 0; i < predictedValues.size(); ++i) {
-        x.push_back(i + 1);
+void WeightWindow::setPredictedValues() {
+    if (std::holds_alternative<std::vector<double>>(currentWeight->predictedValues)) {
+        setNumericPredictedValues();
+    } else {
+        setFuzzyPredictedValues();
     }
-
-    ui->plot->graph(0)->setData(x, QVector<double>(predictedValues.begin(), predictedValues.end()));
-    ui->plot->graph(0)->rescaleKeyAxis();
-
-    auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
-
-    for (const auto& [_, term] : terms) {
-        textTicker->addTick(term->value, term->name);
-    }
-    ui->plot->yAxis->setTicker(textTicker);
-    ui->plot->yAxis->setTickLabelRotation(0);
-    ui->plot->yAxis->setSubTicks(false);
-
-    ui->plot->replot();
 }
 
 void WeightWindow::updateTermsList() {
@@ -129,4 +121,59 @@ void WeightWindow::updateCurrentWeight() {
         }
     }
     currentWeight->term = nullptr;
+}
+
+void WeightWindow::setNumericPredictedValues() {
+    auto predictedValues = std::get<std::vector<double>>(currentWeight->predictedValues);
+    QVector<double> x;
+    for (size_t i = 0; i < predictedValues.size(); ++i) {
+        x.push_back(i + 1);
+    }
+
+    ui->plot->graph(0)->setData(x, QVector<double>(predictedValues.begin(), predictedValues.end()));
+    ui->plot->graph(0)->rescaleKeyAxis();
+
+    auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
+
+    for (const auto& [_, term] : terms)
+    {
+        textTicker->addTick(term->value, term->name);
+    }
+    ui->plot->yAxis->setTicker(textTicker);
+    ui->plot->yAxis->setTickLabelRotation(0);
+    ui->plot->yAxis->setSubTicks(false);
+
+    ui->plot->replot();
+}
+
+void WeightWindow::setFuzzyPredictedValues() {
+    auto predictedValues = std::get<std::vector<TriangularFuzzyValue>>(currentWeight->predictedValues);
+    QVector<double> x;
+    QVector<double> l;
+    QVector<double> m;
+    QVector<double> u;
+    for (size_t i = 0; i < predictedValues.size(); ++i) {
+        x.push_back(i + 1);
+        l.push_back(predictedValues[i].l);
+        m.push_back(predictedValues[i].m);
+        u.push_back(predictedValues[i].u);
+    }
+
+    ui->plot->graph(0)->setData(x, l);
+    ui->plot->graph(0)->rescaleKeyAxis();
+    ui->plot->graph(1)->setData(x, m);
+    ui->plot->graph(1)->rescaleKeyAxis();
+    ui->plot->graph(2)->setData(x, u);
+    ui->plot->graph(2)->rescaleKeyAxis();
+
+    auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
+
+    for (const auto& [_, term] : terms) {
+        textTicker->addTick(term->value, term->name);
+    }
+    ui->plot->yAxis->setTicker(textTicker);
+    ui->plot->yAxis->setTickLabelRotation(0);
+    ui->plot->yAxis->setSubTicks(false);
+
+    ui->plot->replot();
 }

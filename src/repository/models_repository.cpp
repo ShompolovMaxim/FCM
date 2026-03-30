@@ -94,9 +94,9 @@ std::optional<size_t> ModelsRepository::createTerm(const Term& term, const size_
     query.bindValue(":description", term.description);
     query.bindValue(":experiment_id", experimentId);
     query.bindValue(":numeric_value", term.value);
-    query.bindValue(":tr_value_l", term.fuzzyValueL);
-    query.bindValue(":tr_value_m", term.fuzzyValueM);
-    query.bindValue(":tr_value_h", term.fuzzyValueU);
+    query.bindValue(":tr_value_l", term.fuzzyValue.l);
+    query.bindValue(":tr_value_m", term.fuzzyValue.m);
+    query.bindValue(":tr_value_h", term.fuzzyValue.u);
     query.bindValue(":color_r", term.color.red());
     query.bindValue(":color_g", term.color.green());
     query.bindValue(":color_b", term.color.blue());
@@ -116,13 +116,14 @@ std::optional<size_t> ModelsRepository::createExperiment(const Experiment& exper
 
     QSqlQuery queryExperiment(db);
     queryExperiment.prepare(
-        "INSERT INTO experiments (model_id, timestamp, algorithm, activation, predict_to_static, metric, threshold, steps_less_threshold, fixed_steps) "
-        "VALUES (:model_id, :timestamp, :algorithm, :activation, :predict_to_static, :metric, :threshold, :steps_less_threshold, :fixed_steps)"
+        "INSERT INTO experiments (model_id, timestamp, algorithm, use_fuzzy_values, activation, predict_to_static, metric, threshold, steps_less_threshold, fixed_steps) "
+        "VALUES (:model_id, :timestamp, :algorithm, :use_fuzzy_values, :activation, :predict_to_static, :metric, :threshold, :steps_less_threshold, :fixed_steps)"
         );
 
     queryExperiment.bindValue(":model_id", modelId);
     queryExperiment.bindValue(":timestamp", experiment.timestamp);
     queryExperiment.bindValue(":algorithm", experiment.predictionParameters.algorithm);
+    queryExperiment.bindValue(":use_fuzzy_values", experiment.predictionParameters.useFuzzyValues);
     queryExperiment.bindValue(":activation", experiment.predictionParameters.activationFunction);
     queryExperiment.bindValue(":predict_to_static", experiment.predictionParameters.predictToStatic);
     queryExperiment.bindValue(":metric", experiment.predictionParameters.metric);
@@ -371,6 +372,7 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(const si
         experiment.timestamp = query.value("timestamp").toDateTime();
         experiment.predictionParameters = {
             query.value("algorithm").toString(),
+            query.value("use_fuzzy_values").toBool(),
             query.value("activation").toString(),
             query.value("metric").toString(),
             query.value("predict_to_static").toBool(),

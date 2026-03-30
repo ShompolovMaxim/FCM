@@ -2,11 +2,11 @@
 #include "model/entities/calculation_fcm.h"
 #include "presenter/prediction_parameters.h"
 
-#include <mutex>
 #include <atomic>
+#include <mutex>
+#include <variant>
 
-class Predictor
-{
+class Predictor {
 public:
     Predictor(PredictionParameters predictionParameters, const CalculationFCM& fcm);
 
@@ -14,11 +14,11 @@ public:
 
     CalculationFCM getFCM(size_t step);
 
-    double getCount();
-    double getFinished();
+    size_t getCount();
+    bool getFinished();
 
-    std::vector<double> getConceptHistoryValues(size_t conceptId, size_t step);
-    std::vector<double> getWeightHistoryValues(size_t weightId, size_t step);
+    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> getConceptHistoryValues(size_t conceptId, size_t step);
+    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> getWeightHistoryValues(size_t weightId, size_t step);
 private:
     PredictionParameters _predictionParameters;
     std::vector<CalculationFCM> _fcms;
@@ -26,4 +26,3 @@ private:
     std::atomic_size_t _count = 0;
     std::atomic_bool finished = false;
 };
-

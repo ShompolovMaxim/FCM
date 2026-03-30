@@ -1,8 +1,7 @@
 #pragma once
 #include <QString>
 
-struct SimulationParameters
-{
+struct SimulationParameters {
     bool realTime;
     double stepsPerSecond;
 };

@@ -1,9 +1,9 @@
 #pragma once
 #include <QString>
 
-struct PredictionParameters
-{
+struct PredictionParameters {
     QString algorithm;
+    bool useFuzzyValues;
     QString activationFunction;
     QString metric;
     bool predictToStatic;

@@ -13,5 +13,5 @@ struct Concept {
     QPointF pos;
     size_t startStep;
 
-    std::vector<double> predictedValues;
+    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
 };

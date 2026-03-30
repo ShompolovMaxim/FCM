@@ -16,8 +16,8 @@ Predictor::Predictor(PredictionParameters predictionParameters, const Calculatio
 void Predictor::perform() {
     auto conceptActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Node, 1);
     auto weightActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Edge, 1);
-    auto algorithm = AlgorithmsFabric().create(_predictionParameters.algorithm, conceptActivationFunction, weightActivationFunction);
-    auto metricsManager = MetricsManager(MetricsFabric().create(_predictionParameters.metric), _predictionParameters.algorithm == "changing weights");
+    auto algorithm = AlgorithmsFabric().create(_predictionParameters, conceptActivationFunction, weightActivationFunction);
+    auto metricsManager = MetricsManager(MetricsFabric().create(_predictionParameters.metric), _predictionParameters);
     auto stopCondition = StopConditionsFabric().create(_predictionParameters);
     while (!stopCondition->finished(_fcms)) {
         auto next = algorithm->step(_fcms[_fcms.size() - 1]);
@@ -37,26 +37,42 @@ CalculationFCM Predictor::getFCM(size_t step) {
     return _fcms[step];
 }
 
-double Predictor::getCount() {
+size_t Predictor::getCount() {
     return _count.load();
 }
 
-double Predictor::getFinished() {
+bool Predictor::getFinished() {
     return finished.load();
 }
 
-std::vector<double> Predictor::getConceptHistoryValues(size_t conceptId, size_t step) {
+std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getConceptHistoryValues(size_t conceptId, size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
+    if (_predictionParameters.useFuzzyValues) {
+        std::vector<TriangularFuzzyValue> result;
+        result.reserve(step + 1);
+        for (size_t i = 0; i <= step; ++i) {
+            result.push_back(_fcms[i].concepts[conceptId].triangularFuzzyValue);
+        }
+        return result;
+    }
     std::vector<double> result;
     result.reserve(step + 1);
     for (size_t i = 0; i <= step; ++i) {
-        result.push_back(_fcms[i].concepts[conceptId]);
+        result.push_back(_fcms[i].concepts[conceptId].value);
     }
     return result;
 }
 
-std::vector<double> Predictor::getWeightHistoryValues(size_t weightId, size_t step) {
+std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getWeightHistoryValues(size_t weightId, size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
+    if (_predictionParameters.useFuzzyValues) {
+        std::vector<TriangularFuzzyValue> result;
+        result.reserve(step + 1);
+        for (size_t i = 0; i <= step; ++i) {
+            result.push_back(_fcms[i].weights[weightId].triangularFuzzyValue);
+        }
+        return result;
+    }
     std::vector<double> result;
     result.reserve(step + 1);
     for (size_t i = 0; i <= step; ++i) {

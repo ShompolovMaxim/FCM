@@ -9,7 +9,7 @@ void CreationPresenter::createConcept(const QPointF pos) {
     fcm->concepts[id]->pos = pos;
     emit conceptCreated(fcm->concepts[id]);
 
-    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], fcm->concepts[id]->predictedValues, dynamic_cast<QWidget*>(parent()));
+    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], dynamic_cast<QWidget*>(parent()));
     conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(conceptWindow, &ConceptWindow::applied,
@@ -33,7 +33,7 @@ void CreationPresenter::updateConcept(size_t id) {
         return;
     }
 
-    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], fcm->concepts[id]->predictedValues, dynamic_cast<QWidget*>(parent()));
+    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], dynamic_cast<QWidget*>(parent()));
     conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(conceptWindow, &ConceptWindow::applied,
@@ -78,7 +78,7 @@ void CreationPresenter::createWeight(size_t fromNodeId, size_t toNodeId) {
     emit weightCreated(fcm->weights[id]);
 
 
-    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], fcm->weights[id]->predictedValues, dynamic_cast<QWidget*>(parent()));
+    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], dynamic_cast<QWidget*>(parent()));
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,
@@ -102,7 +102,7 @@ void CreationPresenter::updateWeight(size_t id) {
         return;
     }
 
-    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], fcm->weights[id]->predictedValues, dynamic_cast<QWidget*>(parent()));
+    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], dynamic_cast<QWidget*>(parent()));
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,
@@ -154,14 +154,14 @@ void CreationPresenter::setConceptPredictedValues(size_t id) {
     if (conceptWindows.find(id) == conceptWindows.end()) {
         return;
     }
-    conceptWindows[id]->setPredictedValues(fcm->concepts[id]->predictedValues);
+    conceptWindows[id]->setPredictedValues();
 }
 
 void CreationPresenter::setWeightPredictedValues(size_t id) {
     if (weightWindows.find(id) == weightWindows.end()) {
         return;
     }
-    weightWindows[id]->setPredictedValues(fcm->weights[id]->predictedValues);
+    weightWindows[id]->setPredictedValues();
 }
 
 void CreationPresenter::updateTerm(size_t id) {

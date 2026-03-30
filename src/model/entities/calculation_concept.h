@@ -4,10 +4,9 @@
 
 #include <cstdint>
 
-struct CalculationWeight {
+struct CalculationConcept {
     size_t id;
     double value;
     TriangularFuzzyValue triangularFuzzyValue;
-    size_t fromConceptId;
-    size_t toConceptId;
+    size_t startStep;
 };

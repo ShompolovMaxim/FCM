@@ -7,14 +7,14 @@ CalculationFCM WeightsPredictionAlgorithm::step(const CalculationFCM& fcm) const
     CalculationFCM result;
     result.concepts = fcm.concepts;
     result.weights = fcm.weights;
-    result.conceptsStartSteps = fcm.conceptsStartSteps;
 
     for (const auto& [id, weight] : fcm.weights) {
-        result.concepts[weight.toConceptId] = fcm.concepts.at(weight.toConceptId) + fcm.concepts.at(weight.fromConceptId) * weight.value;
-        result.weights[id].value = weightsActivationFunction->activate(fcm.weights.at(id).value + fcm.concepts.at(weight.fromConceptId) * fcm.concepts.at(weight.toConceptId));
+        result.concepts[weight.toConceptId].value = fcm.concepts.at(weight.toConceptId).value + fcm.concepts.at(weight.fromConceptId).value * weight.value;
+        result.weights[id].value = fcm.weights.at(id).value + fcm.concepts.at(weight.fromConceptId).value * fcm.concepts.at(weight.toConceptId).value;
     }
     for (const auto& [id, _] : result.concepts) {
-        result.concepts[id] = conceptsActivationFunction->activate(result.concepts[id]);
+        result.concepts[id].value = conceptsActivationFunction->activate(result.concepts[id].value);
+        result.weights[id].value = conceptsActivationFunction->activate(result.weights[id].value);
     }
 
     return result;

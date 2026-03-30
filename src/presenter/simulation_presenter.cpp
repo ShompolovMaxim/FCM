@@ -25,13 +25,18 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
     CalculationFCM calculationFCM;
 
     for (const auto& [id, concept] : fcm->concepts) {
-        calculationFCM.concepts[id] = concept->term->value;
-        calculationFCM.conceptsStartSteps[id] = concept->startStep;
+        calculationFCM.concepts[id] = CalculationConcept{
+            id,
+            concept->term->value,
+            concept->term->fuzzyValue,
+            concept->startStep
+        };
     }
     for (const auto& [id, weight] : fcm->weights) {
         calculationFCM.weights[id] = CalculationWeight{
             id,
             weight->term->value,
+            weight->term->fuzzyValue,
             weight->fromConceptId,
             weight->toConceptId
         };
@@ -62,12 +67,20 @@ bool SimulationPresenter::goToStep(size_t newStep) {
     if (predictor->getCount() >= newStep) {
         auto newFCM = predictor->getFCM(newStep);
         for (auto* node : nodes) {
-            node->setValue(newFCM.concepts[node->getId()]);
+            if (predictionParameters.useFuzzyValues) {
+                node->setValue(newFCM.concepts[node->getId()].triangularFuzzyValue.defuzzify());
+            } else {
+                node->setValue(newFCM.concepts[node->getId()].value);
+            }
             fcm->concepts[node->getId()]->predictedValues = predictor->getConceptHistoryValues(node->getId(), newStep);
             creationPresenter->setConceptPredictedValues(node->getId());
         }
         for (auto* edge : edges) {
-            edge->setValue(newFCM.weights[edge->getId()].value);
+            if (predictionParameters.useFuzzyValues) {
+                edge->setValue(newFCM.weights[edge->getId()].triangularFuzzyValue.defuzzify());
+            } else {
+                edge->setValue(newFCM.weights[edge->getId()].value);
+            }
             fcm->weights[edge->getId()]->predictedValues = predictor->getConceptHistoryValues(edge->getId(), newStep);
             creationPresenter->setWeightPredictedValues(edge->getId());
         }

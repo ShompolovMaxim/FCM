@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS experiments (
     model_id INTEGER,
     timestamp TEXT,
     algorithm TEXT,
+    use_fuzzy_values INTEGER,
     activation TEXT,
     predict_to_static INTEGER,
     metric TEXT,

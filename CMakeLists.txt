@@ -91,6 +91,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/stop_conditions/fabric.h src/model/stop_conditions/fabric.cpp
         src/model/stop_conditions/static.h src/model/stop_conditions/static.cpp
         src/model/static_analysis/result.h
+        src/model/entities/triangular_fuzzy_value.h src/model/entities/triangular_fuzzy_value.cpp
+        src/model/activation_functions/activation_function.cpp
+        src/model/entities/calculation_concept.h
+        src/model/algorithms/standard_fuzzy.h src/model/algorithms/standard_fuzzy.cpp
+        src/model/algorithms/weights_prediction_fuzzy.h src/model/algorithms/weights_prediction_fuzzy.cpp
+
+
 
     )
 # Define target properties for Android with Qt 6 as:

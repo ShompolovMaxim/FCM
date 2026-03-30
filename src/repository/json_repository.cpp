@@ -13,6 +13,7 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
     QJsonObject params;
     params["algorithm"] = fcm.predictionParameters.algorithm;
+    params["use_fuzzy_values"] = fcm.predictionParameters.useFuzzyValues;
     params["activation"] = fcm.predictionParameters.activationFunction;
     params["metric"] = fcm.predictionParameters.metric;
     params["predict_to_static"] = fcm.predictionParameters.predictToStatic;
@@ -24,8 +25,7 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
     QJsonArray termsArray;
 
-    for (const auto& [id, term] : fcm.terms)
-    {
+    for (const auto& [id, term] : fcm.terms) {
         QJsonObject t;
 
         t["id"] = static_cast<qint64>(term->id);
@@ -34,9 +34,9 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
         t["numeric_value"] = term->value;
 
-        t["tr_value_l"] = term->fuzzyValueL;
-        t["tr_value_m"] = term->fuzzyValueM;
-        t["tr_value_h"] = term->fuzzyValueU;
+        t["tr_value_l"] = term->fuzzyValue.l;
+        t["tr_value_m"] = term->fuzzyValue.m;
+        t["tr_value_h"] = term->fuzzyValue.u;
 
         t["color_r"] = term->color.red();
         t["color_g"] = term->color.green();
@@ -51,8 +51,7 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
     QJsonArray conceptsArray;
 
-    for (const auto& [id, concept] : fcm.concepts)
-    {
+    for (const auto& [id, concept] : fcm.concepts) {
         QJsonObject c;
 
         c["id"] = static_cast<qint64>(concept->id);
@@ -76,8 +75,7 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
     QJsonArray weightsArray;
 
-    for (const auto& [id, weightPtr] : fcm.weights)
-    {
+    for (const auto& [id, weightPtr] : fcm.weights) {
         QJsonObject w;
 
         w["id"] = static_cast<qint64>(weightPtr->id);
@@ -130,6 +128,7 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path)
     auto params = root["predictionParameters"].toObject();
 
     fcm.predictionParameters.algorithm = params["algorithm"].toString();
+    fcm.predictionParameters.useFuzzyValues = params["use_fuzzy_values"].toBool();
     fcm.predictionParameters.activationFunction = params["activation"].toString();
     fcm.predictionParameters.metric = params["metric"].toString();
     fcm.predictionParameters.predictToStatic = params["predict_to_static"].toBool();

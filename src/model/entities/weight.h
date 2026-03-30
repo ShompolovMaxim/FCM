@@ -12,5 +12,5 @@ struct Weight {
     size_t fromConceptId;
     size_t toConceptId;
 
-    std::vector<double> predictedValues;
+    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
 };

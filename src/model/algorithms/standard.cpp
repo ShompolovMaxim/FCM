@@ -7,13 +7,12 @@ CalculationFCM StandardPredictionAlgorithm::step(const CalculationFCM& fcm) cons
     CalculationFCM result;
     result.concepts = fcm.concepts;
     result.weights = fcm.weights;
-    result.conceptsStartSteps = fcm.conceptsStartSteps;
 
     for (const auto& [_, weight] : fcm.weights) {
-        result.concepts[weight.toConceptId] = fcm.concepts.at(weight.toConceptId) + fcm.concepts.at(weight.fromConceptId) * weight.value;
+        result.concepts[weight.toConceptId].value = fcm.concepts.at(weight.toConceptId).value + fcm.concepts.at(weight.fromConceptId).value * weight.value;
     }
     for (const auto& [id, _] : result.concepts) {
-        result.concepts[id] = conceptsActivationFunction->activate(result.concepts[id]);
+        result.concepts[id].value = conceptsActivationFunction->activate(result.concepts[id].value);
     }
 
     return result;
