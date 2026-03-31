@@ -14,4 +14,5 @@ struct Concept {
     size_t startStep;
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
+    std::unordered_map<double, double> sensitivity;
 };

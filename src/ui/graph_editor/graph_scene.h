@@ -28,6 +28,7 @@ public:
     GraphScene* copy() const;
 
     void setConceptColor(size_t id, QColor color, bool highlight);
+    void setWeightColor(size_t id, QColor color);
 
     void blockConceptCreationColorEdit(bool flag);
 
@@ -39,7 +40,6 @@ public slots:
     void weightUpdated(std::shared_ptr<Weight> weight);
     void conceptDeleted(size_t id);
     void weightDeleted(size_t id);
-
 
 signals:
     void modeChanged(EditMode newMode);

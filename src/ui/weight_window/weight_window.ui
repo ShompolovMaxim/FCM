@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="configuration">
     <attribute name="title">
@@ -107,6 +107,21 @@
      <string>Simulation results</string>
     </attribute>
     <widget class="QCustomPlot" name="plot" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>691</width>
+       <height>381</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Sensitivity</string>
+    </attribute>
+    <widget class="QCustomPlot" name="plotSensitivity" native="true">
      <property name="geometry">
       <rect>
        <x>0</x>

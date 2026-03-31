@@ -15,7 +15,6 @@ public:
     double calculate(const CalculationFCM& oldFcm, const CalculationFCM& newFcm);
 
 private:
-    bool weightsChange;
     std::shared_ptr<Metric> metric;
     const PredictionParameters predictionParameters;
 };

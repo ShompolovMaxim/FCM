@@ -45,6 +45,17 @@ void EdgeItem::setValue(std::shared_ptr<Term> newTerm) {
     }
 }
 
+void EdgeItem::setColor(QColor color) {
+    QPen pen(color, 2);
+    pen.setCosmetic(true);
+    setPen(pen);
+    setBrush(Qt::NoBrush);
+
+    if (arrowItem) {
+        arrowItem->setBrush(color);
+    }
+}
+
 void EdgeItem::updatePosition() {
     QLineF line(src->scenePos(), dst->scenePos());
     if (line.length() < 40) {

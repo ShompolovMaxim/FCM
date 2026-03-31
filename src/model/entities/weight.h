@@ -13,4 +13,5 @@ struct Weight {
     size_t toConceptId;
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
+    std::unordered_map<double, double> sensitivity;
 };

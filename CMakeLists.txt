@@ -16,6 +16,7 @@ endif()
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
 set(TS_FILES translations/FCM_ru_RU.ts)
@@ -96,6 +97,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/calculation_concept.h
         src/model/algorithms/standard_fuzzy.h src/model/algorithms/standard_fuzzy.cpp
         src/model/algorithms/weights_prediction_fuzzy.h src/model/algorithms/weights_prediction_fuzzy.cpp
+        src/model/sensitivity_analysis/sensitivity_analizer.h src/model/sensitivity_analysis/sensitivity_analizer.cpp
+        src/model/sensitivity_analysis/parameters.h
+        src/model/final_state_predictor.h src/model/final_state_predictor.cpp
+        src/presenter/sensitivity_presenter.h src/presenter/sensitivity_presenter.cpp
 
 
 
@@ -123,6 +128,7 @@ else()
 endif()
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql Qt6::PrintSupport)
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
 target_include_directories(FCM PRIVATE

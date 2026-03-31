@@ -105,7 +105,7 @@ void StaticAnalysisPresenter::refreshUI() {
 
     auto colorValueAdapter = ColorValueAdapter();
     for (auto [id, concept] : fcm->concepts) {
-        if (graphConcept->count() == 0 && graphConcept->currentIndex()) {
+        if (graphConcept->count() > 1 && graphConcept->currentIndex()) {
             graphScene->setConceptColor(id, colorValueAdapter.getColor(std::min(std::max(result.factors.at(id).influence, -1.0), 1.0), -1, 1),
                                         id == static_cast<size_t>(graphConcept->currentData().toULongLong()));
         } else {

@@ -20,6 +20,8 @@ public:
 
     void setValue(std::shared_ptr<Term> newTerm);
 
+    void setColor(QColor color);
+
     size_t getId() const { return id; }
 
     //double getValue() const { return value; }

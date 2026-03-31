@@ -14,6 +14,8 @@ CalculationFCM WeightsPredictionAlgorithm::step(const CalculationFCM& fcm) const
     }
     for (const auto& [id, _] : result.concepts) {
         result.concepts[id].value = conceptsActivationFunction->activate(result.concepts[id].value);
+    }
+    for (const auto& [id, _] : result.weights) {
         result.weights[id].value = conceptsActivationFunction->activate(result.weights[id].value);
     }
 

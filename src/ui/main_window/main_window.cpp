@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     auto* scene = new GraphScene(fcm, creationPresenter);
     ui->graphicsViewGraph->setScene(scene);
     ui->graphicsViewPredict->setScene(scene);
+    ui->graphicsViewSensitivity->setScene(scene);
 
     auto* staticAnalysisScene = new GraphScene(fcm, creationPresenter);
     staticAnalysisScene->setMode(EditMode::EditValues);
@@ -108,6 +109,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedStepsSensitivity, &QSpinBox::setValue);
     connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
+
+    connect(ui->pushButtonAnalizeSensitivity, &QPushButton::clicked, this, &MainWindow::analize);
+    connect(ui->showSensitivityPlot, &QPushButton::clicked, this, &MainWindow::showSensitivityPlot);
+    ui->plotSensitivity->hide();
+    ui->plotSensitivity->addGraph();
+    ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
+    ui->plotSensitivity->xAxis->setLabel("max change");
+    ui->plotSensitivity->yAxis->setLabel("sensitivity");
 }
 
 MainWindow::~MainWindow() {
@@ -243,6 +252,46 @@ void MainWindow::updateProgress(size_t value, size_t maxStep, double metricValue
     ui->progressBarPredict->setMaximum(maxStep);
     ui->progressBarPredict->setValue(value);
     ui->labelMetricValue->setText(QString("Metric value: %1").arg(metricValue, 0, 'f', 4));
+}
+
+SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
+    return {
+        ui->doubleSpinBoxMaxChange->value(),
+        ui->changeConcepts->isChecked(),
+        ui->changeWeights->isChecked(),
+        10,
+        1000
+    };
+}
+
+void MainWindow::analize() {
+    auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
+    auto* oldSensitivityScene = ui->graphicsViewPredict->scene();
+    ui->graphicsViewSensitivity->setScene(sensitivityScene);
+    if (oldSensitivityScene != ui->graphicsViewGraph->scene()) {
+        delete oldSensitivityScene;
+    }
+
+    sensitivityPresenter = std::make_shared<SensitivityPresenter>(sensitivityScene, ui->plotSensitivity, creationPresenter, nullptr);
+    connect(sensitivityPresenter.get(), &SensitivityPresenter::updateProgress, this, &MainWindow::updateSensitivityProgress);
+    sensitivityPresenter->analize(getPredictionParameters(), getSensitivityParameters(), fcm);
+}
+
+void MainWindow::showSensitivityPlot() {
+    if (sensitivityPlotShown) {
+        ui->plotSensitivity->hide();
+        ui->graphicsViewSensitivity->show();
+        ui->showSensitivityPlot->setText("FCM Sensitivity");
+    } else {
+        ui->graphicsViewSensitivity->hide();
+        ui->plotSensitivity->show();
+        ui->showSensitivityPlot->setText("Elements Sensitivity");
+    }
+    sensitivityPlotShown = !sensitivityPlotShown;
+}
+
+void MainWindow::updateSensitivityProgress(double progress) {
+    ui->progressBarSensitivity->setValue(static_cast<int>(progress * 100));
 }
 
 void MainWindow::onCreateTerm() {
@@ -491,10 +540,15 @@ void MainWindow::loadFCM(const FCM& newFCM) {
     QObject::connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     auto oldSceneCreate = ui->graphicsViewGraph->scene();
     auto oldScenePredict = ui->graphicsViewPredict->scene();
+    auto oldSceneSensitivity = ui->graphicsViewSensitivity->scene();
     ui->graphicsViewGraph->setScene(newScene);
     ui->graphicsViewPredict->setScene(newScene);
+    ui->graphicsViewSensitivity->setScene(newScene);
     if (oldSceneCreate != oldScenePredict) {
         delete oldScenePredict;
+    }
+    if (oldSceneCreate != oldSceneSensitivity) {
+        delete oldSceneSensitivity;
     }
     delete oldSceneCreate;
 

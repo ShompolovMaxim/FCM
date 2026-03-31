@@ -39,6 +39,7 @@ private:
 
     void setNumericPredictedValues();
     void setFuzzyPredictedValues();
+    void setSensitivity();
 
     bool creation;
     Ui::ConceptWindow *ui;

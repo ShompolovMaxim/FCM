@@ -3,8 +3,7 @@
 
 SimulationPresenter::SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent) : QObject(parent), creationPresenter(creationPresenter) {}
 
-SimulationPresenter::~SimulationPresenter()
-{
+SimulationPresenter::~SimulationPresenter() {
     if (workerThread.joinable()) {
         workerThread.join();
     }

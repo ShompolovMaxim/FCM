@@ -96,6 +96,10 @@ void GraphScene::setConceptColor(size_t id, QColor color, bool highlight) {
     nodes[id]->highlight(highlight);
 }
 
+void GraphScene::setWeightColor(size_t id, QColor color) {
+    edges[id]->setColor(color);
+}
+
 void GraphScene::blockConceptCreationColorEdit(bool flag) {
     conceptCreationColorEditBlocked = flag;
 }
@@ -138,25 +142,25 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 GraphScene* GraphScene::copy() const {
     auto copyScene = new GraphScene({}, presenter);
     copyScene->setFCM(std::make_shared<FCM>(*fcm));
-    QMap<size_t, NodeItem*> nodes;
     for (QGraphicsItem* item : items()) {
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
             auto newNode = new NodeItem(n->getConcept());
             copyScene->addItem(newNode);
             newNode->setPos(n->pos());
             newNode->setValue(fcm->concepts[n->getId()]->term);
-            nodes[newNode->getId()] = newNode;
+            copyScene->nodes[newNode->getId()] = newNode;
         }
     }
     for (QGraphicsItem* item : items()) {
         if (auto e = qgraphicsitem_cast<EdgeItem*>(item)) {
-            auto newEdge = new EdgeItem(nodes[e->src->getId()], nodes[e->dst->getId()], e->getId());
+            auto newEdge = new EdgeItem(copyScene->nodes[e->src->getId()], copyScene->nodes[e->dst->getId()], e->getId());
             copyScene->addItem(newEdge);
             newEdge->setPos(e->pos());
             newEdge->setValue(fcm->weights[e->getId()]->term);
-            nodes[e->src->getId()]->addEdge(newEdge);
-            nodes[e->dst->getId()]->addEdge(newEdge);
+            copyScene->nodes[e->src->getId()]->addEdge(newEdge);
+            copyScene->nodes[e->dst->getId()]->addEdge(newEdge);
             newEdge->updatePosition();
+            copyScene->edges[newEdge->getId()] = newEdge;
         }
     }
     copyScene->setMode(EditMode::EditValues);

@@ -39,6 +39,7 @@ private:
 
     void setNumericPredictedValues();
     void setFuzzyPredictedValues();
+    void setSensitivity();
 
     Ui::WeightWindow *ui;
     const std::map<size_t, std::shared_ptr<Term>>& terms;

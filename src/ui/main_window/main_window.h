@@ -7,6 +7,7 @@
 #include "model/entities/fcm.h"
 
 #include "presenter/creation_presenter.h"
+#include "presenter/sensitivity_presenter.h"
 #include "presenter/simulation_presenter.h"
 #include "presenter/static_analysis_presenter.h"
 
@@ -41,6 +42,11 @@ public slots:
     void stepBack();
     void updateProgress(size_t value, size_t maxStep, double metricValue);
 
+    SensitivityAnalysisParameters getSensitivityParameters();
+    void analize();
+    void showSensitivityPlot();
+    void updateSensitivityProgress(double progress);
+
     void onCreateTerm();
     void onDeleteTerm();
     void onChooseTermColor();
@@ -73,6 +79,7 @@ private:
     Ui::MainWindow *ui;
     std::shared_ptr<SimulationPresenter> presenter;
     StaticAnalysisPresenter* staticAnalysisPresenter;
+    std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM> fcm;
     size_t currentTermId;
@@ -80,6 +87,8 @@ private:
     QTreeWidgetItem* weightsGroup;
 
     std::shared_ptr<ModelsRepository> modelsRepository;
+
+    bool sensitivityPlotShown = false;
 
 };
 #endif // MAIN_WINDOW_H
