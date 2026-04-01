@@ -101,6 +101,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/sensitivity_analysis/parameters.h
         src/model/final_state_predictor.h src/model/final_state_predictor.cpp
         src/presenter/sensitivity_presenter.h src/presenter/sensitivity_presenter.cpp
+        src/model/sensitivity_analysis/change_iteration/numeric.h src/model/sensitivity_analysis/change_iteration/numeric.cpp
+        src/model/sensitivity_analysis/change_iteration/fuzzy.h src/model/sensitivity_analysis/change_iteration/fuzzy.cpp
+
+        src/model/sensitivity_analysis/change_iteration/abstract.h
+        src/model/sensitivity_analysis/change_iteration/range.h src/model/sensitivity_analysis/change_iteration/range.cpp
+        src/model/sensitivity_analysis/change_iteration/fabric.h src/model/sensitivity_analysis/change_iteration/fabric.cpp
 
 
 

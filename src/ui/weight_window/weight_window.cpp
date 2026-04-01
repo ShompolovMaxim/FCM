@@ -120,6 +120,7 @@ void WeightWindow::setSensitivity() {
     }
     ui->plotSensitivity->graph(0)->setData(x, y);
     ui->plotSensitivity->graph(0)->rescaleKeyAxis();
+    ui->plotSensitivity->graph(0)->rescaleValueAxis();
     ui->plotSensitivity->replot();
 }
 

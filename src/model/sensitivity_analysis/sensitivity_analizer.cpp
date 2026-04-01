@@ -1,6 +1,9 @@
 #include "sensitivity_analizer.h"
 
+#include "change_iteration/fabric.h"
+
 #include "model/metrics/fabric.h"
+#include <qdebug.h>
 
 SensitivityAnalizer::SensitivityAnalizer(const SensitivityAnalysisParameters& parameters, const PredictionParameters& predictionParameters)
     : parameters(parameters), predictionParameters(predictionParameters) {
@@ -28,25 +31,31 @@ void SensitivityAnalizer::analize(CalculationFCM fcm) {
 }
 
 void SensitivityAnalizer::analyzeConcepts(CalculationFCM fcm) {
-    double step = parameters.maxChange * 2 / parameters.steps;
     const auto resultWithoutChange = predictor->predict(fcm);
     for (auto& [id, concept] : fcm.concepts) {
         double changeSum = 0.0;
         size_t predictionsCount = 0;
-        int steps = parameters.steps;
-        for (int i = -steps; i <= steps; ++i) {
-            double newConceptValue = concept.value + step * i;
-            if (newConceptValue < 0 || newConceptValue > 1) {
+        std::unordered_map<double, size_t> conceptChangeCount;
+        for (auto [newConcept, change] : ChangeIterationFactory<CalculationConcept>().create(concept, parameters, predictionParameters)) {
+            if (
+                newConcept.value < 0 || newConcept.value > 1 ||
+                newConcept.triangularFuzzyValue.l < 0 || newConcept.triangularFuzzyValue.m < 0 || newConcept.triangularFuzzyValue.u < 0 ||
+                newConcept.triangularFuzzyValue.l > 1 || newConcept.triangularFuzzyValue.m > 1 || newConcept.triangularFuzzyValue.u > 1
+            ) {
                 continue;
             }
-            double oldConceptValue = concept.value;
-            concept.value = newConceptValue;
+            auto oldConcept = concept;
+            concept = newConcept;
             auto predictedFcm = predictor->predict(fcm);
             ++predictionsCount;
-            concept.value = oldConceptValue;
+            concept = oldConcept;
             auto sensitivity = metricsManager->calculate(resultWithoutChange, predictedFcm);
-            conceptsChangeSensitivity[id][step * i] = sensitivity;
+            conceptsChangeSensitivity[id][change] += sensitivity;
+            ++conceptChangeCount[change];
             changeSum += sensitivity;
+        }
+        for (const auto& [change, _] : conceptsChangeSensitivity[id]) {
+            conceptsChangeSensitivity[id][change] /= conceptChangeCount[change];
         }
         {
             std::lock_guard<std::mutex> lock(_mutex);
@@ -62,25 +71,31 @@ void SensitivityAnalizer::analyzeConcepts(CalculationFCM fcm) {
 }
 
 void SensitivityAnalizer::analyzeWeights(CalculationFCM fcm) {
-    double step = parameters.maxChange * 2 / parameters.steps;
     const auto resultWithoutChange = predictor->predict(fcm);
     for (auto& [id, weight] : fcm.weights) {
         double changeSum = 0.0;
         size_t predictionsCount = 0;
-        int steps = parameters.steps;
-        for (int i = -steps; i <= steps; ++i) {
-            double newWeightValue = weight.value + step * i;
-            if (newWeightValue < -1 || newWeightValue > 1) {
+        std::unordered_map<double, size_t> weightChangeCount;
+        for (auto [newWeight, change] : ChangeIterationFactory<CalculationWeight>().create(weight, parameters, predictionParameters)) {
+            if (
+                newWeight.value < 0 || newWeight.value > 1 ||
+                newWeight.triangularFuzzyValue.l < 0 || newWeight.triangularFuzzyValue.m < 0 || newWeight.triangularFuzzyValue.u < 0 ||
+                newWeight.triangularFuzzyValue.l > 1 || newWeight.triangularFuzzyValue.m > 1 || newWeight.triangularFuzzyValue.u > 1
+                ) {
                 continue;
             }
-            double oldWeightValue = weight.value;
-            weight.value = newWeightValue;
+            auto oldWeight = weight;
+            weight = newWeight;
             auto predictedFcm = predictor->predict(fcm);
             ++predictionsCount;
-            weight.value = oldWeightValue;
+            weight = oldWeight;
             auto sensitivity = metricsManager->calculate(resultWithoutChange, predictedFcm);
-            weightsChangeSensitivity[id][step * i] = sensitivity;
+            weightsChangeSensitivity[id][change] += sensitivity;
+            ++weightChangeCount[change];
             changeSum += sensitivity;
+        }
+        for (const auto& [change, _] : weightsChangeSensitivity[id]) {
+            weightsChangeSensitivity[id][change] /= weightChangeCount[change];
         }
         {
             std::lock_guard<std::mutex> lock(_mutex);
@@ -127,15 +142,32 @@ double SensitivityAnalizer::randomize(double value, double maxChange, double min
     return result;
 }
 
+TriangularFuzzyValue SensitivityAnalizer::randomize(TriangularFuzzyValue value, double maxChange, double min, double max) {
+    std::uniform_real_distribution<double> dist(-maxChange, maxChange);
+    TriangularFuzzyValue result = {min - 1, 0, 0};
+    while (result.l < min || result.m < min || result.u < min || result.l > max || result.m > max || result.u > max || result.l > result.m || result.m > result.u) {
+        result = value + TriangularFuzzyValue{dist(gen), dist(gen), dist(gen)};
+    }
+    return result;
+}
+
 CalculationFCM SensitivityAnalizer::randomizeFcm(CalculationFCM fcm, double maxChange) {
     if (parameters.changeConcepts) {
         for (auto& [id, concept] : fcm.concepts) {
-            fcm.concepts[id].value = randomize(concept.value, maxChange, 0, 1);
+            if (predictionParameters.useFuzzyValues) {
+                fcm.concepts[id].triangularFuzzyValue = randomize(concept.triangularFuzzyValue, maxChange, 0, 1);
+            } else {
+                fcm.concepts[id].value = randomize(concept.value, maxChange, 0, 1);
+            }
         }
     }
     if (parameters.changeWeights) {
         for (auto& [id, weight] : fcm.weights) {
-            fcm.weights[id].value = randomize(weight.value, maxChange, -1, 1);
+            if (predictionParameters.useFuzzyValues) {
+                fcm.weights[id].triangularFuzzyValue = randomize(weight.triangularFuzzyValue, maxChange, -1, 1);
+            } else {
+                fcm.weights[id].value = randomize(weight.value, maxChange, -1, 1);
+            }
         }
     }
     return fcm;

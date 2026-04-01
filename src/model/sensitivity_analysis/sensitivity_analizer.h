@@ -36,6 +36,7 @@ private:
     void analyzeFcm(const CalculationFCM& fcm);
 
     double randomize(double value, double maxChange, double min, double max);
+    TriangularFuzzyValue randomize(TriangularFuzzyValue value, double maxChange, double min, double max);
     CalculationFCM randomizeFcm(CalculationFCM value, double maxChange);
 
     const PredictionParameters predictionParameters;
