@@ -11,13 +11,10 @@
 struct FCM {
     QString name;
     QString description;
-    std::map<size_t, std::shared_ptr<Term>> terms;
-    std::map<size_t, std::shared_ptr<Concept>> concepts;
-    std::map<size_t, std::shared_ptr<Weight>> weights;
+    std::map<QUuid, std::shared_ptr<Term>> terms;
+    std::map<QUuid, std::shared_ptr<Concept>> concepts;
+    std::map<QUuid, std::shared_ptr<Weight>> weights;
     PredictionParameters predictionParameters;
     std::vector<Experiment> experiments;
-
-    size_t termsCounter = 0;
-    size_t conceptsCounter = 0;
-    size_t weightsCounter = 0;
+    int dbId = -1;
 };

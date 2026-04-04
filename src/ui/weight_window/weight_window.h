@@ -16,7 +16,7 @@ class WeightWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent = nullptr);
+    explicit WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent = nullptr);
     ~WeightWindow();
 
     void setPredictedValues();
@@ -25,7 +25,7 @@ public:
 
 signals:
     void applied(const std::shared_ptr<Weight>& value);
-    void deleted(size_t id);
+    void deleted(QUuid id);
 
 private slots:
     void onApplyClicked();
@@ -42,7 +42,7 @@ private:
     void setSensitivity();
 
     Ui::WeightWindow *ui;
-    const std::map<size_t, std::shared_ptr<Term>>& terms;
+    const std::map<QUuid, std::shared_ptr<Term>>& terms;
     std::shared_ptr<Weight> currentWeight;
     std::shared_ptr<Fuzzifier> fuzzifier = std::make_shared<NumericFuzzifier>();
     bool creation;

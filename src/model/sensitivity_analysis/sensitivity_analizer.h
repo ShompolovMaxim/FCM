@@ -18,14 +18,14 @@ public:
 
     void analize(CalculationFCM fcm);
 
-    double getConceptSensitivity(size_t id);
-    double getWeightSensitivity(size_t id);
-    std::unordered_map<double, double> getConceptChangeSensitivity(size_t id);
-    std::unordered_map<double, double> getWeightChangeSensitivity(size_t id);
-    std::unordered_map<double, double> getFcmSensitivity();
+    double getConceptSensitivity(QUuid id);
+    double getWeightSensitivity(QUuid id);
+    std::map<double, double> getConceptChangeSensitivity(QUuid id);
+    std::map<double, double> getWeightChangeSensitivity(QUuid id);
+    std::map<double, double> getFcmSensitivity();
 
-    bool getConceptFinished(size_t id);
-    bool getWeightFinished(size_t id);
+    bool getConceptFinished(QUuid id);
+    bool getWeightFinished(QUuid id);
     bool getFcmFinished();
     bool finished();
     double getProgress();
@@ -42,14 +42,14 @@ private:
     const PredictionParameters predictionParameters;
     const SensitivityAnalysisParameters  parameters;
 
-    std::unordered_map<size_t, double> conceptsSensitivity;
-    std::unordered_map<size_t, double> weightsSensitivity;
-    std::unordered_map<size_t, std::unordered_map<double, double>> conceptsChangeSensitivity;
-    std::unordered_map<size_t, std::unordered_map<double, double>> weightsChangeSensitivity;
-    std::unordered_map<double, double> fcmSensitivity;
+    std::map<QUuid, double> conceptsSensitivity;
+    std::map<QUuid, double> weightsSensitivity;
+    std::map<QUuid, std::map<double, double>> conceptsChangeSensitivity;
+    std::map<QUuid, std::map<double, double>> weightsChangeSensitivity;
+    std::map<double, double> fcmSensitivity;
 
-    std::unordered_map<size_t, bool> conceptsFinished;
-    std::unordered_map<size_t, bool> weightsFinished;
+    std::map<QUuid, bool> conceptsFinished;
+    std::map<QUuid, bool> weightsFinished;
     bool allConceptsFinished = false;
     bool allWeightsFinished = false;
     bool forFcmFinished = false;

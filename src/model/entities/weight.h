@@ -2,16 +2,19 @@
 
 #include "term.h"
 
-#include <QString>
+#include "map"
+
+#include <QUuid>
 
 struct Weight {
-    size_t id;
+    QUuid id;
     QString name;
     QString description;
     std::shared_ptr<Term> term;
-    size_t fromConceptId;
-    size_t toConceptId;
+    QUuid fromConceptId;
+    QUuid toConceptId;
+    int dbId = -1;
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
-    std::unordered_map<double, double> sensitivity;
+    std::map<double, double> sensitivity;
 };

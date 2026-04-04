@@ -27,8 +27,8 @@ public:
 
     GraphScene* copy() const;
 
-    void setConceptColor(size_t id, QColor color, bool highlight);
-    void setWeightColor(size_t id, QColor color);
+    void setConceptColor(QUuid id, QColor color, bool highlight);
+    void setWeightColor(QUuid id, QColor color);
 
     void blockConceptCreationColorEdit(bool flag);
 
@@ -38,8 +38,8 @@ public slots:
     void weightCreated(std::shared_ptr<Weight> weight);
     void conceptUpdated(std::shared_ptr<Concept> concept);
     void weightUpdated(std::shared_ptr<Weight> weight);
-    void conceptDeleted(size_t id);
-    void weightDeleted(size_t id);
+    void conceptDeleted(QUuid id);
+    void weightDeleted(QUuid id);
 
 signals:
     void modeChanged(EditMode newMode);
@@ -49,13 +49,11 @@ protected:
 
 private:
     EditMode mode = EditMode::Create;
-    int counter = 0;
-    int edgesCounter = 0;
     NodeItem* firstNode = nullptr;
     std::shared_ptr<FCM> fcm;
     std::shared_ptr<Fuzzifier> fuzzifier;
     std::shared_ptr<CreationPresenter> presenter;
-    std::map<size_t, NodeItem*> nodes;
-    std::map<size_t, EdgeItem*> edges;
+    std::map<QUuid, NodeItem*> nodes;
+    std::map<QUuid, EdgeItem*> edges;
     bool conceptCreationColorEditBlocked = false;
 };

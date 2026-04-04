@@ -3,7 +3,7 @@
 CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QObject* parent) : QObject(parent), fcm(fcm) {}
 
 void CreationPresenter::createConcept(const QPointF pos) {
-    auto id = fcm->conceptsCounter++;
+    auto id = QUuid::createUuid();
     fcm->concepts[id] = std::make_shared<Concept>();
     fcm->concepts[id]->id = id;
     fcm->concepts[id]->pos = pos;
@@ -28,7 +28,7 @@ void CreationPresenter::createConcept(const QPointF pos) {
     conceptWindow->show();
 }
 
-void CreationPresenter::updateConcept(size_t id) {
+void CreationPresenter::updateConcept(QUuid id) {
     if (conceptWindows.find(id) != conceptWindows.end()) {
         return;
     }
@@ -52,7 +52,7 @@ void CreationPresenter::updateConcept(size_t id) {
     conceptWindow->show();
 }
 
-void CreationPresenter::createWeight(size_t nodeId) {
+void CreationPresenter::createWeight(QUuid nodeId) {
     if (!firstNodeId) {
         firstNodeId = nodeId;
         return;
@@ -61,7 +61,7 @@ void CreationPresenter::createWeight(size_t nodeId) {
     firstNodeId = {};
 }
 
-void CreationPresenter::createWeight(size_t fromNodeId, size_t toNodeId) {
+void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
     if (fromNodeId == toNodeId) {
         return;
     }
@@ -70,7 +70,7 @@ void CreationPresenter::createWeight(size_t fromNodeId, size_t toNodeId) {
             return;
         }
     }
-    auto id = fcm->weightsCounter++;
+    auto id = QUuid::createUuid();
     fcm->weights[id] = std::make_shared<Weight>();
     fcm->weights[id]->id = id;
     fcm->weights[id]->fromConceptId = fromNodeId;
@@ -97,7 +97,7 @@ void CreationPresenter::createWeight(size_t fromNodeId, size_t toNodeId) {
     weightWindow->show();
 }
 
-void CreationPresenter::updateWeight(size_t id) {
+void CreationPresenter::updateWeight(QUuid id) {
     if (weightWindows.find(id) != weightWindows.end()) {
         return;
     }
@@ -121,19 +121,19 @@ void CreationPresenter::updateWeight(size_t id) {
     weightWindow->show();
 }
 
-void CreationPresenter::deleteConcept(size_t id) {
+void CreationPresenter::deleteConcept(QUuid id) {
     if (conceptWindows.find(id) != conceptWindows.end()) {
         conceptWindows[id]->deleteLater();
     }
 
-    std::vector<size_t> connectedWeights;
+    std::vector<QUuid> connectedWeights;
     for (const auto& [wid, weight] : fcm->weights) {
         if (weight->fromConceptId == id || weight->toConceptId == id) {
             connectedWeights.push_back(wid);
         }
     }
 
-    for (size_t wid : connectedWeights) {
+    for (QUuid wid : connectedWeights) {
         deleteWeight(wid);
     }
 
@@ -141,7 +141,7 @@ void CreationPresenter::deleteConcept(size_t id) {
     emit conceptDeleted(id);
 }
 
-void CreationPresenter::deleteWeight(size_t id) {
+void CreationPresenter::deleteWeight(QUuid id) {
     if (weightWindows.find(id) != weightWindows.end()) {
         weightWindows[id]->deleteLater();
     }
@@ -150,21 +150,21 @@ void CreationPresenter::deleteWeight(size_t id) {
     emit weightDeleted(id);
 }
 
-void CreationPresenter::setConceptPredictedValues(size_t id) {
+void CreationPresenter::setConceptPredictedValues(QUuid id) {
     if (conceptWindows.find(id) == conceptWindows.end()) {
         return;
     }
     conceptWindows[id]->setPredictedValues();
 }
 
-void CreationPresenter::setWeightPredictedValues(size_t id) {
+void CreationPresenter::setWeightPredictedValues(QUuid id) {
     if (weightWindows.find(id) == weightWindows.end()) {
         return;
     }
     weightWindows[id]->setPredictedValues();
 }
 
-void CreationPresenter::updateTerm(size_t id) {
+void CreationPresenter::updateTerm(QUuid id) {
     for (auto [_, concept] : fcm->concepts) {
         if (concept->term && concept->term->id == id) {
             emit conceptUpdated(concept);
@@ -178,7 +178,7 @@ void CreationPresenter::updateTerm(size_t id) {
     updateTermsLists();
 }
 
-void CreationPresenter::deleteTerm(size_t id) {
+void CreationPresenter::deleteTerm(QUuid id) {
     fcm->terms.erase(id);
     for (auto [_, concept] : fcm->concepts) {
         if (concept->term && concept->term->id == id) {

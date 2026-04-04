@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS models (
 
 CREATE TABLE IF NOT EXISTS terms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT NOT NULL UNIQUE,
     name TEXT,
     description TEXT,
     experiment_id INTEGER,
@@ -50,6 +51,7 @@ ON experiments(model_id);
 
 CREATE TABLE IF NOT EXISTS concepts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT NOT NULL UNIQUE,
     name TEXT,
     description TEXT,
     experiment_id INTEGER,
@@ -66,6 +68,7 @@ ON concepts(experiment_id);
 
 CREATE TABLE IF NOT EXISTS weights (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT NOT NULL UNIQUE,
     name TEXT,
     description TEXT,
     experiment_id INTEGER,
@@ -92,6 +95,7 @@ ON weights(concept_to_id);
 
 CREATE TABLE IF NOT EXISTS templates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT NOT NULL UNIQUE,
     name TEXT,
     description TEXT
 );
@@ -112,6 +116,7 @@ ON templates_terms(term_id);
 
 CREATE TABLE IF NOT EXISTS templates_concepts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT NOT NULL UNIQUE,
     template_id INTEGER,
     name TEXT,
     description TEXT,
@@ -123,6 +128,7 @@ ON templates_concepts(template_id);
 
 CREATE TABLE IF NOT EXISTS templates_weights (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT NOT NULL UNIQUE,
     concept_from_id INTEGER,
     concept_to_id INTEGER,
     term_id INTEGER,

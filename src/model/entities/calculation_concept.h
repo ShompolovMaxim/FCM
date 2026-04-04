@@ -4,8 +4,10 @@
 
 #include <cstdint>
 
+#include <QUuid>
+
 struct CalculationConcept {
-    size_t id;
+    QUuid id;
     double value;
     TriangularFuzzyValue triangularFuzzyValue;
     size_t startStep;

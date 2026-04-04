@@ -14,36 +14,36 @@ public:
     CreationPresenter(std::shared_ptr<FCM> fcm, QObject* parent = nullptr);
 
     void createConcept(const QPointF pos);
-    void createWeight(size_t nodeId);
-    void createWeight(size_t fromNodeId, size_t toNodeId);
-    void updateConcept(size_t id);
-    void updateWeight(size_t id);
+    void createWeight(QUuid nodeId);
+    void createWeight(QUuid fromNodeId, QUuid toNodeId);
+    void updateConcept(QUuid id);
+    void updateWeight(QUuid id);
 
-    void setConceptPredictedValues(size_t id);
-    void setWeightPredictedValues(size_t id);
+    void setConceptPredictedValues(QUuid id);
+    void setWeightPredictedValues(QUuid id);
 
-    void updateTerm(size_t id);
-    void deleteTerm(size_t id);
+    void updateTerm(QUuid id);
+    void deleteTerm(QUuid id);
 
 private slots:
-    void deleteConcept(size_t id);
-    void deleteWeight(size_t id);
+    void deleteConcept(QUuid id);
+    void deleteWeight(QUuid id);
 
 signals:
     void conceptCreated(std::shared_ptr<Concept> concept);
     void weightCreated(std::shared_ptr<Weight> weight);
     void conceptUpdated(std::shared_ptr<Concept> concept);
     void weightUpdated(std::shared_ptr<Weight> weight);
-    void conceptDeleted(size_t id);
-    void weightDeleted(size_t id);
+    void conceptDeleted(QUuid id);
+    void weightDeleted(QUuid id);
 
 private:
     void updateTermsLists();
 
     std::shared_ptr<FCM> fcm;
-    std::map<size_t, ConceptWindow*> conceptWindows;
-    std::map<size_t, WeightWindow*> weightWindows;
-    std::optional<size_t> firstNodeId;
+    std::map<QUuid, ConceptWindow*> conceptWindows;
+    std::map<QUuid, WeightWindow*> weightWindows;
+    std::optional<QUuid> firstNodeId;
 };
 
 #endif // CREATION_PRESENTER_H

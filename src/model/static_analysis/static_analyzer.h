@@ -12,15 +12,15 @@ public:
     void init();
 
     void onConceptCreated(std::shared_ptr<Concept> concept);
-    void onConceptDeleted(size_t id);
+    void onConceptDeleted(QUuid id);
 
     void onWeightCreated(std::shared_ptr<Weight> weight);
     void onWeightUpdated(std::shared_ptr<Weight> weight);
-    void onWeightDeleted(size_t id);
+    void onWeightDeleted(QUuid id);
 
     const StaticAnalysisResult& getResult() const;
 
-    void updateInfluence(size_t conceptId, size_t steps, bool influenceFrom);
+    void updateInfluence(QUuid conceptId, size_t steps, bool influenceFrom);
 
 private:
     void updateDensity();
@@ -28,27 +28,27 @@ private:
     void updateHierarchy();
     void updateFactors();
     void updateInfluence();
-    void updateInfluenceTo(size_t conceptId, size_t steps);
-    void updateInfluenceFrom(size_t conceptId, size_t steps);
+    void updateInfluenceTo(QUuid conceptId, size_t steps);
+    void updateInfluenceFrom(QUuid conceptId, size_t steps);
 
 private:
     std::shared_ptr<FCM> fcm;
 
     StaticAnalysisResult result;
 
-    std::map<size_t, double> od;
-    std::map<size_t, double> id;
+    std::map<QUuid, double> od;
+    std::map<QUuid, double> id;
 
-    std::map<size_t, int> inCount;
-    std::map<size_t, int> outCount;
+    std::map<QUuid, int> inCount;
+    std::map<QUuid, int> outCount;
 
     struct WeightInfo {
-        size_t from;
-        size_t to;
+        QUuid from;
+        QUuid to;
         double value;
     };
 
-    std::map<size_t, WeightInfo> oldWeights;
+    std::map<QUuid, WeightInfo> oldWeights;
 
     size_t N = 0;
     size_t C = 0;
@@ -56,7 +56,7 @@ private:
     size_t R = 0;
     size_t T = 0;
 
-    size_t influenceConceptId;
+    QUuid influenceConceptId;
     size_t influenceSteps;
     bool influenceFrom;
 };

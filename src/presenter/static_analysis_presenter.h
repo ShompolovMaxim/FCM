@@ -23,11 +23,11 @@ private:
 private slots:
     void onConceptCreated(std::shared_ptr<Concept>);
     void onConceptUpdated(std::shared_ptr<Concept>);
-    void onConceptDeleted(size_t);
+    void onConceptDeleted(QUuid);
 
     void onWeightCreated(std::shared_ptr<Weight>);
     void onWeightUpdated(std::shared_ptr<Weight>);
-    void onWeightDeleted(size_t);
+    void onWeightDeleted(QUuid);
 
     void recalculateInfluence();
 

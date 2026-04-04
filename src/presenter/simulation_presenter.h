@@ -15,7 +15,7 @@ public:
     SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent = nullptr);
     ~SimulationPresenter();
 
-    void simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes, QMap<size_t, EdgeItem*> edges, std::shared_ptr<FCM> fcm);
+    void simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes, QMap<QUuid, EdgeItem*> edges, std::shared_ptr<FCM> fcm);
 
     void pause() { if (timer) timer->stop(); }
     void resume() { if (timer) timer->start(iterationTime); }
@@ -39,7 +39,7 @@ private:
     double speedUpFactor = 2;
     double slowDownFactor = 2;
     QList<NodeItem*> nodes;
-    QMap<size_t, EdgeItem*> edges;
+    QMap<QUuid, EdgeItem*> edges;
     std::shared_ptr<Predictor> predictor;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM> fcm;

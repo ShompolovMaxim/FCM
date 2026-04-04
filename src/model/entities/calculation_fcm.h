@@ -3,10 +3,10 @@
 #include "calculation_concept.h"
 #include "calculation_weight.h"
 
-#include <unordered_map>
+#include <map>
 
 struct CalculationFCM {
-    std::unordered_map<size_t, CalculationConcept> concepts;
-    std::unordered_map<size_t, CalculationWeight> weights;
+    std::map<QUuid, CalculationConcept> concepts;
+    std::map<QUuid, CalculationWeight> weights;
     double metricValue;
 };

@@ -9,7 +9,7 @@ SimulationPresenter::~SimulationPresenter() {
     }
 }
 
-void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_, QMap<size_t, EdgeItem*> edges_, std::shared_ptr<FCM> fcm) {
+void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_, QMap<QUuid, EdgeItem*> edges_, std::shared_ptr<FCM> fcm) {
     this->predictionParameters = predictionParameters;
     this->fcm = fcm;
     nodes = nodes_;

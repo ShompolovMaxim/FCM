@@ -2,17 +2,20 @@
 
 #include "term.h"
 
+#include <map>
+
 #include <QPointF>
-#include <QString>
+#include <QUuid>
 
 struct Concept {
-    size_t id;
+    QUuid id;
     QString name;
     QString description;
     std::shared_ptr<Term> term;
     QPointF pos;
     size_t startStep;
+    int dbId = -1;
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
-    std::unordered_map<double, double> sensitivity;
+    std::map<double, double> sensitivity;
 };

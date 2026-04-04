@@ -17,8 +17,8 @@ public:
     size_t getCount();
     bool getFinished();
 
-    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> getConceptHistoryValues(size_t conceptId, size_t step);
-    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> getWeightHistoryValues(size_t weightId, size_t step);
+    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> getConceptHistoryValues(QUuid conceptId, size_t step);
+    std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> getWeightHistoryValues(QUuid weightId, size_t step);
 private:
     PredictionParameters _predictionParameters;
     std::vector<CalculationFCM> _fcms;

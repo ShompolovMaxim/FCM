@@ -3,9 +3,8 @@
 
 #include <QPushButton>
 
-ConceptWindow::ConceptWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, QWidget *parent)
-    : terms(terms), currentConcept(currentConcept), QDialog(parent), ui(new Ui::ConceptWindow)
-{
+ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, QWidget *parent)
+    : terms(terms), currentConcept(currentConcept), QDialog(parent), ui(new Ui::ConceptWindow) {
     ui->setupUi(this);
 
     if (currentConcept->name.isEmpty()) {
@@ -94,7 +93,7 @@ void ConceptWindow::setFuzzyPredictedValues() {
     ui->plot->graph(1)->setData(x, m);
     ui->plot->graph(1)->rescaleKeyAxis();
     ui->plot->graph(2)->setData(x, u);
-    ui->plot->graph(3)->rescaleKeyAxis();
+    ui->plot->graph(2)->rescaleKeyAxis();
 
     auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
 
@@ -126,7 +125,7 @@ void ConceptWindow::updateTermsList() {
     ui->valueField->clear();
     ui->valueField->addItem("", QVariant());
 
-    std::vector<std::pair<QString, size_t>> sortedTerms;
+    std::vector<std::pair<QString, QUuid>> sortedTerms;
     for (const auto& [id, term] : terms) {
         if (term->type == ElementType::Node) {
             sortedTerms.emplace_back(term->name, id);
@@ -140,7 +139,7 @@ void ConceptWindow::updateTermsList() {
     }
 
     if (currentConcept->term) {
-        size_t termId = currentConcept->term->id;
+        QUuid termId = currentConcept->term->id;
         int index = ui->valueField->findData(QVariant::fromValue(termId));
         if (index >= 0) ui->valueField->setCurrentIndex(index);
         else ui->valueField->setCurrentIndex(0);
@@ -193,7 +192,7 @@ void ConceptWindow::updateCurrentConcept() {
 
     QVariant data = ui->valueField->currentData();
     if (data.isValid()) {
-        size_t id = data.toULongLong();
+        QUuid id = data.toUuid();
         auto it = terms.find(id);
         if (it != terms.end()) {
             currentConcept->term = it->second;

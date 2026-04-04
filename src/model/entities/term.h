@@ -5,14 +5,15 @@
 #include "model/element_type.h"
 
 #include <QColor>
-#include <QString>
+#include <QUuid>
 
 struct Term {
-    size_t id;
+    QUuid id;
     QString name;
     QString description;
     double value = 0;
     TriangularFuzzyValue fuzzyValue;
     QColor color;
     ElementType type = ElementType::Node;
+    int dbId = -1;
 };

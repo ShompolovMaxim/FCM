@@ -12,16 +12,16 @@ class ModelsRepository
 public:
     ModelsRepository(QSqlDatabase database);
 
-    std::optional<size_t> createConcept(const Concept& concept, const size_t experimentId, const std::optional<size_t>& dbTermId);
-    std::optional<size_t> createWeight(const Weight& weight, const size_t experimentId, const size_t fromConceptId, const size_t toConceptId, const std::map<size_t, size_t>& termsDBIds);
-    std::optional<size_t> createTerm(const Term& term, const size_t experimentId);
-    std::optional<size_t> createExperiment(const Experiment& experiment, const size_t modelId);
-    std::optional<size_t> createModel(const FCM& fcm);
+    std::optional<int> createConcept(const Concept& conceptConst, const int experimentId, const std::optional<int>& dbTermId);
+    std::optional<int> createWeight(const Weight& weightConst, const int experimentId, const int fromConceptId, const int toConceptId, const std::map<QUuid, int>& termsDBIds);
+    std::optional<int> createTerm(const Term& termConst, const int experimentId);
+    std::optional<int> createExperiment(const Experiment& experimentConst, const int modelId);
+    std::optional<int> createModel(const FCM& fcm);
 
-    std::optional<std::vector<Concept>> getExperimentConcepts(const size_t experimentId, const std::map<size_t, Term>& terms);
-    std::optional<std::vector<Weight>> getExperimentWeights(const size_t experimentId, const std::map<size_t, Term>& terms);
-    std::optional<std::map<size_t, std::shared_ptr<Term>>> getExperimentTerms(const size_t experimentId);
-    std::optional<std::vector<Experiment>> getExperiments(const size_t modelId);
+    std::optional<std::vector<Concept>> getExperimentConcepts(const int experimentId, const std::map<QUuid, std::shared_ptr<Term>>& terms);
+    std::optional<std::vector<Weight>> getExperimentWeights(const int experimentId, const std::map<QUuid, std::shared_ptr<Term>>& terms, const std::map<int, std::shared_ptr<Concept>>& conceptsByDbId);
+    std::optional<std::map<QUuid, std::shared_ptr<Term>>> getExperimentTerms(const int experimentId);
+    std::optional<std::vector<Experiment>> getExperiments(const int modelId);
     QList<QString> getModelsNames();
     std::optional<FCM> getModel(const QString modelName);
 private:

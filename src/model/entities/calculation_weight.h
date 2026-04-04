@@ -4,10 +4,12 @@
 
 #include <cstdint>
 
+#include <QUuid>
+
 struct CalculationWeight {
-    size_t id;
+    QUuid id;
     double value;
     TriangularFuzzyValue triangularFuzzyValue;
-    size_t fromConceptId;
-    size_t toConceptId;
+    QUuid fromConceptId;
+    QUuid toConceptId;
 };

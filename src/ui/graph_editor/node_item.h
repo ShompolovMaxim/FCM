@@ -25,7 +25,7 @@ public:
 
     //std::shared_ptr<Term> getValue() const { return term; }
 
-    size_t getId() const { return id; }
+    QUuid getId() const { return id; }
 
     std::shared_ptr<Concept> getConcept() { return concept; };
 
@@ -41,7 +41,7 @@ private:
     std::shared_ptr<Concept> concept;
     QList<EdgeItem*> edges;
     std::shared_ptr<Term> term;
-    size_t id;
+    QUuid id;
     std::unique_ptr<IColorValueAdapter> colorValueAdapter;
     std::vector<double> predictedValues;
 };

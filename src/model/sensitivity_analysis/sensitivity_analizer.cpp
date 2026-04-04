@@ -3,7 +3,6 @@
 #include "change_iteration/fabric.h"
 
 #include "model/metrics/fabric.h"
-#include <qdebug.h>
 
 SensitivityAnalizer::SensitivityAnalizer(const SensitivityAnalysisParameters& parameters, const PredictionParameters& predictionParameters)
     : parameters(parameters), predictionParameters(predictionParameters) {
@@ -173,37 +172,37 @@ CalculationFCM SensitivityAnalizer::randomizeFcm(CalculationFCM fcm, double maxC
     return fcm;
 }
 
-double SensitivityAnalizer::getConceptSensitivity(size_t id) {
+double SensitivityAnalizer::getConceptSensitivity(QUuid id) {
     std::lock_guard<std::mutex> lock(_mutex);
     return conceptsSensitivity[id];
 }
 
-std::unordered_map<double, double> SensitivityAnalizer::getConceptChangeSensitivity(size_t id) {
+std::map<double, double> SensitivityAnalizer::getConceptChangeSensitivity(QUuid id) {
     std::lock_guard<std::mutex> lock(_mutex);
     return conceptsChangeSensitivity[id];
 }
 
-double SensitivityAnalizer::getWeightSensitivity(size_t id) {
+double SensitivityAnalizer::getWeightSensitivity(QUuid id) {
     std::lock_guard<std::mutex> lock(_mutex);
     return weightsSensitivity[id];
 }
 
-std::unordered_map<double, double>SensitivityAnalizer::getWeightChangeSensitivity(size_t id) {
+std::map<double, double>SensitivityAnalizer::getWeightChangeSensitivity(QUuid id) {
     std::lock_guard<std::mutex> lock(_mutex);
     return weightsChangeSensitivity[id];
 }
 
-std::unordered_map<double, double> SensitivityAnalizer::getFcmSensitivity() {
+std::map<double, double> SensitivityAnalizer::getFcmSensitivity() {
     std::lock_guard<std::mutex> lock(_mutex);
     return fcmSensitivity;
 }
 
-bool SensitivityAnalizer::getConceptFinished(size_t id) {
+bool SensitivityAnalizer::getConceptFinished(QUuid id) {
     std::lock_guard<std::mutex> lock(_mutex);
     return conceptsFinished[id];
 }
 
-bool SensitivityAnalizer::getWeightFinished(size_t id) {
+bool SensitivityAnalizer::getWeightFinished(QUuid id) {
     std::lock_guard<std::mutex> lock(_mutex);
     return weightsFinished[id];
 }

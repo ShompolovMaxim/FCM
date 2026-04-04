@@ -9,8 +9,7 @@
 
 #include <memory>
 
-class AdjacencyTableView : public QTableView
-{
+class AdjacencyTableView : public QTableView {
     Q_OBJECT
 
 public:
@@ -25,8 +24,8 @@ private slots:
     void weightCreated(std::shared_ptr<Weight> weight);
     void conceptUpdated(std::shared_ptr<Concept> concept);
     void weightUpdated(std::shared_ptr<Weight> weight);
-    void conceptDeleted(size_t id);
-    void weightDeleted(size_t id);
+    void conceptDeleted(QUuid id);
+    void weightDeleted(QUuid id);
 
     void updateConcept(int idx);
 
@@ -34,7 +33,7 @@ private:
     std::shared_ptr<CreationPresenter> presenter;
     std::unique_ptr<ColorValueAdapter> colorValueAdapter;
     QStandardItemModel* model;
-    std::map<size_t, size_t> conceptsRows;
-    std::vector<size_t> rowsConcepts;
-    std::map<QModelIndex, size_t> idxsWeights;
+    std::map<QUuid, size_t> conceptsRows;
+    std::vector<QUuid> rowsConcepts;
+    std::map<QModelIndex, QUuid> idxsWeights;
 };

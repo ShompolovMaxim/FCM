@@ -67,7 +67,7 @@ void AdjacencyTableView::weightUpdated(std::shared_ptr<Weight> weight) {
     model->setData(idx, color, Qt::BackgroundRole);
 }
 
-void AdjacencyTableView::weightDeleted(size_t weightId) {
+void AdjacencyTableView::weightDeleted(QUuid weightId) {
     auto it = std::find_if(idxsWeights.begin(), idxsWeights.end(), [weightId](const auto& pair){ return pair.second == weightId; });
     if (it != idxsWeights.end()) {
         model->setData(it->first, QVariant());
@@ -76,7 +76,7 @@ void AdjacencyTableView::weightDeleted(size_t weightId) {
     }
 }
 
-void AdjacencyTableView::conceptDeleted(size_t conceptId) {
+void AdjacencyTableView::conceptDeleted(QUuid conceptId) {
     if (conceptsRows.find(conceptId) == conceptsRows.end()) return;
     int idx = conceptsRows[conceptId];
     model->removeRow(idx);
@@ -89,5 +89,5 @@ void AdjacencyTableView::conceptDeleted(size_t conceptId) {
 }
 
 void AdjacencyTableView::updateConcept(int idx) {
-    presenter->updateConcept(idx);
+    presenter->updateConcept(rowsConcepts[idx]);
 }

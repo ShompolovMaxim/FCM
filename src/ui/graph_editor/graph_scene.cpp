@@ -8,7 +8,6 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresent
 
     for (const auto& [_, concept] : fcm->concepts) {
         auto* n = new NodeItem(concept);
-        counter++;
         addItem(n);
         n->setPos(concept->pos);
         n->setValue(concept->term);
@@ -50,7 +49,6 @@ void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
         n->setValue(concept->term);
     }
     nodes[concept->id] = n;
-    counter++;
 }
 
 void GraphScene::weightCreated(std::shared_ptr<Weight> weight) {
@@ -74,14 +72,14 @@ void GraphScene::weightUpdated(std::shared_ptr<Weight> weight) {
     edges[weight->id]->setValue(weight->term);
 }
 
-void GraphScene::conceptDeleted(size_t id) {
+void GraphScene::conceptDeleted(QUuid id) {
     NodeItem* node = nodes[id];
     removeItem(node);
     nodes.erase(id);
     delete node;
 }
 
-void GraphScene::weightDeleted(size_t id) {
+void GraphScene::weightDeleted(QUuid id) {
     EdgeItem* edge = edges[id];
     edge->src->removeEdge(edge);
     edge->dst->removeEdge(edge);
@@ -91,12 +89,12 @@ void GraphScene::weightDeleted(size_t id) {
     delete edge;
 }
 
-void GraphScene::setConceptColor(size_t id, QColor color, bool highlight) {
+void GraphScene::setConceptColor(QUuid id, QColor color, bool highlight) {
     nodes[id]->setBrush(color);
     nodes[id]->highlight(highlight);
 }
 
-void GraphScene::setWeightColor(size_t id, QColor color) {
+void GraphScene::setWeightColor(QUuid id, QColor color) {
     edges[id]->setColor(color);
 }
 
@@ -164,6 +162,5 @@ GraphScene* GraphScene::copy() const {
         }
     }
     copyScene->setMode(EditMode::EditValues);
-    copyScene->counter = counter;
     return copyScene;
 }

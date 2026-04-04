@@ -12,7 +12,7 @@ class NodeItem;
 class EdgeItem : public QGraphicsPathItem
 {
 public:
-    EdgeItem(NodeItem* s, NodeItem* d, size_t id);
+    EdgeItem(NodeItem* s, NodeItem* d, QUuid id);
 
     void updatePosition();
 
@@ -22,9 +22,7 @@ public:
 
     void setColor(QColor color);
 
-    size_t getId() const { return id; }
-
-    //double getValue() const { return value; }
+    QUuid getId() const { return id; }
 
     NodeItem* src;
     NodeItem* dst;
@@ -34,7 +32,7 @@ protected:
 
 private:
     std::shared_ptr<Term> term;
-    size_t id;
+    QUuid id;
     std::unique_ptr<IColorValueAdapter> colorValueAdapter;
     QGraphicsPolygonItem* arrowItem = nullptr;
 };

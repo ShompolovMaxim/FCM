@@ -82,7 +82,7 @@ private:
     std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM> fcm;
-    size_t currentTermId;
+    QUuid currentTermId;
     QTreeWidgetItem* conceptsGroup;
     QTreeWidgetItem* weightsGroup;
 

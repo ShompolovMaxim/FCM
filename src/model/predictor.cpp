@@ -45,7 +45,7 @@ bool Predictor::getFinished() {
     return finished.load();
 }
 
-std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getConceptHistoryValues(size_t conceptId, size_t step) {
+std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getConceptHistoryValues(QUuid conceptId, size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
     if (_predictionParameters.useFuzzyValues) {
         std::vector<TriangularFuzzyValue> result;
@@ -63,7 +63,7 @@ std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::
     return result;
 }
 
-std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getWeightHistoryValues(size_t weightId, size_t step) {
+std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getWeightHistoryValues(QUuid weightId, size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
     if (_predictionParameters.useFuzzyValues) {
         std::vector<TriangularFuzzyValue> result;

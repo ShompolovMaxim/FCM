@@ -44,9 +44,9 @@ void StaticAnalysisPresenter::onConceptUpdated(std::shared_ptr<Concept>) {
     updateGraphConceptList();
 }
 
-void StaticAnalysisPresenter::onConceptDeleted(size_t id) {
+void StaticAnalysisPresenter::onConceptDeleted(QUuid id) {
     QVariant currentData = graphConcept->currentData();
-    if (currentData.isValid() && currentData.toULongLong() == id) {
+    if (currentData.isValid() && currentData.toUuid() == id) {
         graphConcept->setCurrentIndex(0);
     }
 
@@ -65,7 +65,7 @@ void StaticAnalysisPresenter::onWeightUpdated(std::shared_ptr<Weight> w) {
     refreshUI();
 }
 
-void StaticAnalysisPresenter::onWeightDeleted(size_t id) {
+void StaticAnalysisPresenter::onWeightDeleted(QUuid id) {
     analyzer.onWeightDeleted(id);
     refreshUI();
 }
@@ -75,7 +75,7 @@ void StaticAnalysisPresenter::recalculateInfluence() {
         return;
     }
     if (graphConcept->currentIndex()) {
-        auto conceptId = static_cast<size_t>(graphConcept->currentData().toULongLong());
+        auto conceptId =graphConcept->currentData().toUuid();
         auto steps = influenceSteps->value();
         auto influenceFrom = influenceDirection->currentText() == "from";
         analyzer.updateInfluence(conceptId, steps, influenceFrom);
@@ -107,7 +107,7 @@ void StaticAnalysisPresenter::refreshUI() {
     for (auto [id, concept] : fcm->concepts) {
         if (graphConcept->count() > 1 && graphConcept->currentIndex()) {
             graphScene->setConceptColor(id, colorValueAdapter.getColor(std::min(std::max(result.factors.at(id).influence, -1.0), 1.0), -1, 1),
-                                        id == static_cast<size_t>(graphConcept->currentData().toULongLong()));
+                                        id == graphConcept->currentData().toUuid());
         } else {
             graphScene->setConceptColor(id, colorValueAdapter.getColor(0, -1, 1), false);
         }
@@ -117,13 +117,13 @@ void StaticAnalysisPresenter::refreshUI() {
 void StaticAnalysisPresenter::updateGraphConceptList() {
     graphConcept->clear();
 
-    QList<QPair<QString, qulonglong>> conceptItems;
+    QList<QPair<QString, QUuid>> conceptItems;
     for (const auto& [id, concept] : fcm->concepts) {
-        conceptItems.append({concept->name, static_cast<qulonglong>(id)});
+        conceptItems.append({concept->name, id});
     }
 
     std::sort(conceptItems.begin(), conceptItems.end(),
-              [](const QPair<QString, qulonglong>& a, const QPair<QString, qulonglong>& b) {
+              [](const QPair<QString, QUuid>& a, const QPair<QString, QUuid>& b) {
                   return a.first < b.first;
               });
 

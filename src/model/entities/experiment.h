@@ -9,9 +9,10 @@
 #include <QDateTime>
 
 struct Experiment {
-    std::map<size_t, Term> terms;
-    std::map<size_t, Concept> concepts;
-    std::map<size_t, Weight> weights;
+    std::map<QUuid, std::shared_ptr<Term>> terms;
+    std::map<QUuid, std::shared_ptr<Concept>> concepts;
+    std::map<QUuid, std::shared_ptr<Weight>> weights;
     PredictionParameters predictionParameters;
     QDateTime timestamp;
+    int dbId = -1;
 };

@@ -3,9 +3,8 @@
 
 #include <QPushButton>
 
-WeightWindow::WeightWindow(const std::map<size_t, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent)
-    : terms(terms), currentWeight(currentWeight), QDialog(parent), ui(new Ui::WeightWindow)
-{
+WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent)
+    : terms(terms), currentWeight(currentWeight), QDialog(parent), ui(new Ui::WeightWindow) {
     ui->setupUi(this);
 
     if (currentWeight->name.isEmpty()) {
@@ -128,7 +127,7 @@ void WeightWindow::updateTermsList() {
     ui->valueField->clear();
     ui->valueField->addItem("", QVariant());
 
-    std::vector<std::pair<QString, size_t>> sortedTerms;
+    std::vector<std::pair<QString, QUuid>> sortedTerms;
     for (const auto& [id, term] : terms) {
         if (term->type == ElementType::Edge) {
             sortedTerms.emplace_back(term->name, id);
@@ -142,7 +141,7 @@ void WeightWindow::updateTermsList() {
     }
 
     if (currentWeight->term) {
-        size_t termId = currentWeight->term->id;
+        QUuid termId = currentWeight->term->id;
         int index = ui->valueField->findData(QVariant::fromValue(termId));
         if (index >= 0) ui->valueField->setCurrentIndex(index);
         else ui->valueField->setCurrentIndex(0);
@@ -187,7 +186,7 @@ void WeightWindow::updateCurrentWeight() {
 
     QVariant data = ui->valueField->currentData();
     if (data.isValid()) {
-        size_t id = data.toULongLong();
+        QUuid id = data.toUuid();
         auto it = terms.find(id);
         if (it != terms.end()) {
             currentWeight->term = it->second;

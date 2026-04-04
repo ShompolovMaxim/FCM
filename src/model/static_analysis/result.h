@@ -16,5 +16,5 @@ struct StaticAnalysisResult {
     double complexity = 0;
     double hierarchyIndex = 0;
 
-    std::map<size_t, FactorMetrics> factors;
+    std::map<QUuid, FactorMetrics> factors;
 };

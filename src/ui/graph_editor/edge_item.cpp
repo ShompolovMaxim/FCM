@@ -3,7 +3,7 @@
 
 #include "color_value_adapter/color_value_adapter.h"
 
-EdgeItem::EdgeItem(NodeItem* s, NodeItem* d, size_t id)
+EdgeItem::EdgeItem(NodeItem* s, NodeItem* d, QUuid id)
     : src(s), dst(d), colorValueAdapter(std::make_unique<ColorValueAdapter>()), id(id) {
     setZValue(-1);
     setValue(nullptr);

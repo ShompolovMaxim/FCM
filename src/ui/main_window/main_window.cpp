@@ -168,15 +168,17 @@ void MainWindow::predict() {
 
     Experiment experiment;
     for (auto& [id, term] : fcm->terms) {
-        experiment.terms[id] = *term;
+        experiment.terms[id] = std::make_shared<Term>(*term);
+        experiment.terms[id]->dbId = -1;
     }
     for (const auto& [id, concept] : fcm->concepts) {
-        experiment.concepts[id] = *fcm->concepts[id];
-        experiment.concepts[id].term = std::make_shared<Term>(experiment.terms[fcm->concepts[id]->term->id]);
+        experiment.concepts[id] = std::make_shared<Concept>(*concept);
+        experiment.concepts[id]->dbId = -1;
+        experiment.concepts[id]->term = experiment.terms[fcm->concepts[id]->term->id];
     }
     for (const auto& [id, weight] : fcm->weights) {
-        experiment.weights[id] = *fcm->weights[id];
-        experiment.weights[id].term = std::make_shared<Term>(experiment.terms[fcm->weights[id]->term->id]);
+        experiment.weights[id] = std::make_shared<Weight>(*weight);
+        experiment.weights[id]->term = experiment.terms[fcm->weights[id]->term->id];
     }
     experiment.predictionParameters = predictionParameters;
     experiment.timestamp = QDateTime::currentDateTime();
@@ -191,7 +193,7 @@ void MainWindow::predict() {
     }
 
     QList<NodeItem*> nodes;
-    QMap<size_t, EdgeItem*> edges;
+    QMap<QUuid, EdgeItem*> edges;
     for (QGraphicsItem* item : predictScene->items()) {
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
             nodes.append(n);
@@ -307,7 +309,7 @@ void MainWindow::onCreateTerm() {
         }
     }
 
-    auto id = ++fcm->termsCounter;
+    auto id = QUuid::createUuid();
 
     fcm->terms[id] = std::make_shared<Term>();
     fcm->terms[id]->id = id;
@@ -323,7 +325,7 @@ void MainWindow::onCreateTerm() {
 
     QTreeWidgetItem* item = new QTreeWidgetItem();
     item->setText(0, "New term");
-    item->setData(0, Qt::UserRole, QVariant::fromValue((qulonglong)id));
+    item->setData(0, Qt::UserRole, QVariant::fromValue(id));
     item->setFlags(item->flags() | Qt::ItemIsEditable);
 
     targetGroup->addChild(item);
@@ -338,7 +340,7 @@ void MainWindow::onDeleteTerm() {
     QTreeWidgetItem  *current = ui->treeWidgetTerms->currentItem();
     if (current && current->parent()) {
         auto* parent = current->parent();
-        auto id = current->data(0, Qt::UserRole).toULongLong();
+        auto id = current->data(0, Qt::UserRole).toUuid();
         creationPresenter->deleteTerm(id);
         delete current;
         ui->treeWidgetTerms->setCurrentItem(parent);
@@ -384,7 +386,7 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
     ui->termValueU->setEnabled(true);
     ui->deleteTermButton->setEnabled(true);
     ui->termColorButton->setEnabled(true);
-    currentTermId = current->data(0, Qt::UserRole).toULongLong();
+    currentTermId = current->data(0, Qt::UserRole).toUuid();
 
     ui->termValue->setValue(fcm->terms[currentTermId]->value);
     ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
@@ -455,7 +457,7 @@ void MainWindow::updateFuzzyValuePlot() {
 }
 
 void MainWindow::onItemChanged(QTreeWidgetItem  *item, int column) {
-    auto id = item->data(0, Qt::UserRole).toULongLong();
+    auto id = item->data(0, Qt::UserRole).toUuid();
     fcm->terms[id]->name = item->text(0);
     creationPresenter->updateTerm(id);
 }
@@ -497,19 +499,6 @@ void MainWindow::saveAs() {
 void MainWindow::loadFCM(const FCM& newFCM) {
     *fcm = newFCM;
 
-    for (const auto [id, _] : fcm->terms) {
-        fcm->termsCounter = std::max(fcm->termsCounter, id);
-    }
-    ++fcm->termsCounter;
-    for (const auto [id, _] : fcm->concepts) {
-        fcm->conceptsCounter = std::max(fcm->conceptsCounter, id);
-    }
-    ++fcm->conceptsCounter;
-    for (const auto [id, _] : fcm->weights) {
-        fcm->weightsCounter = std::max(fcm->weightsCounter, id);
-    }
-    ++fcm->weightsCounter;
-
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
 
@@ -521,7 +510,7 @@ void MainWindow::loadFCM(const FCM& newFCM) {
     for (auto& [id, term] : fcm->terms) {
         QTreeWidgetItem* item = new QTreeWidgetItem();
         item->setText(0, term->name);
-        item->setData(0, Qt::UserRole, QVariant::fromValue((qulonglong)id));
+        item->setData(0, Qt::UserRole, QVariant::fromValue(id));
         item->setFlags(item->flags() | Qt::ItemIsEditable);
 
         if (term->type == ElementType::Node) {

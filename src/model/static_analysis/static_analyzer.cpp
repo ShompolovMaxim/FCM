@@ -43,7 +43,7 @@ const StaticAnalysisResult& StaticAnalyzer::getResult() const {
 }
 
 void StaticAnalyzer::onConceptCreated(std::shared_ptr<Concept> c) {
-    size_t idc = c->id;
+    auto idc = c->id;
 
     N++;
 
@@ -57,7 +57,7 @@ void StaticAnalyzer::onConceptCreated(std::shared_ptr<Concept> c) {
     updateFactors();
 }
 
-void StaticAnalyzer::onConceptDeleted(size_t idc) {
+void StaticAnalyzer::onConceptDeleted(QUuid idc) {
     if (inCount[idc] > 0) R--;
     if (outCount[idc] > 0) T--;
 
@@ -113,7 +113,7 @@ void StaticAnalyzer::onWeightUpdated(std::shared_ptr<Weight> w) {
     updateInfluence();
 }
 
-void StaticAnalyzer::onWeightDeleted(size_t idw) {
+void StaticAnalyzer::onWeightDeleted(QUuid idw) {
     auto w = oldWeights[idw];
 
     C--;
@@ -136,7 +136,7 @@ void StaticAnalyzer::onWeightDeleted(size_t idw) {
     updateInfluence();
 }
 
-void StaticAnalyzer::updateInfluence(size_t conceptId, size_t steps, bool influenceFrom) {
+void StaticAnalyzer::updateInfluence(QUuid conceptId, size_t steps, bool influenceFrom) {
     influenceConceptId = conceptId;
     influenceSteps = steps;
     this->influenceFrom = influenceFrom;
@@ -183,23 +183,23 @@ void StaticAnalyzer::updateHierarchy() {
     result.hierarchyIndex = (12.0 / ((N - 1) * N * (N + 1))) * sum;
 }
 
-void StaticAnalyzer::updateInfluenceTo(size_t conceptId, size_t steps) {
+void StaticAnalyzer::updateInfluenceTo(QUuid conceptId, size_t steps) {
     if (!fcm->concepts.count(conceptId)) return;
 
-    std::map<size_t, std::map<size_t, double>> W;
+    std::map<QUuid, std::map<QUuid, double>> W;
     for (const auto& [idWeight, w] : fcm->weights) {
         if (w->term) {
             W[w->fromConceptId][w->toConceptId] = w->term->value;
         }
     }
 
-    std::map<size_t, double> influence;
+    std::map<QUuid, double> influence;
     for (const auto& [id, _] : fcm->concepts) {
         influence[id] = W[id][conceptId];
     }
 
     for (size_t step = 0; step + 1 < steps; ++step) {
-        std::map<size_t, double> newInfluence = influence;
+        std::map<QUuid, double> newInfluence = influence;
         for (const auto& [idC, _] : fcm->concepts) {
             double sum = 0.0;
             for (const auto& [idTo, _] : fcm->concepts) {
@@ -219,23 +219,23 @@ void StaticAnalyzer::updateInfluenceTo(size_t conceptId, size_t steps) {
     }
 }
 
-void StaticAnalyzer::updateInfluenceFrom(size_t conceptId, size_t steps) {
+void StaticAnalyzer::updateInfluenceFrom(QUuid conceptId, size_t steps) {
     if (!fcm->concepts.count(conceptId)) return;
 
-    std::map<size_t, std::map<size_t, double>> W;
+    std::map<QUuid, std::map<QUuid, double>> W;
     for (const auto& [idWeight, w] : fcm->weights) {
         if (w->term) {
             W[w->toConceptId][w->fromConceptId] = w->term->value;
         }
     }
 
-    std::map<size_t, double> influence;
+    std::map<QUuid, double> influence;
     for (const auto& [id, _] : fcm->concepts) {
         influence[id] = W[id][conceptId];
     }
 
     for (size_t step = 0; step + 1 < steps; ++step) {
-        std::map<size_t, double> newInfluence = influence;
+        std::map<QUuid, double> newInfluence = influence;
         for (const auto& [idC, _] : fcm->concepts) {
             double sum = 0.0;
             for (const auto& [idFrom, _] : fcm->concepts) {
