@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-Tanh::Tanh(double fuzziness_degree) : fuzzinessDegree(fuzzinessDegree) {}
+Tanh::Tanh(double fuzzinessDegree) : fuzzinessDegree(fuzzinessDegree) {}
 
 double Tanh::activate(double value) const {
     return std::tanh(fuzzinessDegree * value);

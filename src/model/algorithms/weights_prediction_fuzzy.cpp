@@ -18,7 +18,7 @@ CalculationFCM WeightsPredictionFuzzyAlgorithm::step(const CalculationFCM& fcm) 
         result.concepts[id].triangularFuzzyValue = conceptsActivationFunction->activate(result.concepts[id].triangularFuzzyValue);
     }
     for (const auto& [id, _] : result.weights) {
-        result.weights[id].triangularFuzzyValue = conceptsActivationFunction->activate(result.weights[id].triangularFuzzyValue);
+        result.weights[id].triangularFuzzyValue = weightsActivationFunction->activate(result.weights[id].triangularFuzzyValue);
     }
 
     return result;
