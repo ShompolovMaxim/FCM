@@ -11,7 +11,7 @@
 #include "presenter/simulation_presenter.h"
 #include "presenter/static_analysis_presenter.h"
 
-#include "repository/models_repository.h"
+#include "repository/saving_manager.h"
 
 #include "ui/graph_editor/edit_mode.h"
 
@@ -60,6 +60,7 @@ public slots:
     void onPredictToStaticChanged(bool checked);
 
     void saveAs();
+    void save();
     void open();
     void onExportPng();
     void onExportJson();
@@ -86,7 +87,7 @@ private:
     QTreeWidgetItem* conceptsGroup;
     QTreeWidgetItem* weightsGroup;
 
-    std::shared_ptr<ModelsRepository> modelsRepository;
+    std::shared_ptr<SavingManager> savingManager;
 
     bool sensitivityPlotShown = false;
 

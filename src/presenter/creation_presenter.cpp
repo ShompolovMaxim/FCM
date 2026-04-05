@@ -122,6 +122,9 @@ void CreationPresenter::updateWeight(QUuid id) {
 }
 
 void CreationPresenter::deleteConcept(QUuid id) {
+    if (fcm->concepts[id]->dbId != -1) {
+        fcm->deletedConceptsIds.push_back(fcm->concepts[id]->dbId);
+    }
     if (conceptWindows.find(id) != conceptWindows.end()) {
         conceptWindows[id]->deleteLater();
     }
@@ -142,6 +145,9 @@ void CreationPresenter::deleteConcept(QUuid id) {
 }
 
 void CreationPresenter::deleteWeight(QUuid id) {
+    if (fcm->weights[id]->dbId != -1) {
+        fcm->deletedWeightsIds.push_back(fcm->weights[id]->dbId);
+    }
     if (weightWindows.find(id) != weightWindows.end()) {
         weightWindows[id]->deleteLater();
     }

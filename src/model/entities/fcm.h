@@ -17,4 +17,9 @@ struct FCM {
     PredictionParameters predictionParameters;
     std::vector<Experiment> experiments;
     int dbId = -1;
+
+    QList<int> deletedTermsIds;
+    QList<int> deletedConceptsIds;
+    QList<int> deletedWeightsIds;
+    QList<int> deletedExperimentsIds;
 };

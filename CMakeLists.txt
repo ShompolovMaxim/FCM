@@ -107,6 +107,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/sensitivity_analysis/change_iteration/abstract.h
         src/model/sensitivity_analysis/change_iteration/range.h src/model/sensitivity_analysis/change_iteration/range.cpp
         src/model/sensitivity_analysis/change_iteration/fabric.h src/model/sensitivity_analysis/change_iteration/fabric.cpp
+        src/repository/saving_manager.h src/repository/saving_manager.cpp
+        src/ui/save_as_window/save_as_window.h src/ui/save_as_window/save_as_window.cpp src/ui/save_as_window/save_as_window.ui
 
 
 

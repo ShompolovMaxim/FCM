@@ -2,6 +2,7 @@
 #include "ui_main_window.h"
 
 #include "ui/graph_editor/graph_scene.h"
+#include "ui/save_as_window/save_as_window.h"
 #include "ui/load_model_window/load_model_window.h"
 
 #include "repository/json_repository.h"
@@ -16,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         qFatal("Cannot open database");
     }
     MigrationManager::migrate(db);
-    modelsRepository = std::make_shared<ModelsRepository>(db);
+    savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
 
     fcm = std::make_shared<FCM>();
 
@@ -72,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionExportPNG, &QAction::triggered, this, &MainWindow::onExportPng);
     connect(ui->actionExportJSON, &QAction::triggered, this, &MainWindow::onExportJson);
@@ -341,6 +343,9 @@ void MainWindow::onDeleteTerm() {
     if (current && current->parent()) {
         auto* parent = current->parent();
         auto id = current->data(0, Qt::UserRole).toUuid();
+        if (fcm->terms[id]->dbId != -1) {
+            fcm->deletedTermsIds.push_back(fcm->terms[id]->dbId);
+        }
         creationPresenter->deleteTerm(id);
         delete current;
         ui->treeWidgetTerms->setCurrentItem(parent);
@@ -493,7 +498,25 @@ PredictionParameters MainWindow::getPredictionParameters() {
 
 void MainWindow::saveAs() {
     updateFCM();
-    modelsRepository->createModel(*fcm);
+
+    const auto modelsNames = savingManager->getModelsNames();
+    SaveAsWindow saveAsWindow(modelsNames, fcm->name, this);
+
+    if (saveAsWindow.exec() == QDialog::Accepted) {
+        QString newName = saveAsWindow.savingModelName();
+        fcm->name = newName;
+        savingManager->saveAs(*fcm);
+        ui->modelName->setText(newName);
+    }
+}
+
+void MainWindow::save() {
+    if (fcm->dbId == -1) {
+        saveAs();
+    } else {
+        updateFCM();
+        savingManager->saveFCM(*fcm);
+    }
 }
 
 void MainWindow::loadFCM(const FCM& newFCM) {
@@ -565,7 +588,7 @@ void MainWindow::loadFCM(const FCM& newFCM) {
 }
 
 void MainWindow::open() {
-    const auto modelsNames = modelsRepository->getModelsNames();
+    const auto modelsNames = savingManager->getModelsNames();
 
     LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, this);
 
@@ -577,7 +600,7 @@ void MainWindow::open() {
         return;
     }
 
-    auto model = modelsRepository->getModel(modelName);
+    auto model = savingManager->getFCM(modelName);
     if (!model) {
         return;
     }
