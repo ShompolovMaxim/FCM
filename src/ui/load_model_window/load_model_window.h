@@ -17,6 +17,9 @@ public:
 
     QString selectedModelName() const;
 
+signals:
+    void deleteModel(const QString &modelName);
+
 private:
     Ui::LoadModelWindow *ui;
 };

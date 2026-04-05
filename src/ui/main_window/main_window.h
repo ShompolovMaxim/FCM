@@ -58,6 +58,7 @@ public slots:
     void onItemChanged(QTreeWidgetItem  *item, int column);
 
     void onPredictToStaticChanged(bool checked);
+    void onDeleteExperiment();
 
     void saveAs();
     void save();

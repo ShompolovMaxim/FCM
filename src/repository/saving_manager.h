@@ -29,6 +29,7 @@ private:
     bool saveTerms(Experiment &exp, int experimentId);
     bool saveConcepts(Experiment &exp, int experimentId);
     bool saveWeights(Experiment &exp, int experimentId);
+    bool deleteExperiments(FCM &fcm);
     bool deleteCurrentElements(const FCM &fcm);
     bool deleteExperimentElements(int experimentId);
     std::optional<int> getCurrentExperimentId(const FCM &fcm);

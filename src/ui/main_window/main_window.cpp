@@ -8,6 +8,8 @@
 #include "repository/json_repository.h"
 #include "repository/migration_manager.h"
 
+#include <QStandardItemModel>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
@@ -68,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &MainWindow::onItemChanged);
 
     QStandardItemModel* experimentsModel = new QStandardItemModel();
-    experimentsModel->setHorizontalHeaderLabels({"Algorithm", "Activation function", "Metric", "Predict to static", "Threshold", "Steps less threshold", "Fixed steps", "Timestamp", ""});
+    experimentsModel->setHorizontalHeaderLabels({"Algorithm", "Activation function", "Metric", "Predict to static", "Threshold", "Steps less threshold", "Fixed steps", "Timestamp", "", ""});
     ui->experimantsTable->setModel(experimentsModel);
     ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
@@ -149,8 +151,14 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     experimentsModel->setData(experimentsModel->index(row, 5), experiment.predictionParameters.stepsLessThreshold);
     experimentsModel->setData(experimentsModel->index(row, 6), experiment.predictionParameters.fixedSteps);
     experimentsModel->setData(experimentsModel->index(row, 7), experiment.timestamp);
+    experimentsModel->setData(experimentsModel->index(row, 8), "");
+    experimentsModel->setData(experimentsModel->index(row, 9), "");
     QPushButton* btn = new QPushButton("Load", ui->experimantsTable);
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 8), btn);
+    QPushButton* deleteButton = new QPushButton("Delete", ui->experimantsTable);
+    deleteButton->setProperty("row", row);
+    ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 9), deleteButton);
+    connect(deleteButton, &QPushButton::clicked, this, &MainWindow::onDeleteExperiment);
     QObject::connect(btn, &QPushButton::clicked, [row]() {
         qDebug() << "Нажата кнопка в строке" << row;
     });
@@ -477,6 +485,29 @@ void MainWindow::onPredictToStaticChanged(bool checked) {
     ui->spinBoxFixedStepsSensitivity->setEnabled(!checked);
 }
 
+void MainWindow::onDeleteExperiment() {
+    auto* button = qobject_cast<QPushButton*>(sender());
+    if (!button) {
+        return;
+    }
+
+    int row = button->property("row").toInt();
+    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
+        return;
+    }
+
+    if (fcm->experiments[row].dbId != -1) {
+        fcm->deletedExperimentsIds.push_back(fcm->experiments[row].dbId);
+    }
+
+    fcm->experiments.erase(fcm->experiments.begin() + row);
+    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
+
+    for (const auto& experiment : fcm->experiments) {
+        addExperiment(experiment);
+    }
+}
+
 void MainWindow::updateFCM() {
     fcm->name = ui->modelName->text();
     fcm->description = ui->modelNotes->toPlainText();
@@ -574,11 +605,14 @@ void MainWindow::loadFCM(const FCM& newFCM) {
     delete staticAnalysisPresenter;
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
 
+    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
+
     for (const auto& experiment : fcm->experiments) {
         addExperiment(experiment);
     }
 
     ui->comboBoxAlgorithm->setCurrentText(fcm->predictionParameters.algorithm);
+    ui->useFuzzyValues->setChecked(fcm->predictionParameters.useFuzzyValues);
     ui->comboBoxActivation->setCurrentText(fcm->predictionParameters.activationFunction);
     ui->comboBoxMetric->setCurrentText(fcm->predictionParameters.metric);
     ui->checkBoxPredictToStatic->setChecked(fcm->predictionParameters.predictToStatic);

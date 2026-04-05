@@ -3,8 +3,7 @@
 
 LoadModelWindow::LoadModelWindow(QStringList modelsNames, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::LoadModelWindow)
-{
+    , ui(new Ui::LoadModelWindow) {
     ui->setupUi(this);
 
     ui->modelsNames->addItems(modelsNames);
@@ -14,8 +13,7 @@ LoadModelWindow::LoadModelWindow(QStringList modelsNames, QWidget *parent)
     }
 }
 
-LoadModelWindow::~LoadModelWindow()
-{
+LoadModelWindow::~LoadModelWindow() {
     delete ui;
 }
 

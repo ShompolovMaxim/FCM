@@ -5,8 +5,9 @@
 SavingManager::SavingManager(ModelsRepository repository) : repo(repository) {}
 
 bool SavingManager::saveAs(FCM &fcm) {
-    if (!repo.transaction())
+    if (!repo.transaction()) {
         return false;
+    }
 
     resetFCMDbIds(fcm);
 
@@ -32,8 +33,9 @@ bool SavingManager::saveAs(FCM &fcm) {
 }
 
 bool SavingManager::saveFCM(FCM &fcm) {
-    if (!repo.transaction())
+    if (!repo.transaction()) {
         return false;
+    }
 
     if (fcm.dbId == -1) {
         auto modelIdOpt = repo.createModel(fcm);
@@ -55,7 +57,7 @@ bool SavingManager::saveFCM(FCM &fcm) {
         }
     }
 
-    if (!saveExperiments(fcm) || !saveCurrentExperiment(fcm, true)) {
+    if (!deleteExperiments(fcm) || !saveExperiments(fcm) || !saveCurrentExperiment(fcm, true)) {
         repo.rollback();
         return false;
     }
@@ -65,18 +67,21 @@ bool SavingManager::saveFCM(FCM &fcm) {
         return false;
     }
 
-    if (auto currentExperimentId = getCurrentExperimentId(fcm); currentExperimentId.has_value())
+    if (auto currentExperimentId = getCurrentExperimentId(fcm); currentExperimentId.has_value()) {
         currentExperimentIds[fcm.dbId] = *currentExperimentId;
+    }
 
     fcm.deletedTermsIds.clear();
     fcm.deletedConceptsIds.clear();
     fcm.deletedWeightsIds.clear();
+    fcm.deletedExperimentsIds.clear();
     return true;
 }
 
 bool SavingManager::deleteFCM(int fcmDbId) {
-    if (!repo.transaction())
+    if (!repo.transaction()) {
         return false;
+    }
 
     auto experimentsOpt = repo.getExperimentsInfo(fcmDbId);
     if (!experimentsOpt) {
@@ -108,12 +113,14 @@ bool SavingManager::deleteFCM(int fcmDbId) {
 
 std::optional<FCM> SavingManager::getFCM(const QString &modelName) {
     auto fcmOpt = repo.getModel(modelName);
-    if (!fcmOpt.has_value())
+    if (!fcmOpt.has_value()) {
         return {};
+    }
 
     auto currentExperimentId = getCurrentExperimentId(*fcmOpt);
-    if (!currentExperimentId.has_value())
+    if (!currentExperimentId.has_value()) {
         return {};
+    }
 
     currentExperimentIds[fcmOpt->dbId] = *currentExperimentId;
     return fcmOpt;
@@ -125,8 +132,9 @@ QList<QString> SavingManager::getModelsNames() {
 
 bool SavingManager::saveExperiments(FCM &fcm) {
     for (auto &exp : fcm.experiments) {
-        if (!saveExperiment(exp, fcm.dbId))
+        if (!saveExperiment(exp, fcm.dbId)) {
             return false;
+        }
     }
     return true;
 }
@@ -141,14 +149,16 @@ bool SavingManager::saveCurrentExperiment(FCM &fcm, bool applyDeletedIds) {
 
     if (applyDeletedIds) {
         auto currentExperimentId = getCurrentExperimentId(fcm);
-        if (!currentExperimentId.has_value())
+        if (!currentExperimentId.has_value()) {
             return false;
+        }
         current.dbId = *currentExperimentId;
         return saveExperiment(current, fcm.dbId, &fcm);
     }
 
-    if (!saveExperiment(current, fcm.dbId))
+    if (!saveExperiment(current, fcm.dbId)) {
         return false;
+    }
 
     currentExperimentIds[fcm.dbId] = current.dbId;
     return true;
@@ -157,18 +167,22 @@ bool SavingManager::saveCurrentExperiment(FCM &fcm, bool applyDeletedIds) {
 bool SavingManager::saveExperiment(Experiment &exp, int modelId, const FCM *deletedElementsSource) {
     if (exp.dbId == -1) {
         auto expIdOpt = repo.createExperiment(exp, modelId);
-        if (!expIdOpt)
+        if (!expIdOpt) {
             return false;
+        }
         exp.dbId = *expIdOpt;
     } else {
-        if (deletedElementsSource && !deleteCurrentElements(*deletedElementsSource))
+        if (deletedElementsSource && !deleteCurrentElements(*deletedElementsSource)) {
             return false;
-        if (!repo.updateExperiment(exp))
+        }
+        if (!repo.updateExperiment(exp)) {
             return false;
+        }
     }
 
-    if (!saveTerms(exp, exp.dbId) || !saveConcepts(exp, exp.dbId) || !saveWeights(exp, exp.dbId))
+    if (!saveTerms(exp, exp.dbId) || !saveConcepts(exp, exp.dbId) || !saveWeights(exp, exp.dbId)) {
         return false;
+    }
 
     return true;
 }
@@ -178,8 +192,9 @@ bool SavingManager::saveTerms(Experiment &exp, int experimentId) {
         Q_UNUSED(termId)
         if (termPtr->dbId == -1) {
             auto idOpt = repo.createTerm(*termPtr, experimentId);
-            if (!idOpt)
+            if (!idOpt) {
                 return false;
+            }
             termPtr->dbId = *idOpt;
         } else if (!repo.updateTerm(*termPtr)) {
             return false;
@@ -192,13 +207,15 @@ bool SavingManager::saveConcepts(Experiment &exp, int experimentId) {
     for (const auto &[conceptId, conceptPtr] : exp.concepts) {
         Q_UNUSED(conceptId)
         std::optional<int> dbTermId;
-        if (conceptPtr->term)
+        if (conceptPtr->term) {
             dbTermId = conceptPtr->term->dbId;
+        }
 
         if (conceptPtr->dbId == -1) {
             auto idOpt = repo.createConcept(*conceptPtr, experimentId, dbTermId);
-            if (!idOpt)
+            if (!idOpt) {
                 return false;
+            }
             conceptPtr->dbId = *idOpt;
         } else if (!repo.updateConcept(*conceptPtr)) {
             return false;
@@ -211,27 +228,31 @@ bool SavingManager::saveWeights(Experiment &exp, int experimentId) {
     std::map<QUuid, int> termsDbIds;
     std::map<QUuid, int> conceptsDbIds;
 
-    for (const auto &[termId, termPtr] : exp.terms)
+    for (const auto &[termId, termPtr] : exp.terms) {
         termsDbIds[termId] = termPtr->dbId;
+    }
 
-    for (const auto &[conceptId, conceptPtr] : exp.concepts)
+    for (const auto &[conceptId, conceptPtr] : exp.concepts) {
         conceptsDbIds[conceptId] = conceptPtr->dbId;
+    }
 
     for (const auto &[weightId, weightPtr] : exp.weights) {
         Q_UNUSED(weightId)
         auto itFrom = conceptsDbIds.find(weightPtr->fromConceptId);
         auto itTo = conceptsDbIds.find(weightPtr->toConceptId);
 
-        if (itFrom == conceptsDbIds.end() || itTo == conceptsDbIds.end())
+        if (itFrom == conceptsDbIds.end() || itTo == conceptsDbIds.end()) {
             return false;
+        }
 
         int fromDb = itFrom->second;
         int toDb = itTo->second;
 
         if (weightPtr->dbId == -1) {
             auto idOpt = repo.createWeight(*weightPtr, experimentId, fromDb, toDb, termsDbIds);
-            if (!idOpt)
+            if (!idOpt) {
                 return false;
+            }
             weightPtr->dbId = *idOpt;
         } else if (!repo.updateWeight(*weightPtr)) {
             return false;
@@ -240,20 +261,45 @@ bool SavingManager::saveWeights(Experiment &exp, int experimentId) {
     return true;
 }
 
+bool SavingManager::deleteExperiments(FCM &fcm) {
+    if (fcm.deletedExperimentsIds.empty()) {
+        return true;
+    }
+
+    auto currentExperimentId = getCurrentExperimentId(fcm);
+    if (!currentExperimentId.has_value()) {
+        return false;
+    }
+
+    for (int experimentId : fcm.deletedExperimentsIds) {
+        if (experimentId == *currentExperimentId) {
+            return false;
+        }
+        if (!deleteExperimentElements(experimentId) || !repo.deleteExperiment(experimentId)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool SavingManager::deleteCurrentElements(const FCM &fcm) {
     for (int weightId : fcm.deletedWeightsIds) {
-        if (!repo.deleteWeight(weightId))
+        if (!repo.deleteWeight(weightId)) {
             return false;
+        }
     }
 
     for (int conceptId : fcm.deletedConceptsIds) {
-        if (!repo.deleteConcept(conceptId))
+        if (!repo.deleteConcept(conceptId)) {
             return false;
+        }
     }
 
     for (int termId : fcm.deletedTermsIds) {
-        if (!repo.deleteTerm(termId))
+        if (!repo.deleteTerm(termId)) {
             return false;
+        }
     }
 
     return true;
@@ -261,34 +307,41 @@ bool SavingManager::deleteCurrentElements(const FCM &fcm) {
 
 bool SavingManager::deleteExperimentElements(int experimentId) {
     auto termsOpt = repo.getExperimentTerms(experimentId);
-    if (!termsOpt)
+    if (!termsOpt) {
         return false;
+    }
 
     auto conceptsOpt = repo.getExperimentConcepts(experimentId, *termsOpt);
-    if (!conceptsOpt)
+    if (!conceptsOpt) {
         return false;
+    }
 
     std::map<int, std::shared_ptr<Concept>> conceptsByDbId;
-    for (const auto &concept : *conceptsOpt)
+    for (const auto &concept : *conceptsOpt) {
         conceptsByDbId[concept.dbId] = std::make_shared<Concept>(concept);
+    }
 
     auto weightsOpt = repo.getExperimentWeights(experimentId, *termsOpt, conceptsByDbId);
-    if (!weightsOpt)
+    if (!weightsOpt) {
         return false;
+    }
 
     for (const auto &weight : *weightsOpt) {
-        if (!repo.deleteWeight(weight.dbId))
+        if (!repo.deleteWeight(weight.dbId)) {
             return false;
+        }
     }
 
     for (const auto &concept : *conceptsOpt) {
-        if (!repo.deleteConcept(concept.dbId))
+        if (!repo.deleteConcept(concept.dbId)) {
             return false;
+        }
     }
 
     for (const auto &[_, term] : *termsOpt) {
-        if (!repo.deleteTerm(term->dbId))
+        if (!repo.deleteTerm(term->dbId)) {
             return false;
+        }
     }
 
     return true;
@@ -296,21 +349,25 @@ bool SavingManager::deleteExperimentElements(int experimentId) {
 
 std::optional<int> SavingManager::getCurrentExperimentId(const FCM &fcm) {
     auto it = currentExperimentIds.find(fcm.dbId);
-    if (it != currentExperimentIds.end())
+    if (it != currentExperimentIds.end()) {
         return it->second;
+    }
 
     auto experimentsOpt = repo.getExperimentsInfo(fcm.dbId);
-    if (!experimentsOpt)
+    if (!experimentsOpt) {
         return {};
+    }
 
     std::optional<std::pair<int, QDateTime>> currentExperiment;
     for (const auto &[experimentId, timestamp] : *experimentsOpt) {
-        if (!currentExperiment.has_value() || currentExperiment->second < timestamp)
+        if (!currentExperiment.has_value() || currentExperiment->second < timestamp) {
             currentExperiment = {experimentId, timestamp};
+        }
     }
 
-    if (!currentExperiment.has_value())
+    if (!currentExperiment.has_value()) {
         return {};
+    }
 
     currentExperimentIds[fcm.dbId] = currentExperiment->first;
     return currentExperiment->first;
@@ -321,28 +378,35 @@ void SavingManager::resetFCMDbIds(FCM &fcm) {
     fcm.deletedTermsIds.clear();
     fcm.deletedConceptsIds.clear();
     fcm.deletedWeightsIds.clear();
+    fcm.deletedExperimentsIds.clear();
 
     for (const auto &[termId, termPtr] : fcm.terms) {
+        Q_UNUSED(termId)
         termPtr->dbId = -1;
     }
 
     for (const auto &[conceptId, conceptPtr] : fcm.concepts) {
+        Q_UNUSED(conceptId)
         conceptPtr->dbId = -1;
     }
 
     for (const auto &[weightId, weightPtr] : fcm.weights) {
+        Q_UNUSED(weightId)
         weightPtr->dbId = -1;
     }
 
     for (auto &exp : fcm.experiments) {
         exp.dbId = -1;
         for (const auto &[termId, termPtr] : exp.terms) {
+            Q_UNUSED(termId)
             termPtr->dbId = -1;
         }
         for (const auto &[conceptId, conceptPtr] : exp.concepts) {
+            Q_UNUSED(conceptId)
             conceptPtr->dbId = -1;
         }
         for (const auto &[weightId, weightPtr] : exp.weights) {
+            Q_UNUSED(weightId)
             weightPtr->dbId = -1;
         }
     }
