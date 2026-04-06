@@ -11,7 +11,7 @@ class SaveAsWindow : public QDialog {
     Q_OBJECT
 
 public:
-    explicit SaveAsWindow(QStringList modelsNames, QString modelName, QWidget *parent = nullptr);
+    explicit SaveAsWindow(QStringList modelsNames, QString modelName, const QString &windowTitle, QWidget *parent = nullptr);
     ~SaveAsWindow();
 
     QString savingModelName() const;

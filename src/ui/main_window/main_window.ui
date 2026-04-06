@@ -1621,6 +1621,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="title">
      <string>View</string>
     </property>
+    <addaction name="actionModelSettings"/>
+    <addaction name="actionGraph"/>
+    <addaction name="actionAdjacencyMatrix"/>
+    <addaction name="actionStaticAnalysis"/>
+    <addaction name="actionSimulation"/>
+    <addaction name="actionExperiments"/>
+    <addaction name="actionSensitivityAnalysis"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1677,6 +1684,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
   </action>
   <action name="actionAutoSave">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Auto-Save</string>
    </property>
@@ -1745,18 +1755,95 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>JSON</string>
    </property>
   </action>
+  <action name="actionModelSettings">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Model settings</string>
+   </property>
+  </action>
+  <action name="actionGraph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Graph</string>
+   </property>
+  </action>
+  <action name="actionAdjacencyMatrix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Adjacency matrix</string>
+   </property>
+  </action>
+  <action name="actionStaticAnalysis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Static analysis</string>
+   </property>
+  </action>
+  <action name="actionSimulation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simulation</string>
+   </property>
+  </action>
+  <action name="actionExperiments">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Experiments</string>
+   </property>
+  </action>
+  <action name="actionSensitivityAnalysis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Sensitivity analysis</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>GraphView</class>
-   <extends>QGraphicsView</extends>
-   <header>ui/graph_editor/graph_view.h</header>
-  </customwidget>
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>libs\qcustomplot\qcustomplot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GraphView</class>
+   <extends>QGraphicsView</extends>
+   <header>ui/graph_editor/graph_view.h</header>
   </customwidget>
   <customwidget>
    <class>AdjacencyTableView</class>

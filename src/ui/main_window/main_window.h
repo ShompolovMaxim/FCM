@@ -12,6 +12,7 @@
 #include "presenter/static_analysis_presenter.h"
 
 #include "repository/saving_manager.h"
+#include "repository/templates_manager.h"
 
 #include "ui/graph_editor/edit_mode.h"
 
@@ -63,9 +64,19 @@ public slots:
     void saveAs();
     void save();
     void open();
+    void saveAsTemplate();
+    void openTemplate();
     void onExportPng();
     void onExportJson();
     void onImportJson();
+
+    void changeModelSettingsVisibility(bool checked);
+    void changeGraphVisibility(bool checked);
+    void changeAdjacencyMatrixVisibility(bool checked);
+    void changeStaticAnalysisVisibility(bool checked);
+    void changeSimulationVisibility(bool checked);
+    void changeExperimentsVisibility(bool checked);
+    void changeSensitivityAnalysisVisibility(bool checked);
 
 private:
     void simulationFinished();
@@ -88,9 +99,11 @@ private:
     QTreeWidgetItem* conceptsGroup;
     QTreeWidgetItem* weightsGroup;
 
+    std::shared_ptr<TemplatesManager> templatesManager;
     std::shared_ptr<SavingManager> savingManager;
 
     bool sensitivityPlotShown = false;
 
+    QSettings settings = QSettings("HSE", "FCM");
 };
 #endif // MAIN_WINDOW_H

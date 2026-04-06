@@ -12,7 +12,7 @@ class LoadModelWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoadModelWindow(QStringList modelsNames, QWidget *parent = nullptr);
+    explicit LoadModelWindow(QStringList modelsNames, const QString &windowTitle, QWidget *parent = nullptr);
     ~LoadModelWindow();
 
     QString selectedModelName() const;

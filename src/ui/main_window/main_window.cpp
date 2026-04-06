@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     MigrationManager::migrate(db);
     savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
+    templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
 
     fcm = std::make_shared<FCM>();
 
@@ -77,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
+    connect(ui->actionSaveAsTemplate, &QAction::triggered, this, &MainWindow::saveAsTemplate);
+    connect(ui->actionOpenTemplate, &QAction::triggered, this, &MainWindow::openTemplate);
     connect(ui->actionExportPNG, &QAction::triggered, this, &MainWindow::onExportPng);
     connect(ui->actionExportJSON, &QAction::triggered, this, &MainWindow::onExportJson);
     connect(ui->actionImport, &QAction::triggered, this, &MainWindow::onImportJson);
@@ -92,28 +95,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
-
     connect(ui->useFuzzyValues, &QCheckBox::toggled, ui->useFuzzyValuesSensitivity, &QCheckBox::setChecked);
     connect(ui->useFuzzyValuesSensitivity, &QCheckBox::toggled, ui->useFuzzyValues, &QCheckBox::setChecked);
-
     connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivationSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivation, &QComboBox::setCurrentIndex);
-
     connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, ui->checkBoxPredictToStaticSensitivity, &QCheckBox::setChecked);
     connect(ui->checkBoxPredictToStaticSensitivity, &QCheckBox::toggled, ui->checkBoxPredictToStatic, &QCheckBox::setChecked);
-
     connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetricSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxMetricSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetric, &QComboBox::setCurrentIndex);
-
     connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThresholdSensitivity, &QDoubleSpinBox::setValue);
     connect(ui->doubleSpinBoxThresholdSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThreshold, &QDoubleSpinBox::setValue);
-
     connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricStepsSensitivity, &QSpinBox::setValue);
     connect(ui->spinBoxMetricStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricSteps, &QSpinBox::setValue);
-
     connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedStepsSensitivity, &QSpinBox::setValue);
     connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
-
     connect(ui->pushButtonAnalizeSensitivity, &QPushButton::clicked, this, &MainWindow::analize);
     connect(ui->showSensitivityPlot, &QPushButton::clicked, this, &MainWindow::showSensitivityPlot);
     ui->plotSensitivity->hide();
@@ -121,6 +116,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
     ui->plotSensitivity->xAxis->setLabel("max change");
     ui->plotSensitivity->yAxis->setLabel("sensitivity");
+
+    connect(ui->actionModelSettings, &QAction::toggled, this, &MainWindow::changeModelSettingsVisibility);
+    connect(ui->actionGraph, &QAction::toggled, this, &MainWindow::changeGraphVisibility);
+    connect(ui->actionAdjacencyMatrix, &QAction::toggled, this, &MainWindow::changeAdjacencyMatrixVisibility);
+    connect(ui->actionStaticAnalysis, &QAction::toggled, this, &MainWindow::changeStaticAnalysisVisibility);
+    connect(ui->actionSimulation, &QAction::toggled, this, &MainWindow::changeSimulationVisibility);
+    connect(ui->actionExperiments, &QAction::toggled, this, &MainWindow::changeExperimentsVisibility);
+    connect(ui->actionSensitivityAnalysis, &QAction::toggled, this, &MainWindow::changeSensitivityAnalysisVisibility);
+    ui->tabWidget->setTabVisible(0, settings.value("tabs/modelSettings", true).toBool());
+    ui->tabWidget->setTabVisible(1, settings.value("tabs/graph", true).toBool());
+    ui->tabWidget->setTabVisible(2, settings.value("tabs/adjMatrix", true).toBool());
+    ui->tabWidget->setTabVisible(3, settings.value("tabs/staticAnalysis", true).toBool());
+    ui->tabWidget->setTabVisible(4, settings.value("tabs/simulation", true).toBool());
+    ui->tabWidget->setTabVisible(5, settings.value("tabs/experiments", true).toBool());
+    ui->tabWidget->setTabVisible(6, settings.value("tabs/sensitivity", true).toBool());
+    ui->actionModelSettings->setChecked(settings.value("tabs/modelSettings", true).toBool());
+    ui->actionGraph->setChecked(settings.value("tabs/graph", true).toBool());
+    ui->actionAdjacencyMatrix->setChecked(settings.value("tabs/adjMatrix", true).toBool());
+    ui->actionStaticAnalysis->setChecked(settings.value("tabs/staticAnalysis", true).toBool());
+    ui->actionSimulation->setChecked(settings.value("tabs/simulation", true).toBool());
+    ui->actionExperiments->setChecked(settings.value("tabs/experiments", true).toBool());
+    ui->actionSensitivityAnalysis->setChecked(settings.value("tabs/sensitivity", true).toBool());
 }
 
 MainWindow::~MainWindow() {
@@ -531,7 +548,7 @@ void MainWindow::saveAs() {
     updateFCM();
 
     const auto modelsNames = savingManager->getModelsNames();
-    SaveAsWindow saveAsWindow(modelsNames, fcm->name, this);
+    SaveAsWindow saveAsWindow(modelsNames, fcm->name, "Save FCM", this);
 
     if (saveAsWindow.exec() == QDialog::Accepted) {
         QString newName = saveAsWindow.savingModelName();
@@ -624,7 +641,7 @@ void MainWindow::loadFCM(const FCM& newFCM) {
 void MainWindow::open() {
     const auto modelsNames = savingManager->getModelsNames();
 
-    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, this);
+    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, "Open FCM", this);
 
     if (loadModelWindow->exec() != QDialog::Accepted) {
         return;
@@ -635,6 +652,39 @@ void MainWindow::open() {
     }
 
     auto model = savingManager->getFCM(modelName);
+    if (!model) {
+        return;
+    }
+
+    loadFCM(*model);
+}
+
+void MainWindow::saveAsTemplate() {
+    updateFCM();
+
+    const auto templatesNames = templatesManager->getTemplatesNames();
+    SaveAsWindow saveAsWindow(templatesNames, fcm->name, "Save FCM Template", this);
+
+    if (saveAsWindow.exec() == QDialog::Accepted) {
+        fcm->name = saveAsWindow.savingModelName();
+        templatesManager->createTemplate(*fcm);
+        ui->modelName->setText(fcm->name);
+    }
+}
+
+void MainWindow::openTemplate() {
+    const auto templatesNames = templatesManager->getTemplatesNames();
+    LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, "Open FCM Template", this);
+
+    if (loadModelWindow->exec() != QDialog::Accepted) {
+        return;
+    }
+    QString templateName = loadModelWindow->selectedModelName();
+    if (templateName.isEmpty()) {
+        return;
+    }
+
+    auto model = templatesManager->getFCM(templateName);
     if (!model) {
         return;
     }
@@ -708,4 +758,39 @@ void MainWindow::onImportJson() {
     }
 
     loadFCM(*model);
+}
+
+void MainWindow::changeModelSettingsVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(0, checked);
+    settings.setValue("tabs/modelSettings", checked);
+}
+
+void MainWindow::changeGraphVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(1, checked);
+    settings.setValue("tabs/graph", checked);
+}
+
+void MainWindow::changeAdjacencyMatrixVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(2, checked);
+    settings.setValue("tabs/adjMatrix", checked);
+}
+
+void MainWindow::changeStaticAnalysisVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(3, checked);
+    settings.setValue("tabs/staticAnalysis", checked);
+}
+
+void MainWindow::changeSimulationVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(4, checked);
+    settings.setValue("tabs/simulation", checked);
+}
+
+void MainWindow::changeExperimentsVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(5, checked);
+    settings.setValue("tabs/experiments", checked);
+}
+
+void MainWindow::changeSensitivityAnalysisVisibility(bool checked) {
+    ui->tabWidget->setTabVisible(6, checked);
+    settings.setValue("tabs/sensitivity", checked);
 }

@@ -95,6 +95,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/triangular_fuzzy_value.h src/model/entities/triangular_fuzzy_value.cpp
         src/model/activation_functions/activation_function.cpp
         src/model/entities/calculation_concept.h
+        src/model/entities/templates/template.h
+        src/model/entities/templates/template_term.h
+        src/model/entities/templates/template_concept.h
+        src/model/entities/templates/template_weight.h
         src/model/algorithms/standard_fuzzy.h src/model/algorithms/standard_fuzzy.cpp
         src/model/algorithms/weights_prediction_fuzzy.h src/model/algorithms/weights_prediction_fuzzy.cpp
         src/model/sensitivity_analysis/sensitivity_analizer.h src/model/sensitivity_analysis/sensitivity_analizer.cpp
@@ -108,6 +112,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/sensitivity_analysis/change_iteration/range.h src/model/sensitivity_analysis/change_iteration/range.cpp
         src/model/sensitivity_analysis/change_iteration/fabric.h src/model/sensitivity_analysis/change_iteration/fabric.cpp
         src/repository/saving_manager.h src/repository/saving_manager.cpp
+        src/repository/templates_repository.h src/repository/templates_repository.cpp
+        src/repository/templates_manager.h src/repository/templates_manager.cpp
         src/ui/save_as_window/save_as_window.h src/ui/save_as_window/save_as_window.cpp src/ui/save_as_window/save_as_window.ui
 
 

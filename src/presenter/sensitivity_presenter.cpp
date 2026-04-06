@@ -72,6 +72,7 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
             }
             plot->graph(0)->setData(x, y);
             plot->graph(0)->rescaleKeyAxis();
+            plot->graph(0)->rescaleValueAxis();
             plot->replot();
         }
         updateProgress(analizer->getProgress());
