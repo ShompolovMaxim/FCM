@@ -16,6 +16,7 @@ struct FCM {
     std::map<QUuid, std::shared_ptr<Weight>> weights;
     PredictionParameters predictionParameters;
     std::vector<Experiment> experiments;
+    bool autosaveOn = false;
     int dbId = -1;
 
     QList<int> deletedTermsIds;

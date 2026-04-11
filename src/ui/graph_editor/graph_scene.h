@@ -13,8 +13,7 @@
 
 #include <memory>
 
-class GraphScene : public QGraphicsScene
-{
+class GraphScene : public QGraphicsScene {
     Q_OBJECT
 public:
     GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter);
@@ -41,11 +40,14 @@ public slots:
     void conceptDeleted(QUuid id);
     void weightDeleted(QUuid id);
 
+    void conceptPositionChanged();
+
 signals:
     void modeChanged(EditMode newMode);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* e) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
     EditMode mode = EditMode::Create;
@@ -56,4 +58,5 @@ private:
     std::map<QUuid, NodeItem*> nodes;
     std::map<QUuid, EdgeItem*> edges;
     bool conceptCreationColorEditBlocked = false;
+    bool conceptPositionChangedFlag = false;
 };

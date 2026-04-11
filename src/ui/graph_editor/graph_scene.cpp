@@ -1,7 +1,6 @@
 #include "graph_scene.h"
-#include "model/fuzzy_logic/numeric_fuzzifier.h"
 
-GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter) : fuzzifier(std::make_shared<NumericFuzzifier>()), fcm(fcm), presenter(presenter) {
+GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter) : fcm(fcm), presenter(presenter) {
     if (!fcm) {
         return;
     }
@@ -9,6 +8,7 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresent
     for (const auto& [_, concept] : fcm->concepts) {
         auto* n = new NodeItem(concept);
         addItem(n);
+        connect(n, &NodeItem::positionChanged, this, &GraphScene::conceptPositionChanged);
         n->setPos(concept->pos);
         n->setValue(concept->term);
         nodes[concept->id] = n;
@@ -44,6 +44,7 @@ void GraphScene::switchMode() {
 void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
     auto* n = new NodeItem(concept);
     addItem(n);
+    connect(n, &NodeItem::positionChanged, this, &GraphScene::conceptPositionChanged);
     n->setPos(concept->pos);
     if (!conceptCreationColorEditBlocked) {
         n->setValue(concept->term);
@@ -137,6 +138,14 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     }
 }
 
+void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    QGraphicsScene::mouseReleaseEvent(event);
+    if (conceptPositionChangedFlag) {
+        presenter->emitAutosave();
+        conceptPositionChangedFlag = false;
+    }
+}
+
 GraphScene* GraphScene::copy() const {
     auto copyScene = new GraphScene({}, presenter);
     copyScene->setFCM(std::make_shared<FCM>(*fcm));
@@ -163,4 +172,8 @@ GraphScene* GraphScene::copy() const {
     }
     copyScene->setMode(EditMode::EditValues);
     return copyScene;
+}
+
+void GraphScene::conceptPositionChanged() {
+    conceptPositionChangedFlag = true;
 }

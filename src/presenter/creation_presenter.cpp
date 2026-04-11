@@ -16,6 +16,7 @@ void CreationPresenter::createConcept(const QPointF pos) {
         [=](const std::shared_ptr<Concept>& concept) {
             *fcm->concepts[id] = *concept;
             emit conceptUpdated(fcm->concepts[id]);
+            emit autosave();
         });
 
     connect(conceptWindow, &QObject::destroyed, this, [=]() {
@@ -40,6 +41,7 @@ void CreationPresenter::updateConcept(QUuid id) {
         [=](const std::shared_ptr<Concept>& concept) {
             *fcm->concepts[id] = *concept;
             emit conceptUpdated(fcm->concepts[id]);
+            emit autosave();
         });
 
     connect(conceptWindow, &QObject::destroyed, this, [=]() {
@@ -85,6 +87,7 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
             [=](const std::shared_ptr<Weight>& weight) {
                 *fcm->weights[id] = *weight;
                 emit weightUpdated(fcm->weights[id]);
+                emit autosave();
             });
 
     connect(weightWindow, &QObject::destroyed, this, [=]() {
@@ -109,6 +112,7 @@ void CreationPresenter::updateWeight(QUuid id) {
             [=](const std::shared_ptr<Weight>& weight) {
                 *fcm->weights[id] = *weight;
                 emit weightUpdated(fcm->weights[id]);
+                emit autosave();
             });
 
     connect(weightWindow, &QObject::destroyed, this, [=]() {
@@ -142,6 +146,7 @@ void CreationPresenter::deleteConcept(QUuid id) {
 
     fcm->concepts.erase(id);
     emit conceptDeleted(id);
+    emit autosave();
 }
 
 void CreationPresenter::deleteWeight(QUuid id) {
@@ -154,6 +159,7 @@ void CreationPresenter::deleteWeight(QUuid id) {
     fcm->weights.erase(id);
     weightWindows.erase(id);
     emit weightDeleted(id);
+    emit autosave();
 }
 
 void CreationPresenter::setConceptPredictedValues(QUuid id) {
@@ -182,6 +188,7 @@ void CreationPresenter::updateTerm(QUuid id) {
         }
     }
     updateTermsLists();
+    emit autosave();
 }
 
 void CreationPresenter::deleteTerm(QUuid id) {
@@ -199,6 +206,7 @@ void CreationPresenter::deleteTerm(QUuid id) {
         }
     }
     updateTermsLists();
+    emit autosave();
 }
 
 void CreationPresenter::updateTermsLists() {
@@ -208,4 +216,17 @@ void CreationPresenter::updateTermsLists() {
     for (auto [_, window] : weightWindows) {
         window->updateTermsList();
     }
+}
+
+void CreationPresenter::retranslateElementsWindows() {
+    for (auto [_, window] : conceptWindows) {
+        window->retranslate();
+    }
+    for (auto [_, window] : weightWindows) {
+        window->retranslate();
+    }
+}
+
+void CreationPresenter::emitAutosave() {
+    emit autosave();
 }

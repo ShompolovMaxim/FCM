@@ -201,3 +201,7 @@ void ConceptWindow::updateCurrentConcept() {
     }
     currentConcept->term = nullptr;
 }
+
+void ConceptWindow::retranslate() {
+    ui->retranslateUi(this);
+}

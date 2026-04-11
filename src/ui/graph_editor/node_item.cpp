@@ -5,7 +5,7 @@
 #include "color_value_adapter/color_value_adapter.h"
 
 NodeItem::NodeItem(std::shared_ptr<Concept> concept)
-    : nodeName(concept->name), id(concept->id), concept(concept), colorValueAdapter(std::make_unique<ColorValueAdapter>()) {
+    : nodeName(concept->name), id(concept->id), concept(concept), colorValueAdapter(std::make_unique<ColorValueAdapter>()), QObject() {
     setRect(-25, -25, 50, 50);
     setFlags(ItemIsMovable | ItemIsSelectable | ItemSendsGeometryChanges);
     setValue(nullptr);
@@ -33,6 +33,7 @@ void NodeItem::setValue(double value) {
 QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant& val) {
     if (change == ItemPositionHasChanged) {
         concept->pos = scenePos();
+        emit positionChanged();
         for (EdgeItem* e : edges) {
             e->updatePosition();
         }

@@ -2,6 +2,7 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
+#include <QTranslator>
 #include <memory>
 
 #include "model/entities/fcm.h"
@@ -64,6 +65,8 @@ public slots:
     void saveAs();
     void save();
     void open();
+    void autosaveChange(bool flag);
+    void autosave();
     void saveAsTemplate();
     void openTemplate();
     void onExportPng();
@@ -78,6 +81,14 @@ public slots:
     void changeExperimentsVisibility(bool checked);
     void changeSensitivityAnalysisVisibility(bool checked);
 
+    void nameChanged(QString newName);
+    void createNewModel();
+
+    void joinModels();
+
+    void setEnglish();
+    void setRussian();
+
 private:
     void simulationFinished();
 
@@ -87,7 +98,9 @@ private:
 
     void updateFuzzyValuePlot();
 
-    void loadFCM(const FCM& newFCM);
+    void loadFCM(std::shared_ptr<FCM> newFCM);
+
+    void addFCM(std::shared_ptr<FCM> fcm);
 
     Ui::MainWindow *ui;
     std::shared_ptr<SimulationPresenter> presenter;
@@ -105,5 +118,11 @@ private:
     bool sensitivityPlotShown = false;
 
     QSettings settings = QSettings("HSE", "FCM");
+
+    std::vector<std::shared_ptr<FCM>> fcms;
+    std::vector<QAction*> actions;
+    size_t currentModelIdx;
+
+    QTranslator translatorRus;
 };
 #endif // MAIN_WINDOW_H

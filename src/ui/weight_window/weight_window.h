@@ -3,7 +3,6 @@
 
 #include "model/entities/term.h"
 #include "model/entities/weight.h"
-#include "model/fuzzy_logic/numeric_fuzzifier.h"
 
 #include <QDialog>
 
@@ -22,6 +21,8 @@ public:
     void setPredictedValues();
 
     void updateTermsList();
+
+    void retranslate();
 
 signals:
     void applied(const std::shared_ptr<Weight>& value);
@@ -44,7 +45,6 @@ private:
     Ui::WeightWindow *ui;
     const std::map<QUuid, std::shared_ptr<Term>>& terms;
     std::shared_ptr<Weight> currentWeight;
-    std::shared_ptr<Fuzzifier> fuzzifier = std::make_shared<NumericFuzzifier>();
     bool creation;
 };
 

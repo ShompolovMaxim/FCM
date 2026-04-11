@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="modelSettings">
      <attribute name="title">
@@ -469,7 +469,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>402</width>
+        <width>491</width>
         <height>901</height>
        </rect>
       </property>
@@ -518,9 +518,9 @@
      <widget class="GraphView" name="graphicsView">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>510</x>
         <y>100</y>
-        <width>1351</width>
+        <width>1271</width>
         <height>811</height>
        </rect>
       </property>
@@ -528,9 +528,9 @@
      <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>510</x>
         <y>50</y>
-        <width>1351</width>
+        <width>1271</width>
         <height>41</height>
        </rect>
       </property>
@@ -594,9 +594,9 @@
      <widget class="QWidget" name="horizontalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>510</x>
         <y>10</y>
-        <width>1351</width>
+        <width>1271</width>
         <height>31</height>
        </rect>
       </property>
@@ -1027,6 +1027,9 @@
        </item>
        <item>
         <widget class="QTextBrowser" name="textBrowserNotesPredict">
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
          <property name="html">
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1480,6 +1483,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </item>
        <item>
         <widget class="QTextBrowser" name="textBrowserNotesSensitivity">
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
          <property name="html">
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1613,8 +1619,15 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="title">
      <string>Settings</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionEnglish"/>
+     <addaction name="actionRussian"/>
+    </widget>
     <addaction name="actionTerms"/>
-    <addaction name="actionLanguage"/>
+    <addaction name="menuLanguage"/>
     <addaction name="actionDisable_Tips"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -1735,11 +1748,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>Default Terms</string>
    </property>
   </action>
-  <action name="actionLanguage">
-   <property name="text">
-    <string>Language</string>
-   </property>
-  </action>
   <action name="actionDisable_Tips">
    <property name="text">
     <string>Disable Tips</string>
@@ -1830,6 +1838,22 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
    <property name="text">
     <string>Sensitivity analysis</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionRussian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Russian</string>
    </property>
   </action>
  </widget>

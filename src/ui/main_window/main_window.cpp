@@ -1,12 +1,15 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
+#include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/save_as_window/save_as_window.h"
 #include "ui/load_model_window/load_model_window.h"
 
 #include "repository/json_repository.h"
 #include "repository/migration_manager.h"
+
+#include "model/join/models_joiner.h"
 
 #include <QStandardItemModel>
 
@@ -25,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     fcm = std::make_shared<FCM>();
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm, nullptr);
+    connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     presenter = std::make_shared<SimulationPresenter>(creationPresenter, nullptr);
 
@@ -78,11 +82,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
+    connect(ui->actionAutoSave, &QAction::toggled, this, &MainWindow::autosaveChange);
+    connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     connect(ui->actionSaveAsTemplate, &QAction::triggered, this, &MainWindow::saveAsTemplate);
     connect(ui->actionOpenTemplate, &QAction::triggered, this, &MainWindow::openTemplate);
     connect(ui->actionExportPNG, &QAction::triggered, this, &MainWindow::onExportPng);
     connect(ui->actionExportJSON, &QAction::triggered, this, &MainWindow::onExportJson);
     connect(ui->actionImport, &QAction::triggered, this, &MainWindow::onImportJson);
+
+    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), std::bind(&MainWindow::autosave, this));
+    connect(ui->useFuzzyValues, &QCheckBox::toggled, std::bind(&MainWindow::autosave, this));
+    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), std::bind(&MainWindow::autosave, this));
+    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), std::bind(&MainWindow::autosave, this));
+    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, std::bind(&MainWindow::autosave, this));
+    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), std::bind(&MainWindow::autosave, this));
+    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), std::bind(&MainWindow::autosave, this));
+    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), std::bind(&MainWindow::autosave, this));
 
     ui->fuzzyValuePlot->xAxis->setRange(-1.1, 1.1);
     ui->fuzzyValuePlot->yAxis->setRange(0, 1);
@@ -138,6 +153,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actionSimulation->setChecked(settings.value("tabs/simulation", true).toBool());
     ui->actionExperiments->setChecked(settings.value("tabs/experiments", true).toBool());
     ui->actionSensitivityAnalysis->setChecked(settings.value("tabs/sensitivity", true).toBool());
+
+    QObject::connect(ui->modelName, &QLineEdit::textChanged, this, &MainWindow::nameChanged);
+    addFCM(fcm);
+    ui->modelName->setText("New model");
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::createNewModel);
+
+    connect(ui->actionJoinFCM, &QAction::triggered, this, &MainWindow::joinModels);
+
+    auto lang = settings.value("language", "").toString();
+    translatorRus.load("FCM_ru_RU.qm");
+    if (lang.isEmpty()) {
+        ui->actionEnglish->setChecked(true);
+    } else {
+        ui->actionRussian->setChecked(true);
+        qApp->installTranslator(&translatorRus);
+        ui->retranslateUi(this);
+    }
+    connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
+    connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
 }
 
 MainWindow::~MainWindow() {
@@ -211,6 +245,7 @@ void MainWindow::predict() {
     experiment.timestamp = QDateTime::currentDateTime();
     fcm->experiments.push_back(experiment);
     addExperiment(experiment);
+    autosave();
 
     auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
     auto* oldPredictScene = ui->graphicsViewPredict->scene();
@@ -567,8 +602,8 @@ void MainWindow::save() {
     }
 }
 
-void MainWindow::loadFCM(const FCM& newFCM) {
-    *fcm = newFCM;
+void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
+    fcm = newFCM;
 
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setPlainText(fcm->description);
@@ -595,6 +630,8 @@ void MainWindow::loadFCM(const FCM& newFCM) {
 
     ui->treeWidgetTerms->expandAll();
 
+    creationPresenter = std::make_shared<CreationPresenter>(fcm);
+    connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     auto newScene = new GraphScene(fcm, creationPresenter);
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
     QObject::connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
@@ -656,7 +693,17 @@ void MainWindow::open() {
         return;
     }
 
-    loadFCM(*model);
+    loadFCM(std::make_shared<FCM>(*model));
+}
+
+void MainWindow::autosaveChange(bool flag) {
+    fcm->autosaveOn = flag;
+}
+
+void MainWindow::autosave() {
+    if (fcm->autosaveOn) {
+        save();
+    }
 }
 
 void MainWindow::saveAsTemplate() {
@@ -689,7 +736,7 @@ void MainWindow::openTemplate() {
         return;
     }
 
-    loadFCM(*model);
+    loadFCM(std::make_shared<FCM>(*model));
 }
 
 void MainWindow::onExportPng()
@@ -757,7 +804,7 @@ void MainWindow::onImportJson() {
         QMessageBox::warning(this, "Error", "Failed to load file.");
     }
 
-    loadFCM(*model);
+    loadFCM(std::make_shared<FCM>(*model));
 }
 
 void MainWindow::changeModelSettingsVisibility(bool checked) {
@@ -793,4 +840,92 @@ void MainWindow::changeExperimentsVisibility(bool checked) {
 void MainWindow::changeSensitivityAnalysisVisibility(bool checked) {
     ui->tabWidget->setTabVisible(6, checked);
     settings.setValue("tabs/sensitivity", checked);
+}
+
+void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {
+    fcm = newFcm;
+    currentModelIdx = fcms.size();
+    fcms.push_back(fcm);
+    actions.push_back(ui->menuModels->addAction(fcm->name));
+    actions[currentModelIdx]->setData(currentModelIdx);
+}
+
+void MainWindow::nameChanged(QString newName) {
+    actions[currentModelIdx]->setText(newName);
+    fcm->name = newName;
+    autosave();
+}
+
+void MainWindow::createNewModel() {
+    fcm = std::make_shared<FCM>();
+    fcm->name = "New model";
+    addFCM(fcm);
+    loadFCM(fcm);
+}
+
+void MainWindow::joinModels() {
+    QList<QString> unsavedModelsNames;
+    unsavedModelsNames.reserve(fcms.size());
+    for (const auto& model : fcms) {
+        if (fcm->dbId == -1) {
+            unsavedModelsNames.push_back(model->name);
+        }
+    }
+    const auto savedModelsNames = savingManager->getModelsNames();
+    const auto templatesNames = templatesManager->getTemplatesNames();
+
+    JoinWindow* joinWindow = new JoinWindow(unsavedModelsNames, savedModelsNames, templatesNames, this);
+
+    if (joinWindow->exec() != QDialog::Accepted) {
+        return;
+    }
+
+    std::shared_ptr<FCM> baseFCM;
+    std::vector<std::shared_ptr<FCM>> joinFCMs;
+
+    for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Unsaved)) {
+        for (auto unsavedFCM : fcms) {
+            if (unsavedFCM->name == modelName) {
+                joinFCMs.push_back(unsavedFCM);
+                break;
+            }
+        }
+        if (modelName == joinWindow->getTermsModel()) {
+            baseFCM = joinFCMs.back();
+        }
+    }
+
+    for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Saved)) {
+        joinFCMs.push_back(std::make_shared<FCM>(*savingManager->getFCM(modelName)));
+        if (modelName == joinWindow->getTermsModel()) {
+            baseFCM = joinFCMs.back();
+        }
+    }
+
+    auto joinedFCM = ModelsJoiner().join(baseFCM, joinFCMs, joinWindow->getJoinMode(), joinWindow->getResultName());
+
+    addFCM(joinedFCM);
+    loadFCM(joinedFCM);
+}
+
+void MainWindow::setEnglish() {
+    QSignalBlocker b1(ui->actionRussian);
+    QSignalBlocker b2(ui->actionEnglish);
+    ui->actionEnglish->setChecked(true);
+    ui->actionRussian->setChecked(false);
+    qApp->removeTranslator(&translatorRus);
+    ui->retranslateUi(this);
+    creationPresenter->retranslateElementsWindows();
+    settings.setValue("language", "");
+}
+
+void MainWindow::setRussian() {
+    QSignalBlocker b1(ui->actionEnglish);
+    QSignalBlocker b2(ui->actionRussian);
+    ui->actionRussian->setChecked(true);
+    ui->actionEnglish->setChecked(false);
+    qApp->installTranslator(&translatorRus);
+    ui->retranslateUi(this);
+    creationPresenter->retranslateElementsWindows();
+    settings.setValue("language", "RU");
 }

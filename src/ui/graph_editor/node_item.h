@@ -9,8 +9,9 @@
 
 class EdgeItem;
 
-class NodeItem : public QGraphicsEllipseItem
+class NodeItem : public QObject, public QGraphicsEllipseItem
 {
+    Q_OBJECT
 public:
     NodeItem(std::shared_ptr<Concept> concept);
 
@@ -30,6 +31,9 @@ public:
     std::shared_ptr<Concept> getConcept() { return concept; };
 
     void highlight(bool flag);
+
+signals:
+    void positionChanged();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& val) override;

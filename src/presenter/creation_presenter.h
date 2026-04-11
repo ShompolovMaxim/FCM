@@ -25,6 +25,10 @@ public:
     void updateTerm(QUuid id);
     void deleteTerm(QUuid id);
 
+    void retranslateElementsWindows();
+
+    void emitAutosave();
+
 private slots:
     void deleteConcept(QUuid id);
     void deleteWeight(QUuid id);
@@ -36,6 +40,8 @@ signals:
     void weightUpdated(std::shared_ptr<Weight> weight);
     void conceptDeleted(QUuid id);
     void weightDeleted(QUuid id);
+
+    void autosave();
 
 private:
     void updateTermsLists();

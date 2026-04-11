@@ -195,3 +195,8 @@ void WeightWindow::updateCurrentWeight() {
     }
     currentWeight->term = nullptr;
 }
+
+void WeightWindow::retranslate() {
+    ui->retranslateUi(this);
+}
+

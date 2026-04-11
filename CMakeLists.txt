@@ -59,7 +59,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/predictor.h src/model/predictor.cpp
         src/model/entities/term.h
         src/model/fuzzy_logic/fuzzifier.h
-        src/model/fuzzy_logic/numeric_fuzzifier.h src/model/fuzzy_logic/numeric_fuzzifier.cpp
+        src/model/fuzzy_logic/linear_fuzzifier.h src/model/fuzzy_logic/linear_fuzzifier.cpp
         src/model/entities/concept.h
         src/model/entities/weight.h
         src/model/entities/fcm.h
@@ -115,16 +115,19 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/repository/templates_repository.h src/repository/templates_repository.cpp
         src/repository/templates_manager.h src/repository/templates_manager.cpp
         src/ui/save_as_window/save_as_window.h src/ui/save_as_window/save_as_window.cpp src/ui/save_as_window/save_as_window.ui
-
-
-
+        src/ui/join_window/join_window.h src/ui/join_window/join_window.cpp src/ui/join_window/join_window.ui
+        src/model/join/models_joiner.h src/model/join/models_joiner.cpp
+        src/ui/join_window/selection_mode.h
+        src/ui/join_window/group_type.h
+        src/model/join/mode.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FCM APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    qt_add_translations(FCM TS_FILES translations/FCM_ru_RU.ts)
 else()
     if(ANDROID)
         add_library(FCM SHARED
