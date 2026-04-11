@@ -673,6 +673,8 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
     ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
     ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
+
+    ui->actionAutoSave->setChecked(fcm->autosaveOn);
 }
 
 void MainWindow::open() {

@@ -22,9 +22,10 @@ bool ModelsRepository::rollback() {
 
 std::optional<int> ModelsRepository::createModel(FCM &fcm) {
     QSqlQuery query(db);
-    query.prepare("INSERT INTO models (name,description) VALUES (:name,:description)");
+    query.prepare("INSERT INTO models (name,description,autosave_on) VALUES (:name,:description,:autosave_on)");
     query.bindValue(":name", fcm.name);
     query.bindValue(":description", fcm.description);
+    query.bindValue(":autosave_on", fcm.autosaveOn);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
         return {};
@@ -35,9 +36,10 @@ std::optional<int> ModelsRepository::createModel(FCM &fcm) {
 
 bool ModelsRepository::updateModel(const FCM &fcm) {
     QSqlQuery query(db);
-    query.prepare("UPDATE models SET name=:name,description=:description WHERE id=:id");
+    query.prepare("UPDATE models SET name=:name,description=:description,autosave_on=:autosave_on WHERE id=:id");
     query.bindValue(":name", fcm.name);
     query.bindValue(":description", fcm.description);
+    query.bindValue(":autosave_on", fcm.autosaveOn);
     query.bindValue(":id", fcm.dbId);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
@@ -303,13 +305,14 @@ QList<QString> ModelsRepository::getModelsNames() {
 
 std::optional<FCM> ModelsRepository::getModel(const QString &modelName) {
     QSqlQuery query(db);
-    query.prepare("SELECT id,name,description FROM models WHERE name=:name");
+    query.prepare("SELECT id,name,description,autosave_on FROM models WHERE name=:name");
     query.bindValue(":name", modelName);
     if (!query.exec() || !query.next()) return {};
     FCM fcm;
     fcm.dbId = query.value("id").toInt();
     fcm.name = query.value("name").toString();
     fcm.description = query.value("description").toString();
+    fcm.autosaveOn = query.value("autosave_on").toBool();
     auto experimentsOpt = getExperiments(fcm.dbId);
     if (!experimentsOpt) return {};
     auto experiments = *experimentsOpt;

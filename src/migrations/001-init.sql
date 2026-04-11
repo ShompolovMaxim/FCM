@@ -11,7 +11,8 @@ WHERE NOT EXISTS (SELECT 1 FROM schema_version);
 CREATE TABLE IF NOT EXISTS models (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
-    description TEXT
+    description TEXT,
+    autosave_on INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS terms (
