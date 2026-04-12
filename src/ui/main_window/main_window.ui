@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="modelSettings">
      <attribute name="title">
@@ -239,7 +239,7 @@
        <string>Term notes</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="modelNotes">
+     <widget class="MarkdownEdit" name="modelNotes">
       <property name="geometry">
        <rect>
         <x>1160</x>
@@ -703,11 +703,6 @@
            <item>
             <property name="text">
              <string>changing weights</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>training weights</string>
             </property>
            </item>
           </widget>
@@ -1216,11 +1211,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <property name="text">
              <string>changing weights</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>training weights</string>
             </property>
            </item>
           </widget>
@@ -1873,6 +1863,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <class>AdjacencyTableView</class>
    <extends>QTableView</extends>
    <header>ui\adjacency_table\adjacency_table_view.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MarkdownEdit</class>
+   <extends>QTextEdit</extends>
+   <header location="global">ui/markdown_edit/markdown_edit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

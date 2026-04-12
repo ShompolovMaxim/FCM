@@ -120,6 +120,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/join_window/selection_mode.h
         src/ui/join_window/group_type.h
         src/model/join/mode.h
+        src/ui/markdown_edit/markdown_edit.h src/ui/markdown_edit/markdown_edit.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FCM APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

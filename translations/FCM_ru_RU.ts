@@ -107,19 +107,19 @@
         <location filename="../src/ui/join_window/join_window.ui" line="79"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_join_window.h" line="143"/>
         <source>numeric</source>
-        <translation type="unfinished"></translation>
+        <translation>численный</translation>
     </message>
     <message>
         <location filename="../src/ui/join_window/join_window.ui" line="84"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_join_window.h" line="144"/>
         <source>fuzzy</source>
-        <translation type="unfinished"></translation>
+        <translation>нечёткий</translation>
     </message>
     <message>
         <location filename="../src/ui/join_window/join_window.ui" line="89"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_join_window.h" line="145"/>
         <source>gibrid</source>
-        <translation type="unfinished"></translation>
+        <translation>гибридный</translation>
     </message>
     <message>
         <location filename="../src/ui/join_window/join_window.ui" line="101"/>
@@ -389,13 +389,13 @@
         <location filename="../src/ui/main_window/main_window.ui" line="549"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1232"/>
         <source>from</source>
-        <translation type="unfinished"></translation>
+        <translation>от</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="554"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1233"/>
         <source>on</source>
-        <translation type="unfinished"></translation>
+        <translation>на</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="565"/>
@@ -470,7 +470,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1293"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="703"/>
         <source>const weights</source>
-        <translation type="unfinished"></translation>
+        <translation>постоянные веса</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="705"/>
@@ -479,7 +479,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1294"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="704"/>
         <source>changing weights</source>
-        <translation type="unfinished"></translation>
+        <translation>изменяющиеся веса</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="710"/>
@@ -514,7 +514,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1299"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="708"/>
         <source>bivalent</source>
-        <translation type="unfinished"></translation>
+        <translation>бивалентная</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="742"/>
@@ -523,7 +523,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1300"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="709"/>
         <source>trivalent</source>
-        <translation type="unfinished"></translation>
+        <translation>тривалентная</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="747"/>
@@ -532,7 +532,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1301"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="710"/>
         <source>threshold-linear</source>
-        <translation type="unfinished"></translation>
+        <translation>порогово-линейная</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="752"/>
@@ -541,7 +541,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1302"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="711"/>
         <source>sigmoid</source>
-        <translation type="unfinished"></translation>
+        <translation>сигмоида</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="757"/>
@@ -550,7 +550,7 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1303"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="712"/>
         <source>hyperbolic tangent</source>
-        <translation type="unfinished"></translation>
+        <translation>гиперболический тангенс</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="792"/>
@@ -1122,7 +1122,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="190"/>
         <source>Mode: Edit values</source>
-        <translation type="unfinished">Режим изменения значений</translation>
+        <translation>Режим изменения значений</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="280"/>

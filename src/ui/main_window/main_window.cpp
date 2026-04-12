@@ -27,6 +27,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
     connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
+    ui->comboBoxAlgorithm->setItemData(0, "const weights", Qt::UserRole);
+    ui->comboBoxAlgorithm->setItemData(1, "changing weights", Qt::UserRole);
+    ui->comboBoxAlgorithmSensitivity->setItemData(0, "const weights", Qt::UserRole);
+    ui->comboBoxAlgorithmSensitivity->setItemData(1, "changing weights", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(0, "bivalent", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(1, "trivalent", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(2, "threshold-linear", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(3, "sigmoid", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(4, "hyperbolic tangent", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(0, "bivalent", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(1, "trivalent", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(2, "threshold-linear", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(3, "sigmoid", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(4, "hyperbolic tangent", Qt::UserRole);
+    ui->comboBoxMetric->setItemData(0, "MSE", Qt::UserRole);
+    ui->comboBoxMetric->setItemData(1, "MAE", Qt::UserRole);
+    ui->comboBoxMetric->setItemData(2, "MAPE", Qt::UserRole);
+    ui->comboBoxMetricSensitivity->setItemData(0, "MSE", Qt::UserRole);
+    ui->comboBoxMetricSensitivity->setItemData(1, "MAE", Qt::UserRole);
+    ui->comboBoxMetricSensitivity->setItemData(2, "MAPE", Qt::UserRole);
+    ui->influenceDirection->setItemData(0, "from", Qt::UserRole);
+    ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("models.db");
@@ -198,9 +220,9 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     auto experimentsModel = ui->experimantsTable->model();
     int row = experimentsModel->rowCount();
     experimentsModel->insertRow(row);
-    experimentsModel->setData(experimentsModel->index(row, 0), experiment.predictionParameters.algorithm);
-    experimentsModel->setData(experimentsModel->index(row, 1), experiment.predictionParameters.activationFunction);
-    experimentsModel->setData(experimentsModel->index(row, 2), experiment.predictionParameters.metric);
+    experimentsModel->setData(experimentsModel->index(row, 0), MainWindow::tr(experiment.predictionParameters.algorithm.toUtf8().constData()));
+    experimentsModel->setData(experimentsModel->index(row, 1), MainWindow::tr(experiment.predictionParameters.activationFunction.toUtf8().constData()));
+    experimentsModel->setData(experimentsModel->index(row, 2), MainWindow::tr(experiment.predictionParameters.metric.toUtf8().constData()));
     experimentsModel->setData(experimentsModel->index(row, 3), experiment.predictionParameters.predictToStatic);
     experimentsModel->setData(experimentsModel->index(row, 4), experiment.predictionParameters.threshold);
     experimentsModel->setData(experimentsModel->index(row, 5), experiment.predictionParameters.stepsLessThreshold);
@@ -575,10 +597,10 @@ void MainWindow::updateFCM() {
 
 PredictionParameters MainWindow::getPredictionParameters() {
     return PredictionParameters{
-        ui->comboBoxAlgorithm->currentText(),
+        ui->comboBoxAlgorithm->currentData(Qt::UserRole).toString(),
         ui->useFuzzyValues->isChecked(),
-        ui->comboBoxActivation->currentText(),
-        ui->comboBoxMetric->currentText(),
+        ui->comboBoxActivation->currentData(Qt::UserRole).toString(),
+        ui->comboBoxMetric->currentData(Qt::UserRole).toString(),
         ui->checkBoxPredictToStatic->isChecked(),
         ui->doubleSpinBoxThreshold->value(),
         ui->spinBoxMetricSteps->value(),
@@ -673,10 +695,13 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
         addExperiment(experiment);
     }
 
-    ui->comboBoxAlgorithm->setCurrentText(fcm->predictionParameters.algorithm);
+    int indexAlgorithm = ui->comboBoxAlgorithm->findData(fcm->predictionParameters.algorithm, Qt::UserRole);
+    ui->comboBoxAlgorithm->setCurrentIndex(indexAlgorithm);
     ui->useFuzzyValues->setChecked(fcm->predictionParameters.useFuzzyValues);
-    ui->comboBoxActivation->setCurrentText(fcm->predictionParameters.activationFunction);
-    ui->comboBoxMetric->setCurrentText(fcm->predictionParameters.metric);
+    int indexActivation = ui->comboBoxActivation->findData(fcm->predictionParameters.activationFunction, Qt::UserRole);
+    ui->comboBoxActivation->setCurrentIndex(indexActivation);
+    int indexMetric = ui->comboBoxMetric->findData(fcm->predictionParameters.metric, Qt::UserRole);
+    ui->comboBoxMetric->setCurrentIndex(indexMetric);
     ui->checkBoxPredictToStatic->setChecked(fcm->predictionParameters.predictToStatic);
     ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
     ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
@@ -1001,6 +1026,12 @@ void MainWindow::changeEvent(QEvent *event) {
             if (auto* deleteButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 9)))) {
                 deleteButton->setText(tr("Delete"));
             }
+
+            QModelIndex idx = ui->experimantsTable->model()->index(row, 0);
+            ui->experimantsTable->model()->setData(idx, MainWindow::tr(fcm->experiments[row].predictionParameters.algorithm.toUtf8().constData()));
+
+            idx = ui->experimantsTable->model()->index(row, 1);
+            ui->experimantsTable->model()->setData(idx, MainWindow::tr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData()));
         }
     }
 

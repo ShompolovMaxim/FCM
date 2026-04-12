@@ -19,11 +19,11 @@ inline QString joinModeToString(JoinMode mode) {
 }
 
 inline JoinMode joinModeFromString(const QString& str) {
-    if (str == "Numeric") {
+    if (str == "numeric") {
         return JoinMode::Numeric;
-    } else if (str == "Fuzzy") {
+    } else if (str == "fuzzy") {
         return JoinMode::Fuzzy;
-    } else if (str == "Gibrid") {
+    } else if (str == "gibrid") {
         return JoinMode::Gibrid;
     }
 

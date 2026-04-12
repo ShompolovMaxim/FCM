@@ -10,6 +10,10 @@ JoinWindow::JoinWindow(const QList<QString>& unsavedModelsNames, const QList<QSt
     : unsavedModelsNames(unsavedModelsNames), savedModelsNames(savedModelsNames), templatesNames(templatesNames), QDialog(parent), ui(new Ui::JoinWindow) {
     ui->setupUi(this);
 
+    ui->joinMode->setItemData(0, "numeric", Qt::UserRole);
+    ui->joinMode->setItemData(1, "fuzzy", Qt::UserRole);
+    ui->joinMode->setItemData(2, "gibrid", Qt::UserRole);
+
     backButton = new QPushButton(tr("Back"));
     ui->buttonBox->addButton(backButton, QDialogButtonBox::ActionRole);
     okButton = new QPushButton("OK");
@@ -185,5 +189,5 @@ QString JoinWindow::getResultName() const {
 }
 
 JoinMode JoinWindow::getJoinMode() const {
-    return joinModeFromString(ui->joinMode->currentText());
+    return joinModeFromString(ui->joinMode->currentData(Qt::UserRole).toString());
 }

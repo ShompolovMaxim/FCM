@@ -4,7 +4,6 @@
 #include <QtWidgets>
 
 #include "color_value_adapter/IColorValueAdapter.h"
-
 #include "model/entities/concept.h"
 
 class EdgeItem;
@@ -24,11 +23,9 @@ public:
     QString getName() const { return nodeName; }
     void setName(QString name);
 
-    //std::shared_ptr<Term> getValue() const { return term; }
-
     QUuid getId() const { return id; }
 
-    std::shared_ptr<Concept> getConcept() { return concept; };
+    std::shared_ptr<Concept> getConcept() { return concept; }
 
     void highlight(bool flag);
 
@@ -37,7 +34,6 @@ signals:
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& val) override;
-
     void paint(QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w) override;
 
 private:
@@ -48,4 +44,6 @@ private:
     QUuid id;
     std::unique_ptr<IColorValueAdapter> colorValueAdapter;
     std::vector<double> predictedValues;
+
+    QGraphicsSimpleTextItem* label = nullptr;
 };

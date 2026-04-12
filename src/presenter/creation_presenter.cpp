@@ -31,6 +31,7 @@ void CreationPresenter::createConcept(const QPointF pos) {
 
 void CreationPresenter::updateConcept(QUuid id) {
     if (conceptWindows.find(id) != conceptWindows.end()) {
+        conceptWindows[id]->raise();
         return;
     }
 
@@ -102,6 +103,7 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
 
 void CreationPresenter::updateWeight(QUuid id) {
     if (weightWindows.find(id) != weightWindows.end()) {
+        weightWindows[id]->raise();
         return;
     }
 

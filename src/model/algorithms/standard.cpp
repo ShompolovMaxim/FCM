@@ -9,7 +9,7 @@ CalculationFCM StandardPredictionAlgorithm::step(const CalculationFCM& fcm) cons
     result.weights = fcm.weights;
 
     for (const auto& [_, weight] : fcm.weights) {
-        result.concepts[weight.toConceptId].value = fcm.concepts.at(weight.toConceptId).value + fcm.concepts.at(weight.fromConceptId).value * weight.value;
+        result.concepts[weight.toConceptId].value += fcm.concepts.at(weight.fromConceptId).value * weight.value;
     }
     for (const auto& [id, _] : result.concepts) {
         result.concepts[id].value = conceptsActivationFunction->activate(result.concepts[id].value);

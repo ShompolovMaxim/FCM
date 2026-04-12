@@ -77,7 +77,7 @@ void StaticAnalysisPresenter::recalculateInfluence() {
     if (graphConcept->currentIndex()) {
         auto conceptId =graphConcept->currentData().toUuid();
         auto steps = influenceSteps->value();
-        auto influenceFrom = influenceDirection->currentText() == "from";
+        auto influenceFrom = influenceDirection->currentData(Qt::UserRole).toString() == "from";
         analyzer.updateInfluence(conceptId, steps, influenceFrom);
     }
     refreshUI();
