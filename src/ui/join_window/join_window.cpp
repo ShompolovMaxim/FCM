@@ -10,11 +10,11 @@ JoinWindow::JoinWindow(const QList<QString>& unsavedModelsNames, const QList<QSt
     : unsavedModelsNames(unsavedModelsNames), savedModelsNames(savedModelsNames), templatesNames(templatesNames), QDialog(parent), ui(new Ui::JoinWindow) {
     ui->setupUi(this);
 
-    backButton = new QPushButton("Back");
+    backButton = new QPushButton(tr("Back"));
     ui->buttonBox->addButton(backButton, QDialogButtonBox::ActionRole);
     okButton = new QPushButton("OK");
     ui->buttonBox->addButton(okButton, QDialogButtonBox::ActionRole);
-    nextButton = new QPushButton("Next");
+    nextButton = new QPushButton(tr("Next"));
     ui->buttonBox->addButton(nextButton, QDialogButtonBox::ActionRole);
 
     connect(ui->filterLine, &QLineEdit::textChanged, this, &JoinWindow::filterTree);
@@ -45,7 +45,7 @@ void JoinWindow::populateTree(const QList<QList<QString>>& data, const QList<QSt
         parent->setText(0, headers[i]);
 
         JoinGroupType groupType = JoinGroupType::Unsaved;
-        if (headers[i] == "Saved models") {
+        if (headers[i] == tr("Saved models")) {
             groupType = JoinGroupType::Saved;
         }
 
@@ -144,11 +144,10 @@ void JoinWindow::next() {
     backButton->show();
     okButton->show();
     nextButton->hide();
-    ui->modelListLabel->setText("Choose model which terms will be used:");
-    ui->resultName->setEnabled(false);
+    ui->modelListLabel->setText(tr("Choose model which terms will be used:"));
     selectionMode = SelectionMode::Single;
     selectedNames = getSelectedNames();
-    populateTree({selectedNames[JoinGroupType::Unsaved], selectedNames[JoinGroupType::Saved], templatesNames}, {"Unsaved models", "Saved models", "Templates"});
+    populateTree({selectedNames[JoinGroupType::Unsaved], selectedNames[JoinGroupType::Saved], templatesNames}, {tr("Unsaved models"), tr("Saved models"), tr("Templates")});
     filterTree(ui->filterLine->text());
 }
 
@@ -156,10 +155,9 @@ void JoinWindow::back() {
     okButton->hide();
     backButton->hide();
     nextButton->show();
-    ui->modelListLabel->setText("Choose models to join:");
-    ui->resultName->setEnabled(true);
+    ui->modelListLabel->setText(tr("Choose models to join:"));
     selectionMode = SelectionMode::Multiple;
-    populateTree({unsavedModelsNames, savedModelsNames}, {"Unsaved models", "Saved models"});
+    populateTree({unsavedModelsNames, savedModelsNames}, {tr("Unsaved models"), tr("Saved models")});
     filterTree(ui->filterLine->text());
 }
 
@@ -167,7 +165,7 @@ void JoinWindow::onOkClicked() {
     termsModel = getSelectedName();
 
     if (termsModel.isEmpty()) {
-        QMessageBox::warning(this, "Warning", "Please select a terms model before proceeding.");
+        QMessageBox::warning(this, tr("Warning"), tr("Please select a terms model before proceeding."));
         return;
     }
 

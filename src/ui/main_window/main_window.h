@@ -83,11 +83,15 @@ public slots:
 
     void nameChanged(QString newName);
     void createNewModel();
+    void switchModel();
 
     void joinModels();
 
     void setEnglish();
     void setRussian();
+
+protected:
+    void changeEvent(QEvent *event) override;
 
 private:
     void simulationFinished();
@@ -124,5 +128,11 @@ private:
     size_t currentModelIdx;
 
     QTranslator translatorRus;
+
+    double graphScale = 1;
+    double predictScale = 1;
+    EditMode editMode = EditMode::Create;
+    bool paused = false;
+    double currentMetricValue = 0;
 };
 #endif // MAIN_WINDOW_H

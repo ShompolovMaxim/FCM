@@ -8,7 +8,7 @@ WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, 
     ui->setupUi(this);
 
     if (currentWeight->name.isEmpty()) {
-        setWindowTitle("Create weight");
+        setWindowTitle(tr("Create weight"));
         creation = true;
     } else {
         setWindowTitle(currentWeight->name);
@@ -28,16 +28,16 @@ WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, 
     ui->plot->addGraph();
     ui->plot->addGraph();
     ui->plot->yAxis->setRange(-1.1, 1.1);
-    ui->plot->xAxis->setLabel("step");
-    ui->plot->yAxis->setLabel("weight value");
+    ui->plot->xAxis->setLabel(tr("step"));
+    ui->plot->yAxis->setLabel(tr("weight value"));
     ui->plot->graph(0)->setPen(QPen(Qt::red));
     ui->plot->graph(1)->setPen(QPen(QColorConstants::Svg::orange));
     ui->plot->graph(2)->setPen(QPen(Qt::green));
 
     ui->plotSensitivity->addGraph();
     ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
-    ui->plotSensitivity->xAxis->setLabel("change");
-    ui->plotSensitivity->yAxis->setLabel("sensitivity");
+    ui->plotSensitivity->xAxis->setLabel(tr("change"));
+    ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
 
     setPredictedValues();
 }
@@ -198,5 +198,16 @@ void WeightWindow::updateCurrentWeight() {
 
 void WeightWindow::retranslate() {
     ui->retranslateUi(this);
+    if (currentWeight->name.isEmpty()) {
+        setWindowTitle(tr("Create weight"));
+    } else {
+        setWindowTitle(currentWeight->name);
+    }
+    ui->plot->xAxis->setLabel(tr("step"));
+    ui->plot->yAxis->setLabel(tr("weight value"));
+    ui->plotSensitivity->xAxis->setLabel(tr("change"));
+    ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
+    ui->plot->replot();
+    ui->plotSensitivity->replot();
 }
 

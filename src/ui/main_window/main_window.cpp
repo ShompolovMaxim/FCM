@@ -16,6 +16,18 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    auto lang = settings.value("language", "").toString();
+    translatorRus.load("FCM_ru_RU.qm");
+    if (lang.isEmpty()) {
+        ui->actionEnglish->setChecked(true);
+    } else {
+        ui->actionRussian->setChecked(true);
+        qApp->installTranslator(&translatorRus);
+        ui->retranslateUi(this);
+    }
+    connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
+    connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("models.db");
     if (!db.open()) {
@@ -68,14 +80,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->termValueU, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueUChanged);
 
     conceptsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
-    conceptsGroup->setText(0, "Concepts terms");
+    conceptsGroup->setText(0, tr("Concepts terms"));
     weightsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
-    weightsGroup->setText(0, "Weights terms");
+    weightsGroup->setText(0, tr("Weights terms"));
     connect(ui->treeWidgetTerms, &QTreeWidget::currentItemChanged, this, &MainWindow::onCurrentItemChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &MainWindow::onItemChanged);
 
     QStandardItemModel* experimentsModel = new QStandardItemModel();
-    experimentsModel->setHorizontalHeaderLabels({"Algorithm", "Activation function", "Metric", "Predict to static", "Threshold", "Steps less threshold", "Fixed steps", "Timestamp", "", ""});
+    experimentsModel->setHorizontalHeaderLabels({tr("Algorithm"), tr("Activation function"), tr("Metric"), tr("Predict to static"), tr("Threshold"), tr("Steps less threshold"), tr("Fixed steps"), tr("Timestamp"), "", ""});
     ui->experimantsTable->setModel(experimentsModel);
     ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
@@ -129,8 +141,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->plotSensitivity->hide();
     ui->plotSensitivity->addGraph();
     ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
-    ui->plotSensitivity->xAxis->setLabel("max change");
-    ui->plotSensitivity->yAxis->setLabel("sensitivity");
+    ui->plotSensitivity->xAxis->setLabel(tr("max change"));
+    ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
 
     connect(ui->actionModelSettings, &QAction::toggled, this, &MainWindow::changeModelSettingsVisibility);
     connect(ui->actionGraph, &QAction::toggled, this, &MainWindow::changeGraphVisibility);
@@ -156,22 +168,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QObject::connect(ui->modelName, &QLineEdit::textChanged, this, &MainWindow::nameChanged);
     addFCM(fcm);
-    ui->modelName->setText("New model");
+    ui->modelName->setText(tr("New model"));
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::createNewModel);
 
     connect(ui->actionJoinFCM, &QAction::triggered, this, &MainWindow::joinModels);
-
-    auto lang = settings.value("language", "").toString();
-    translatorRus.load("FCM_ru_RU.qm");
-    if (lang.isEmpty()) {
-        ui->actionEnglish->setChecked(true);
-    } else {
-        ui->actionRussian->setChecked(true);
-        qApp->installTranslator(&translatorRus);
-        ui->retranslateUi(this);
-    }
-    connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
-    connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
 }
 
 MainWindow::~MainWindow() {
@@ -179,15 +179,19 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::updateGraphScaleLabel(double newScale) {
-    ui->labelScaleGraph->setText(QString("Scale: %1%").arg(newScale*100, 0, 'f', 2));
+    ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
+    graphScale = newScale;
 }
 
 void MainWindow::updatePredictScaleLabel(double newScale) {
-    ui->labelScalePredict->setText(QString("Scale: %1%").arg(newScale*100, 0, 'f', 2));
+    ui->labelScalePredict->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
+    predictScale = newScale;
 }
 
 void MainWindow::updateModeButtonText(EditMode newMode) {
-    ui->pushButtonMode->setText(newMode == EditMode::EditValues ? "Mode: Edit values" : "Mode: Create");
+    ui->pushButtonMode->setText(newMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
+    editMode = newMode;
+
 }
 
 void MainWindow::addExperiment(const Experiment& experiment) {
@@ -204,9 +208,9 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     experimentsModel->setData(experimentsModel->index(row, 7), experiment.timestamp);
     experimentsModel->setData(experimentsModel->index(row, 8), "");
     experimentsModel->setData(experimentsModel->index(row, 9), "");
-    QPushButton* btn = new QPushButton("Load", ui->experimantsTable);
+    QPushButton* btn = new QPushButton(tr("Load"), ui->experimantsTable);
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 8), btn);
-    QPushButton* deleteButton = new QPushButton("Delete", ui->experimantsTable);
+    QPushButton* deleteButton = new QPushButton(tr("Delete"), ui->experimantsTable);
     deleteButton->setProperty("row", row);
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 9), deleteButton);
     connect(deleteButton, &QPushButton::clicked, this, &MainWindow::onDeleteExperiment);
@@ -277,11 +281,13 @@ void MainWindow::resetPredictionScene() {
 
 void MainWindow::pauseResumePrediction() {
     if (ui->pushButtonPause->text() == "Pause") {
-        ui->pushButtonPause->setText("Resume");
+        ui->pushButtonPause->setText(MainWindow::tr("Resume"));
         presenter->pause();
+        paused = true;
     } else {
-        ui->pushButtonPause->setText("Pause");
+        ui->pushButtonPause->setText(MainWindow::tr("Pause"));
         presenter->resume();
+        paused = false;
     }
 }
 
@@ -297,13 +303,13 @@ void MainWindow::slowDown() {
 
 void MainWindow::stepForward() {
     if (!presenter->moveStep(ui->spinBoxMoveSteps->value())) {
-        QMessageBox::critical(this, "Error", "Value of step is not calculated or step out of range!");
+        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Value of step is not calculated or step out of range!"));
     }
 }
 
 void MainWindow::stepBack() {
     if (!presenter->moveStep(-ui->spinBoxMoveSteps->value())) {
-        QMessageBox::critical(this, "Error", "Value of step is not calculated or step out of range!");
+        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Value of step is not calculated or step out of range!"));
     }
 }
 
@@ -315,7 +321,8 @@ void MainWindow::simulationFinished() {
 void MainWindow::updateProgress(size_t value, size_t maxStep, double metricValue) {
     ui->progressBarPredict->setMaximum(maxStep);
     ui->progressBarPredict->setValue(value);
-    ui->labelMetricValue->setText(QString("Metric value: %1").arg(metricValue, 0, 'f', 4));
+    ui->labelMetricValue->setText(QString(MainWindow::tr("Metric value: %1")).arg(metricValue, 0, 'f', 4));
+    currentMetricValue = metricValue;
 }
 
 SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
@@ -345,11 +352,11 @@ void MainWindow::showSensitivityPlot() {
     if (sensitivityPlotShown) {
         ui->plotSensitivity->hide();
         ui->graphicsViewSensitivity->show();
-        ui->showSensitivityPlot->setText("FCM Sensitivity");
+        ui->showSensitivityPlot->setText(MainWindow::tr("FCM Sensitivity"));
     } else {
         ui->graphicsViewSensitivity->hide();
         ui->plotSensitivity->show();
-        ui->showSensitivityPlot->setText("Elements Sensitivity");
+        ui->showSensitivityPlot->setText(MainWindow::tr("Elements Sensitivity"));
     }
     sensitivityPlotShown = !sensitivityPlotShown;
 }
@@ -375,7 +382,7 @@ void MainWindow::onCreateTerm() {
 
     fcm->terms[id] = std::make_shared<Term>();
     fcm->terms[id]->id = id;
-    fcm->terms[id]->name = "New term";
+    fcm->terms[id]->name = MainWindow::tr("New term");
     fcm->terms[id]->type = type;
 
     if (type == ElementType::Node) {
@@ -386,7 +393,7 @@ void MainWindow::onCreateTerm() {
 
 
     QTreeWidgetItem* item = new QTreeWidgetItem();
-    item->setText(0, "New term");
+    item->setText(0, MainWindow::tr("New term"));
     item->setData(0, Qt::UserRole, QVariant::fromValue(id));
     item->setFlags(item->flags() | Qt::ItemIsEditable);
 
@@ -413,7 +420,7 @@ void MainWindow::onDeleteTerm() {
 }
 
 void MainWindow::onChooseTermColor() {
-    QColor color = QColorDialog::getColor(Qt::white, this, QString("Choose term %1 color").arg(fcm->terms[currentTermId]->name));
+    QColor color = QColorDialog::getColor(Qt::white, this, QString(MainWindow::tr("Choose term %1 color")).arg(fcm->terms[currentTermId]->name));
     if (color.isValid()) {
         fcm->terms[currentTermId]->color = color;
         ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(color.name()));
@@ -583,7 +590,7 @@ void MainWindow::saveAs() {
     updateFCM();
 
     const auto modelsNames = savingManager->getModelsNames();
-    SaveAsWindow saveAsWindow(modelsNames, fcm->name, "Save FCM", this);
+    SaveAsWindow saveAsWindow(modelsNames, fcm->name, MainWindow::tr("Save FCM"), this);
 
     if (saveAsWindow.exec() == QDialog::Accepted) {
         QString newName = saveAsWindow.savingModelName();
@@ -603,6 +610,7 @@ void MainWindow::save() {
 }
 
 void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
+    QSignalBlocker b1(ui->modelName);
     fcm = newFCM;
 
     ui->modelName->setText(fcm->name);
@@ -680,7 +688,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
 void MainWindow::open() {
     const auto modelsNames = savingManager->getModelsNames();
 
-    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, "Open FCM", this);
+    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, MainWindow::tr("Open FCM"), this);
 
     if (loadModelWindow->exec() != QDialog::Accepted) {
         return;
@@ -695,7 +703,9 @@ void MainWindow::open() {
         return;
     }
 
-    loadFCM(std::make_shared<FCM>(*model));
+    fcm = std::make_shared<FCM>(*model);
+    addFCM(fcm);
+    loadFCM(fcm);
 }
 
 void MainWindow::autosaveChange(bool flag) {
@@ -712,7 +722,7 @@ void MainWindow::saveAsTemplate() {
     updateFCM();
 
     const auto templatesNames = templatesManager->getTemplatesNames();
-    SaveAsWindow saveAsWindow(templatesNames, fcm->name, "Save FCM Template", this);
+    SaveAsWindow saveAsWindow(templatesNames, fcm->name, MainWindow::tr("Save FCM Template"), this);
 
     if (saveAsWindow.exec() == QDialog::Accepted) {
         fcm->name = saveAsWindow.savingModelName();
@@ -723,7 +733,7 @@ void MainWindow::saveAsTemplate() {
 
 void MainWindow::openTemplate() {
     const auto templatesNames = templatesManager->getTemplatesNames();
-    LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, "Open FCM Template", this);
+    LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, MainWindow::tr("Open FCM Template"), this);
 
     if (loadModelWindow->exec() != QDialog::Accepted) {
         return;
@@ -749,9 +759,9 @@ void MainWindow::onExportPng()
     }
     QString fileName = QFileDialog::getSaveFileName(
         this,
-        tr("Export as PNG"),
+        MainWindow::tr("Export as PNG"),
         proposedName,
-        tr("PNG Images (*.png)")
+        "PNG Images (*.png)"
         );
 
     if (fileName.isEmpty())
@@ -763,14 +773,14 @@ void MainWindow::onExportPng()
     QPixmap pixmap = ui->graphicsViewGraph->grab();
 
     if (!pixmap.save(fileName, "PNG")) {
-        QMessageBox::warning(this, tr("Error"), tr("Unable to save PNG to the selected file!"));
+        QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Unable to save PNG to the selected file!"));
     }
 }
 
 void MainWindow::onExportJson() {
     QString fileName = QFileDialog::getSaveFileName(
         this,
-        "Save FCM Model",
+        MainWindow::tr("Save FCM Model"),
         "",
         "JSON files (*.json)"
         );
@@ -784,14 +794,14 @@ void MainWindow::onExportJson() {
     updateFCM();
     if (!JsonRepository::exportToJson(*fcm, fileName))
     {
-        QMessageBox::warning(this, "Error", "Failed to save file.");
+        QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Failed to save file."));
     }
 }
 
 void MainWindow::onImportJson() {
     QString fileName = QFileDialog::getOpenFileName(
         this,
-        "Open FCM Model",
+        MainWindow::tr("Open FCM Model"),
         "",
         "JSON files (*.json)"
         );
@@ -803,7 +813,7 @@ void MainWindow::onImportJson() {
     auto model = JsonRepository::importFromJson(fileName);
 
     if (!model) {
-        QMessageBox::warning(this, "Error", "Failed to load file.");
+        QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
     }
 
     loadFCM(std::make_shared<FCM>(*model));
@@ -850,6 +860,17 @@ void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {
     fcms.push_back(fcm);
     actions.push_back(ui->menuModels->addAction(fcm->name));
     actions[currentModelIdx]->setData(currentModelIdx);
+    connect(actions[currentModelIdx], &QAction::triggered, this, &MainWindow::switchModel);
+}
+
+void MainWindow::switchModel() {
+    QAction *action = qobject_cast<QAction*>(sender());
+    if (!action) {
+        return;
+    }
+    size_t index = static_cast<size_t>(action->data().toULongLong());
+    fcm = fcms[index];
+    loadFCM(fcm);
 }
 
 void MainWindow::nameChanged(QString newName) {
@@ -860,7 +881,7 @@ void MainWindow::nameChanged(QString newName) {
 
 void MainWindow::createNewModel() {
     fcm = std::make_shared<FCM>();
-    fcm->name = "New model";
+    fcm->name = MainWindow::tr("New model");
     addFCM(fcm);
     loadFCM(fcm);
 }
@@ -916,7 +937,6 @@ void MainWindow::setEnglish() {
     ui->actionEnglish->setChecked(true);
     ui->actionRussian->setChecked(false);
     qApp->removeTranslator(&translatorRus);
-    ui->retranslateUi(this);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "");
 }
@@ -927,7 +947,62 @@ void MainWindow::setRussian() {
     ui->actionRussian->setChecked(true);
     ui->actionEnglish->setChecked(false);
     qApp->installTranslator(&translatorRus);
-    ui->retranslateUi(this);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "RU");
+}
+
+void MainWindow::changeEvent(QEvent *event) {
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+
+        QSignalBlocker blocker(ui->treeWidgetTerms);
+        conceptsGroup->setText(0, tr("Concepts terms"));
+        weightsGroup->setText(0, tr("Weights terms"));
+        ui->plotSensitivity->xAxis->setLabel(tr("max change"));
+        ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
+        ui->plotSensitivity->replot();
+
+        if (auto* experimentsModel = qobject_cast<QStandardItemModel*>(ui->experimantsTable->model())) {
+            experimentsModel->setHorizontalHeaderLabels({
+                tr("Algorithm"),
+                tr("Activation function"),
+                tr("Metric"),
+                tr("Predict to static"),
+                tr("Threshold"),
+                tr("Steps less threshold"),
+                tr("Fixed steps"),
+                tr("Timestamp"),
+                "",
+                ""
+            });
+        }
+
+        ui->plotSensitivity->xAxis->setLabel(tr("max change"));
+        ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
+        ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(graphScale*100, 0, 'f', 2));
+        ui->labelScalePredict->setText(QString(MainWindow::tr("Scale: %1%")).arg(predictScale*100, 0, 'f', 2));
+        ui->pushButtonMode->setText(editMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
+        if (paused) {
+             ui->pushButtonPause->setText(MainWindow::tr("Resume"));
+        } else {
+            ui->pushButtonPause->setText(MainWindow::tr("Pause"));
+        }
+        ui->labelMetricValue->setText(QString(MainWindow::tr("Metric value: %1")).arg(currentMetricValue, 0, 'f', 4));
+        if (sensitivityPlotShown) {
+            ui->showSensitivityPlot->setText(MainWindow::tr("Elements Sensitivity"));
+        } else {
+            ui->showSensitivityPlot->setText(MainWindow::tr("FCM Sensitivity"));
+        }
+
+        for (int row = 0; row < ui->experimantsTable->model()->rowCount(); ++row) {
+            if (auto* loadButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 8)))) {
+                loadButton->setText(tr("Load"));
+            }
+            if (auto* deleteButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 9)))) {
+                deleteButton->setText(tr("Delete"));
+            }
+        }
+    }
+
+    QMainWindow::changeEvent(event);
 }

@@ -86,13 +86,13 @@ void StaticAnalysisPresenter::recalculateInfluence() {
 void StaticAnalysisPresenter::refreshUI() {
     const auto& result = analyzer.getResult();
 
-    densityLabel->setText("FCM density: " + QString::number(result.density));
-    complexityLabel->setText("FCM complexity: " + QString::number(result.complexity));
-    hierarchyLabel->setText("FCM hierarchy index: " + QString::number(result.hierarchyIndex));
+    densityLabel->setText(tr("FCM density: ") + QString::number(result.density));
+    complexityLabel->setText(tr("FCM complexity: ") + QString::number(result.complexity));
+    hierarchyLabel->setText(tr("FCM hierarchy index: ") + QString::number(result.hierarchyIndex));
 
     table->setRowCount(result.factors.size());
     table->setColumnCount(4);
-    table->setHorizontalHeaderLabels({"Concept name", "Out", "In", "Centrality"});
+    table->setHorizontalHeaderLabels({tr("Concept name"), tr("Out"), tr("In"), tr("Centrality")});
 
     int row = 0;
     for (const auto& [idc, f] : result.factors) {
