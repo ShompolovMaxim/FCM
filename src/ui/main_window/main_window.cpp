@@ -4,6 +4,7 @@
 #include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/save_as_window/save_as_window.h"
+#include "ui/save_current_state_window/save_current_state_window.h"
 #include "ui/load_model_window/load_model_window.h"
 
 #include "repository/json_repository.h"
@@ -231,15 +232,13 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     experimentsModel->setData(experimentsModel->index(row, 8), "");
     experimentsModel->setData(experimentsModel->index(row, 9), "");
     QPushButton* btn = new QPushButton(tr("Load"), ui->experimantsTable);
+    btn->setProperty("row", row);
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 8), btn);
     QPushButton* deleteButton = new QPushButton(tr("Delete"), ui->experimantsTable);
     deleteButton->setProperty("row", row);
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 9), deleteButton);
     connect(deleteButton, &QPushButton::clicked, this, &MainWindow::onDeleteExperiment);
-    QObject::connect(btn, &QPushButton::clicked, [row]() {
-        qDebug() << "Нажата кнопка в строке" << row;
-    });
-
+    QObject::connect(btn, &QPushButton::clicked, this, &MainWindow::loadExperiment);
 }
 
 void MainWindow::predict() {
@@ -253,25 +252,7 @@ void MainWindow::predict() {
         ui->doubleSpinBoxStepsPerSecond->value()
     };
 
-    Experiment experiment;
-    for (auto& [id, term] : fcm->terms) {
-        experiment.terms[id] = std::make_shared<Term>(*term);
-        experiment.terms[id]->dbId = -1;
-    }
-    for (const auto& [id, concept] : fcm->concepts) {
-        experiment.concepts[id] = std::make_shared<Concept>(*concept);
-        experiment.concepts[id]->dbId = -1;
-        experiment.concepts[id]->term = experiment.terms[fcm->concepts[id]->term->id];
-    }
-    for (const auto& [id, weight] : fcm->weights) {
-        experiment.weights[id] = std::make_shared<Weight>(*weight);
-        experiment.weights[id]->term = experiment.terms[fcm->weights[id]->term->id];
-    }
-    experiment.predictionParameters = predictionParameters;
-    experiment.timestamp = QDateTime::currentDateTime();
-    fcm->experiments.push_back(experiment);
-    addExperiment(experiment);
-    autosave();
+    createExperiment();
 
     auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
     auto* oldPredictScene = ui->graphicsViewPredict->scene();
@@ -291,6 +272,8 @@ void MainWindow::predict() {
         }
     }
 
+    paused = false;
+
     presenter->simulate(predictionParameters, simulationParameters, nodes, edges, fcm);
 }
 
@@ -302,7 +285,7 @@ void MainWindow::resetPredictionScene() {
 }
 
 void MainWindow::pauseResumePrediction() {
-    if (ui->pushButtonPause->text() == "Pause") {
+    if (!paused) {
         ui->pushButtonPause->setText(MainWindow::tr("Resume"));
         presenter->pause();
         paused = true;
@@ -566,6 +549,86 @@ void MainWindow::onPredictToStaticChanged(bool checked) {
     ui->spinBoxFixedStepsSensitivity->setEnabled(!checked);
 }
 
+Experiment MainWindow::createExperiment() {
+    Experiment experiment;
+    for (auto& [id, term] : fcm->terms) {
+        experiment.terms[id] = std::make_shared<Term>(*term);
+        experiment.terms[id]->dbId = -1;
+    }
+    for (const auto& [id, concept] : fcm->concepts) {
+        experiment.concepts[id] = std::make_shared<Concept>(*concept);
+        experiment.concepts[id]->dbId = -1;
+        experiment.concepts[id]->term = experiment.terms[fcm->concepts[id]->term->id];
+        experiment.concepts[id]->predictedValues = {};
+        experiment.concepts[id]->sensitivity = {};
+    }
+    for (const auto& [id, weight] : fcm->weights) {
+        experiment.weights[id] = std::make_shared<Weight>(*weight);
+        experiment.weights[id]->dbId = -1;
+        experiment.weights[id]->term = experiment.terms[fcm->weights[id]->term->id];
+        experiment.weights[id]->predictedValues = {};
+        experiment.weights[id]->sensitivity = {};
+    }
+    experiment.predictionParameters = getPredictionParameters();
+    experiment.timestamp = QDateTime::currentDateTime();
+    fcm->experiments.push_back(experiment);
+    addExperiment(experiment);
+    autosave();
+    return experiment;
+}
+
+void MainWindow::loadExperiment() {
+    auto* button = qobject_cast<QPushButton*>(sender());
+    if (!button) {
+        return;
+    }
+
+    int row = button->property("row").toInt();
+    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
+        return;
+    }
+
+    auto saveCurrentStateWindow = SaveCurrentStateWindow(this);
+    if (saveCurrentStateWindow.exec() != QDialog::Accepted) {
+        return;
+    }
+    bool saveCurrentState = saveCurrentStateWindow.saveCurrentState();
+
+    if (saveCurrentState) {
+        createExperiment();
+    }
+
+    fcm->terms.clear();
+    fcm->concepts.clear();
+    fcm->weights.clear();
+    fcm->predictionParameters = fcm->experiments[row].predictionParameters;
+    for (const auto& [id, term] : fcm->experiments[row].terms) {
+        fcm->terms[id] = std::make_shared<Term>(*term);
+        fcm->terms[id]->dbId = -1;
+        if (fcm->experiments.back().terms.find(id) != fcm->experiments.back().terms.end()) {
+            fcm->terms[id]->description = fcm->experiments.back().terms[id]->description;
+        }
+    }
+    for (const auto& [id, concept] : fcm->experiments[row].concepts) {
+        fcm->concepts[id] = std::make_shared<Concept>(*concept);
+        fcm->concepts[id]->term = fcm->terms[concept->term->id];
+        fcm->concepts[id]->dbId = -1;
+        if (fcm->experiments.back().concepts.find(id) != fcm->experiments.back().concepts.end()) {
+            fcm->concepts[id]->description = fcm->experiments.back().concepts[id]->description;
+        }
+    }
+    for (const auto& [id, weight] : fcm->experiments[row].weights) {
+        fcm->weights[id] = std::make_shared<Weight>(*weight);
+        fcm->weights[id]->term = fcm->terms[weight->term->id];
+        fcm->weights[id]->dbId = -1;
+        if (fcm->experiments.back().weights.find(id) != fcm->experiments.back().weights.end()) {
+            fcm->weights[id]->description = fcm->experiments.back().weights[id]->description;
+        }
+    }
+
+    loadFCM(fcm);
+}
+
 void MainWindow::onDeleteExperiment() {
     auto* button = qobject_cast<QPushButton*>(sender());
     if (!button) {
@@ -587,6 +650,7 @@ void MainWindow::onDeleteExperiment() {
     for (const auto& experiment : fcm->experiments) {
         addExperiment(experiment);
     }
+    autosave();
 }
 
 void MainWindow::updateFCM() {
@@ -735,6 +799,7 @@ void MainWindow::open() {
 
 void MainWindow::autosaveChange(bool flag) {
     fcm->autosaveOn = flag;
+    save();
 }
 
 void MainWindow::autosave() {

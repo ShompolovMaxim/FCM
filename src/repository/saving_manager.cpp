@@ -237,7 +237,6 @@ bool SavingManager::saveWeights(Experiment &exp, int experimentId) {
     }
 
     for (const auto &[weightId, weightPtr] : exp.weights) {
-        Q_UNUSED(weightId)
         auto itFrom = conceptsDbIds.find(weightPtr->fromConceptId);
         auto itTo = conceptsDbIds.find(weightPtr->toConceptId);
 
@@ -381,32 +380,26 @@ void SavingManager::resetFCMDbIds(FCM &fcm) {
     fcm.deletedExperimentsIds.clear();
 
     for (const auto &[termId, termPtr] : fcm.terms) {
-        Q_UNUSED(termId)
         termPtr->dbId = -1;
     }
 
     for (const auto &[conceptId, conceptPtr] : fcm.concepts) {
-        Q_UNUSED(conceptId)
         conceptPtr->dbId = -1;
     }
 
     for (const auto &[weightId, weightPtr] : fcm.weights) {
-        Q_UNUSED(weightId)
         weightPtr->dbId = -1;
     }
 
     for (auto &exp : fcm.experiments) {
         exp.dbId = -1;
         for (const auto &[termId, termPtr] : exp.terms) {
-            Q_UNUSED(termId)
             termPtr->dbId = -1;
         }
         for (const auto &[conceptId, conceptPtr] : exp.concepts) {
-            Q_UNUSED(conceptId)
             conceptPtr->dbId = -1;
         }
         for (const auto &[weightId, weightPtr] : exp.weights) {
-            Q_UNUSED(weightId)
             weightPtr->dbId = -1;
         }
     }

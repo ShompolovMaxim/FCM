@@ -60,6 +60,7 @@ public slots:
     void onItemChanged(QTreeWidgetItem  *item, int column);
 
     void onPredictToStaticChanged(bool checked);
+    void loadExperiment();
     void onDeleteExperiment();
 
     void saveAs();
@@ -98,6 +99,7 @@ private:
 
     void updateFCM();
     PredictionParameters getPredictionParameters();
+    Experiment createExperiment();
     void addExperiment(const Experiment& experiment);
 
     void updateFuzzyValuePlot();
