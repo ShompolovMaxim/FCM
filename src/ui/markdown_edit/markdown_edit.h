@@ -1,29 +1,19 @@
+#pragma once
+
 #include <QTextEdit>
 
 class MarkdownEdit : public QTextEdit {
     Q_OBJECT
 
 public:
-    using QTextEdit::QTextEdit;
+    explicit MarkdownEdit(QWidget *parent = nullptr);
 
 protected:
-    void focusOutEvent(QFocusEvent *e) override {
-        _markdown = toPlainText();
-
-        setReadOnly(true);
-        setMarkdown(_markdown);
-
-        QTextEdit::focusOutEvent(e);
-    }
-
-    void focusInEvent(QFocusEvent *e) override {
-        setReadOnly(false);
-
-        setPlainText(_markdown);
-
-        QTextEdit::focusInEvent(e);
-    }
+    void focusOutEvent(QFocusEvent *e) override;
+    void focusInEvent(QFocusEvent *e) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     QString _markdown;
+    bool _editing = true;
 };

@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <attribute name="title">
@@ -160,6 +160,9 @@
               <property name="text">
                <string>L:</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -183,6 +186,9 @@
               <property name="text">
                <string>M:</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -205,6 +211,9 @@
              <widget class="QLabel" name="label_6">
               <property name="text">
                <string>U:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
               </property>
              </widget>
             </item>
