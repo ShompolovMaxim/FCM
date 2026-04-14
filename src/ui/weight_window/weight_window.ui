@@ -13,139 +13,146 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>430</y>
-     <width>281</width>
-     <height>32</height>
-    </rect>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
    </property>
-   <property name="orientation">
-    <enum>Qt::Orientation::Horizontal</enum>
+   <property name="topMargin">
+    <number>0</number>
    </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::StandardButton::Apply|QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+   <property name="rightMargin">
+    <number>0</number>
    </property>
-  </widget>
-  <widget class="QTabWidget" name="tabWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>691</width>
-     <height>421</height>
-    </rect>
+   <property name="bottomMargin">
+    <number>0</number>
    </property>
-   <property name="currentIndex">
-    <number>2</number>
-   </property>
-   <widget class="QWidget" name="configuration">
-    <attribute name="title">
-     <string>Configuration</string>
-    </attribute>
-    <widget class="QComboBox" name="valueField">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>20</y>
-       <width>231</width>
-       <height>28</height>
-      </rect>
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
-    </widget>
-    <widget class="QLabel" name="label_10">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>20</y>
-       <width>141</width>
+     <property name="sizeType">
+      <enum>QSizePolicy::Policy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
        <height>20</height>
-      </rect>
+      </size>
      </property>
-     <property name="text">
-      <string>Value:</string>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
-    </widget>
-    <widget class="QLabel" name="label_11">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>81</width>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>293</width>
        <height>20</height>
-      </rect>
+      </size>
      </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="deleteButton">
      <property name="text">
-      <string>Name:</string>
+      <string>Delete</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="nameField">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>20</y>
-       <width>171</width>
-       <height>28</height>
-      </rect>
+   </item>
+   <item row="0" column="0" colspan="4">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="configuration">
+      <attribute name="title">
+       <string>Configuration</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="nameField"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Value:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QComboBox" name="valueField">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="4">
+        <widget class="QTextEdit" name="notesField"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="results">
+      <attribute name="title">
+       <string>Simulation results</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QCustomPlot" name="plot" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Sensitivity</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QCustomPlot" name="plotSensitivity" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Apply|QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
     </widget>
-    <widget class="QTextEdit" name="notesField">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>661</width>
-       <height>311</height>
-      </rect>
+   </item>
+   <item row="2" column="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="results">
-    <attribute name="title">
-     <string>Simulation results</string>
-    </attribute>
-    <widget class="QCustomPlot" name="plot" native="true">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>691</width>
-       <height>381</height>
-      </rect>
+     <property name="sizeType">
+      <enum>QSizePolicy::Policy::Fixed</enum>
      </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Sensitivity</string>
-    </attribute>
-    <widget class="QCustomPlot" name="plotSensitivity" native="true">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>691</width>
-       <height>381</height>
-      </rect>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>5</height>
+      </size>
      </property>
-    </widget>
-   </widget>
-  </widget>
-  <widget class="QPushButton" name="deleteButton">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>430</y>
-     <width>90</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </widget>
+    </spacer>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>

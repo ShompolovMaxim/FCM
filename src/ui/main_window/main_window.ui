@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1800</width>
-    <height>1000</height>
+    <width>1808</width>
+    <height>1028</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,1016 +23,960 @@
    <string>Program for Problematic Situations Discussion Results Simulation Based on FCM</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1801</width>
-      <height>971</height>
-     </rect>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
+    <property name="topMargin">
+     <number>0</number>
     </property>
-    <property name="currentIndex">
-     <number>1</number>
+    <property name="rightMargin">
+     <number>0</number>
     </property>
-    <widget class="QWidget" name="modelSettings">
-     <attribute name="title">
-      <string>Model settings</string>
-     </attribute>
-     <widget class="QLineEdit" name="modelName">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>10</y>
-        <width>1771</width>
-        <height>62</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>32</pointsize>
-       </font>
-      </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="placeholderText">
-       <string>FCM name</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>80</y>
-        <width>63</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Terms:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>670</x>
-        <y>160</y>
-        <width>16</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>M:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>160</y>
-        <width>16</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>L:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>160</y>
-        <width>161</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Fuzzy value:</string>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="termValueU">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>810</x>
-        <y>160</y>
-        <width>63</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-      </property>
-      <property name="minimum">
-       <double>-1.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>1.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>790</x>
-        <y>160</y>
-        <width>16</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>U:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>120</y>
-        <width>171</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Numeric value:</string>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="termValueL">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>160</y>
-        <width>63</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-      </property>
-      <property name="minimum">
-       <double>-1.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>1.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="termValueM">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>160</y>
-        <width>63</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-      </property>
-      <property name="minimum">
-       <double>-1.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>1.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="termValue">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>120</y>
-        <width>63</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-      </property>
-      <property name="minimum">
-       <double>-1.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>1.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="textEdit">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>620</y>
-        <width>771</width>
-        <height>291</height>
-       </rect>
-      </property>
-      <property name="placeholderText">
-       <string>Term notes</string>
-      </property>
-     </widget>
-     <widget class="MarkdownEdit" name="modelNotes">
-      <property name="geometry">
-       <rect>
-        <x>1160</x>
-        <y>110</y>
-        <width>631</width>
-        <height>801</height>
-       </rect>
-      </property>
-      <property name="placeholderText">
-       <string>FCM notes</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>1160</x>
-        <y>80</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>FCM notes:</string>
-      </property>
-     </widget>
-     <widget class="QCustomPlot" name="fuzzyValuePlot" native="true">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>200</y>
-        <width>771</width>
-        <height>411</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="createTermButton">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>80</y>
-        <width>90</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Create</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="deleteTermButton">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>80</y>
-        <width>90</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Delete</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="termColorButton">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>80</y>
-        <width>90</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Color</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="autoColorConfiguration">
-      <property name="geometry">
-       <rect>
-        <x>390</x>
-        <y>80</y>
-        <width>241</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Automatic color configuration</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QTreeWidget" name="treeWidgetTerms">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>120</y>
-        <width>341</width>
-        <height>791</height>
-       </rect>
-      </property>
-      <property name="uniformRowHeights">
-       <bool>false</bool>
-      </property>
-      <property name="itemsExpandable">
-       <bool>true</bool>
-      </property>
-      <property name="animated">
-       <bool>false</bool>
-      </property>
-      <attribute name="headerVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="headerCascadingSectionResizes">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="headerHighlightSections">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="headerShowSortIndicator" stdset="0">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="graph">
-     <attribute name="title">
-      <string>Graph</string>
-     </attribute>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1781</width>
-        <height>901</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="GraphView" name="graphicsViewGraph">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="sceneRect">
-          <rectf>
-           <x>0.000000000000000</x>
-           <y>0.000000000000000</y>
-           <width>1200.000000000000000</width>
-           <height>800.000000000000000</height>
-          </rectf>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QPushButton" name="pushButtonMode">
-           <property name="text">
-            <string>Mode: Create</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="labelScaleGraph">
-           <property name="text">
-            <string>Scale: 100%</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonScaleGraph">
-           <property name="text">
-            <string>Scale to 100%</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="adjacencyMatrix">
-     <attribute name="title">
-      <string>Adjacency matrix</string>
-     </attribute>
-     <widget class="AdjacencyTableView" name="adjacencyTableView">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1781</width>
-        <height>901</height>
-       </rect>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="staticAnalysis">
-     <attribute name="title">
-      <string>Static analysis</string>
-     </attribute>
-     <widget class="QTableWidget" name="factorsStatsTable">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>491</width>
-        <height>901</height>
-       </rect>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
-      <property name="supportedDragActions">
-       <set>Qt::DropAction::IgnoreAction</set>
-      </property>
-      <attribute name="horizontalHeaderCascadingSectionResizes">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>125</number>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Concept name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Out degree</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>In degree</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Centrality</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="GraphView" name="graphicsView">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>100</y>
-        <width>1271</width>
-        <height>811</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>50</y>
-        <width>1271</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_13">
-       <item>
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Graphical influence</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="influenceDirection">
-         <item>
-          <property name="text">
-           <string>from</string>
+      <property name="currentIndex">
+       <number>6</number>
+      </property>
+      <widget class="QWidget" name="modelSettings">
+       <attribute name="title">
+        <string>Model settings</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_8" columnstretch="1,2,2">
+        <item row="0" column="0" colspan="3">
+         <widget class="QLineEdit" name="modelName">
+          <property name="font">
+           <font>
+            <pointsize>32</pointsize>
+           </font>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>on</string>
+          <property name="autoFillBackground">
+           <bool>false</bool>
           </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="graphConcept"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>with</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="influenceSteps">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>step(s)</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>10</y>
-        <width>1271</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
-       <item>
-        <widget class="QLabel" name="densityLabel">
-         <property name="text">
-          <string>FCM density: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="complexityLabel">
-         <property name="text">
-          <string>FCM complexity: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="hierarchyLabel">
-         <property name="text">
-          <string>FCM hierarchy index: </string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="simulation">
-     <attribute name="title">
-      <string>Simulation</string>
-     </attribute>
-     <widget class="GraphView" name="graphicsViewPredict">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1321</width>
-        <height>871</height>
-       </rect>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="interactive">
-       <bool>true</bool>
-      </property>
-      <property name="sceneRect">
-       <rectf>
-        <x>0.000000000000000</x>
-        <y>0.000000000000000</y>
-        <width>1200.000000000000000</width>
-        <height>800.000000000000000</height>
-       </rectf>
-      </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>1340</x>
-        <y>10</y>
-        <width>451</width>
-        <height>871</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QPushButton" name="pushButtonPredict">
-           <property name="text">
-            <string>Predict</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonReset">
-           <property name="text">
-            <string>Reset</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="labelAlgorithm">
-           <property name="text">
-            <string>Algorithm:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBoxAlgorithm">
-           <item>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>FCM name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <item>
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>const weights</string>
+             <string>Terms:</string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="createTermButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
-             <string>changing weights</string>
+             <string>Create</string>
             </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="useFuzzyValues">
-         <property name="text">
-          <string>Use fuzzy values</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QLabel" name="labelActivation">
-           <property name="text">
-            <string>Activation function:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBoxActivation">
-           <item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="deleteTermButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
-             <string>bivalent</string>
+             <string>Delete</string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="termColorButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
-             <string>trivalent</string>
+             <string>Color</string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1" rowspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,1,1">
+          <item>
+           <widget class="QCheckBox" name="autoColorConfiguration">
             <property name="text">
-             <string>threshold-linear</string>
+             <string>Automatic color configuration</string>
             </property>
-           </item>
-           <item>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_15">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Numeric value:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="termValue">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Fuzzy value:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>L:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="termValueL">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>M:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="termValueM">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>U:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="termValueU">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCustomPlot" name="fuzzyValuePlot" native="true"/>
+          </item>
+          <item>
+           <widget class="QTextEdit" name="textEdit">
+            <property name="placeholderText">
+             <string>Term notes</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>FCM notes:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QTreeWidget" name="treeWidgetTerms">
+          <property name="baseSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="uniformRowHeights">
+           <bool>false</bool>
+          </property>
+          <property name="itemsExpandable">
+           <bool>true</bool>
+          </property>
+          <property name="animated">
+           <bool>false</bool>
+          </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="headerCascadingSectionResizes">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="headerHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="headerShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="MarkdownEdit" name="modelNotes">
+          <property name="baseSize">
+           <size>
+            <width>631</width>
+            <height>801</height>
+           </size>
+          </property>
+          <property name="placeholderText">
+           <string>FCM notes</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="graph">
+       <attribute name="title">
+        <string>Graph</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="GraphView" name="graphicsViewGraph">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="sceneRect">
+             <rectf>
+              <x>0.000000000000000</x>
+              <y>0.000000000000000</y>
+              <width>1200.000000000000000</width>
+              <height>800.000000000000000</height>
+             </rectf>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="pushButtonMode">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Mode: Create</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelScaleGraph">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Scale: 100%</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonScaleGraph">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Scale to 100%</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="adjacencyMatrix">
+       <attribute name="title">
+        <string>Adjacency matrix</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="AdjacencyTableView" name="adjacencyTableView">
+          <property name="editTriggers">
+           <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="staticAnalysis">
+       <attribute name="title">
+        <string>Static analysis</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0" rowspan="3">
+         <widget class="QTableWidget" name="factorsStatsTable">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>491</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>491</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="supportedDragActions">
+           <set>Qt::DropAction::IgnoreAction</set>
+          </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>125</number>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Concept name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Out degree</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>In degree</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Centrality</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <widget class="QLabel" name="densityLabel">
             <property name="text">
-             <string>sigmoid</string>
+             <string>FCM density: </string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="complexityLabel">
             <property name="text">
-             <string>hyperbolic tangent</string>
+             <string>FCM complexity: </string>
             </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-           <strikeout>false</strikeout>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>true</kerning>
-           <fontweight>Medium</fontweight>
-          </font>
-         </property>
-         <property name="midLineWidth">
-          <number>3</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBoxPredictToStatic">
-         <property name="text">
-          <string>Predict to static</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QLabel" name="labelMetric">
-           <property name="text">
-            <string>Change evaluation metric:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBoxMetric">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="hierarchyLabel">
             <property name="text">
-             <string>MSE</string>
+             <string>FCM hierarchy index: </string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>MAE</string>
+             <string>Graphical influence</string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="influenceDirection">
+            <item>
+             <property name="text">
+              <string>from</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>on</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="graphConcept"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>MAPE</string>
+             <string>with</string>
             </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLabel" name="labelThreshold">
-           <property name="text">
-            <string>Metric threshold:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxThreshold">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <item>
-          <widget class="QLabel" name="labelMetricSteps">
-           <property name="text">
-            <string>Steps less threshold to stop:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBoxMetricSteps">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <item>
-          <widget class="QLabel" name="labelFixedSteps">
-           <property name="text">
-            <string>Fixed steps count:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBoxFixedSteps">
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="maximum">
-            <number>1000</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-           <strikeout>false</strikeout>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>true</kerning>
-           <fontweight>Medium</fontweight>
-          </font>
-         </property>
-         <property name="midLineWidth">
-          <number>3</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBoxRealTime">
-         <property name="text">
-          <string>Real-time simulation</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
-         <item>
-          <widget class="QLabel" name="labelStepsPerSecond">
-           <property name="text">
-            <string>Steps per second:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxStepsPerSecond">
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="value">
-            <double>1.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_11">
-         <item>
-          <widget class="QSpinBox" name="spinBoxMoveSteps">
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="value">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="labelMoveSteps">
-           <property name="text">
-            <string>step(s)</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonBack">
-           <property name="text">
-            <string>Back</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonForward">
-           <property name="text">
-            <string>Forward</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
-         <item>
-          <widget class="QPushButton" name="pushButtonSlowDown">
-           <property name="text">
-            <string>Slow down</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonPause">
-           <property name="text">
-            <string>Pause</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonSpeedUp">
-           <property name="text">
-            <string>Speed up</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonFinish">
-           <property name="text">
-            <string>Finish</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonCancel">
-           <property name="text">
-            <string>Cancel</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QTextBrowser" name="textBrowserNotesPredict">
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="html">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="influenceSteps">
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>step(s)</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="1">
+         <widget class="GraphView" name="graphicsView"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="simulation">
+       <attribute name="title">
+        <string>Simulation</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="1" column="0" colspan="2">
+         <widget class="QProgressBar" name="progressBarPredict">
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>17</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="textVisible">
+           <bool>true</bool>
+          </property>
+          <property name="invertedAppearance">
+           <bool>false</bool>
+          </property>
+          <property name="textDirection">
+           <enum>QProgressBar::Direction::TopToBottom</enum>
+          </property>
+          <property name="format">
+           <string>step %v</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="labelMetricValue">
+          <property name="text">
+           <string>Metric value: </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="GraphView" name="graphicsViewPredict">
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="interactive">
+           <bool>true</bool>
+          </property>
+          <property name="sceneRect">
+           <rectf>
+            <x>0.000000000000000</x>
+            <y>0.000000000000000</y>
+            <width>1200.000000000000000</width>
+            <height>800.000000000000000</height>
+           </rectf>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPushButton" name="pushButtonPredict">
+              <property name="text">
+               <string>Predict</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonReset">
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="labelAlgorithm">
+              <property name="text">
+               <string>Algorithm:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxAlgorithm">
+              <item>
+               <property name="text">
+                <string>const weights</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>changing weights</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useFuzzyValues">
+            <property name="text">
+             <string>Use fuzzy values</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="labelActivation">
+              <property name="text">
+               <string>Activation function:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxActivation">
+              <item>
+               <property name="text">
+                <string>bivalent</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>trivalent</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>threshold-linear</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>sigmoid</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>hyperbolic tangent</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <strikeout>false</strikeout>
+              <stylestrategy>PreferDefault</stylestrategy>
+              <kerning>true</kerning>
+              <fontweight>Medium</fontweight>
+             </font>
+            </property>
+            <property name="midLineWidth">
+             <number>3</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxPredictToStatic">
+            <property name="text">
+             <string>Predict to static</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLabel" name="labelMetric">
+              <property name="text">
+               <string>Change evaluation metric:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxMetric">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>MSE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAPE</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLabel" name="labelThreshold">
+              <property name="text">
+               <string>Metric threshold:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="doubleSpinBoxThreshold">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="labelMetricSteps">
+              <property name="text">
+               <string>Steps less threshold to stop:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBoxMetricSteps">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="labelFixedSteps">
+              <property name="text">
+               <string>Fixed steps count:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBoxFixedSteps">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <strikeout>false</strikeout>
+              <stylestrategy>PreferDefault</stylestrategy>
+              <kerning>true</kerning>
+              <fontweight>Medium</fontweight>
+             </font>
+            </property>
+            <property name="midLineWidth">
+             <number>3</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxRealTime">
+            <property name="text">
+             <string>Real-time simulation</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QLabel" name="labelStepsPerSecond">
+              <property name="text">
+               <string>Steps per second:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="doubleSpinBoxStepsPerSecond">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QSpinBox" name="spinBoxMoveSteps">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelMoveSteps">
+              <property name="text">
+               <string>step(s)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonBack">
+              <property name="text">
+               <string>Back</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonForward">
+              <property name="text">
+               <string>Forward</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <widget class="QPushButton" name="pushButtonSlowDown">
+              <property name="text">
+               <string>Slow down</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonPause">
+              <property name="text">
+               <string>Pause</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonSpeedUp">
+              <property name="text">
+               <string>Speed up</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonFinish">
+              <property name="text">
+               <string>Finish</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonCancel">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QTextBrowser" name="textBrowserNotesPredict">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="html">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
@@ -1040,450 +984,414 @@ li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="labelScalePredict">
-           <property name="text">
-            <string>Scale: 100%</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonScalePredict">
-           <property name="text">
-            <string>Scale to 100%</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QProgressBar" name="progressBarPredict">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>890</y>
-        <width>1581</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="minimum">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <number>17</number>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="textVisible">
-       <bool>true</bool>
-      </property>
-      <property name="invertedAppearance">
-       <bool>false</bool>
-      </property>
-      <property name="textDirection">
-       <enum>QProgressBar::Direction::TopToBottom</enum>
-      </property>
-      <property name="format">
-       <string>step %v</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelMetricValue">
-      <property name="geometry">
-       <rect>
-        <x>1610</x>
-        <y>890</y>
-        <width>161</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Metric value: </string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="experiments">
-     <attribute name="title">
-      <string>Experiments</string>
-     </attribute>
-     <widget class="QTableView" name="experimantsTable">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1571</width>
-        <height>821</height>
-       </rect>
-      </property>
-      <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="sensitivityAnalysis">
-     <attribute name="title">
-      <string>Sensitivity analysis</string>
-     </attribute>
-     <widget class="GraphView" name="graphicsViewSensitivity">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1321</width>
-        <height>871</height>
-       </rect>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="interactive">
-       <bool>true</bool>
-      </property>
-      <property name="sceneRect">
-       <rectf>
-        <x>0.000000000000000</x>
-        <y>0.000000000000000</y>
-        <width>1200.000000000000000</width>
-        <height>800.000000000000000</height>
-       </rectf>
-      </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_5">
-      <property name="geometry">
-       <rect>
-        <x>1340</x>
-        <y>10</y>
-        <width>451</width>
-        <height>871</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_29">
-         <item>
-          <widget class="QPushButton" name="pushButtonAnalizeSensitivity">
-           <property name="text">
-            <string>Analyze</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonResetSensitivity">
-           <property name="text">
-            <string>Reset</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="showSensitivityPlot">
-           <property name="text">
-            <string>FCM Sensitivity</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_30">
-         <item>
-          <widget class="QLabel" name="labelAlgorithmSensitivity">
-           <property name="text">
-            <string>Algorithm:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBoxAlgorithmSensitivity">
-           <item>
-            <property name="text">
-             <string>const weights</string>
             </property>
-           </item>
-           <item>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="labelScalePredict">
+              <property name="text">
+               <string>Scale: 100%</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonScalePredict">
+              <property name="text">
+               <string>Scale to 100%</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="experiments">
+       <attribute name="title">
+        <string>Experiments</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTableView" name="experimantsTable">
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="sensitivityAnalysis">
+       <attribute name="title">
+        <string>Sensitivity analysis</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_6" rowstretch="0,0" columnstretch="3,1">
+        <item row="0" column="0">
+         <widget class="GraphView" name="graphicsViewSensitivity">
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="interactive">
+           <bool>true</bool>
+          </property>
+          <property name="sceneRect">
+           <rectf>
+            <x>0.000000000000000</x>
+            <y>0.000000000000000</y>
+            <width>1200.000000000000000</width>
+            <height>800.000000000000000</height>
+           </rectf>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_29">
+            <item>
+             <widget class="QPushButton" name="pushButtonAnalizeSensitivity">
+              <property name="text">
+               <string>Analyze</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonResetSensitivity">
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="showSensitivityPlot">
+              <property name="text">
+               <string>FCM Sensitivity</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_30">
+            <item>
+             <widget class="QLabel" name="labelAlgorithmSensitivity">
+              <property name="text">
+               <string>Algorithm:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxAlgorithmSensitivity">
+              <item>
+               <property name="text">
+                <string>const weights</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>changing weights</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useFuzzyValuesSensitivity">
             <property name="text">
-             <string>changing weights</string>
+             <string>Use fuzzy values</string>
             </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="useFuzzyValuesSensitivity">
-         <property name="text">
-          <string>Use fuzzy values</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_31">
-         <item>
-          <widget class="QLabel" name="labelActivationSensitivity">
-           <property name="text">
-            <string>Activation function:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBoxActivationSensitivity">
-           <item>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_31">
+            <item>
+             <widget class="QLabel" name="labelActivationSensitivity">
+              <property name="text">
+               <string>Activation function:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxActivationSensitivity">
+              <item>
+               <property name="text">
+                <string>bivalent</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>trivalent</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>threshold-linear</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>sigmoid</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>hyperbolic tangent</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <strikeout>false</strikeout>
+              <stylestrategy>PreferDefault</stylestrategy>
+              <kerning>true</kerning>
+              <fontweight>Medium</fontweight>
+             </font>
+            </property>
+            <property name="midLineWidth">
+             <number>3</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxPredictToStaticSensitivity">
             <property name="text">
-             <string>bivalent</string>
+             <string>Predict to static</string>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>trivalent</string>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_32">
+            <item>
+             <widget class="QLabel" name="labelMetricSensitivity">
+              <property name="text">
+               <string>Change evaluation metric:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxMetricSensitivity">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>MSE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAPE</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_33">
+            <item>
+             <widget class="QLabel" name="labelThresholdSensitivity">
+              <property name="text">
+               <string>Metric threshold:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="doubleSpinBoxThresholdSensitivity">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_34">
+            <item>
+             <widget class="QLabel" name="labelMetricStepsSensitivity">
+              <property name="text">
+               <string>Steps less threshold to stop:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBoxMetricStepsSensitivity">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_35">
+            <item>
+             <widget class="QLabel" name="labelFixedStepsSensitivity">
+              <property name="text">
+               <string>Fixed steps count:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBoxFixedStepsSensitivity">
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line_6">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>threshold-linear</string>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <strikeout>false</strikeout>
+              <stylestrategy>PreferDefault</stylestrategy>
+              <kerning>true</kerning>
+              <fontweight>Medium</fontweight>
+             </font>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>sigmoid</string>
+            <property name="midLineWidth">
+             <number>3</number>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>hyperbolic tangent</string>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_5">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-           <strikeout>false</strikeout>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>true</kerning>
-           <fontweight>Medium</fontweight>
-          </font>
-         </property>
-         <property name="midLineWidth">
-          <number>3</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBoxPredictToStaticSensitivity">
-         <property name="text">
-          <string>Predict to static</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_32">
-         <item>
-          <widget class="QLabel" name="labelMetricSensitivity">
-           <property name="text">
-            <string>Change evaluation metric:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBoxMetricSensitivity">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <item>
-            <property name="text">
-             <string>MSE</string>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_36">
+            <item>
+             <widget class="QLabel" name="labelMaxChange">
+              <property name="text">
+               <string>Max value change:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="doubleSpinBoxMaxChange">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.100000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_37">
+            <item>
+             <widget class="QCheckBox" name="changeConcepts">
+              <property name="text">
+               <string>Change concepts</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="changeWeights">
+              <property name="text">
+               <string>Change weights</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QTextBrowser" name="textBrowserNotesSensitivity">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>MAE</string>
+            <property name="readOnly">
+             <bool>false</bool>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>MAPE</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_33">
-         <item>
-          <widget class="QLabel" name="labelThresholdSensitivity">
-           <property name="text">
-            <string>Metric threshold:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxThresholdSensitivity">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_34">
-         <item>
-          <widget class="QLabel" name="labelMetricStepsSensitivity">
-           <property name="text">
-            <string>Steps less threshold to stop:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBoxMetricStepsSensitivity">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_35">
-         <item>
-          <widget class="QLabel" name="labelFixedStepsSensitivity">
-           <property name="text">
-            <string>Fixed steps count:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBoxFixedStepsSensitivity">
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="maximum">
-            <number>1000</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_6">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-           <strikeout>false</strikeout>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>true</kerning>
-           <fontweight>Medium</fontweight>
-          </font>
-         </property>
-         <property name="midLineWidth">
-          <number>3</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_36">
-         <item>
-          <widget class="QLabel" name="labelMaxChange">
-           <property name="text">
-            <string>Max value change:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxMaxChange">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-           </property>
-           <property name="maximum">
-            <double>1.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.100000000000000</double>
-           </property>
-           <property name="value">
-            <double>0.100000000000000</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_37">
-         <item>
-          <widget class="QCheckBox" name="changeConcepts">
-           <property name="text">
-            <string>Change concepts</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="changeWeights">
-           <property name="text">
-            <string>Change weights</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QTextBrowser" name="textBrowserNotesSensitivity">
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="html">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <property name="html">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
@@ -1491,82 +1399,85 @@ li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_39">
-         <item>
-          <widget class="QLabel" name="labelScaleSensitivity">
-           <property name="text">
-            <string>Scale: 100%</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonScaleSensitivity">
-           <property name="text">
-            <string>Scale to 100%</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_39">
+            <item>
+             <widget class="QLabel" name="labelScaleSensitivity">
+              <property name="text">
+               <string>Scale: 100%</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonScaleSensitivity">
+              <property name="text">
+               <string>Scale to 100%</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QProgressBar" name="progressBarSensitivity">
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="textVisible">
+           <bool>true</bool>
+          </property>
+          <property name="invertedAppearance">
+           <bool>false</bool>
+          </property>
+          <property name="textDirection">
+           <enum>QProgressBar::Direction::TopToBottom</enum>
+          </property>
+          <property name="format">
+           <string>%v%</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+       <widget class="QCustomPlot" name="plotSensitivity" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>1321</width>
+          <height>871</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </widget>
      </widget>
-     <widget class="QProgressBar" name="progressBarSensitivity">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>890</y>
-        <width>1781</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="minimum">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <number>100</number>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="textVisible">
-       <bool>true</bool>
-      </property>
-      <property name="invertedAppearance">
-       <bool>false</bool>
-      </property>
-      <property name="textDirection">
-       <enum>QProgressBar::Direction::TopToBottom</enum>
-      </property>
-      <property name="format">
-       <string>%v%</string>
-      </property>
-     </widget>
-     <widget class="QCustomPlot" name="plotSensitivity" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1321</width>
-        <height>871</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-   </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1800</width>
+     <width>1808</width>
      <height>25</height>
     </rect>
    </property>
