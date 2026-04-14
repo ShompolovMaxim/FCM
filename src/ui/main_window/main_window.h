@@ -58,6 +58,7 @@ public slots:
     void onTermValueMChanged(double value);
     void onTermValueUChanged(double value);
     void onItemChanged(QTreeWidgetItem  *item, int column);
+    void termNotesChanged();
 
     void onPredictToStaticChanged(bool checked);
     void loadExperiment();
@@ -83,6 +84,7 @@ public slots:
     void changeSensitivityAnalysisVisibility(bool checked);
 
     void nameChanged(QString newName);
+    void descriptionChanged();
     void createNewModel();
     void switchModel();
 

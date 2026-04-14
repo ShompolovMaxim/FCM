@@ -85,7 +85,7 @@
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="QTextEdit" name="notesField"/>
+        <widget class="MarkdownEdit" name="notesField"/>
        </item>
       </layout>
      </widget>
@@ -181,6 +181,11 @@
    <extends>QWidget</extends>
    <header>libs\qcustomplot\qcustomplot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MarkdownEdit</class>
+   <extends>QTextEdit</extends>
+   <header location="global">ui/markdown_edit/markdown_edit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

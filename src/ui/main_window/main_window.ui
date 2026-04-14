@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <attribute name="title">
@@ -239,7 +239,10 @@
            <widget class="QCustomPlot" name="fuzzyValuePlot" native="true"/>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEdit">
+           <widget class="MarkdownEdit" name="termNotes">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="placeholderText">
              <string>Term notes</string>
             </property>
@@ -980,7 +983,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QTextBrowser" name="textBrowserNotesPredict">
+           <widget class="MarkdownEdit" name="textEditNotesPredict">
             <property name="readOnly">
              <bool>false</bool>
             </property>
@@ -1389,7 +1392,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </layout>
           </item>
           <item>
-           <widget class="QTextBrowser" name="textBrowserNotesSensitivity">
+           <widget class="MarkdownEdit" name="textEditNotesSensitivity">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>

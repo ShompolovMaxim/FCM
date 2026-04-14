@@ -15,7 +15,7 @@ ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms
         ui->nameField->setText(currentConcept->name);
         creation = false;
     }
-    ui->notesField->setPlainText(currentConcept->description);
+    ui->notesField->setMarkdownText(currentConcept->description);
     ui->startStepField->setValue(currentConcept->startStep);
 
     updateTermsList();
@@ -187,7 +187,7 @@ void ConceptWindow::onDelete() {
 
 void ConceptWindow::updateCurrentConcept() {
     currentConcept->name = ui->nameField->text();
-    currentConcept->description = ui->notesField->toPlainText();
+    currentConcept->description = ui->notesField->markdownText();
     currentConcept->startStep = ui->startStepField->value();
 
     QVariant data = ui->valueField->currentData();

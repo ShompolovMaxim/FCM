@@ -8,12 +8,20 @@ class MarkdownEdit : public QTextEdit {
 public:
     explicit MarkdownEdit(QWidget *parent = nullptr);
 
+    void setMarkdownText(const QString& text);
+    QString markdownText() const;
+
 protected:
     void focusOutEvent(QFocusEvent *e) override;
     void focusInEvent(QFocusEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
 
+    void keyPressEvent(QKeyEvent *e) override;
+
 private:
     QString _markdown;
-    bool _editing = true;
+    bool _editing = false;
+
+    using QTextEdit::setPlainText;
+    using QTextEdit::toPlainText;
 };

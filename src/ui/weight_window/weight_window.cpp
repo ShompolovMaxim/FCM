@@ -15,7 +15,7 @@ WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, 
         ui->nameField->setText(currentWeight->name);
         creation = false;
     }
-    ui->notesField->setPlainText(currentWeight->description);
+    ui->notesField->setMarkdownText(currentWeight->description);
 
     updateTermsList();
 
@@ -182,7 +182,7 @@ void WeightWindow::onDelete() {
 
 void WeightWindow::updateCurrentWeight() {
     currentWeight->name = ui->nameField->text();
-    currentWeight->description = ui->notesField->toPlainText();
+    currentWeight->description = ui->notesField->markdownText();
 
     QVariant data = ui->valueField->currentData();
     if (data.isValid()) {

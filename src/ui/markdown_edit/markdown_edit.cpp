@@ -4,15 +4,35 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QApplication>
+#include <QTimer>
 
 MarkdownEdit::MarkdownEdit(QWidget *parent) : QTextEdit(parent) {
     qApp->installEventFilter(this);
 }
 
+void MarkdownEdit::setMarkdownText(const QString& text) {
+    _markdown = text;
+
+    if (_editing) {
+        setPlainText(_markdown);
+    } else {
+        setMarkdown(_markdown);
+    }
+}
+
+QString MarkdownEdit::markdownText() const {
+    if (_editing) {
+        return toPlainText();
+    }
+    return _markdown;
+}
+
 void MarkdownEdit::focusOutEvent(QFocusEvent *e) {
     if (_editing) {
         _markdown = toPlainText();
-        setMarkdown(_markdown);
+        QTimer::singleShot(0, this, [this]() {
+            setMarkdown(_markdown);
+        });
         setReadOnly(true);
         _editing = false;
     }
@@ -36,4 +56,14 @@ bool MarkdownEdit::eventFilter(QObject *obj, QEvent *event) {
         }
     }
     return QTextEdit::eventFilter(obj, event);
+}
+
+void MarkdownEdit::keyPressEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Return && (e->modifiers() & Qt::ControlModifier)) {
+        clearFocus();
+        e->accept();
+        return;
+    }
+
+    QTextEdit::keyPressEvent(e);
 }

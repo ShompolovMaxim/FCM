@@ -77,6 +77,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     staticAnalysisScene->blockConceptCreationColorEdit(true);
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
 
+    connect(ui->modelNotes, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
+    connect(ui->textEditNotesPredict, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
+    connect(ui->textEditNotesSensitivity, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
+
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
     QObject::connect(scene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     QObject::connect(ui->graphicsViewGraph, &GraphView::scaleChanged, this, &MainWindow::updateGraphScaleLabel);
@@ -101,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->termValueL, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueLChanged);
     connect(ui->termValueM, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueMChanged);
     connect(ui->termValueU, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueUChanged);
+    connect(ui->termNotes, &QTextEdit::textChanged, this, &MainWindow::termNotesChanged);
 
     conceptsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
     conceptsGroup->setText(0, tr("Concepts terms"));
@@ -199,6 +204,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::descriptionChanged() {
+    QSignalBlocker b1(ui->modelNotes);
+    QSignalBlocker b2(ui->textEditNotesPredict);
+    QSignalBlocker b3(ui->textEditNotesSensitivity);
+    if (sender() == ui->modelNotes) {
+        ui->textEditNotesPredict->setMarkdownText(ui->modelNotes->markdownText());
+        ui->textEditNotesSensitivity->setMarkdownText(ui->modelNotes->markdownText());
+    }
+    if (sender() == ui->textEditNotesPredict) {
+        ui->modelNotes->setMarkdownText(ui->textEditNotesPredict->markdownText());
+        ui->textEditNotesSensitivity->setMarkdownText(ui->textEditNotesPredict->markdownText());
+    }
+    if (sender() == ui->textEditNotesSensitivity) {
+        ui->modelNotes->setMarkdownText(ui->textEditNotesSensitivity->markdownText());
+        ui->textEditNotesPredict->setMarkdownText(ui->textEditNotesSensitivity->markdownText());
+    }
 }
 
 void MainWindow::updateGraphScaleLabel(double newScale) {
@@ -440,16 +463,21 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
     QSignalBlocker b2(ui->termValueL);
     QSignalBlocker b3(ui->termValueM);
     QSignalBlocker b4(ui->termValueU);
+    QSignalBlocker b5(ui->termNotes);
+
+    currentTermId = current->data(0, Qt::UserRole).toUuid();
 
     if (!current || !current->parent()) {
         ui->termValue->setValue(0);
         ui->termValueL->setValue(0);
         ui->termValueM->setValue(0);
         ui->termValueU->setValue(0);
+        ui->termNotes->setMarkdownText("");
         ui->termValue->setEnabled(false);
         ui->termValueL->setEnabled(false);
         ui->termValueM->setEnabled(false);
         ui->termValueU->setEnabled(false);
+        ui->termNotes->setEnabled(false);
         ui->deleteTermButton->setEnabled(false);
         ui->termColorButton->setEnabled(false);
         ui->termColorButton->setStyleSheet("");
@@ -461,16 +489,21 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
     ui->termValueL->setEnabled(true);
     ui->termValueM->setEnabled(true);
     ui->termValueU->setEnabled(true);
+    ui->termNotes->setEnabled(true);
     ui->deleteTermButton->setEnabled(true);
     ui->termColorButton->setEnabled(true);
-    currentTermId = current->data(0, Qt::UserRole).toUuid();
 
     ui->termValue->setValue(fcm->terms[currentTermId]->value);
     ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
     ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
     ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
+    ui->termNotes->setMarkdownText(fcm->terms[currentTermId]->description);
     ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
     updateFuzzyValuePlot();
+}
+
+void MainWindow::termNotesChanged() {
+    fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
 }
 
 void MainWindow::onTermValueChanged(double value) {
@@ -655,7 +688,7 @@ void MainWindow::onDeleteExperiment() {
 
 void MainWindow::updateFCM() {
     fcm->name = ui->modelName->text();
-    fcm->description = ui->modelNotes->toPlainText();
+    fcm->description = ui->modelNotes->markdownText();
     fcm->predictionParameters = getPredictionParameters();
 }
 
@@ -700,7 +733,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     fcm = newFCM;
 
     ui->modelName->setText(fcm->name);
-    ui->modelNotes->setPlainText(fcm->description);
+    ui->modelNotes->setMarkdownText(fcm->description);
 
     qDeleteAll(conceptsGroup->takeChildren());
     qDeleteAll(weightsGroup->takeChildren());
@@ -719,7 +752,9 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
             weightsGroup->addChild(item);
         }
 
-        if (!firstItem) firstItem = item;
+        if (!firstItem) {
+            firstItem = item;
+        }
     }
 
     ui->treeWidgetTerms->expandAll();
