@@ -481,7 +481,8 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
         ui->deleteTermButton->setEnabled(false);
         ui->termColorButton->setEnabled(false);
         ui->termColorButton->setStyleSheet("");
-        updateFuzzyValuePlot();
+        ui->fuzzyValuePlot->graph(0)->data()->clear();
+        ui->fuzzyValuePlot->replot();
         return;
     }
 
