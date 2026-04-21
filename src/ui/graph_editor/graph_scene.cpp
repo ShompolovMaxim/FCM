@@ -1,6 +1,7 @@
 #include "graph_scene.h"
 
 GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter) : fcm(fcm), presenter(presenter) {
+    setSceneRect(-10000, -10000, 20000, 20000);
     if (!fcm) {
         return;
     }

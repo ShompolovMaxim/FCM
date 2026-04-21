@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <attribute name="title">
@@ -564,7 +564,14 @@
          </layout>
         </item>
         <item row="2" column="1">
-         <widget class="GraphView" name="graphicsView"/>
+         <widget class="GraphView" name="graphicsView">
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

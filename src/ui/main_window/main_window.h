@@ -132,6 +132,7 @@ private:
     size_t currentModelIdx;
 
     QTranslator translatorRus;
+    QTranslator translatorDefaultRus;
 
     double graphScale = 1;
     double predictScale = 1;

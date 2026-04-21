@@ -19,11 +19,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     auto lang = settings.value("language", "").toString();
     translatorRus.load("FCM_ru_RU.qm");
+    translatorDefaultRus.load("qtbase_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     if (lang.isEmpty()) {
         ui->actionEnglish->setChecked(true);
     } else {
         ui->actionRussian->setChecked(true);
         qApp->installTranslator(&translatorRus);
+        qApp->installTranslator(&translatorDefaultRus);
         ui->retranslateUi(this);
     }
     connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
@@ -171,6 +173,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
     ui->plotSensitivity->xAxis->setLabel(tr("max change"));
     ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
+    ui->plotSensitivity->setGeometry(ui->graphicsViewSensitivity->geometry());
 
     connect(ui->actionModelSettings, &QAction::toggled, this, &MainWindow::changeModelSettingsVisibility);
     connect(ui->actionGraph, &QAction::toggled, this, &MainWindow::changeGraphVisibility);
@@ -1063,6 +1066,7 @@ void MainWindow::setEnglish() {
     ui->actionEnglish->setChecked(true);
     ui->actionRussian->setChecked(false);
     qApp->removeTranslator(&translatorRus);
+    qApp->removeTranslator(&translatorDefaultRus);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "");
 }
@@ -1073,6 +1077,7 @@ void MainWindow::setRussian() {
     ui->actionRussian->setChecked(true);
     ui->actionEnglish->setChecked(false);
     qApp->installTranslator(&translatorRus);
+    qApp->installTranslator(&translatorDefaultRus);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "RU");
 }

@@ -1,8 +1,7 @@
 #include "graph_scene.h"
 #include "graph_view.h"
 
-GraphView::GraphView(QWidget* parent) : QGraphicsView(parent)
-{
+GraphView::GraphView(QWidget* parent) : QGraphicsView(parent) {
     setRenderHint(QPainter::Antialiasing);
     setDragMode(RubberBandDrag);
     setTransformationAnchor(AnchorUnderMouse);
