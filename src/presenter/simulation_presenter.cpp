@@ -80,7 +80,7 @@ bool SimulationPresenter::goToStep(size_t newStep) {
             } else {
                 edge->setValue(newFCM.weights[edge->getId()].value);
             }
-            fcm->weights[edge->getId()]->predictedValues = predictor->getConceptHistoryValues(edge->getId(), newStep);
+            fcm->weights[edge->getId()]->predictedValues = predictor->getWeightHistoryValues(edge->getId(), newStep);
             creationPresenter->setWeightPredictedValues(edge->getId());
         }
         step = newStep;

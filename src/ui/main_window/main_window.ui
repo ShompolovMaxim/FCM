@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <attribute name="title">
@@ -1072,24 +1072,61 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6" rowstretch="0,0" columnstretch="3,1">
         <item row="0" column="0">
-         <widget class="GraphView" name="graphicsViewSensitivity">
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+         <widget class="QStackedWidget" name="stackedWidgetSensitivity">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          <property name="currentIndex">
+           <number>0</number>
           </property>
-          <property name="interactive">
-           <bool>true</bool>
-          </property>
-          <property name="sceneRect">
-           <rectf>
-            <x>0.000000000000000</x>
-            <y>0.000000000000000</y>
-            <width>1200.000000000000000</width>
-            <height>800.000000000000000</height>
-           </rectf>
-          </property>
+          <widget class="QWidget" name="pageGraphSensitivity">
+           <layout class="QVBoxLayout" name="layoutGraphSensitivity">
+            <property name="margin" stdset="0">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="GraphView" name="graphicsViewSensitivity">
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="interactive">
+               <bool>true</bool>
+              </property>
+              <property name="sceneRect">
+               <rectf>
+                <x>0.000000000000000</x>
+                <y>0.000000000000000</y>
+                <width>1200.000000000000000</width>
+                <height>800.000000000000000</height>
+               </rectf>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="pagePlotSensitivity">
+           <layout class="QVBoxLayout" name="layoutPlotSensitivity">
+            <property name="margin" stdset="0">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QCustomPlot" name="plotSensitivity" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
         <item row="0" column="1">
@@ -1470,22 +1507,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </widget>
         </item>
        </layout>
-       <widget class="QCustomPlot" name="plotSensitivity" native="true">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>1321</width>
-          <height>871</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
       </widget>
      </widget>
     </item>
@@ -1552,9 +1573,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <addaction name="actionEnglish"/>
      <addaction name="actionRussian"/>
     </widget>
-    <addaction name="actionTerms"/>
     <addaction name="menuLanguage"/>
-    <addaction name="actionDisable_Tips"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">

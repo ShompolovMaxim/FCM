@@ -97,6 +97,8 @@ protected:
     void changeEvent(QEvent *event) override;
 
 private:
+    bool checkElementsHaveValues();
+
     void simulationFinished();
 
     void updateFCM();

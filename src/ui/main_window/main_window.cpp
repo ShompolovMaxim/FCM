@@ -168,7 +168,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
     connect(ui->pushButtonAnalizeSensitivity, &QPushButton::clicked, this, &MainWindow::analize);
     connect(ui->showSensitivityPlot, &QPushButton::clicked, this, &MainWindow::showSensitivityPlot);
-    ui->plotSensitivity->hide();
     ui->plotSensitivity->addGraph();
     ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
     ui->plotSensitivity->xAxis->setLabel(tr("max change"));
@@ -267,7 +266,27 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     QObject::connect(btn, &QPushButton::clicked, this, &MainWindow::loadExperiment);
 }
 
+bool MainWindow::checkElementsHaveValues() {
+    for (const auto& [_, concept] : fcm->concepts) {
+        if (!concept->term) {
+            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Not every concept has a value!"));
+            return false;
+        }
+    }
+    for (const auto& [_, weight] : fcm->weights) {
+        if (!weight->term) {
+            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Not every weight has a value!"));
+            return false;
+        }
+    }
+    return true;
+}
+
 void MainWindow::predict() {
+    if (!checkElementsHaveValues()) {
+        return;
+    }
+
     ui->pushButtonPredict->setEnabled(false);
     ui->doubleSpinBoxStepsPerSecond->setEnabled(false);
 
@@ -367,6 +386,10 @@ SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
 }
 
 void MainWindow::analize() {
+    if (!checkElementsHaveValues()) {
+        return;
+    }
+
     auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
     auto* oldSensitivityScene = ui->graphicsViewPredict->scene();
     ui->graphicsViewSensitivity->setScene(sensitivityScene);
@@ -380,13 +403,11 @@ void MainWindow::analize() {
 }
 
 void MainWindow::showSensitivityPlot() {
-    if (sensitivityPlotShown) {
-        ui->plotSensitivity->hide();
-        ui->graphicsViewSensitivity->show();
+    int index = ui->stackedWidgetSensitivity->currentIndex();
+    ui->stackedWidgetSensitivity->setCurrentIndex(index == 0 ? 1 : 0);
+    if (sensitivityPlotShown) {;
         ui->showSensitivityPlot->setText(MainWindow::tr("FCM Sensitivity"));
     } else {
-        ui->graphicsViewSensitivity->hide();
-        ui->plotSensitivity->show();
         ui->showSensitivityPlot->setText(MainWindow::tr("Elements Sensitivity"));
     }
     sensitivityPlotShown = !sensitivityPlotShown;
@@ -764,6 +785,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->treeWidgetTerms->expandAll();
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm);
+    presenter = std::make_shared<SimulationPresenter>(creationPresenter);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     auto newScene = new GraphScene(fcm, creationPresenter);
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
