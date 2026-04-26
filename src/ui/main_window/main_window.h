@@ -135,6 +135,7 @@ private:
 
     QTranslator translatorRus;
     QTranslator translatorDefaultRus;
+    QTranslator translatorWidgetsRus;
 
     double graphScale = 1;
     double predictScale = 1;

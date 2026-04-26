@@ -20,12 +20,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     auto lang = settings.value("language", "").toString();
     translatorRus.load("FCM_ru_RU.qm");
     translatorDefaultRus.load("qtbase_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    translatorWidgetsRus.load("qt_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     if (lang.isEmpty()) {
         ui->actionEnglish->setChecked(true);
     } else {
         ui->actionRussian->setChecked(true);
         qApp->installTranslator(&translatorRus);
         qApp->installTranslator(&translatorDefaultRus);
+        qApp->installTranslator(&translatorWidgetsRus);
         ui->retranslateUi(this);
     }
     connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
@@ -785,7 +787,11 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->treeWidgetTerms->expandAll();
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm);
+    ui->adjacencyTableView->loadFromFCM(fcm);
+    ui->adjacencyTableView->setPresenter(creationPresenter);
     presenter = std::make_shared<SimulationPresenter>(creationPresenter);
+    QObject::connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
+    QObject::connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     auto newScene = new GraphScene(fcm, creationPresenter);
     QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
@@ -1089,6 +1095,7 @@ void MainWindow::setEnglish() {
     ui->actionRussian->setChecked(false);
     qApp->removeTranslator(&translatorRus);
     qApp->removeTranslator(&translatorDefaultRus);
+    qApp->removeTranslator(&translatorWidgetsRus);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "");
 }
@@ -1100,6 +1107,7 @@ void MainWindow::setRussian() {
     ui->actionEnglish->setChecked(false);
     qApp->installTranslator(&translatorRus);
     qApp->installTranslator(&translatorDefaultRus);
+    qApp->installTranslator(&translatorWidgetsRus);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "RU");
 }

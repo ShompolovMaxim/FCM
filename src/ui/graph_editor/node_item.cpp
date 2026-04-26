@@ -10,7 +10,7 @@ NodeItem::NodeItem(std::shared_ptr<Concept> concept)
     setFlags(ItemIsMovable | ItemIsSelectable | ItemSendsGeometryChanges);
 
     label = new QGraphicsSimpleTextItem(nodeName, this);
-    label->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+    //label->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
 
     QRectF r = rect();
     QRectF br = label->boundingRect();

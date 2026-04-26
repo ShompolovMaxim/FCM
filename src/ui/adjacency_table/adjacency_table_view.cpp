@@ -21,6 +21,9 @@ void AdjacencyTableView::onCellClicked(const QModelIndex& index) {
 }
 
 void AdjacencyTableView::setPresenter(std::shared_ptr<CreationPresenter> newPresenter) {
+    if (presenter) {
+        disconnect(presenter.get(), nullptr, this, nullptr);
+    }
     presenter = newPresenter;
     connect(presenter.get(), &CreationPresenter::conceptCreated, this, &AdjacencyTableView::conceptCreated);
     connect(presenter.get(), &CreationPresenter::conceptUpdated, this, &AdjacencyTableView::conceptUpdated);
@@ -38,6 +41,7 @@ void AdjacencyTableView::conceptCreated(std::shared_ptr<Concept> concept) {
     model->setHeaderData(idx, Qt::Vertical, concept->name);
     rowsConcepts.push_back(concept->id);
     conceptsRows[concept->id] = idx;
+    //resizeColumnsToContents();
 }
 
 void AdjacencyTableView::weightCreated(std::shared_ptr<Weight> weight) {
@@ -55,6 +59,7 @@ void AdjacencyTableView::conceptUpdated(std::shared_ptr<Concept> concept) {
     }
     model->setHeaderData(idx, Qt::Horizontal, color, Qt::BackgroundRole);
     model->setHeaderData(idx, Qt::Vertical, color, Qt::BackgroundRole);
+    resizeColumnsToContents();
 }
 
 void AdjacencyTableView::weightUpdated(std::shared_ptr<Weight> weight) {
@@ -90,4 +95,27 @@ void AdjacencyTableView::conceptDeleted(QUuid conceptId) {
 
 void AdjacencyTableView::updateConcept(int idx) {
     presenter->updateConcept(rowsConcepts[idx]);
+}
+
+void AdjacencyTableView::loadFromFCM(const std::shared_ptr<FCM>& fcm) {
+    model->clear();
+    rowsConcepts.clear();
+    conceptsRows.clear();
+    idxsWeights.clear();
+
+    //model->blockSignals(true);
+    for (const auto& [id, concept] : fcm->concepts) {
+        conceptCreated(concept);
+    }
+    for (const auto& [id, concept] : fcm->concepts) {
+        conceptUpdated(concept);
+    }
+    for (const auto& [id, weight] : fcm->weights) {
+        weightCreated(weight);
+    }
+    for (const auto& [id, weight] : fcm->weights) {
+        weightUpdated(weight);
+    }
+    //resizeColumnsToContents();
+    //model->blockSignals(false);
 }

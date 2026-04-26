@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <attribute name="title">
@@ -442,6 +442,9 @@
           </property>
           <property name="horizontalScrollBarPolicy">
            <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::TextElideMode::ElideRight</enum>
           </property>
           <property name="sortingEnabled">
            <bool>true</bool>
@@ -1543,13 +1546,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <addaction name="actionImport"/>
     <addaction name="menuExport"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
-   </widget>
    <widget class="QMenu" name="menuModels">
     <property name="title">
      <string>Models</string>
@@ -1560,7 +1556,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Tools</string>
     </property>
     <addaction name="actionJoinFCM"/>
-    <addaction name="actionUseResult"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -1593,7 +1588,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </property>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuModels"/>
    <addaction name="menuTools"/>
    <addaction name="menuSettings"/>

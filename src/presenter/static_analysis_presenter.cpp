@@ -103,6 +103,9 @@ void StaticAnalysisPresenter::refreshUI() {
         row++;
     }
 
+    table->setWordWrap(true);
+    table->resizeRowsToContents();
+
     auto colorValueAdapter = ColorValueAdapter();
     for (auto [id, concept] : fcm->concepts) {
         if (graphConcept->count() > 1 && graphConcept->currentIndex()) {

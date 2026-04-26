@@ -15,6 +15,7 @@ class AdjacencyTableView : public QTableView {
 public:
     explicit AdjacencyTableView(QWidget* parent = nullptr);
 
+    void loadFromFCM(const std::shared_ptr<FCM>& fcm);
     void setPresenter(std::shared_ptr<CreationPresenter> newPresenter);
 
 private slots:
@@ -36,4 +37,6 @@ private:
     std::map<QUuid, size_t> conceptsRows;
     std::vector<QUuid> rowsConcepts;
     std::map<QModelIndex, QUuid> idxsWeights;
+
+
 };

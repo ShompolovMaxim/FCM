@@ -67,9 +67,10 @@ void WeightWindow::setNumericPredictedValues() {
 
     auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
 
-    for (const auto& [_, term] : terms)
-    {
-        textTicker->addTick(term->value, term->name);
+    for (const auto& [_, term] : terms) {
+        if (term->type == ElementType::Edge) {
+            textTicker->addTick(term->value, term->name);
+        }
     }
     ui->plot->yAxis->setTicker(textTicker);
     ui->plot->yAxis->setTickLabelRotation(0);
@@ -101,7 +102,9 @@ void WeightWindow::setFuzzyPredictedValues() {
     auto textTicker = QSharedPointer<QCPAxisTickerText>::create();
 
     for (const auto& [_, term] : terms) {
-        textTicker->addTick(term->value, term->name);
+        if (term->type == ElementType::Edge) {
+            textTicker->addTick(term->value, term->name);
+        }
     }
     ui->plot->yAxis->setTicker(textTicker);
     ui->plot->yAxis->setTickLabelRotation(0);
