@@ -80,31 +80,33 @@ void StaticAnalysisPresenter::recalculateInfluence() {
         auto influenceFrom = influenceDirection->currentData(Qt::UserRole).toString() == "from";
         analyzer.updateInfluence(conceptId, steps, influenceFrom);
     }
-    refreshUI();
+    refreshUI(false);
 }
 
-void StaticAnalysisPresenter::refreshUI() {
+void StaticAnalysisPresenter::refreshUI(bool changeTable) {
     const auto& result = analyzer.getResult();
 
     densityLabel->setText(tr("FCM density: ") + QString::number(result.density));
     complexityLabel->setText(tr("FCM complexity: ") + QString::number(result.complexity));
     hierarchyLabel->setText(tr("FCM hierarchy index: ") + QString::number(result.hierarchyIndex));
 
-    table->setRowCount(result.factors.size());
-    table->setColumnCount(4);
-    table->setHorizontalHeaderLabels({tr("Concept name"), tr("Out"), tr("In"), tr("Centrality")});
+    if (changeTable) {
+        table->setRowCount(result.factors.size());
+        table->setColumnCount(4);
+        table->setHorizontalHeaderLabels({tr("Concept name"), tr("Out"), tr("In"), tr("Centrality")});
 
-    int row = 0;
-    for (const auto& [idc, f] : result.factors) {
-        table->setItem(row,0, new QTableWidgetItem(f.conceptName));
-        table->setItem(row,1, new QTableWidgetItem(QString::number(f.outDegree)));
-        table->setItem(row,2, new QTableWidgetItem(QString::number(f.inDegree)));
-        table->setItem(row,3, new QTableWidgetItem(QString::number(f.centrality)));
-        row++;
+        int row = 0;
+        for (const auto& [idc, f] : result.factors) {
+            table->setItem(row,0, new QTableWidgetItem(f.conceptName));
+            table->setItem(row,1, new QTableWidgetItem(QString::number(f.outDegree)));
+            table->setItem(row,2, new QTableWidgetItem(QString::number(f.inDegree)));
+            table->setItem(row,3, new QTableWidgetItem(QString::number(f.centrality)));
+            row++;
+        }
+
+        table->setWordWrap(true);
+        table->resizeRowsToContents();
     }
-
-    table->setWordWrap(true);
-    table->resizeRowsToContents();
 
     auto colorValueAdapter = ColorValueAdapter();
     for (auto [id, concept] : fcm->concepts) {

@@ -393,7 +393,7 @@ void MainWindow::analize() {
     }
 
     auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
-    auto* oldSensitivityScene = ui->graphicsViewPredict->scene();
+    auto* oldSensitivityScene = ui->graphicsViewGraph->scene();
     ui->graphicsViewSensitivity->setScene(sensitivityScene);
     if (oldSensitivityScene != ui->graphicsViewGraph->scene()) {
         delete oldSensitivityScene;
@@ -767,7 +767,17 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
 
     QTreeWidgetItem* firstItem = nullptr;
 
-    for (auto& [id, term] : fcm->terms) {
+    std::vector<std::pair<decltype(fcm->terms)::key_type, decltype(fcm->terms)::mapped_type>> sortedTerms(
+        fcm->terms.begin(), fcm->terms.end()
+        );
+
+    std::sort(sortedTerms.begin(), sortedTerms.end(),
+              [](const auto& a, const auto& b) {
+                  return a.second->value < b.second->value;
+              }
+              );
+
+    for (auto& [id, term] : sortedTerms) {
         QTreeWidgetItem* item = new QTreeWidgetItem();
         item->setText(0, term->name);
         item->setData(0, Qt::UserRole, QVariant::fromValue(id));
@@ -905,7 +915,9 @@ void MainWindow::openTemplate() {
         return;
     }
 
-    loadFCM(std::make_shared<FCM>(*model));
+    fcm = std::make_shared<FCM>(*model);
+    addFCM(fcm);
+    loadFCM(fcm);
 }
 
 void MainWindow::onExportPng()
@@ -973,7 +985,9 @@ void MainWindow::onImportJson() {
         QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
     }
 
-    loadFCM(std::make_shared<FCM>(*model));
+    fcm = std::make_shared<FCM>(*model);
+    addFCM(fcm);
+    loadFCM(fcm);
 }
 
 void MainWindow::changeModelSettingsVisibility(bool checked) {

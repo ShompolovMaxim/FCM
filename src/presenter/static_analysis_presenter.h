@@ -18,7 +18,7 @@ public:
     StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm);
 
 private:
-    void refreshUI();
+    void refreshUI(bool changeTable = true);
 
 private slots:
     void onConceptCreated(std::shared_ptr<Concept>);
