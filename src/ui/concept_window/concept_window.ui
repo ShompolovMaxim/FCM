@@ -28,10 +28,16 @@
    </property>
    <item row="0" column="0" colspan="4">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="toolTip">
+      <string>Sensitivity analysis results for current concept</string>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
      <widget class="QWidget" name="configuration">
+      <property name="toolTip">
+       <string>Concept configuration</string>
+      </property>
       <attribute name="title">
        <string>Configuration</string>
       </attribute>
@@ -46,7 +52,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="nameField"/>
+          <widget class="QLineEdit" name="nameField">
+           <property name="toolTip">
+            <string>Concept name</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_10">
@@ -63,6 +73,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="toolTip">
+            <string>Concept value (term)</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -76,6 +89,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QSpinBox" name="startStepField">
+         <property name="toolTip">
+          <string>First prediction step concept and its weights start to infuence FCM</string>
+         </property>
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
          </property>
@@ -85,27 +101,45 @@
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="MarkdownEdit" name="notesField"/>
+        <widget class="MarkdownEdit" name="notesField">
+         <property name="toolTip">
+          <string>Concept notes</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="results">
+      <property name="toolTip">
+       <string>Simulation results for current concept</string>
+      </property>
       <attribute name="title">
        <string>Simulation results</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QCustomPlot" name="plot" native="true"/>
+        <widget class="QCustomPlot" name="plot" native="true">
+         <property name="toolTip">
+          <string>Concept values per step plot</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab">
+      <property name="toolTip">
+       <string>Sensitivity analysis results for concept</string>
+      </property>
       <attribute name="title">
        <string>Sensitivity</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QCustomPlot" name="plotSensitivity" native="true"/>
+        <widget class="QCustomPlot" name="plotSensitivity" native="true">
+         <property name="toolTip">
+          <string>Concept sensitivity for each change value plot</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -126,6 +160,9 @@
    </item>
    <item row="1" column="1">
     <widget class="QPushButton" name="deleteButton">
+     <property name="toolTip">
+      <string>Delete concept</string>
+     </property>
      <property name="text">
       <string>Delete</string>
      </property>

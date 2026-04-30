@@ -122,7 +122,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/join/mode.h
         src/ui/markdown_edit/markdown_edit.h src/ui/markdown_edit/markdown_edit.cpp
         src/ui/save_current_state_window/save_current_state_window.h src/ui/save_current_state_window/save_current_state_window.cpp src/ui/save_current_state_window/save_current_state_window.ui
-
+        src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
+        src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

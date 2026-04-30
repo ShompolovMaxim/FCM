@@ -14,25 +14,12 @@ EdgeItem::EdgeItem(NodeItem* s, NodeItem* d, QUuid id)
     arrowItem->setZValue(1);
 }
 
-void EdgeItem::setValue(double value) {
-    QColor c = colorValueAdapter->getColor(value, -1, 1);
-
-    QPen pen(c, 2);
-    pen.setCosmetic(true);
-    setPen(pen);
-    setBrush(Qt::NoBrush);
-
-    if (arrowItem) {
-        arrowItem->setBrush(c);
-    }
-}
-
 void EdgeItem::setValue(std::shared_ptr<Term> newTerm) {
     term = newTerm;
 
     auto c = QColor(0, 0, 0);
     if (term) {
-        c = colorValueAdapter->getColor(term->value, -1, 1);
+        c = term->color;
     }
 
     QPen pen(c, 2);

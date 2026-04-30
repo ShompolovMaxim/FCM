@@ -18,7 +18,7 @@ public:
     void removeEdge(EdgeItem* edge) { edges.removeOne(edge); }
 
     void setValue(std::shared_ptr<Term> newTerm);
-    void setValue(double value);
+    void setColor(QColor color);
 
     QString getName() const { return nodeName; }
     void setName(QString name);

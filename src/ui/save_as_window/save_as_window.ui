@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>564</width>
-    <height>673</height>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,10 +22,18 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="savingName"/>
+    <widget class="QLineEdit" name="savingName">
+     <property name="toolTip">
+      <string>New saiving name</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" colspan="2">
-    <widget class="QListWidget" name="modelsNames"/>
+    <widget class="QListWidget" name="modelsNames">
+     <property name="toolTip">
+      <string>Already saved models</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">

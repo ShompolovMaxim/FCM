@@ -45,9 +45,12 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="modelSettings">
+       <property name="toolTip">
+        <string>Base model settings</string>
+       </property>
        <attribute name="title">
         <string>Model settings</string>
        </attribute>
@@ -58,6 +61,9 @@
            <font>
             <pointsize>32</pointsize>
            </font>
+          </property>
+          <property name="toolTip">
+           <string>FCM name</string>
           </property>
           <property name="autoFillBackground">
            <bool>false</bool>
@@ -84,6 +90,9 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="toolTip">
+             <string>Create term</string>
+            </property>
             <property name="text">
              <string>Create</string>
             </property>
@@ -93,6 +102,9 @@
            <widget class="QPushButton" name="deleteTermButton">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Delete term</string>
             </property>
             <property name="text">
              <string>Delete</string>
@@ -104,6 +116,9 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="toolTip">
+             <string>Configure term color</string>
+            </property>
             <property name="text">
              <string>Color</string>
             </property>
@@ -114,14 +129,54 @@
         <item row="1" column="1" rowspan="2">
          <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,1,1">
           <item>
-           <widget class="QCheckBox" name="autoColorConfiguration">
-            <property name="text">
-             <string>Automatic color configuration</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_17">
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Automatic configuration of</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="autoColorConfiguration">
+              <property name="toolTip">
+               <string>Automatically configure term color</string>
+              </property>
+              <property name="text">
+               <string>Color</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="autoNumericConfiguration">
+              <property name="toolTip">
+               <string>Automatically configure term numeric value</string>
+              </property>
+              <property name="text">
+               <string> Numeric values</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="autoFuzzyConfiguration">
+              <property name="toolTip">
+               <string>Automatically configure term fuzzy value</string>
+              </property>
+              <property name="text">
+               <string>Fuzzy values</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -136,6 +191,9 @@
              <widget class="QDoubleSpinBox" name="termValue">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Term numeric value</string>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -170,6 +228,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Term fuzzy value lower parameter</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -195,6 +256,9 @@
              <widget class="QDoubleSpinBox" name="termValueM">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Term fuzzy value middle parameter</string>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -222,6 +286,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Term fuzzy value upper parameter</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -236,12 +303,19 @@
            </layout>
           </item>
           <item>
-           <widget class="QCustomPlot" name="fuzzyValuePlot" native="true"/>
+           <widget class="QCustomPlot" name="fuzzyValuePlot" native="true">
+            <property name="toolTip">
+             <string>Fuzzy value accessory function plot</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="MarkdownEdit" name="termNotes">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Term Markdown notes</string>
             </property>
             <property name="placeholderText">
              <string>Term notes</string>
@@ -264,6 +338,9 @@
             <width>0</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Terms list</string>
           </property>
           <property name="uniformRowHeights">
            <bool>false</bool>
@@ -301,6 +378,9 @@
             <height>801</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>FCM Markdown notes</string>
+          </property>
           <property name="placeholderText">
            <string>FCM notes</string>
           </property>
@@ -309,6 +389,9 @@
        </layout>
       </widget>
       <widget class="QWidget" name="graph">
+       <property name="toolTip">
+        <string>FCM creation in graph form</string>
+       </property>
        <attribute name="title">
         <string>Graph</string>
        </attribute>
@@ -317,6 +400,9 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="GraphView" name="graphicsViewGraph">
+            <property name="toolTip">
+             <string>FCM graph interactive space</string>
+            </property>
             <property name="verticalScrollBarPolicy">
              <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
             </property>
@@ -343,6 +429,9 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>FCM graph creation mode</string>
+              </property>
               <property name="text">
                <string>Mode: Create</string>
               </property>
@@ -355,6 +444,9 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>FCM graph scale</string>
               </property>
               <property name="text">
                <string>Scale: 100%</string>
@@ -372,6 +464,9 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>Reset FCM graph scale to 100%</string>
+              </property>
               <property name="text">
                <string>Scale to 100%</string>
               </property>
@@ -384,6 +479,9 @@
        </layout>
       </widget>
       <widget class="QWidget" name="adjacencyMatrix">
+       <property name="toolTip">
+        <string>FCM creation with adjacency matrix</string>
+       </property>
        <attribute name="title">
         <string>Adjacency matrix</string>
        </attribute>
@@ -402,6 +500,9 @@
         </property>
         <item row="0" column="0">
          <widget class="AdjacencyTableView" name="adjacencyTableView">
+          <property name="toolTip">
+           <string>FCM adjacency matrix</string>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
           </property>
@@ -413,6 +514,9 @@
        </layout>
       </widget>
       <widget class="QWidget" name="staticAnalysis">
+       <property name="toolTip">
+        <string>FCM static analysis</string>
+       </property>
        <attribute name="title">
         <string>Static analysis</string>
        </attribute>
@@ -436,6 +540,9 @@
             <width>491</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Concepts static characteristics</string>
           </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
@@ -519,6 +626,9 @@
           </item>
           <item>
            <widget class="QComboBox" name="influenceDirection">
+            <property name="toolTip">
+             <string>Graphical influence calculation mode</string>
+            </property>
             <item>
              <property name="text">
               <string>from</string>
@@ -532,7 +642,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="graphConcept"/>
+           <widget class="QComboBox" name="graphConcept">
+            <property name="toolTip">
+             <string>Concept for influence calculation</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_9">
@@ -546,6 +660,9 @@
           </item>
           <item>
            <widget class="QSpinBox" name="influenceSteps">
+            <property name="toolTip">
+             <string>The number of transitive transitions</string>
+            </property>
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
             </property>
@@ -568,6 +685,9 @@
         </item>
         <item row="2" column="1">
          <widget class="GraphView" name="graphicsView">
+          <property name="toolTip">
+           <string>Graphical influence area</string>
+          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
           </property>
@@ -579,12 +699,18 @@
        </layout>
       </widget>
       <widget class="QWidget" name="simulation">
+       <property name="toolTip">
+        <string>FCM simulation</string>
+       </property>
        <attribute name="title">
         <string>Simulation</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="1" column="0" colspan="2">
          <widget class="QProgressBar" name="progressBarPredict">
+          <property name="toolTip">
+           <string>Simulation progress (step)</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -610,6 +736,9 @@
         </item>
         <item row="1" column="2">
          <widget class="QLabel" name="labelMetricValue">
+          <property name="toolTip">
+           <string>Step change metric value</string>
+          </property>
           <property name="text">
            <string>Metric value: </string>
           </property>
@@ -617,6 +746,9 @@
         </item>
         <item row="0" column="0">
          <widget class="GraphView" name="graphicsViewPredict">
+          <property name="toolTip">
+           <string>Graphical simulation area</string>
+          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
           </property>
@@ -642,6 +774,9 @@
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
              <widget class="QPushButton" name="pushButtonPredict">
+              <property name="toolTip">
+               <string>Start simulaion</string>
+              </property>
               <property name="text">
                <string>Predict</string>
               </property>
@@ -649,6 +784,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonReset">
+              <property name="toolTip">
+               <string>Reset simulation</string>
+              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -667,6 +805,9 @@
             </item>
             <item>
              <widget class="QComboBox" name="comboBoxAlgorithm">
+              <property name="toolTip">
+               <string>FCM prediction algorithm</string>
+              </property>
               <item>
                <property name="text">
                 <string>const weights</string>
@@ -683,6 +824,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="useFuzzyValues">
+            <property name="toolTip">
+             <string>Use fuzzy values algorithms</string>
+            </property>
             <property name="text">
              <string>Use fuzzy values</string>
             </property>
@@ -755,6 +899,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBoxPredictToStatic">
+            <property name="toolTip">
+             <string>Predict until change metric is less threhold for specified number of steps</string>
+            </property>
             <property name="text">
              <string>Predict to static</string>
             </property>
@@ -773,6 +920,9 @@
              <widget class="QComboBox" name="comboBoxMetric">
               <property name="enabled">
                <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>FCM change metric</string>
               </property>
               <item>
                <property name="text">
@@ -807,6 +957,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Threshold for predict to static mode</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -827,6 +980,9 @@
              <widget class="QSpinBox" name="spinBoxMetricSteps">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Number of steps for predict to static mode</string>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -849,6 +1005,9 @@
             </item>
             <item>
              <widget class="QSpinBox" name="spinBoxFixedSteps">
+              <property name="toolTip">
+               <string>Predict for fixed number of steps</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -886,6 +1045,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBoxRealTime">
+            <property name="toolTip">
+             <string>Simulate in real-time or proceed to the result</string>
+            </property>
             <property name="text">
              <string>Real-time simulation</string>
             </property>
@@ -905,6 +1067,9 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="doubleSpinBoxStepsPerSecond">
+              <property name="toolTip">
+               <string>Simulation speed</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -919,6 +1084,9 @@
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <item>
              <widget class="QSpinBox" name="spinBoxMoveSteps">
+              <property name="toolTip">
+               <string>Number of steps to move</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -939,6 +1107,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonBack">
+              <property name="toolTip">
+               <string>Move back</string>
+              </property>
               <property name="text">
                <string>Back</string>
               </property>
@@ -946,6 +1117,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonForward">
+              <property name="toolTip">
+               <string>Move forward</string>
+              </property>
               <property name="text">
                <string>Forward</string>
               </property>
@@ -957,6 +1131,9 @@
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
              <widget class="QPushButton" name="pushButtonSlowDown">
+              <property name="toolTip">
+               <string>Slow simulation down 2 times</string>
+              </property>
               <property name="text">
                <string>Slow down</string>
               </property>
@@ -964,6 +1141,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonPause">
+              <property name="toolTip">
+               <string>Pause or resume simulation</string>
+              </property>
               <property name="text">
                <string>Pause</string>
               </property>
@@ -971,6 +1151,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonSpeedUp">
+              <property name="toolTip">
+               <string>Speed simulation up 2 times</string>
+              </property>
               <property name="text">
                <string>Speed up</string>
               </property>
@@ -978,6 +1161,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonFinish">
+              <property name="toolTip">
+               <string>Proceed to the last step</string>
+              </property>
               <property name="text">
                <string>Finish</string>
               </property>
@@ -985,6 +1171,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonCancel">
+              <property name="toolTip">
+               <string>Proceed to the initial state</string>
+              </property>
               <property name="text">
                <string>Cancel</string>
               </property>
@@ -994,6 +1183,9 @@
           </item>
           <item>
            <widget class="MarkdownEdit" name="textEditNotesPredict">
+            <property name="toolTip">
+             <string>FCM notes</string>
+            </property>
             <property name="readOnly">
              <bool>false</bool>
             </property>
@@ -1013,6 +1205,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QLabel" name="labelScalePredict">
+              <property name="toolTip">
+               <string>Graphical simulation area scale</string>
+              </property>
               <property name="text">
                <string>Scale: 100%</string>
               </property>
@@ -1023,6 +1218,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonScalePredict">
+              <property name="toolTip">
+               <string>Reset graphical simulation area scale to 100%</string>
+              </property>
               <property name="text">
                <string>Scale to 100%</string>
               </property>
@@ -1035,6 +1233,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="experiments">
+       <property name="toolTip">
+        <string>FCM experiments</string>
+       </property>
        <attribute name="title">
         <string>Experiments</string>
        </attribute>
@@ -1053,6 +1254,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </property>
         <item row="0" column="0">
          <widget class="QTableView" name="experimantsTable">
+          <property name="toolTip">
+           <string>Experiments table, can be sorted</string>
+          </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
           </property>
@@ -1070,6 +1274,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="sensitivityAnalysis">
+       <property name="toolTip">
+        <string>FCM sensitivity analysis</string>
+       </property>
        <attribute name="title">
         <string>Sensitivity analysis</string>
        </attribute>
@@ -1082,6 +1289,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>FCM sensitivity plot</string>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -1092,6 +1302,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </property>
             <item>
              <widget class="GraphView" name="graphicsViewSensitivity">
+              <property name="toolTip">
+               <string>Graphical sensitivity analysis area</string>
+              </property>
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
               </property>
@@ -1138,6 +1351,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <layout class="QHBoxLayout" name="horizontalLayout_29">
             <item>
              <widget class="QPushButton" name="pushButtonAnalizeSensitivity">
+              <property name="toolTip">
+               <string>Start sensitivity analysis</string>
+              </property>
               <property name="text">
                <string>Analyze</string>
               </property>
@@ -1145,6 +1361,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonResetSensitivity">
+              <property name="toolTip">
+               <string>Reset sensitivity analisys</string>
+              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -1152,6 +1371,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QPushButton" name="showSensitivityPlot">
+              <property name="toolTip">
+               <string>Show FCM elements sensitivity or FCM sensitivity</string>
+              </property>
               <property name="text">
                <string>FCM Sensitivity</string>
               </property>
@@ -1170,6 +1392,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QComboBox" name="comboBoxAlgorithmSensitivity">
+              <property name="toolTip">
+               <string>FCM prediction algorithm</string>
+              </property>
               <item>
                <property name="text">
                 <string>const weights</string>
@@ -1186,6 +1411,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </item>
           <item>
            <widget class="QCheckBox" name="useFuzzyValuesSensitivity">
+            <property name="toolTip">
+             <string>Use fuzzy values algorithms</string>
+            </property>
             <property name="text">
              <string>Use fuzzy values</string>
             </property>
@@ -1258,6 +1486,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </item>
           <item>
            <widget class="QCheckBox" name="checkBoxPredictToStaticSensitivity">
+            <property name="toolTip">
+             <string>Predict until change metric is less threhold for specified number of steps</string>
+            </property>
             <property name="text">
              <string>Predict to static</string>
             </property>
@@ -1276,6 +1507,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <widget class="QComboBox" name="comboBoxMetricSensitivity">
               <property name="enabled">
                <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>FCM change metric</string>
               </property>
               <item>
                <property name="text">
@@ -1310,6 +1544,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Threshold for predict to static mode</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -1330,6 +1567,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <widget class="QSpinBox" name="spinBoxMetricStepsSensitivity">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Number of steps for predict to static mode</string>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -1352,6 +1592,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QSpinBox" name="spinBoxFixedStepsSensitivity">
+              <property name="toolTip">
+               <string>Predict for fixed number of steps</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -1401,6 +1644,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <property name="enabled">
                <bool>true</bool>
               </property>
+              <property name="toolTip">
+               <string>Maximal change of FCM elements initial values during analysis</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -1421,6 +1667,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <layout class="QHBoxLayout" name="horizontalLayout_37">
             <item>
              <widget class="QCheckBox" name="changeConcepts">
+              <property name="toolTip">
+               <string>Change concepts during analysis</string>
+              </property>
               <property name="text">
                <string>Change concepts</string>
               </property>
@@ -1431,6 +1680,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QCheckBox" name="changeWeights">
+              <property name="toolTip">
+               <string>Change weights during analysis</string>
+              </property>
               <property name="text">
                <string>Change weights</string>
               </property>
@@ -1445,6 +1697,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>FCM notes</string>
             </property>
             <property name="readOnly">
              <bool>false</bool>
@@ -1465,6 +1720,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <layout class="QHBoxLayout" name="horizontalLayout_39">
             <item>
              <widget class="QLabel" name="labelScaleSensitivity">
+              <property name="toolTip">
+               <string>Graphical sensitivity analysis area scale</string>
+              </property>
               <property name="text">
                <string>Scale: 100%</string>
               </property>
@@ -1475,6 +1733,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonScaleSensitivity">
+              <property name="toolTip">
+               <string>Reset sensitivity analysis area scale to 100%</string>
+              </property>
               <property name="text">
                <string>Scale to 100%</string>
               </property>
@@ -1486,6 +1747,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </item>
         <item row="1" column="0" colspan="2">
          <widget class="QProgressBar" name="progressBarSensitivity">
+          <property name="toolTip">
+           <string>Sensitivity analysis progress</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -1600,6 +1864,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
    </property>
    <property name="text">
+    <string>New</string>
+   </property>
+   <property name="iconText">
     <string>New</string>
    </property>
   </action>

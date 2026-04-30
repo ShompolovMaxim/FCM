@@ -289,6 +289,8 @@ void MainWindow::predict() {
         return;
     }
 
+    activeSimulation = true;
+
     ui->pushButtonPredict->setEnabled(false);
     ui->doubleSpinBoxStepsPerSecond->setEnabled(false);
 
@@ -326,6 +328,7 @@ void MainWindow::predict() {
 
 void MainWindow::resetPredictionScene() {
     simulationFinished();
+    activeSimulation = false;
     auto* predictionScene = ui->graphicsViewPredict->scene();
     ui->graphicsViewPredict->setScene(ui->graphicsViewGraph->scene());
     delete predictionScene;
@@ -457,6 +460,7 @@ void MainWindow::onCreateTerm() {
     ui->treeWidgetTerms->editItem(item, 0);
 
     creationPresenter->updateTerm(id);
+    popagateTermUpdate();
 }
 
 void MainWindow::onDeleteTerm() {
@@ -468,6 +472,7 @@ void MainWindow::onDeleteTerm() {
             fcm->deletedTermsIds.push_back(fcm->terms[id]->dbId);
         }
         creationPresenter->deleteTerm(id);
+        popagateTermUpdate();
         delete current;
         ui->treeWidgetTerms->setCurrentItem(parent);
     }
@@ -479,6 +484,7 @@ void MainWindow::onChooseTermColor() {
         fcm->terms[currentTermId]->color = color;
         ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(color.name()));
         creationPresenter->updateTerm(currentTermId);
+        popagateTermUpdate();
     }
 }
 
@@ -533,17 +539,57 @@ void MainWindow::termNotesChanged() {
     fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
 }
 
+void MainWindow::autoConfigureTermColor() {
+    if (!ui->autoColorConfiguration->isChecked()) {
+        return;
+    }
+    double meanTermValue = (fcm->terms[currentTermId]->value + fcm->terms[currentTermId]->fuzzyValue.defuzzify()) / 2;
+    if (fcm->terms[currentTermId]->type == ElementType::Node) {
+        fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(meanTermValue, 0, 1);
+    } else {
+        fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(meanTermValue, -1, 1);
+    }
+    ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
+}
+
+void MainWindow::autoConfigureNumericValue() {
+    if (!ui->autoNumericConfiguration->isChecked()) {
+        return;
+    }
+    QSignalBlocker b1(ui->termValue);
+    fcm->terms[currentTermId]->value = fcm->terms[currentTermId]->fuzzyValue.defuzzify();
+    ui->termValue->setValue(fcm->terms[currentTermId]->fuzzyValue.defuzzify());
+}
+
+void MainWindow::autoConfigureFuzzyValue() {
+    if (!ui->autoFuzzyConfiguration->isChecked()) {
+        return;
+    }
+    QSignalBlocker b1(ui->termValueL);
+    QSignalBlocker b2(ui->termValueM);
+    QSignalBlocker b3(ui->termValueU);
+    fcm->terms[currentTermId]->fuzzyValue.l = std::max(fcm->terms[currentTermId]->value - 0.2, fcm->terms[currentTermId]->type == ElementType::Edge ? -1.0 : 0.0);
+    fcm->terms[currentTermId]->fuzzyValue.m = fcm->terms[currentTermId]->value;
+    fcm->terms[currentTermId]->fuzzyValue.u = std::min(fcm->terms[currentTermId]->value + 0.2, 1.0);
+    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
+    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
+    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
+}
+
+void MainWindow::popagateTermUpdate() {
+    staticAnalysisPresenter->refreshUI(false);
+    if (activeSimulation) {
+        presenter->moveStep(0);
+    }
+}
+
 void MainWindow::onTermValueChanged(double value) {
     fcm->terms[currentTermId]->value = value;
-    if (ui->autoColorConfiguration->checkState()) {
-        if (fcm->terms[currentTermId]->type == ElementType::Node) {
-            fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(value, 0, 1);
-        } else {
-            fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(value, -1, 1);
-        }
-        ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
-    }
+    autoConfigureFuzzyValue();
+    autoConfigureTermColor();
+    updateFuzzyValuePlot();
     creationPresenter->updateTerm(currentTermId);
+    popagateTermUpdate();
 }
 
 void MainWindow::onTermValueLChanged(double value) {
@@ -557,7 +603,10 @@ void MainWindow::onTermValueLChanged(double value) {
     }
     fcm->terms[currentTermId]->fuzzyValue.l = value;
     updateFuzzyValuePlot();
+    autoConfigureNumericValue();
+    autoConfigureTermColor();
     creationPresenter->updateTerm(currentTermId);
+    popagateTermUpdate();
 }
 
 void MainWindow::onTermValueMChanged(double value) {
@@ -571,7 +620,10 @@ void MainWindow::onTermValueMChanged(double value) {
     }
     fcm->terms[currentTermId]->fuzzyValue.m = value;
     updateFuzzyValuePlot();
+    autoConfigureNumericValue();
+    autoConfigureTermColor();
     creationPresenter->updateTerm(currentTermId);
+    popagateTermUpdate();
 }
 
 void MainWindow::onTermValueUChanged(double value) {
@@ -585,7 +637,10 @@ void MainWindow::onTermValueUChanged(double value) {
     }
     fcm->terms[currentTermId]->fuzzyValue.u = value;
     updateFuzzyValuePlot();
+    autoConfigureNumericValue();
+    autoConfigureTermColor();
     creationPresenter->updateTerm(currentTermId);
+    popagateTermUpdate();
 }
 
 void MainWindow::updateFuzzyValuePlot() {
@@ -758,6 +813,7 @@ void MainWindow::save() {
 void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     QSignalBlocker b1(ui->modelName);
     fcm = newFCM;
+    activeSimulation = false;
 
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setMarkdownText(fcm->description);

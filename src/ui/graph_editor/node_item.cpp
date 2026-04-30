@@ -40,14 +40,14 @@ void NodeItem::setName(QString name) {
 void NodeItem::setValue(std::shared_ptr<Term> newTerm) {
     term = newTerm;
     if (term) {
-        setBrush(colorValueAdapter->getColor(term->value, 0, 1));
+        setBrush(term->color);
     } else {
         setBrush(QColor(255, 255, 255));
     }
 }
 
-void NodeItem::setValue(double value) {
-    setBrush(colorValueAdapter->getColor(value, 0, 1));
+void NodeItem::setColor(QColor color) {
+    setBrush(color);
 }
 
 QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant& val) {

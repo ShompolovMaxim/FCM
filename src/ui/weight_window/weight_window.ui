@@ -57,6 +57,9 @@
    </item>
    <item row="1" column="1">
     <widget class="QPushButton" name="deleteButton">
+     <property name="toolTip">
+      <string>Delete weight</string>
+     </property>
      <property name="text">
       <string>Delete</string>
      </property>
@@ -68,6 +71,9 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="configuration">
+      <property name="toolTip">
+       <string>Weight configuration</string>
+      </property>
       <attribute name="title">
        <string>Configuration</string>
       </attribute>
@@ -80,7 +86,11 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="nameField"/>
+        <widget class="QLineEdit" name="nameField">
+         <property name="toolTip">
+          <string>Weight name</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="2">
         <widget class="QLabel" name="label_10">
@@ -97,30 +107,51 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="toolTip">
+          <string>Weight value (term)</string>
+         </property>
         </widget>
        </item>
        <item row="1" column="0" colspan="4">
-        <widget class="MarkdownEdit" name="notesField"/>
+        <widget class="MarkdownEdit" name="notesField">
+         <property name="toolTip">
+          <string>Weight notes</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="results">
+      <property name="toolTip">
+       <string>Simulation results for current weight</string>
+      </property>
       <attribute name="title">
        <string>Simulation results</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QCustomPlot" name="plot" native="true"/>
+        <widget class="QCustomPlot" name="plot" native="true">
+         <property name="toolTip">
+          <string>Weight values per step plot</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab">
+      <property name="toolTip">
+       <string>Sensitivity analysis results for weight</string>
+      </property>
       <attribute name="title">
        <string>Sensitivity</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QCustomPlot" name="plotSensitivity" native="true"/>
+        <widget class="QCustomPlot" name="plotSensitivity" native="true">
+         <property name="toolTip">
+          <string>Weight sensitivity for each change value plot</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

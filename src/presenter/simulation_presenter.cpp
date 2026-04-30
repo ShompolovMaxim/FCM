@@ -1,4 +1,6 @@
 #include "simulation_presenter.h"
+
+#include "ui/graph_editor/color_value_adapter/linear_approximation_adapter.h"
 #include "ui/graph_editor/edge_item.h"
 
 SimulationPresenter::SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent) : QObject(parent), creationPresenter(creationPresenter) {}
@@ -65,21 +67,18 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
 bool SimulationPresenter::goToStep(size_t newStep) {
     if (predictor->getCount() >= newStep) {
         auto newFCM = predictor->getFCM(newStep);
+        auto colorValueAdapter = LinearApproximationColorValueAdapter(fcm->terms);
         for (auto* node : nodes) {
-            if (predictionParameters.useFuzzyValues) {
-                node->setValue(newFCM.concepts[node->getId()].triangularFuzzyValue.defuzzify());
-            } else {
-                node->setValue(newFCM.concepts[node->getId()].value);
-            }
+            double value = predictionParameters.useFuzzyValues ? newFCM.concepts[node->getId()].triangularFuzzyValue.defuzzify() : newFCM.concepts[node->getId()].value;
+            auto color = colorValueAdapter.getColor(value, 0, 1, true, predictionParameters.useFuzzyValues);
+            node->setColor(color);
             fcm->concepts[node->getId()]->predictedValues = predictor->getConceptHistoryValues(node->getId(), newStep);
             creationPresenter->setConceptPredictedValues(node->getId());
         }
         for (auto* edge : edges) {
-            if (predictionParameters.useFuzzyValues) {
-                edge->setValue(newFCM.weights[edge->getId()].triangularFuzzyValue.defuzzify());
-            } else {
-                edge->setValue(newFCM.weights[edge->getId()].value);
-            }
+            double value = predictionParameters.useFuzzyValues ? newFCM.weights[edge->getId()].triangularFuzzyValue.defuzzify() : newFCM.weights[edge->getId()].value;
+            auto color = colorValueAdapter.getColor(value, -1, 1, false, predictionParameters.useFuzzyValues);
+            edge->setColor(color);
             fcm->weights[edge->getId()]->predictedValues = predictor->getWeightHistoryValues(edge->getId(), newStep);
             creationPresenter->setWeightPredictedValues(edge->getId());
         }

@@ -107,6 +107,10 @@ private:
     void addExperiment(const Experiment& experiment);
 
     void updateFuzzyValuePlot();
+    void autoConfigureTermColor();
+    void autoConfigureNumericValue();
+    void autoConfigureFuzzyValue();
+    void popagateTermUpdate();
 
     void loadFCM(std::shared_ptr<FCM> newFCM);
 
@@ -142,5 +146,6 @@ private:
     EditMode editMode = EditMode::Create;
     bool paused = false;
     double currentMetricValue = 0;
+    bool activeSimulation = false;
 };
 #endif // MAIN_WINDOW_H

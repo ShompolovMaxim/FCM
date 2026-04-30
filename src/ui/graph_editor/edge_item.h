@@ -16,8 +16,6 @@ public:
 
     void updatePosition();
 
-    void setValue(double v);
-
     void setValue(std::shared_ptr<Term> newTerm);
 
     void setColor(QColor color);

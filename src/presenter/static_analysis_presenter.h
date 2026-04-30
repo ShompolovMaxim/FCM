@@ -17,7 +17,6 @@ class StaticAnalysisPresenter : public QObject {
 public:
     StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm);
 
-private:
     void refreshUI(bool changeTable = true);
 
 private slots:

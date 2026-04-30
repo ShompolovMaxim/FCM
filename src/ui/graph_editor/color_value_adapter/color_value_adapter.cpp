@@ -2,7 +2,7 @@
 
 ColorValueAdapter::ColorValueAdapter(/*const std::shared_ptr<Term>& terms*/) /*: IColorValueAdapter(), terms(terms)*/ {}
 
-QColor ColorValueAdapter::getColor(double value, double min, double max) {
+QColor ColorValueAdapter::getColor(double value, double min, double max, bool conceptColor, bool fuzzyValues) {
     value = std::clamp(value, min, max);
     double t = (value - min) / (max - min);
 
