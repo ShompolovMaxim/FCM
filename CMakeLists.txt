@@ -124,6 +124,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/save_current_state_window/save_current_state_window.h src/ui/save_current_state_window/save_current_state_window.cpp src/ui/save_current_state_window/save_current_state_window.ui
         src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
         src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
+        src/ui/tooltips/controller.h src/ui/tooltips/controller.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -127,7 +127,7 @@
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_concept_window.h" line="187"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_concept_window.h" line="187"/>
         <source>Sensitivity</source>
-        <translation>Анализ чуствительности</translation>
+        <translation>Анализ чувствительности</translation>
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.ui" line="140"/>
@@ -180,7 +180,7 @@
         <location filename="../src/ui/concept_window/concept_window.cpp" line="41"/>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="217"/>
         <source>sensitivity</source>
-        <translation>чуствительность</translation>
+        <translation>чувствительность</translation>
     </message>
 </context>
 <context>
@@ -354,7 +354,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="23"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1364"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1364"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1370"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1316"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1316"/>
         <source>Program for Problematic Situations Discussion Results Simulation Based on FCM</source>
@@ -362,11 +362,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="55"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="1980"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1981"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1382"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1457"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1382"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1457"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1388"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1464"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1333"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1357"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1333"/>
@@ -379,8 +379,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="75"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1395"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1398"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1398"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1402"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1343"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1343"/>
         <source>FCM name</source>
@@ -389,7 +389,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="84"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1399"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1406"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1344"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1344"/>
         <source>Terms:</source>
@@ -398,7 +398,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="248"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1434"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1434"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1441"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1352"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1352"/>
         <source>M:</source>
@@ -407,7 +407,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="219"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1430"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1430"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1437"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1351"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1351"/>
         <source>L:</source>
@@ -416,7 +416,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="212"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1429"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1429"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1436"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1350"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1350"/>
         <source>Fuzzy value:</source>
@@ -425,7 +425,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="277"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1438"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1438"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1445"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1353"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1353"/>
         <source>U:</source>
@@ -434,7 +434,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="186"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1425"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1425"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1432"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1349"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1349"/>
         <source>Numeric value:</source>
@@ -443,7 +443,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="321"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1448"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1448"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1455"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1354"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1354"/>
         <source>Term notes</source>
@@ -456,9 +456,9 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1456"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1625"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1727"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1456"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1625"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1727"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1463"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1632"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1734"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1356"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1356"/>
         <source>FCM notes</source>
@@ -467,7 +467,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="330"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1449"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1449"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1456"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1355"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1355"/>
         <source>FCM notes:</source>
@@ -476,7 +476,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="97"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1403"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1403"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1410"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1345"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1345"/>
         <source>Create</source>
@@ -485,11 +485,11 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="110"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1407"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1407"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1414"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1346"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1346"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="264"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1233"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="269"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1243"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -498,8 +498,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="146"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1411"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1416"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1411"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1416"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1418"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1423"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1347"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1347"/>
         <source>Color</source>
@@ -513,11 +513,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="396"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="1991"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1992"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1383"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1476"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1383"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1476"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1483"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1334"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1361"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1334"/>
@@ -528,11 +528,11 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="436"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1467"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1467"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1474"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1358"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1358"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="242"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1215"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="247"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1225"/>
         <source>Mode: Create</source>
         <translation>Режим создания</translation>
     </message>
@@ -543,9 +543,9 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1471"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1638"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1740"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1471"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1638"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1740"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1478"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1645"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1747"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1359"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1424"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1463"/>
@@ -562,9 +562,9 @@
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1475"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1642"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1744"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1475"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1642"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1744"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1482"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1649"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1751"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1360"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1425"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1464"/>
@@ -576,11 +576,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="486"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2002"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2003"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1384"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1483"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1384"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1483"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1490"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1335"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1362"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1335"/>
@@ -590,11 +590,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="521"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2013"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2014"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1385"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1519"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1519"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1391"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1526"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1336"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1380"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1336"/>
@@ -605,7 +605,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="573"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1488"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1488"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1495"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1364"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1364"/>
         <source>Concept name</source>
@@ -614,7 +614,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="578"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1490"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1490"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1497"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1366"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1366"/>
         <source>Out degree</source>
@@ -623,7 +623,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="583"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1492"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1492"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1499"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1368"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1368"/>
         <source>In degree</source>
@@ -632,7 +632,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="588"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1494"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1494"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1501"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1370"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1370"/>
         <source>Centrality</source>
@@ -641,7 +641,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="623"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1501"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1501"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1508"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1374"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1374"/>
         <source>Graphical influence</source>
@@ -650,7 +650,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="634"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1502"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1502"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1509"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1375"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1375"/>
         <source>from</source>
@@ -659,7 +659,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="639"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1503"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1503"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1510"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1376"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1376"/>
         <source>on</source>
@@ -668,7 +668,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="654"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1511"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1511"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1518"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1378"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1378"/>
         <source>with</source>
@@ -679,8 +679,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1101"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1515"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1595"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1515"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1595"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1522"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1602"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1379"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1408"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1379"/>
@@ -691,7 +691,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="598"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1498"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1498"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1505"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1371"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1371"/>
         <source>FCM density: </source>
@@ -700,196 +700,196 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="52"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1392"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
         <source>Base model settings</source>
         <translation>Базовые настройки модели</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="94"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1401"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1401"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1408"/>
         <source>Create term</source>
         <translation>Создать терм</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="107"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1405"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1412"/>
         <source>Delete term</source>
         <translation>Удалить терм</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="120"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1409"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1409"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1416"/>
         <source>Configure term color</source>
         <translation>Задать цвет терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="136"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1412"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1412"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1419"/>
         <source>Automatic configuration of</source>
         <translation>Автоматически конфигурировать</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="143"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1414"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1414"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1421"/>
         <source>Automatically configure term color</source>
         <translation>Автоматически конфигурировать цвет терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="156"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1418"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1418"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1425"/>
         <source>Automatically configure term numeric value</source>
         <translation>Автоматически конфигурировать числовое значений терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="159"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1420"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1420"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1427"/>
         <source> Numeric values</source>
         <translation> Числовые значения</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="169"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1422"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1422"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1429"/>
         <source>Automatically configure term fuzzy value</source>
         <translation>Автоматически конфигурировать нечёткое значение терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="172"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1424"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1424"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1431"/>
         <source>Fuzzy values</source>
         <translation>Нечёткие значения</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="196"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1427"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1427"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1434"/>
         <source>Term numeric value</source>
         <translation>Числовое значение терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="232"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1432"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1432"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1439"/>
         <source>Term fuzzy value lower parameter</source>
         <translation>Нижний порог нечёткого значения терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="261"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1436"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1436"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1443"/>
         <source>Term fuzzy value middle parameter</source>
         <translation>Точка максимума нечёткого значения терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="290"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1440"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1440"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1447"/>
         <source>Term fuzzy value upper parameter</source>
         <translation>Верхний порог нечёткого значения терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="308"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1443"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1443"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1450"/>
         <source>Fuzzy value accessory function plot</source>
         <translation>График функции принадлежности нечёткого значения</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="318"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1446"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1446"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1453"/>
         <source>Term Markdown notes</source>
         <translation>Markdown заметки терма</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="343"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1451"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1451"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1458"/>
         <source>Terms list</source>
         <translation>Список термов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="382"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1454"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1454"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1461"/>
         <source>FCM Markdown notes</source>
         <translation>Markdown заметки НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="393"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1459"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1459"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1466"/>
         <source>FCM creation in graph form</source>
         <translation>Создание НКК в графическом формате</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="404"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1462"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1462"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1469"/>
         <source>FCM graph interactive space</source>
         <translation>Интерактивная область графа НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="433"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1465"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1465"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1472"/>
         <source>FCM graph creation mode</source>
         <translation>Режим графического создения НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="449"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1469"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1469"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1476"/>
         <source>FCM graph scale</source>
         <translation>Масштаб графа НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="468"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1473"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1473"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1480"/>
         <source>Reset FCM graph scale to 100%</source>
         <translation>Сбросить масштаб графа НКК до 100%</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="483"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1478"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1478"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1485"/>
         <source>FCM creation with adjacency matrix</source>
         <translation>Создание НКК при помощи матрицы смежности</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="504"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1481"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1481"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1488"/>
         <source>FCM adjacency matrix</source>
         <translation>Матрица смежности НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="518"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1485"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1485"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1492"/>
         <source>FCM static analysis</source>
         <translation>Статический анализ НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="545"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1496"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1496"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1503"/>
         <source>Concepts static characteristics</source>
         <translation>Статические характеристики факторов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="605"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1499"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1499"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1506"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1372"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1372"/>
         <source>FCM complexity: </source>
@@ -898,7 +898,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="612"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1500"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1500"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1507"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1373"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1373"/>
         <source>FCM hierarchy index: </source>
@@ -907,45 +907,45 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="630"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1506"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1506"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1513"/>
         <source>Graphical influence calculation mode</source>
         <translation>Режим определения влияния факторов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="647"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1509"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1509"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1516"/>
         <source>Concept for influence calculation</source>
         <translation>Опорный фактор определения влияния</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="664"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1513"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1513"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1520"/>
         <source>The number of transitive transitions</source>
         <translation>Число транзитивных переходов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="689"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1517"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1517"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1524"/>
         <source>Graphical influence area</source>
         <translation>Область графического отображения влияния</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="703"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1521"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1521"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1528"/>
         <source>FCM simulation</source>
         <translation>Симуляция НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="706"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2024"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2025"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1386"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1643"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1386"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1643"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1650"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1337"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1426"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1337"/>
@@ -956,35 +956,35 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="712"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1524"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1524"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1531"/>
         <source>Simulation progress (step)</source>
         <translation>Прогресс симуляции (номер шага)</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="740"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1528"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1528"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1535"/>
         <source>Step change metric value</source>
         <translation>Метрика оценки изменения НКК за шаг</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="750"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1532"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1532"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1539"/>
         <source>Graphical simulation area</source>
         <translation>Графическая область симуляции</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="778"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1535"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1535"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1542"/>
         <source>Start simulaion</source>
         <translation>Запустить симуляцию</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="781"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1537"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1537"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1544"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1383"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1383"/>
         <source>Predict</source>
@@ -993,7 +993,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="788"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1539"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1539"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1546"/>
         <source>Reset simulation</source>
         <translation>Сбросить симуляцию</translation>
     </message>
@@ -1002,8 +1002,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1368"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1541"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1667"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1541"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1667"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1548"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1674"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1384"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1429"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1384"/>
@@ -1016,8 +1016,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1389"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1542"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1672"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1542"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1672"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1549"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1679"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1385"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1431"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
@@ -1030,8 +1030,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1396"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1547"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1677"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1547"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1677"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1554"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1684"/>
         <source>FCM prediction algorithm</source>
         <translation>Алгоритм предсказания НКК</translation>
     </message>
@@ -1040,36 +1040,36 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1400"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1543"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1673"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1543"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1673"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1550"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1680"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1386"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1432"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1386"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1432"/>
         <source>const weights</source>
-        <translation>постоянные веса</translation>
+        <translation>постоянные связи</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="818"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1405"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1544"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1674"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1544"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1674"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1551"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1681"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1433"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1433"/>
         <source>changing weights</source>
-        <translation>изменяющиеся веса</translation>
+        <translation>изменяющиеся связи</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="828"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1415"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1550"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1680"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1550"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1680"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1557"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1687"/>
         <source>Use fuzzy values algorithms</source>
         <translation>Использовать алгоритмы, основанные на нечётких значениях</translation>
     </message>
@@ -1078,8 +1078,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1418"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1552"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1682"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1552"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1682"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1559"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1689"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1389"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1435"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
@@ -1092,8 +1092,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1427"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1553"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1683"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1553"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1683"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1560"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1690"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1390"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1436"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
@@ -1106,8 +1106,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1435"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1554"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1684"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1554"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1684"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1561"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1691"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1391"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1437"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1391"/>
@@ -1120,8 +1120,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1440"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1555"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1685"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1555"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1685"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1562"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1692"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1392"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1438"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
@@ -1134,8 +1134,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1445"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1556"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1686"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1556"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1686"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1563"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1693"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1393"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1439"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1393"/>
@@ -1148,8 +1148,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1450"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1557"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1687"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1557"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1687"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1564"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1694"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1394"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1440"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1394"/>
@@ -1162,8 +1162,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1455"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1558"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1688"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1558"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1688"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1565"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1695"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1395"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1441"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
@@ -1176,8 +1176,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1490"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1561"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1691"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1561"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1691"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1568"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1698"/>
         <source>Predict until change metric is less threhold for specified number of steps</source>
         <translation>Предсказывать до момента, пока метрика изменения в течение заданного числа шагов не будет меньше порога</translation>
     </message>
@@ -1186,14 +1186,14 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1493"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1563"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1693"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1563"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1693"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1570"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1700"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1397"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1443"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1397"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1443"/>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1201"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1211"/>
         <source>Predict to static</source>
         <translation>Предсказывать до статического состояния</translation>
     </message>
@@ -1202,8 +1202,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1502"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1564"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1694"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1564"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1694"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1571"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1701"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1398"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1444"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1398"/>
@@ -1216,8 +1216,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1512"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1570"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1700"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1570"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1700"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1577"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1707"/>
         <source>FCM change metric</source>
         <translation>Метрика изменения НКК</translation>
     </message>
@@ -1226,8 +1226,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1516"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1565"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1695"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1565"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1695"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1572"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1702"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1399"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1445"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
@@ -1240,8 +1240,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1521"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1566"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1696"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1566"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1696"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1573"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1703"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1400"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1446"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1400"/>
@@ -1254,8 +1254,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1526"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1567"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1697"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1567"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1697"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1574"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1704"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1401"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1447"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1401"/>
@@ -1268,8 +1268,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1538"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1572"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1702"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1572"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1702"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1579"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1709"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1403"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1449"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1403"/>
@@ -1282,8 +1282,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1548"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1574"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1704"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1574"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1704"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1581"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1711"/>
         <source>Threshold for predict to static mode</source>
         <translation>Порог предсказания до статического состояния</translation>
     </message>
@@ -1292,8 +1292,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1562"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1576"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1706"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1576"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1706"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1583"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1713"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1404"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1450"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1404"/>
@@ -1306,8 +1306,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1572"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1578"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1708"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1578"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1708"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1585"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1715"/>
         <source>Number of steps for predict to static mode</source>
         <translation>Число шагов для предсказания до статического состояния</translation>
     </message>
@@ -1316,8 +1316,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1589"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1580"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1710"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1580"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1710"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1587"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1717"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1405"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1451"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
@@ -1330,22 +1330,22 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1596"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1582"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1712"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1582"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1712"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1589"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1719"/>
         <source>Predict for fixed number of steps</source>
         <translation>Предсказывать на фиксированное число шагов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1049"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1585"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1585"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1592"/>
         <source>Simulate in real-time or proceed to the result</source>
         <translation>Выполнять симуляцию в реальном времени или сразу перейти к результатам</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1052"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1587"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1587"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1594"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1406"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1406"/>
         <source>Real-time simulation</source>
@@ -1354,7 +1354,7 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1064"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1588"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1588"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1595"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1407"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1407"/>
         <source>Steps per second:</source>
@@ -1363,28 +1363,28 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1071"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1590"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1590"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1597"/>
         <source>Simulation speed</source>
         <translation>Скорость симуляции</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1088"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1593"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1593"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1600"/>
         <source>Number of steps to move</source>
         <translation>Число шагов, на которое необходимо переместиться</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1111"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1597"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1597"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1604"/>
         <source>Move back</source>
         <translation>Переместиться назад</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1114"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1599"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1599"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1606"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1409"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1409"/>
         <source>Back</source>
@@ -1393,14 +1393,14 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1121"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1601"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1601"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1608"/>
         <source>Move forward</source>
         <translation>Переместиться вперёд</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1124"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1603"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1603"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1610"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1410"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1410"/>
         <source>Forward</source>
@@ -1409,14 +1409,14 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1135"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1605"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1605"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1612"/>
         <source>Slow simulation down 2 times</source>
         <translation>Замедлить симуляцию в 2 раза</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1138"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1607"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1607"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1614"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1411"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1411"/>
         <source>Slow down</source>
@@ -1425,32 +1425,32 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1145"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1609"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1609"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1616"/>
         <source>Pause or resume simulation</source>
         <translation>Остановить или возообновить симуляцию</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1148"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1611"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1611"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1618"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1412"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1412"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="343"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1219"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="348"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1229"/>
         <source>Pause</source>
         <translation>Пауза</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1155"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1613"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1613"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1620"/>
         <source>Speed simulation up 2 times</source>
         <translation>Ускорить симуляцию в 2 раза</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1158"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1615"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1615"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1622"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1413"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1413"/>
         <source>Speed up</source>
@@ -1459,14 +1459,14 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1165"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1617"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1617"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1624"/>
         <source>Proceed to the last step</source>
         <translation>Перейти к последнему шагу</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1168"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1619"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1619"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1626"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1414"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1414"/>
         <source>Finish</source>
@@ -1475,14 +1475,14 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1175"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1621"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1621"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1628"/>
         <source>Proceed to the initial state</source>
         <translation>Вернуться в начальное состояние</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1178"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1623"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1623"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1630"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1415"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1415"/>
         <source>Cancel</source>
@@ -1493,8 +1493,8 @@
         <location filename="../src/ui/main_window/main_window.ui" line="1708"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1627"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1729"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1627"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1729"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1634"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1736"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1416"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1455"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1416"/>
@@ -1510,9 +1510,15 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation></translation>
     </message>
     <message>
+        <location filename="../src/ui/main_window/main_window.ui" line="2074"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1397"/>
+        <source>Show Tooltips</source>
+        <translation>Показывать подсказки</translation>
+    </message>
+    <message>
         <location filename="../src/ui/main_window/main_window.ui" line="733"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1526"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1526"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1533"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1381"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1381"/>
         <source>step %v</source>
@@ -1521,7 +1527,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="743"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1530"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1530"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1537"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1382"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1382"/>
         <source>Metric value: </source>
@@ -1530,31 +1536,31 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1209"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1636"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1636"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1643"/>
         <source>Graphical simulation area scale</source>
         <translation>Масштаб графической области симуляции</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1222"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1640"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1640"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1647"/>
         <source>Reset graphical simulation area scale to 100%</source>
         <translation>Сбросить масштаб графической области симуляции до 100%</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1237"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1645"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1645"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1652"/>
         <source>FCM experiments</source>
         <translation>Эксперименты над НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1240"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2035"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2036"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1650"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1650"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1393"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1657"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1338"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1427"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1338"/>
@@ -1565,56 +1571,56 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1258"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1648"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1648"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1655"/>
         <source>Experiments table, can be sorted</source>
         <translation>Таблица экспериментов, может быть отсортирована</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1278"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1652"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1652"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1659"/>
         <source>FCM sensitivity analysis</source>
         <translation>Анализ чувствительности НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1281"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2046"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2047"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1388"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1749"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1388"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1749"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1394"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1756"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1339"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1466"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1339"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1466"/>
         <source>Sensitivity analysis</source>
-        <translation>Анализ чуствительности</translation>
+        <translation>Анализ чувствительности</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1293"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1655"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1655"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1662"/>
         <source>FCM sensitivity plot</source>
         <translation>График чувствительности НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1306"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1658"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1658"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1665"/>
         <source>Graphical sensitivity analysis area</source>
         <translation>Графическая область анализа чувствительности</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1355"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1661"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1661"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1668"/>
         <source>Start sensitivity analysis</source>
         <translation>Запустить анализ чувствительности</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1358"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1663"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1663"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1670"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1428"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1428"/>
         <source>Analyze</source>
@@ -1623,32 +1629,32 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1365"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1665"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1665"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1672"/>
         <source>Reset sensitivity analisys</source>
         <translation>Сбросить результаты анализа чувствительности</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1375"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1669"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1669"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1676"/>
         <source>Show FCM elements sensitivity or FCM sensitivity</source>
         <translation>Показать результаты анализа для элементов НКК или НКК в целом</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1378"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1671"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1671"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1678"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1430"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1430"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="414"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1225"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="419"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1235"/>
         <source>FCM Sensitivity</source>
-        <translation>Чуствительность НКК</translation>
+        <translation>Чувствительность НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1638"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1714"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1714"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1721"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1452"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1452"/>
         <source>Max value change:</source>
@@ -1657,21 +1663,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1648"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1716"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1716"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1723"/>
         <source>Maximal change of FCM elements initial values during analysis</source>
         <translation>Максимальное изменение начальных значений элементов НКК при анализе</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1671"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1719"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1719"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1726"/>
         <source>Change concepts during analysis</source>
         <translation>Изменять факторы при анализе</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1674"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1721"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1721"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1728"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1453"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1453"/>
         <source>Change concepts</source>
@@ -1680,44 +1686,44 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1684"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1723"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1723"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1730"/>
         <source>Change weights during analysis</source>
         <translation>Изменять связи при анализе</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1687"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1725"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1725"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1732"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1454"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1454"/>
         <source>Change weights</source>
-        <translation>Изменять веса</translation>
+        <translation>Изменять связи</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1724"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1738"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1738"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1745"/>
         <source>Graphical sensitivity analysis area scale</source>
         <translation>Масштаб графической области анализа НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1737"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1742"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1742"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1749"/>
         <source>Reset sensitivity analysis area scale to 100%</source>
         <translation>Сбросить масштаб графической области анализа НКК до 100%</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1751"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1746"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1746"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1753"/>
         <source>Sensitivity analysis progress</source>
         <translation>Прогресс анализа чувствительности НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1772"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1748"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1748"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1755"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1465"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1465"/>
         <source>%v%</source>
@@ -1726,7 +1732,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1793"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1750"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1750"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1757"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1467"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1467"/>
         <source>File</source>
@@ -1735,7 +1741,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1797"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1751"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1751"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1758"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1468"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1468"/>
         <source>Export</source>
@@ -1750,7 +1756,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1815"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1752"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1752"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1759"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1470"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1470"/>
         <source>Models</source>
@@ -1759,7 +1765,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1820"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1753"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1753"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1760"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1471"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1471"/>
         <source>Tools</source>
@@ -1768,7 +1774,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1826"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1754"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1754"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1761"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1472"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1472"/>
         <source>Settings</source>
@@ -1777,190 +1783,190 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1830"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1755"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1755"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1762"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1473"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1473"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1839"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1840"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1756"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1756"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1763"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1474"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1474"/>
         <source>View</source>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1851"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1852"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1757"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1757"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1764"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1475"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1475"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1867"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="1870"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1868"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1871"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1365"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1366"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1365"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1366"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1371"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1372"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1317"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1317"/>
         <source>New</source>
         <translation>Новая модель</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1878"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1879"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1367"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1367"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1373"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1318"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1318"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1886"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1887"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1368"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1368"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1374"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1319"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1319"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1894"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1895"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1369"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1369"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1375"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1320"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1320"/>
         <source>Save As</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1902"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1903"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1370"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1370"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1376"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1321"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1321"/>
         <source>Save As Template</source>
         <translation>Сохранить как шаблон</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1910"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1911"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1371"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1371"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1377"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1322"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1322"/>
         <source>Auto-Save</source>
         <translation>Автосохранение</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1915"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1916"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1372"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1372"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1378"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1323"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1323"/>
         <source>Import</source>
         <translation>Импорт</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1923"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1924"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1373"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1373"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1379"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1324"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1324"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1931"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1932"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1374"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1374"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1380"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1325"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1325"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1936"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1937"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1375"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1375"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1381"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1326"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1326"/>
         <source>Join FCM</source>
         <translation>Объединить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1941"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1942"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1376"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1376"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1382"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1327"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1327"/>
         <source>Use Result</source>
         <translation>Использовать результат</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1949"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1950"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1377"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1377"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1383"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1328"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1328"/>
         <source>Open Template</source>
         <translation>Открыть шаблон</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1954"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1955"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1378"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1378"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1384"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1329"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1329"/>
         <source>Default Terms</source>
         <translation>Термы по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1959"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1960"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1379"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1379"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1330"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1330"/>
         <source>Disable Tips</source>
         <translation>Отключить подсказки</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1964"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1965"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1380"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1380"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1386"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1331"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1331"/>
         <source>PNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1969"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1970"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1381"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1381"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1332"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1332"/>
         <source>JSON</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="2054"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2055"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1389"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1340"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1340"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="2062"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2063"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1390"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1396"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_main_window.h" line="1341"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1341"/>
         <source>Russian</source>
@@ -1979,202 +1985,202 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">шаг(ов)</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="987"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="992"/>
         <source>Export as PNG</source>
         <translation>Экспорт PNG</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="274"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="280"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="361"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="367"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1001"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1022"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1041"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="279"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="285"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="366"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="372"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1006"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1027"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1046"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="261"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1230"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="266"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1240"/>
         <source>Load</source>
         <translation>Восстановить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="361"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="367"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="366"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="372"/>
         <source>Value of step is not calculated or step out of range!</source>
         <translation>Состояние НКК енщё не рассчитано для шага, или шаг за пределами области определения!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="379"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1221"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="384"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1231"/>
         <source>Metric value: %1</source>
         <translation>Значение метрики: %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="416"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1223"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="421"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1233"/>
         <source>Elements Sensitivity</source>
-        <translation>Чуствительность элементов НКК</translation>
+        <translation>Чувствительность элементов НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="442"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="453"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="447"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="458"/>
         <source>New term</source>
         <translation>Новый терм</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="482"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="487"/>
         <source>Choose term %1 color</source>
         <translation>Выберите цвет терма %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="794"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="799"/>
         <source>Save FCM</source>
         <translation>Сохранить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="913"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="918"/>
         <source>Open FCM</source>
         <translation>Открыть НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="948"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="953"/>
         <source>Save FCM Template</source>
         <translation>Сохранить шаблон НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="959"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="964"/>
         <source>Open FCM Template</source>
         <translation>Открыть шаблон НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1001"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1006"/>
         <source>Unable to save PNG to the selected file!</source>
         <translation>Сохранение PNG  в выбранный файл невозможно!</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="115"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1190"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1200"/>
         <source>Concepts terms</source>
         <translation>Термы факторов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="117"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1191"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1201"/>
         <source>Weights terms</source>
-        <translation>Термы весов</translation>
+        <translation>Термы связей</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1198"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1208"/>
         <source>Algorithm</source>
         <translation>Алгоритм</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1199"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1209"/>
         <source>Activation function</source>
         <translation>Функция активации</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1200"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1210"/>
         <source>Metric</source>
         <translation>Метрика</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1202"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1212"/>
         <source>Threshold</source>
         <translation>Порог изменения</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1203"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1213"/>
         <source>Steps less threshold</source>
         <translation>Шагов ниже порога для остановки</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1204"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1214"/>
         <source>Fixed steps</source>
         <translation>Фиксированное число шагов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="122"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1205"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1215"/>
         <source>Timestamp</source>
         <translation>Время</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="175"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1192"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1211"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1202"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1221"/>
         <source>max change</source>
         <translation>максимальное изменение</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="176"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1193"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1212"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1203"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1222"/>
         <source>sensitivity</source>
-        <translation>чуствительность</translation>
+        <translation>чувствительность</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="203"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1111"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="208"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1121"/>
         <source>New model</source>
         <translation>Новая модель</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="232"/>
         <location filename="../src/ui/main_window/main_window.cpp" line="237"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1213"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1214"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="242"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1223"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1224"/>
         <source>Scale: %1%</source>
         <translation>Масштаб: %1%</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="242"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1215"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="247"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1225"/>
         <source>Mode: Edit values</source>
         <translation>Режим изменения значений</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="274"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="279"/>
         <source>Not every concept has a value!</source>
         <translation>Не для каждого фактора задано значение!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="280"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="285"/>
         <source>Not every weight has a value!</source>
         <translation>Не для каждой связи задано значение!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="339"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1217"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="344"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1227"/>
         <source>Resume</source>
         <translation>Запустить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1008"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1013"/>
         <source>Save FCM Model</source>
         <translation>Сохранить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1022"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1027"/>
         <source>Failed to save file.</source>
         <translation>Не удалось выполнить экспорт.</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1029"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1034"/>
         <source>Open FCM Model</source>
         <translation>Открыть НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1041"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1046"/>
         <source>Failed to load file.</source>
         <translation>Не удалось выполнить импорт.</translation>
     </message>
@@ -2285,110 +2291,116 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="72"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="75"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="162"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="162"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="165"/>
         <source>Weight configuration</source>
         <translation>Настройка связи</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="75"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="78"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="175"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="175"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="178"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_weight_window.h" line="163"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_weight_window.h" line="163"/>
         <source>Configuration</source>
         <translation>Конфигурация</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="88"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="91"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="166"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="166"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="169"/>
         <source>Weight name</source>
         <translation>Название связи</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="95"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="98"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="168"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="168"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="171"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_weight_window.h" line="162"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_weight_window.h" line="162"/>
         <source>Value:</source>
         <translation>Терм:</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="81"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="84"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="164"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="164"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="167"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_weight_window.h" line="161"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_weight_window.h" line="161"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="108"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="61"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="161"/>
+        <source>Delete weight</source>
+        <translation>Удалить связь</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="111"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="170"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="170"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="173"/>
         <source>Weight value (term)</source>
         <translation>Значение (терм) связи</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="115"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="118"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="173"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="173"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="176"/>
         <source>Weight notes</source>
         <translation>Заметки связи</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="123"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="126"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="177"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="177"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="180"/>
         <source>Simulation results for current weight</source>
         <translation>Результаты симуляции для текущей связи</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="126"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="129"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="182"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="182"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="185"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_weight_window.h" line="164"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_weight_window.h" line="164"/>
         <source>Simulation results</source>
         <translation>Симуляция</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="132"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="135"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="180"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="180"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="183"/>
         <source>Weight values per step plot</source>
         <translation>График значений связи по шагам</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="140"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="143"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="184"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="184"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="187"/>
         <source>Sensitivity analysis results for weight</source>
         <translation>Результаты анализа чувствительности для связи</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="143"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="146"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="189"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="189"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="192"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_weight_window.h" line="165"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_weight_window.h" line="165"/>
         <source>Sensitivity</source>
-        <translation>Анализ чуствительности</translation>
+        <translation>Анализ чувствительности</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="149"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="152"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="187"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="187"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="190"/>
         <source>Weight sensitivity for each change value plot</source>
         <translation>График чувствительности связи для каждого значения изменения</translation>
     </message>
     <message>
-        <location filename="../src/ui/weight_window/weight_window.ui" line="61"/>
+        <location filename="../src/ui/weight_window/weight_window.ui" line="64"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_weight_window.h" line="160"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="160"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_weight_window.h" line="163"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Debug/FCM_autogen/include/ui_weight_window.h" line="160"/>
         <location filename="../build/x86_windows_msys_pe_64bit-Release/FCM_autogen/include/ui_weight_window.h" line="160"/>
         <source>Delete</source>
@@ -2398,7 +2410,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="../src/ui/weight_window/weight_window.cpp" line="11"/>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="205"/>
         <source>Create weight</source>
-        <translation>Создание веса</translation>
+        <translation>Создание связи</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="31"/>
@@ -2410,7 +2422,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="../src/ui/weight_window/weight_window.cpp" line="32"/>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="210"/>
         <source>weight value</source>
-        <translation>значение веса</translation>
+        <translation>значение связи</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="39"/>
@@ -2422,7 +2434,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="../src/ui/weight_window/weight_window.cpp" line="40"/>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="212"/>
         <source>sensitivity</source>
-        <translation>чуствительность</translation>
+        <translation>чувствительность</translation>
     </message>
 </context>
 </TS>

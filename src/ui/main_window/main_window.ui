@@ -1833,6 +1833,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <addaction name="actionRussian"/>
     </widget>
     <addaction name="menuLanguage"/>
+    <addaction name="actionShowTooltips"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -2060,6 +2061,17 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
    <property name="text">
     <string>Russian</string>
+   </property>
+  </action>
+  <action name="actionShowTooltips">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Tooltips</string>
    </property>
   </action>
  </widget>

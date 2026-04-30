@@ -198,6 +198,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actionExperiments->setChecked(settings.value("tabs/experiments", true).toBool());
     ui->actionSensitivityAnalysis->setChecked(settings.value("tabs/sensitivity", true).toBool());
 
+    qApp->installEventFilter(&toolTipController);
+    toolTipController.setEnabled(settings.value("tooltips", true).toBool());
+    connect(ui->actionShowTooltips, &QAction::toggled, this, &MainWindow::changeShowTooltips);
+    ui->actionShowTooltips->setChecked(settings.value("tooltips", true).toBool());
+
     QObject::connect(ui->modelName, &QLineEdit::textChanged, this, &MainWindow::nameChanged);
     addFCM(fcm);
     ui->modelName->setText(tr("New model"));
@@ -1079,6 +1084,11 @@ void MainWindow::changeExperimentsVisibility(bool checked) {
 void MainWindow::changeSensitivityAnalysisVisibility(bool checked) {
     ui->tabWidget->setTabVisible(6, checked);
     settings.setValue("tabs/sensitivity", checked);
+}
+
+void MainWindow::changeShowTooltips(bool checked) {
+    toolTipController.setEnabled(checked);
+    settings.setValue("tooltips", checked);
 }
 
 void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {

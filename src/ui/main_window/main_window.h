@@ -16,6 +16,7 @@
 #include "repository/templates_manager.h"
 
 #include "ui/graph_editor/edit_mode.h"
+#include "ui/tooltips/controller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -83,6 +84,8 @@ public slots:
     void changeExperimentsVisibility(bool checked);
     void changeSensitivityAnalysisVisibility(bool checked);
 
+    void changeShowTooltips(bool checked);
+
     void nameChanged(QString newName);
     void descriptionChanged();
     void createNewModel();
@@ -147,5 +150,7 @@ private:
     bool paused = false;
     double currentMetricValue = 0;
     bool activeSimulation = false;
+
+    ToolTipController toolTipController = ToolTipController();
 };
 #endif // MAIN_WINDOW_H
