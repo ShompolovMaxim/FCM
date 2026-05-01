@@ -15,6 +15,19 @@ TriangularFuzzyValue TriangularFuzzyValue::operator+(const TriangularFuzzyValue&
     return result;
 }
 
+TriangularFuzzyValue& TriangularFuzzyValue::operator-=(const TriangularFuzzyValue& other) {
+    l -= other.l;
+    m -= other.m;
+    u -= other.u;
+    return *this;
+}
+
+TriangularFuzzyValue TriangularFuzzyValue::operator-(const TriangularFuzzyValue& other) const {
+    TriangularFuzzyValue result = *this;
+    result -= other;
+    return result;
+}
+
 TriangularFuzzyValue& TriangularFuzzyValue::operator*=(const TriangularFuzzyValue& other) {
     double p1 = l * other.l;
     double p2 = l * other.u;
@@ -34,6 +47,19 @@ TriangularFuzzyValue TriangularFuzzyValue::operator*(const TriangularFuzzyValue&
     return result;
 }
 
-double TriangularFuzzyValue::defuzzify() {
+TriangularFuzzyValue& TriangularFuzzyValue::operator/=(const double& rhs) {
+    l /= rhs;
+    m /= rhs;
+    u /= rhs;
+    return *this;
+}
+
+TriangularFuzzyValue TriangularFuzzyValue::operator/(const double& rhs) const {
+    TriangularFuzzyValue result = *this;
+    result /= rhs;
+    return result;
+}
+
+double TriangularFuzzyValue::defuzzify() const {
     return (l + m + u) / 3;
 }

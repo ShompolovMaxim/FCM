@@ -4,8 +4,7 @@
 #include <QLocale>
 #include <QTranslator>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     qputenv("QT_QPA_PLATFORM", "windows:darkmode=0");
     QApplication a(argc, argv);
     QApplication::setStyle("Fusion");

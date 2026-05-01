@@ -6,7 +6,7 @@
 #include <algorithm>
 
 StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm)
-    : tab(tab), presenter(presenter),fcm(fcm), analyzer(fcm) {
+    : tab(tab), presenter(presenter),fcm(fcm), analyzer(fcm), fuzzyAnalyzer(fcm) {
     densityLabel = tab->findChild<QLabel*>("densityLabel");
     complexityLabel = tab->findChild<QLabel*>("complexityLabel");
     hierarchyLabel = tab->findChild<QLabel*>("hierarchyLabel");
@@ -15,10 +15,12 @@ StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<C
     influenceDirection = tab->findChild<QComboBox*>("influenceDirection");
     influenceSteps = tab->findChild<QSpinBox*>("influenceSteps");
     graphScene = dynamic_cast<GraphScene*>(tab->findChild<GraphView*>("graphicsView")->scene());
+    useFuzzyValuesStatic = tab->findChild<QCheckBox*>("useFuzzyValuesStatic");
 
     updateGraphConceptList();
 
     analyzer.init();
+    fuzzyAnalyzer.init();
 
     connect(presenter.get(), &CreationPresenter::conceptCreated, this, &StaticAnalysisPresenter::onConceptCreated);
     connect(presenter.get(), &CreationPresenter::conceptUpdated, this, &StaticAnalysisPresenter::onConceptUpdated);
@@ -30,13 +32,20 @@ StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<C
     connect(graphConcept, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
     connect(influenceDirection, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
     connect(influenceSteps, &QSpinBox::valueChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
+    connect(useFuzzyValuesStatic, &QCheckBox::checkStateChanged, this, &StaticAnalysisPresenter::useFuzzyValuesChanged);
 
     refreshUI();
+}
+
+void StaticAnalysisPresenter::useFuzzyValuesChanged() {
+    recalculateInfluence();
+    refreshUI(true);
 }
 
 void StaticAnalysisPresenter::onConceptCreated(std::shared_ptr<Concept> c) {
     updateGraphConceptList();
     analyzer.onConceptCreated(c);
+    fuzzyAnalyzer.onConceptCreated(c);
     refreshUI();
 }
 
@@ -52,21 +61,25 @@ void StaticAnalysisPresenter::onConceptDeleted(QUuid id) {
 
     updateGraphConceptList();
     analyzer.onConceptDeleted(id);
+    fuzzyAnalyzer.onConceptDeleted(id);
     refreshUI();
 }
 
 void StaticAnalysisPresenter::onWeightCreated(std::shared_ptr<Weight> w) {
     analyzer.onWeightCreated(w);
+    fuzzyAnalyzer.onWeightCreated(w);
     refreshUI();
 }
 
 void StaticAnalysisPresenter::onWeightUpdated(std::shared_ptr<Weight> w) {
     analyzer.onWeightUpdated(w);
+    fuzzyAnalyzer.onWeightUpdated(w);
     refreshUI();
 }
 
 void StaticAnalysisPresenter::onWeightDeleted(QUuid id) {
     analyzer.onWeightDeleted(id);
+    fuzzyAnalyzer.onWeightDeleted(id);
     refreshUI();
 }
 
@@ -79,12 +92,13 @@ void StaticAnalysisPresenter::recalculateInfluence() {
         auto steps = influenceSteps->value();
         auto influenceFrom = influenceDirection->currentData(Qt::UserRole).toString() == "from";
         analyzer.updateInfluence(conceptId, steps, influenceFrom);
+        fuzzyAnalyzer.updateInfluence(conceptId, steps, influenceFrom);
     }
     refreshUI(false);
 }
 
 void StaticAnalysisPresenter::refreshUI(bool changeTable) {
-    const auto& result = analyzer.getResult();
+    const auto& result = useFuzzyValuesStatic->isChecked() ? fuzzyAnalyzer.getNumericResult() : analyzer.getResult();
 
     densityLabel->setText(tr("FCM density: ") + QString::number(result.density));
     complexityLabel->setText(tr("FCM complexity: ") + QString::number(result.complexity));
@@ -111,10 +125,10 @@ void StaticAnalysisPresenter::refreshUI(bool changeTable) {
     auto colorValueAdapter = LinearApproximationColorValueAdapter(fcm->terms);
     for (auto [id, concept] : fcm->concepts) {
         if (graphConcept->count() > 1 && graphConcept->currentIndex()) {
-            graphScene->setConceptColor(id, colorValueAdapter.getColor(std::min(std::max(result.factors.at(id).influence, -1.0), 1.0), -1, 1, false),
+            graphScene->setConceptColor(id, colorValueAdapter.getColor(std::min(std::max(result.factors.at(id).influence, -1.0), 1.0), -1, 1, false, useFuzzyValuesStatic->isChecked()),
                                         id == graphConcept->currentData().toUuid());
         } else {
-            graphScene->setConceptColor(id, colorValueAdapter.getColor(0, -1, 1, false), false);
+            graphScene->setConceptColor(id, colorValueAdapter.getColor(0, -1, 1, false, useFuzzyValuesStatic->isChecked()), false);
         }
     }
 }

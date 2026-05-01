@@ -13,9 +13,8 @@ if(MINGW)
     add_compile_options(-Wa,-mbig-obj)
 endif()
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Help)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
@@ -28,6 +27,20 @@ set(PROJECT_SOURCES
         src/ui/main_window/main_window.ui
         ${TS_FILES}
 )
+
+set(HELP_DIR ${CMAKE_SOURCE_DIR}/src/ui/help)
+set(HELP_BUILD_DIR ${CMAKE_BINARY_DIR}/help)
+set(HELP_LANGUAGES en ru)
+
+file(GLOB_RECURSE HELP_SOURCE_FILES CONFIGURE_DEPENDS
+    ${HELP_DIR}/en/*
+    ${HELP_DIR}/ru/*
+)
+
+find_program(QHELPGENERATOR_EXECUTABLE qhelpgenerator)
+if(NOT QHELPGENERATOR_EXECUTABLE)
+    message(FATAL_ERROR "qhelpgenerator not found")
+endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FCM
@@ -125,6 +138,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
         src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
         src/ui/tooltips/controller.h src/ui/tooltips/controller.cpp
+        src/model/static_analysis/fuzzy_static_analyzer.h src/model/static_analysis/fuzzy_static_analyzer.cpp
+        src/ui/help/help_browser.h src/ui/help/help_browser.cpp
+        src/ui/help/help_window.h src/ui/help/help_window.cpp src/ui/help/help_window.ui
+        ${HELP_SOURCE_FILES}
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -191,3 +208,43 @@ target_sources(FCM PRIVATE ${PROJECT_RESOURCES})
 
 enable_testing()
 add_subdirectory(tests)
+
+function(add_help_collection language)
+    set(help_source_dir ${HELP_DIR}/${language})
+    set(help_qhp ${help_source_dir}/help.qhp)
+    set(help_qhcp ${help_source_dir}/help.qhcp)
+    set(help_output_dir ${HELP_BUILD_DIR}/${language})
+    set(help_qch ${help_output_dir}/help.qch)
+    set(help_qhc ${help_output_dir}/help.qhc)
+
+    file(GLOB help_html_files CONFIGURE_DEPENDS ${help_source_dir}/*.html)
+    file(GLOB_RECURSE help_images CONFIGURE_DEPENDS ${help_source_dir}/images/*)
+
+    add_custom_command(
+        OUTPUT ${help_qhc} ${help_qch}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${help_output_dir}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${help_qhp} ${help_output_dir}/help.qhp
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${help_qhcp} ${help_output_dir}/help.qhcp
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${help_source_dir} ${help_output_dir}
+        COMMAND ${QHELPGENERATOR_EXECUTABLE}
+                help.qhcp
+                -o
+                help.qhc
+        WORKING_DIRECTORY ${help_output_dir}
+        DEPENDS ${help_qhp} ${help_qhcp} ${help_html_files} ${help_images}
+        COMMENT "Generating Qt Help collection (${language})"
+    )
+
+    set(HELP_OUTPUTS ${HELP_OUTPUTS} ${help_qhc} ${help_qch} PARENT_SCOPE)
+endfunction()
+
+foreach(help_language IN LISTS HELP_LANGUAGES)
+    add_help_collection(${help_language})
+endforeach()
+
+add_custom_target(help_docs ALL
+    DEPENDS ${HELP_OUTPUTS}
+)
+add_dependencies(FCM help_docs)
+
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Help)

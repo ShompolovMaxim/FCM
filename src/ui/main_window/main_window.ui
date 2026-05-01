@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <property name="toolTip">
@@ -610,6 +610,13 @@
            <widget class="QLabel" name="hierarchyLabel">
             <property name="text">
              <string>FCM hierarchy index: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useFuzzyValuesStatic">
+            <property name="text">
+             <string>Use fuzzy values</string>
             </property>
            </widget>
           </item>
@@ -1851,6 +1858,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionHelp"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuModels"/>
@@ -2072,6 +2080,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
    <property name="text">
     <string>Show Tooltips</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

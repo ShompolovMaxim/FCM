@@ -6,9 +6,13 @@ struct TriangularFuzzyValue {
     double u = 0;
 
     TriangularFuzzyValue operator+(const TriangularFuzzyValue& other) const;
+    TriangularFuzzyValue operator-(const TriangularFuzzyValue& other) const;
     TriangularFuzzyValue operator*(const TriangularFuzzyValue& other) const;
+    TriangularFuzzyValue operator/(const double& rhs) const;
     TriangularFuzzyValue& operator+=(const TriangularFuzzyValue& other);
+    TriangularFuzzyValue& operator-=(const TriangularFuzzyValue& other);
     TriangularFuzzyValue& operator*=(const TriangularFuzzyValue& other);
+    TriangularFuzzyValue& operator/=(const double& rhs);
 
-    double defuzzify();
+    double defuzzify() const;
 };

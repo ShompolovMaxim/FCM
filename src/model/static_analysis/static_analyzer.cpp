@@ -28,8 +28,12 @@ void StaticAnalyzer::init() {
     }
 
     for (const auto& [idConcept, _] : fcm->concepts) {
-        if (inCount[idConcept] > 0) R++;
-        if (outCount[idConcept] > 0) T++;
+        if (inCount[idConcept] > 0) {
+            R++;
+        }
+        if (outCount[idConcept] > 0) {
+            T++;
+        }
     }
 
     updateDensity();
@@ -58,8 +62,12 @@ void StaticAnalyzer::onConceptCreated(std::shared_ptr<Concept> c) {
 }
 
 void StaticAnalyzer::onConceptDeleted(QUuid idc) {
-    if (inCount[idc] > 0) R--;
-    if (outCount[idc] > 0) T--;
+    if (inCount[idc] > 0) {
+        R--;
+    }
+    if (outCount[idc] > 0) {
+        T--;
+    }
 
     od.erase(idc);
     id.erase(idc);
@@ -81,10 +89,14 @@ void StaticAnalyzer::onWeightCreated(std::shared_ptr<Weight> w) {
 
     C++;
 
-    if (outCount[w->fromConceptId] == 0) T++;
+    if (outCount[w->fromConceptId] == 0) {
+        T++;
+    }
     outCount[w->fromConceptId]++;
 
-    if (inCount[w->toConceptId] == 0) R++;
+    if (inCount[w->toConceptId] == 0) {
+        R++;
+    }
     inCount[w->toConceptId]++;
 
     od[w->fromConceptId] += val;
@@ -119,10 +131,14 @@ void StaticAnalyzer::onWeightDeleted(QUuid idw) {
     C--;
 
     outCount[w.from]--;
-    if (outCount[w.from] == 0) T--;
+    if (outCount[w.from] == 0) {
+        T--;
+    }
 
     inCount[w.to]--;
-    if (inCount[w.to] == 0) R--;
+    if (inCount[w.to] == 0) {
+        R--;
+    }
 
     od[w.from] -= w.value;
     id[w.to] -= w.value;

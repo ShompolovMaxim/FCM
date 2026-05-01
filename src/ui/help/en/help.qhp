@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+
+    <namespace>en.fcm.help</namespace>
+    <virtualFolder>doc</virtualFolder>
+
+    <filterSection>
+        <toc>
+            <section title="Working with the application" ref="model_settings.html">
+                <section title="Model settings" ref="model_settings.html"/>
+            </section>
+        </toc>
+
+        <keywords>
+            <keyword name="settings" ref="model_settings.html"/>
+        </keywords>
+
+        <files>
+            <file>model_settings.html</file>
+
+            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_cc2f273d.png</file>
+            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_55b11925.png</file>
+            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_1e2a14d.png</file>
+            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_a33ae545.png</file>
+            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_3ac3b35a.png</file>
+            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_18143e63.png</file>
+        </files>
+
+    </filterSection>
+</QtHelpProject>

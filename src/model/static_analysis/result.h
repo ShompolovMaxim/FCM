@@ -2,19 +2,30 @@
 
 #include <map>
 #include <QString>
+#include <QUuid>
+#include "model/entities/triangular_fuzzy_value.h"
 
-struct FactorMetrics {
+template<typename T>
+struct FactorMetricsT {
     QString conceptName;
-    double outDegree = 0;
-    double inDegree = 0;
-    double centrality = 0;
-    double influence = 0;
+
+    T inDegree{};
+    T outDegree{};
+    T centrality{};
+    T influence{};
 };
 
-struct StaticAnalysisResult {
-    double density = 0;
-    double complexity = 0;
-    double hierarchyIndex = 0;
+template<typename T>
+struct StaticAnalysisResultT {
+    double density{};
+    double complexity{};
+    T hierarchyIndex{};
 
-    std::map<QUuid, FactorMetrics> factors;
+    std::map<QUuid, FactorMetricsT<T>> factors;
 };
+
+using FactorMetrics = FactorMetricsT<double>;
+using StaticAnalysisResult = StaticAnalysisResultT<double>;
+
+using FuzzyFactorMetrics = FactorMetricsT<TriangularFuzzyValue>;
+using FuzzyStaticAnalysisResult = StaticAnalysisResultT<TriangularFuzzyValue>;

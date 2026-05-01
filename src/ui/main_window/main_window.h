@@ -16,6 +16,7 @@
 #include "repository/templates_manager.h"
 
 #include "ui/graph_editor/edit_mode.h"
+#include "ui/help/help_window.h"
 #include "ui/tooltips/controller.h"
 
 QT_BEGIN_NAMESPACE
@@ -85,6 +86,7 @@ public slots:
     void changeSensitivityAnalysisVisibility(bool checked);
 
     void changeShowTooltips(bool checked);
+    void showHelp();
 
     void nameChanged(QString newName);
     void descriptionChanged();
@@ -152,5 +154,7 @@ private:
     bool activeSimulation = false;
 
     ToolTipController toolTipController = ToolTipController();
+
+    HelpWindow *helpWindow = nullptr;
 };
 #endif // MAIN_WINDOW_H

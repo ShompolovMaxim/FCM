@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+
+    <namespace>ru.fcm.help</namespace>
+    <virtualFolder>doc</virtualFolder>
+
+    <filterSection>
+        <toc>
+            <section title="Настройка параметров" ref="model_settings.html"/>
+            <section title="Графическое построение НКК" ref="graph_creation.html"/>
+            <section title="Матрица смежности" ref="adjacency_matrix_creation.html"/>
+            <section title="Статический анализ" ref="static_analysis.html"/>
+            <section title="Симуляция" ref="simulation.html"/>
+            <section title="Эксперименты" ref="experiments.html"/>
+            <section title="Анализ чувствительности" ref="sensitivity.html"/>
+            <section title="Сохранение, экспорт и импорт" ref="saving_export_import.html"/>
+            <section title="Переключение НКК" ref="fcm_switching.html"/>
+            <section title="Объединение НКК" ref="join.html"/>
+            <section title="Настройка программы" ref="settings.html"/>
+        </toc>
+
+        <keywords>
+            <keyword name="настройка" ref="model_settings.html"/>
+        </keywords>
+
+        <files>
+            <file>model_settings.html</file>
+            <file>images/model_settings_image1.png</file>
+            <file>images/model_settings_image2.png</file>
+            <file>images/model_settings_image3.png</file>
+            <file>images/model_settings_image4.png</file>
+            <file>images/model_settings_image5.png</file>
+            <file>images/model_settings_image6.png</file>
+
+            <file>graph_creation.html</file>
+            <file>images/graph_creation_image1.png</file>
+            <file>images/graph_creation_image2.png</file>
+            <file>images/graph_creation_image3.png</file>
+            <file>images/graph_creation_image4.png</file>
+
+            <file>adjacency_matrix_creation.html</file>
+            <file>images/adjacency_matrix_creation_image1.png</file>
+
+            <file>static_analysis.html</file>
+            <file>images/static_analysis_image1.png</file>
+            <file>images/static_analysis_image2.png</file>
+            <file>images/static_analysis_image3.png</file>
+            <file>images/static_analysis_image4.png</file>
+            <file>images/static_analysis_image5.png</file>
+            <file>images/static_analysis_image6.png</file>
+
+            <file>simulation.html</file>
+            <file>images/simulation_image1.png</file>
+
+            <file>experiments.html</file>
+            <file>images/experiments_image1.png</file>
+            <file>images/experiments_image2.png</file>
+
+            <file>sensitivity.html</file>
+            <file>images/sensitivity_image1.png</file>
+
+            <file>saving_export_import.html</file>
+            <file>images/saving_export_import_image1.png</file>
+            <file>images/saving_export_import_image2.png</file>
+            <file>images/saving_export_import_image3.png</file>
+            <file>images/saving_export_import_image4.png</file>
+            <file>images/saving_export_import_image5.png</file>
+            <file>images/saving_export_import_image6.png</file>
+            <file>images/saving_export_import_image7.png</file>
+
+            <file>fcm_switching.html</file>
+            <file>images/fcm_switching_image1.png</file>
+
+            <file>join.html</file>
+            <file>images/join_image1.png</file>
+            <file>images/join_image2.png</file>
+            <file>images/join_image3.png</file>
+
+            <file>settings.html</file>
+            <file>images/settings_image1.png</file>
+            <file>images/settings_image2.png</file>
+            <file>images/settings_image3.png</file>
+        </files>
+
+    </filterSection>
+</QtHelpProject>

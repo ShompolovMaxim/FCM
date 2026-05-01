@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HelpWindow</class>
+ <widget class="QWidget" name="HelpWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>989</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Справка</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,2">
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="contentTab">
+        <attribute name="title">
+         <string>Содержание</string>
+        </attribute>
+        <layout class="QVBoxLayout"/>
+       </widget>
+       <widget class="QWidget" name="indexTab">
+        <attribute name="title">
+         <string>Индекс</string>
+        </attribute>
+        <layout class="QVBoxLayout"/>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="HelpBrowser" name="textBrowser"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>HelpBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>ui/help/help_browser.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

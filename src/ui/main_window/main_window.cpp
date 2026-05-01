@@ -202,6 +202,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     toolTipController.setEnabled(settings.value("tooltips", true).toBool());
     connect(ui->actionShowTooltips, &QAction::toggled, this, &MainWindow::changeShowTooltips);
     ui->actionShowTooltips->setChecked(settings.value("tooltips", true).toBool());
+    connect(ui->actionHelp, &QAction::triggered, this, &MainWindow::showHelp);
 
     QObject::connect(ui->modelName, &QLineEdit::textChanged, this, &MainWindow::nameChanged);
     addFCM(fcm);
@@ -246,7 +247,6 @@ void MainWindow::updatePredictScaleLabel(double newScale) {
 void MainWindow::updateModeButtonText(EditMode newMode) {
     ui->pushButtonMode->setText(newMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
     editMode = newMode;
-
 }
 
 void MainWindow::addExperiment(const Experiment& experiment) {
@@ -1091,6 +1091,16 @@ void MainWindow::changeShowTooltips(bool checked) {
     settings.setValue("tooltips", checked);
 }
 
+void MainWindow::showHelp() {
+    if (!helpWindow) {
+        helpWindow = new HelpWindow(this);
+    }
+
+    helpWindow->retranslate();
+    helpWindow->show();
+    helpWindow->raise();
+}
+
 void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {
     fcm = newFcm;
     currentModelIdx = fcms.size();
@@ -1178,6 +1188,9 @@ void MainWindow::setEnglish() {
     qApp->removeTranslator(&translatorWidgetsRus);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "");
+    if (helpWindow) {
+        helpWindow->retranslate();
+    }
 }
 
 void MainWindow::setRussian() {
@@ -1190,6 +1203,9 @@ void MainWindow::setRussian() {
     qApp->installTranslator(&translatorWidgetsRus);
     creationPresenter->retranslateElementsWindows();
     settings.setValue("language", "RU");
+    if (helpWindow) {
+        helpWindow->retranslate();
+    }
 }
 
 void MainWindow::changeEvent(QEvent *event) {

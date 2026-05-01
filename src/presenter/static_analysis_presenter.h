@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
 #include <QSpinBox>
@@ -9,6 +10,7 @@
 #include <QWidget>
 
 #include "model/static_analysis/static_analyzer.h"
+#include "model/static_analysis/fuzzy_static_analyzer.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "creation_presenter.h"
 
@@ -30,6 +32,8 @@ private slots:
 
     void recalculateInfluence();
 
+    void useFuzzyValuesChanged();
+
 private:
     void updateGraphConceptList();
 
@@ -45,8 +49,10 @@ private:
     QComboBox* influenceDirection;
     QSpinBox* influenceSteps;
     GraphScene* graphScene;
+    QCheckBox* useFuzzyValuesStatic;
 
     StaticAnalyzer analyzer;
+    FuzzyStaticAnalyzer fuzzyAnalyzer;
 
     bool influenceCalculated = false;
 };
