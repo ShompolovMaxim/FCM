@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<style>
+body {
+  font-family: "Times New Roman", serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 0.5em;
+  font-size: 12pt;
+}
+
+.l1 { margin-left: 0; line-height: 1.5;}
+.l2 { margin-left: 40px; line-height: 1.5;}
+.l3 { margin-left: 80px; line-height: 1.5;}
+
+.img {
+  text-align: center;
+  margin-top: 0.75em;
+  margin-bottom: 1.75em;
+}
+
+.img img {
+  display: block;
+  margin: 0 auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<p class="l1">1. Static analysis is performed on the static analysis tab. To switch to this tab from another tab, click the "Static analysis" header.</p>
+
+<p class="l1">2. The left part of the tab contains a table with characteristics of individual concepts:</p>
+
+<p class="l2">2.1. Out-degree, defined as the total non-transitive influence of a concept on the others:</p>
+
+<div class="img">
+  <img src="images/static_analysis_image1.png">
+</div>
+
+<p class="l2">2.2. In-degree, defined as the total non-transitive dependence of a concept on the others:</p>
+
+<div class="img">
+  <img src="images/static_analysis_image2.png">
+</div>
+
+<p class="l2">2.3. Centrality:</p>
+
+<div class="img">
+  <img src="images/static_analysis_image3.png">
+</div>
+
+<p class="l1">3. The table can be sorted in ascending or descending order by clicking the corresponding column header. After the first click, sorting is ascending; after the second click, descending. By default, the table is sorted alphabetically by concept name.</p>
+
+<p class="l1">4. The first row in the upper part of the tab contains characteristics of the FCM as a whole:</p>
+
+<p class="l2">4.1. Density (clustering coefficient):</p>
+
+<div class="img">
+  <img src="images/static_analysis_image4.png">
+</div>
+
+<p class="l2">where N is the number of concepts and C is the number of weights.</p>
+
+<p class="l2">4.2. Hierarchy index:</p>
+
+<div class="img">
+  <img src="images/static_analysis_image5.png">
+</div>
+
+<p class="l2">4.3. Complexity:</p>
+
+<div class="img">
+  <img src="images/static_analysis_image6.png">
+</div>
+
+<p class="l2">where R is the number of concepts that have incoming weights, and T is the number of concepts that have outgoing weights.</p>
+
+<p class="l1">5. The influence calculation settings are configured in the second row of the upper part of the tab. You need to specify the concept being analyzed, the mode that determines whether the influence on the concept or the influence of the concept on all others is calculated, and the number of steps over which the concept influence is propagated transitively. The resulting influence is displayed graphically in the area on the right as concept colors based on the colors of the terms corresponding to the computed influence. At the same time, weight colors match the colors used on the graph tab.</p>
+
+</body>
+</html>

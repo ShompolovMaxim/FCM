@@ -6,24 +6,141 @@
 
     <filterSection>
         <toc>
-            <section title="Working with the application" ref="model_settings.html">
-                <section title="Model settings" ref="model_settings.html"/>
-            </section>
+            <section title="Model Settings" ref="model_settings.html"/>
+            <section title="Graph" ref="graph_creation.html"/>
+            <section title="Adjacency Matrix" ref="adjacency_matrix_creation.html"/>
+            <section title="Static Analysis" ref="static_analysis.html"/>
+            <section title="Simulation" ref="simulation.html"/>
+            <section title="Experiments" ref="experiments.html"/>
+            <section title="Sensitivity Analysis" ref="sensitivity.html"/>
+            <section title="Saving, Export, and Import" ref="saving_export_import.html"/>
+            <section title="Switching FCMs" ref="fcm_switching.html"/>
+            <section title="Joining FCMs" ref="join.html"/>
+            <section title="Application Settings" ref="settings.html"/>
         </toc>
 
         <keywords>
-            <keyword name="settings" ref="model_settings.html"/>
+            <keyword name="settings" ref="settings.html"/>
+            <keyword name="model settings" ref="model_settings.html"/>
+            <keyword name="FCM name" ref="model_settings.html"/>
+            <keyword name="FCM notes" ref="model_settings.html"/>
+            <keyword name="concepts terms" ref="model_settings.html"/>
+            <keyword name="weight terms" ref="model_settings.html"/>
+            <keyword name="fuzzy value" ref="model_settings.html"/>
+
+            <keyword name="graph" ref="graph_creation.html"/>
+            <keyword name="create concept" ref="graph_creation.html"/>
+            <keyword name="create weight" ref="graph_creation.html"/>
+            <keyword name="creation mode" ref="graph_creation.html"/>
+            <keyword name="value editing mode" ref="graph_creation.html"/>
+            <keyword name="zoom" ref="graph_creation.html"/>
+
+            <keyword name="adjacency matrix" ref="adjacency_matrix_creation.html"/>
+            <keyword name="weight creation" ref="adjacency_matrix_creation.html"/>
+            <keyword name="edit weight" ref="adjacency_matrix_creation.html"/>
+            <keyword name="edit concept" ref="adjacency_matrix_creation.html"/>
+
+            <keyword name="static analysis" ref="static_analysis.html"/>
+            <keyword name="out-degree" ref="static_analysis.html"/>
+            <keyword name="in-degree" ref="static_analysis.html"/>
+            <keyword name="centrality" ref="static_analysis.html"/>
+            <keyword name="density" ref="static_analysis.html"/>
+            <keyword name="hierarchy index" ref="static_analysis.html"/>
+            <keyword name="complexity" ref="static_analysis.html"/>
+
+            <keyword name="simulation" ref="simulation.html"/>
+            <keyword name="forecasting" ref="simulation.html"/>
+            <keyword name="activation functions" ref="simulation.html"/>
+            <keyword name="change metric" ref="simulation.html"/>
+            <keyword name="predict" ref="simulation.html"/>
+            <keyword name="simulation results" ref="simulation.html"/>
+
+            <keyword name="experiments" ref="experiments.html"/>
+            <keyword name="experiment table" ref="experiments.html"/>
+            <keyword name="restore experiment" ref="experiments.html"/>
+            <keyword name="load experiment" ref="experiments.html"/>
+
+            <keyword name="sensitivity analysis" ref="sensitivity.html"/>
+            <keyword name="maximum change" ref="sensitivity.html"/>
+            <keyword name="FCM sensitivity" ref="sensitivity.html"/>
+            <keyword name="element sensitivity" ref="sensitivity.html"/>
+            <keyword name="analyze" ref="sensitivity.html"/>
+
+            <keyword name="save FCM" ref="saving_export_import.html"/>
+            <keyword name="save as" ref="saving_export_import.html"/>
+            <keyword name="autosave" ref="saving_export_import.html"/>
+            <keyword name="open FCM" ref="saving_export_import.html"/>
+            <keyword name="save as template" ref="saving_export_import.html"/>
+            <keyword name="open FCM template" ref="saving_export_import.html"/>
+            <keyword name="export JSON" ref="saving_export_import.html"/>
+            <keyword name="import JSON" ref="saving_export_import.html"/>
+            <keyword name="export PNG" ref="saving_export_import.html"/>
+
+            <keyword name="switching FCMs" ref="fcm_switching.html"/>
+            <keyword name="new model" ref="fcm_switching.html"/>
+            <keyword name="models menu" ref="fcm_switching.html"/>
+            <keyword name="switch model" ref="fcm_switching.html"/>
+
+            <keyword name="join FCMs" ref="join.html"/>
+            <keyword name="aggregate expert assessments" ref="join.html"/>
+            <keyword name="fuzzification mode" ref="join.html"/>
+            <keyword name="result FCM name" ref="join.html"/>
+            <keyword name="filter line" ref="join.html"/>
+
+            <keyword name="application settings" ref="settings.html"/>
+            <keyword name="language" ref="settings.html"/>
+            <keyword name="switch language" ref="settings.html"/>
+            <keyword name="view menu" ref="settings.html"/>
         </keywords>
 
         <files>
             <file>model_settings.html</file>
+            <file>graph_creation.html</file>
+            <file>adjacency_matrix_creation.html</file>
+            <file>static_analysis.html</file>
+            <file>simulation.html</file>
+            <file>experiments.html</file>
+            <file>sensitivity.html</file>
+            <file>saving_export_import.html</file>
+            <file>fcm_switching.html</file>
+            <file>join.html</file>
+            <file>settings.html</file>
 
-            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_cc2f273d.png</file>
-            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_55b11925.png</file>
-            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_1e2a14d.png</file>
-            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_a33ae545.png</file>
-            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_3ac3b35a.png</file>
-            <file>images/7cade24c7cc6c9abacddc015468ef14b_html_18143e63.png</file>
+            <file>images/adjacency_matrix_creation_image1.png</file>
+            <file>images/experiments_image1.png</file>
+            <file>images/experiments_image2.png</file>
+            <file>images/fcm_switching_image1.png</file>
+            <file>images/graph_creation_image2.png</file>
+            <file>images/graph_creation_image3.png</file>
+            <file>images/graph_creation_image4.png</file>
+            <file>images/join_image1.png</file>
+            <file>images/join_image2.png</file>
+            <file>images/join_image3.png</file>
+            <file>images/model_settings_image1.png</file>
+            <file>images/model_settings_image2.png</file>
+            <file>images/model_settings_image3.png</file>
+            <file>images/model_settings_image4.png</file>
+            <file>images/model_settings_image5.png</file>
+            <file>images/model_settings_image6.png</file>
+            <file>images/saving_export_import_image1.png</file>
+            <file>images/saving_export_import_image2.png</file>
+            <file>images/saving_export_import_image3.png</file>
+            <file>images/saving_export_import_image4.png</file>
+            <file>images/saving_export_import_image5.png</file>
+            <file>images/saving_export_import_image6.png</file>
+            <file>images/saving_export_import_image7.png</file>
+            <file>images/sensitivity_image1.png</file>
+            <file>images/settings_image1.png</file>
+            <file>images/settings_image2.png</file>
+            <file>images/settings_image3.png</file>
+            <file>images/simulation_image1.png</file>
+            <file>images/simulation_image2.png</file>
+            <file>images/static_analysis_image1.png</file>
+            <file>images/static_analysis_image2.png</file>
+            <file>images/static_analysis_image3.png</file>
+            <file>images/static_analysis_image4.png</file>
+            <file>images/static_analysis_image5.png</file>
+            <file>images/static_analysis_image6.png</file>
         </files>
 
     </filterSection>

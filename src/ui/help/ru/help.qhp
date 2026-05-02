@@ -20,7 +20,79 @@
         </toc>
 
         <keywords>
-            <keyword name="настройка" ref="model_settings.html"/>
+            <keyword name="настройка" ref="settings.html"/>
+            <keyword name="настройка модели" ref="model_settings.html"/>
+            <keyword name="название НКК" ref="model_settings.html"/>
+            <keyword name="заметки НКК" ref="model_settings.html"/>
+            <keyword name="термы факторов" ref="model_settings.html"/>
+            <keyword name="термы весов" ref="model_settings.html"/>
+            <keyword name="нечёткое значение" ref="model_settings.html"/>
+
+            <keyword name="граф" ref="graph_creation.html"/>
+            <keyword name="графическое построение НКК" ref="graph_creation.html"/>
+            <keyword name="создание фактора" ref="graph_creation.html"/>
+            <keyword name="создание связи" ref="graph_creation.html"/>
+            <keyword name="режим создания" ref="graph_creation.html"/>
+            <keyword name="режим изменения значений" ref="graph_creation.html"/>
+            <keyword name="масштаб" ref="graph_creation.html"/>
+
+            <keyword name="матрица смежности" ref="adjacency_matrix_creation.html"/>
+            <keyword name="создание связей" ref="adjacency_matrix_creation.html"/>
+            <keyword name="редактирование связи" ref="adjacency_matrix_creation.html"/>
+            <keyword name="редактирование фактора" ref="adjacency_matrix_creation.html"/>
+            <keyword name="ячейка" ref="adjacency_matrix_creation.html"/>
+
+            <keyword name="статический анализ" ref="static_analysis.html"/>
+            <keyword name="исходящая степень" ref="static_analysis.html"/>
+            <keyword name="входящая степень" ref="static_analysis.html"/>
+            <keyword name="центральность" ref="static_analysis.html"/>
+            <keyword name="плотность" ref="static_analysis.html"/>
+            <keyword name="индекс иерархичности" ref="static_analysis.html"/>
+            <keyword name="сложность" ref="static_analysis.html"/>
+
+            <keyword name="симуляция" ref="simulation.html"/>
+            <keyword name="прогнозирование" ref="simulation.html"/>
+            <keyword name="функции активации" ref="simulation.html"/>
+            <keyword name="метрика изменения" ref="simulation.html"/>
+            <keyword name="предсказать" ref="simulation.html"/>
+            <keyword name="результаты симуляции" ref="simulation.html"/>
+
+            <keyword name="эксперименты" ref="experiments.html"/>
+            <keyword name="таблица экспериментов" ref="experiments.html"/>
+            <keyword name="восстановить эксперимент" ref="experiments.html"/>
+            <keyword name="загрузка эксперимента" ref="experiments.html"/>
+
+            <keyword name="анализ чувствительности" ref="sensitivity.html"/>
+            <keyword name="максимальное изменение" ref="sensitivity.html"/>
+            <keyword name="чувствительность элементов НКК" ref="sensitivity.html"/>
+            <keyword name="чувствительность НКК" ref="sensitivity.html"/>
+            <keyword name="проанализировать" ref="sensitivity.html"/>
+
+            <keyword name="сохранение" ref="saving_export_import.html"/>
+            <keyword name="сохранить как" ref="saving_export_import.html"/>
+            <keyword name="автосохранение" ref="saving_export_import.html"/>
+            <keyword name="открыть модель" ref="saving_export_import.html"/>
+            <keyword name="сохранить как шаблон" ref="saving_export_import.html"/>
+            <keyword name="открыть шаблон" ref="saving_export_import.html"/>
+            <keyword name="экспорт JSON" ref="saving_export_import.html"/>
+            <keyword name="импорт JSON" ref="saving_export_import.html"/>
+            <keyword name="экспорт PNG" ref="saving_export_import.html"/>
+
+            <keyword name="переключение НКК" ref="fcm_switching.html"/>
+            <keyword name="новая модель" ref="fcm_switching.html"/>
+            <keyword name="меню Модели" ref="fcm_switching.html"/>
+            <keyword name="переключение модели" ref="fcm_switching.html"/>
+
+            <keyword name="объединение НКК" ref="join.html"/>
+            <keyword name="агрегация экспертных оценок" ref="join.html"/>
+            <keyword name="способ фаззификации" ref="join.html"/>
+            <keyword name="объединённая НКК" ref="join.html"/>
+            <keyword name="фильтр моделей" ref="join.html"/>
+
+            <keyword name="настройка программы" ref="settings.html"/>
+            <keyword name="язык" ref="settings.html"/>
+            <keyword name="переключение языка" ref="settings.html"/>
+            <keyword name="меню Вид" ref="settings.html"/>
         </keywords>
 
         <files>

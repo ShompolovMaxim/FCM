@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<style>
+body {
+  font-family: "Times New Roman", serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 0.5em;
+  font-size: 12pt;
+}
+
+.l1 { margin-left: 0; line-height: 1.5;}
+.l2 { margin-left: 40px; line-height: 1.5;}
+.l3 { margin-left: 80px; line-height: 1.5;}
+
+.img {
+  text-align: center;
+  margin-top: 0.75em;
+  margin-bottom: 1.75em;
+}
+
+.img img {
+  display: block;
+  margin: 0 auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<p class="l1">1. Work with experiments is performed on the experiments tab. To switch to this tab from another tab, click the "Experiments" header.</p>
+
+<div class="img">
+  <img src="images/experiments_image1.png">
+</div>
+
+<p class="l1">2. Experiments are snapshots of the model taken at the moment a simulation starts. They include terms, all concept and weight parameters, and all forecasting parameters. The tab contains an experiments table that shows all forecasting parameters and the simulation start time. The table can be sorted by columns in the same way as the table on the static analysis tab. By default, the table is sorted by descending simulation start time.</p>
+
+<p class="l1">3. Clicking the "Restore" button in an experiment row opens the experiment loading dialog. In this dialog, the user chooses whether to save the current model state as a new experiment. By default, this flag is not set. As a result of loading, the model state is updated, meaning that the settings of the selected simulation are restored.</p>
+
+<div class="img">
+  <img src="images/experiments_image2.png">
+</div>
+
+<p class="l1">4. Clicking the "Delete" button removes the experiment from the list.</p>
+
+
+</body>
+</html>

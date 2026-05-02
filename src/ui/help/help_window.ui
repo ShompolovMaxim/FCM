@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Справка</string>
+   <string>Help</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -23,13 +23,13 @@
        </property>
        <widget class="QWidget" name="contentTab">
         <attribute name="title">
-         <string>Содержание</string>
+         <string>Contents</string>
         </attribute>
         <layout class="QVBoxLayout"/>
        </widget>
        <widget class="QWidget" name="indexTab">
         <attribute name="title">
-         <string>Индекс</string>
+         <string>Index</string>
         </attribute>
         <layout class="QVBoxLayout"/>
        </widget>

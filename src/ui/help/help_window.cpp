@@ -36,10 +36,8 @@ void HelpWindow::retranslate() {
 
     const bool isRussian = currentLanguageCode() == QLatin1String(kRussianCode);
     setWindowTitle(isRussian ? QString::fromUtf8("Справка") : QStringLiteral("Help"));
-    ui->tabWidget->setTabText(ui->tabWidget->indexOf(ui->contentTab),
-                              isRussian ? QString::fromUtf8("Содержание") : QStringLiteral("Contents"));
-    ui->tabWidget->setTabText(ui->tabWidget->indexOf(ui->indexTab),
-                              isRussian ? QString::fromUtf8("Индекс") : QStringLiteral("Index"));
+    ui->tabWidget->setTabText(ui->tabWidget->indexOf(ui->contentTab), tr("Contents"));
+    ui->tabWidget->setTabText(ui->tabWidget->indexOf(ui->indexTab), tr("Index"));
 
     reloadHelpEngine();
 }
