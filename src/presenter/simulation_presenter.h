@@ -22,6 +22,8 @@ public:
     void speedUp();
     void slowDown();
     bool moveStep(int delta);
+    void reset();
+    void finish();
 
     double getStepsPerSecond() { return 1000.0 / iterationTime; }
 
@@ -30,14 +32,17 @@ signals:
     void updateProgress(size_t step, size_t maxStep, double metricValue);
 private:
     bool goToStep(size_t newStep);
+    void stopExecution();
+    void stopTimer(QTimer* t);
 
     std::thread workerThread;
-    QTimer* timer = new QTimer(this);
+    QTimer* timer = nullptr;
+    QTimer* calculationTimer = nullptr;
     int step = 0;
     int lastStep = 0;
     size_t iterationTime = 1000;
-    double speedUpFactor = 2;
-    double slowDownFactor = 2;
+    const double speedUpFactor = 2;
+    const double slowDownFactor = 2;
     QList<NodeItem*> nodes;
     QMap<QUuid, EdgeItem*> edges;
     std::shared_ptr<Predictor> predictor;

@@ -44,12 +44,15 @@ public slots:
     void slowDown();
     void stepForward();
     void stepBack();
+    void finishSimulation();
     void updateProgress(size_t value, size_t maxStep, double metricValue);
 
     SensitivityAnalysisParameters getSensitivityParameters();
     void analize();
     void showSensitivityPlot();
     void updateSensitivityProgress(double progress);
+    void resetSensitivity();
+    void updateSensitivityScaleLabel(double newScale);
 
     void onCreateTerm();
     void onDeleteTerm();
@@ -148,6 +151,7 @@ private:
 
     double graphScale = 1;
     double predictScale = 1;
+    double sensitivityScale = 1;
     EditMode editMode = EditMode::Create;
     bool paused = false;
     double currentMetricValue = 0;

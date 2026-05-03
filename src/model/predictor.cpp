@@ -19,9 +19,17 @@ void Predictor::perform() {
     auto algorithm = AlgorithmsFabric().create(_predictionParameters, conceptActivationFunction, weightActivationFunction);
     auto metricsManager = MetricsManager(MetricsFabric().create(_predictionParameters.metric), _predictionParameters);
     auto stopCondition = StopConditionsFabric().create(_predictionParameters);
-    while (!stopCondition->finished(_fcms)) {
+    while (!stopRequested.load()) {
+        if (stopCondition->finished(_fcms)) {
+            break;
+        }
+
         auto next = algorithm->step(_fcms[_fcms.size() - 1]);
         next.metricValue = metricsManager.calculate(_fcms[_fcms.size() - 1], next);
+
+        if (stopRequested.load()) {
+            break;
+        }
 
         {
             std::lock_guard<std::mutex> lock(_mutex);
@@ -30,6 +38,10 @@ void Predictor::perform() {
         }
     }
     finished = true;
+}
+
+void Predictor::requestStop() {
+    stopRequested = true;
 }
 
 CalculationFCM Predictor::getFCM(size_t step) {

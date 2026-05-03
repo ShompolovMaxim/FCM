@@ -8,6 +8,7 @@
 
 #include "presenter/prediction_parameters.h"
 
+#include <atomic>
 #include <cstdint>
 #include <mutex>
 #include <random>
@@ -17,6 +18,7 @@ public:
     SensitivityAnalizer(const SensitivityAnalysisParameters&  parameters, const PredictionParameters& predictionParameters);
 
     void analize(CalculationFCM fcm);
+    void requestStop();
 
     double getConceptSensitivity(QUuid id);
     double getWeightSensitivity(QUuid id);
@@ -67,5 +69,6 @@ private:
     size_t fcmThresholdsProcessed = 0;
     size_t conceptsCount;
     size_t weightsCount;
+    std::atomic_bool stopRequested = false;
 
 };

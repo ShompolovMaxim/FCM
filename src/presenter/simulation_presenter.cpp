@@ -6,20 +6,16 @@
 SimulationPresenter::SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent) : QObject(parent), creationPresenter(creationPresenter) {}
 
 SimulationPresenter::~SimulationPresenter() {
-    if (workerThread.joinable()) {
-        workerThread.join();
-    }
+    stopExecution();
 }
 
 void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_, QMap<QUuid, EdgeItem*> edges_, std::shared_ptr<FCM> fcm) {
+    stopExecution();
+
     this->predictionParameters = predictionParameters;
     this->fcm = fcm;
     nodes = nodes_;
     edges = edges_;
-
-    if (workerThread.joinable()) {
-        workerThread.join();
-    }
 
     step = -1;
 
@@ -44,11 +40,10 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
     }
 
     predictor = std::make_shared<Predictor>(predictionParameters, calculationFCM);
-    workerThread = std::thread([this]() {
-        predictor->perform();
+    auto predictorForThread = predictor;
+    workerThread = std::thread([predictorForThread]() {
+        predictorForThread->perform();
     });
-
-    iterationTime = static_cast<int>(1000 / simulationParameters.stepsPerSecond);
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this, predictionParameters]() {
@@ -56,15 +51,40 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
 
         if (predictor->getFinished() && step >= predictor->getCount()) {
             timer->stop();
-            return;
+            emit finished();
         }
-
     });
 
-    timer->start(iterationTime);
+    iterationTime = static_cast<int>(1000 / simulationParameters.stepsPerSecond);
+
+    if (simulationParameters.realTime) {
+        timer->start(iterationTime);
+    } else {
+        finish();
+    }
+}
+
+void SimulationPresenter::finish() {
+    stopTimer(calculationTimer);
+    calculationTimer = new QTimer(this);
+    connect(calculationTimer, &QTimer::timeout, this, [this]() {
+        if (!predictionParameters.predictToStatic) {
+            updateProgress(predictor->getCount(), predictionParameters.fixedSteps, 0.0);
+        }
+        if (predictor->getFinished()) {
+            goToStep(predictor->getCount());
+            calculationTimer->stop();
+            emit finished();
+        }
+    });
+    calculationTimer->start(200);
 }
 
 bool SimulationPresenter::goToStep(size_t newStep) {
+    if (!predictor || !fcm) {
+        return false;
+    }
+
     if (predictor->getCount() >= newStep) {
         auto newFCM = predictor->getFCM(newStep);
         auto colorValueAdapter = LinearApproximationColorValueAdapter(fcm->terms);
@@ -96,6 +116,14 @@ bool SimulationPresenter::goToStep(size_t newStep) {
     return false;
 }
 
+void SimulationPresenter::stopTimer(QTimer* t) {
+    if (t) {
+        t->stop();
+        t->disconnect(this);
+        delete t;
+    }
+}
+
 bool SimulationPresenter::moveStep(int delta) {
     int newStep = step + delta;
     if (newStep < 0) {
@@ -119,4 +147,39 @@ void SimulationPresenter::slowDown() {
     if (timer && timer->isActive()) {
         timer->start(iterationTime);
     }
+}
+
+void SimulationPresenter::reset() {
+    stopExecution();
+    step = 0;
+    lastStep = 0;
+    nodes.clear();
+    edges.clear();
+
+    for (const auto& [id, _] : fcm->concepts) {
+        fcm->concepts[id]->predictedValues = {};
+        creationPresenter->setConceptPredictedValues(id);
+    }
+    for (const auto& [id, _] : fcm->weights) {
+        fcm->weights[id]->predictedValues = {};
+        creationPresenter->setWeightPredictedValues(id);
+    }
+}
+
+void SimulationPresenter::stopExecution() {
+    stopTimer(timer);
+    timer = nullptr;
+
+    stopTimer(calculationTimer);
+    calculationTimer = nullptr;
+
+    if (predictor) {
+        predictor->requestStop();
+    }
+
+    if (workerThread.joinable()) {
+        workerThread.join();
+    }
+
+    predictor = {};
 }

@@ -11,6 +11,7 @@ public:
     Predictor(PredictionParameters predictionParameters, const CalculationFCM& fcm);
 
     void perform();
+    void requestStop();
 
     CalculationFCM getFCM(size_t step);
 
@@ -25,4 +26,5 @@ private:
     std::mutex _mutex;
     std::atomic_size_t _count = 0;
     std::atomic_bool finished = false;
+    std::atomic_bool stopRequested = false;
 };

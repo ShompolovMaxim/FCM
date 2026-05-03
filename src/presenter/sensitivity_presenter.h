@@ -19,15 +19,19 @@ public:
     ~SensitivityPresenter();
 
     void analize(PredictionParameters predictionParameters, SensitivityAnalysisParameters parameters, std::shared_ptr<FCM> fcm);
+    void reset();
 
 signals:
     void updateProgress(double progress);
 
 private:
+    void stopExecution();
+
     GraphScene* graphScene;
     QCustomPlot* plot;
     std::shared_ptr<CreationPresenter> creationPresenter;
-    QTimer* timer = new QTimer(this);
+    QTimer* timer = nullptr;
     std::thread workerThread;
     std::shared_ptr<SensitivityAnalizer> analizer;
+    std::shared_ptr<FCM> fcm;
 };

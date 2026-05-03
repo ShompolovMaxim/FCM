@@ -14,28 +14,53 @@ SensitivityAnalizer::SensitivityAnalizer(const SensitivityAnalysisParameters& pa
 void SensitivityAnalizer::analize(CalculationFCM fcm) {
     conceptsCount = parameters.changeConcepts ? fcm.concepts.size() : 0;
     weightsCount = parameters.changeWeights ? fcm.weights.size() : 0;
-    if (parameters.changeConcepts) {
+    if (parameters.changeConcepts && !stopRequested.load()) {
         analyzeConcepts(fcm);
     } else {
         std::lock_guard<std::mutex> lock(_mutex);
         allConceptsFinished = true;
     }
-    if (parameters.changeWeights) {
+    if (parameters.changeWeights && !stopRequested.load()) {
         analyzeWeights(fcm);
     } else {
         std::lock_guard<std::mutex> lock(_mutex);
         allWeightsFinished = true;
     }
-    analyzeFcm(fcm);
+    if (!stopRequested.load()) {
+        analyzeFcm(fcm);
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(_mutex);
+    forFcmFinished = true;
+}
+
+void SensitivityAnalizer::requestStop() {
+    stopRequested = true;
+    predictor->requestStop();
 }
 
 void SensitivityAnalizer::analyzeConcepts(CalculationFCM fcm) {
     const auto resultWithoutChange = predictor->predict(fcm);
+    if (stopRequested.load()) {
+        std::lock_guard<std::mutex> lock(_mutex);
+        allConceptsFinished = true;
+        return;
+    }
+
     for (auto& [id, concept] : fcm.concepts) {
+        if (stopRequested.load()) {
+            break;
+        }
+
         double changeSum = 0.0;
         size_t predictionsCount = 0;
         std::unordered_map<double, size_t> conceptChangeCount;
         for (auto [newConcept, change] : ChangeIterationFactory<CalculationConcept>().create(concept, parameters, predictionParameters)) {
+            if (stopRequested.load()) {
+                break;
+            }
+
             if (
                 newConcept.value < 0 || newConcept.value > 1 ||
                 newConcept.triangularFuzzyValue.l < 0 || newConcept.triangularFuzzyValue.m < 0 || newConcept.triangularFuzzyValue.u < 0 ||
@@ -46,6 +71,10 @@ void SensitivityAnalizer::analyzeConcepts(CalculationFCM fcm) {
             auto oldConcept = concept;
             concept = newConcept;
             auto predictedFcm = predictor->predict(fcm);
+            if (stopRequested.load()) {
+                concept = oldConcept;
+                break;
+            }
             ++predictionsCount;
             concept = oldConcept;
             auto sensitivity = metricsManager->calculate(resultWithoutChange, predictedFcm);
@@ -71,11 +100,25 @@ void SensitivityAnalizer::analyzeConcepts(CalculationFCM fcm) {
 
 void SensitivityAnalizer::analyzeWeights(CalculationFCM fcm) {
     const auto resultWithoutChange = predictor->predict(fcm);
+    if (stopRequested.load()) {
+        std::lock_guard<std::mutex> lock(_mutex);
+        allWeightsFinished = true;
+        return;
+    }
+
     for (auto& [id, weight] : fcm.weights) {
+        if (stopRequested.load()) {
+            break;
+        }
+
         double changeSum = 0.0;
         size_t predictionsCount = 0;
         std::unordered_map<double, size_t> weightChangeCount;
         for (auto [newWeight, change] : ChangeIterationFactory<CalculationWeight>().create(weight, parameters, predictionParameters)) {
+            if (stopRequested.load()) {
+                break;
+            }
+
             if (
                 newWeight.value < 0 || newWeight.value > 1 ||
                 newWeight.triangularFuzzyValue.l < 0 || newWeight.triangularFuzzyValue.m < 0 || newWeight.triangularFuzzyValue.u < 0 ||
@@ -86,6 +129,10 @@ void SensitivityAnalizer::analyzeWeights(CalculationFCM fcm) {
             auto oldWeight = weight;
             weight = newWeight;
             auto predictedFcm = predictor->predict(fcm);
+            if (stopRequested.load()) {
+                weight = oldWeight;
+                break;
+            }
             ++predictionsCount;
             weight = oldWeight;
             auto sensitivity = metricsManager->calculate(resultWithoutChange, predictedFcm);
@@ -112,14 +159,35 @@ void SensitivityAnalizer::analyzeWeights(CalculationFCM fcm) {
 void SensitivityAnalizer::analyzeFcm(const CalculationFCM& fcm) {
     double step = parameters.maxChange / parameters.steps;
     auto resultWithoutChange = predictor->predict(fcm);
+    if (stopRequested.load()) {
+        std::lock_guard<std::mutex> lock(_mutex);
+        forFcmFinished = true;
+        return;
+    }
+
     for (size_t i = 1; i <= parameters.steps; ++i) {
+        if (stopRequested.load()) {
+            break;
+        }
+
         double sum = 0;
         double maxChange = i * step;
         for (size_t j = 0; j < parameters.randomIterations; ++j) {
+            if (stopRequested.load()) {
+                break;
+            }
+
             auto changedFcm = randomizeFcm(fcm, maxChange);
             auto predictedFcm = predictor->predict(changedFcm);
+            if (stopRequested.load()) {
+                break;
+            }
             sum += metricsManager->calculate(resultWithoutChange, predictedFcm);
         }
+        if (stopRequested.load()) {
+            break;
+        }
+
         {
             std::lock_guard<std::mutex> lock(_mutex);
             fcmSensitivity[maxChange] = sum / parameters.randomIterations;

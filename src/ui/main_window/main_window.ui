@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <property name="toolTip">
@@ -712,7 +712,7 @@
        <attribute name="title">
         <string>Simulation</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_4">
+       <layout class="QGridLayout" name="gridLayout_4" columnstretch="4,1,0">
         <item row="1" column="0" colspan="2">
          <widget class="QProgressBar" name="progressBarPredict">
           <property name="toolTip">
@@ -791,6 +791,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonReset">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Reset simulation</string>
               </property>
@@ -1114,6 +1117,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonBack">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Move back</string>
               </property>
@@ -1124,6 +1130,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonForward">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Move forward</string>
               </property>
@@ -1138,6 +1147,9 @@
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
              <widget class="QPushButton" name="pushButtonSlowDown">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Slow simulation down 2 times</string>
               </property>
@@ -1148,6 +1160,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonPause">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Pause or resume simulation</string>
               </property>
@@ -1158,6 +1173,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonSpeedUp">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Speed simulation up 2 times</string>
               </property>
@@ -1168,21 +1186,14 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonFinish">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Proceed to the last step</string>
               </property>
               <property name="text">
                <string>Finish</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButtonCancel">
-              <property name="toolTip">
-               <string>Proceed to the initial state</string>
-              </property>
-              <property name="text">
-               <string>Cancel</string>
               </property>
              </widget>
             </item>
@@ -1368,6 +1379,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QPushButton" name="pushButtonResetSensitivity">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Reset sensitivity analisys</string>
               </property>

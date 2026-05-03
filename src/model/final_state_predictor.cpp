@@ -20,10 +20,23 @@ FinalStatePredictor::FinalStatePredictor(const PredictionParameters& predictionP
 CalculationFCM FinalStatePredictor::predict(const CalculationFCM& fcm) {
     fcms.clear();
     fcms.push_back(fcm);
-    while (!stopCondition->finished(fcms)) {
+    while (!stopRequested.load()) {
+        if (stopCondition->finished(fcms)) {
+            break;
+        }
+
         auto next = algorithm->step(fcms[fcms.size() - 1]);
         next.metricValue = metricsManager->calculate(fcms[fcms.size() - 1], next);
+
+        if (stopRequested.load()) {
+            break;
+        }
+
         fcms.push_back(next);
     }
     return fcms[fcms.size() - 1];
+}
+
+void FinalStatePredictor::requestStop() {
+    stopRequested = true;
 }

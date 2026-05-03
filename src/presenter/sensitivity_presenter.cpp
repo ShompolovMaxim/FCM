@@ -8,12 +8,13 @@ SensitivityPresenter::SensitivityPresenter(GraphScene* graphScene, QCustomPlot* 
     : graphScene(graphScene), plot(plot), creationPresenter(creationPresenter), QObject(parent) {}
 
 SensitivityPresenter::~SensitivityPresenter() {
-    if (workerThread.joinable()) {
-        workerThread.join();
-    }
+    stopExecution();
 }
 
 void SensitivityPresenter::analize(PredictionParameters predictionParameters, SensitivityAnalysisParameters parameters, std::shared_ptr<FCM> fcm) {
+    stopExecution();
+
+    this->fcm = fcm;
     analizer = std::make_shared<SensitivityAnalizer>(parameters, predictionParameters);
 
     CalculationFCM calculationFCM;
@@ -36,12 +37,17 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
         };
     }
 
-    workerThread = std::thread([this, calculationFCM]() {
-        analizer->analize(calculationFCM);
+    auto analizerForThread = analizer;
+    workerThread = std::thread([analizerForThread, calculationFCM]() {
+        analizerForThread->analize(calculationFCM);
     });
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this, predictionParameters, parameters, fcm]() {
+        if (!analizer) {
+            return;
+        }
+
         auto finished = analizer->finished();
         if (parameters.changeConcepts) {
             for (auto& [id, concept] : fcm->concepts) {
@@ -83,6 +89,38 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
     });
 
     timer->start(100);
+}
+
+void SensitivityPresenter::reset() {
+    stopExecution();
+
+    for (const auto& [id, _] : fcm->concepts) {
+        fcm->concepts[id]->sensitivity = {};
+        creationPresenter->setConceptPredictedValues(id);
+    }
+    for (const auto& [id, _] : fcm->weights) {
+        fcm->weights[id]->sensitivity = {};
+        creationPresenter->setWeightPredictedValues(id);
+    }
+}
+
+void SensitivityPresenter::stopExecution() {
+    if (timer) {
+        timer->stop();
+        timer->disconnect(this);
+        delete timer;
+        timer = nullptr;
+    }
+
+    if (analizer) {
+        analizer->requestStop();
+    }
+
+    if (workerThread.joinable()) {
+        workerThread.join();
+    }
+
+    analizer.reset();
 }
 
 

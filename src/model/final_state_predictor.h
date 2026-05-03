@@ -8,11 +8,14 @@
 
 #include "presenter/prediction_parameters.h"
 
+#include <atomic>
+
 class FinalStatePredictor {
 public:
     FinalStatePredictor(const PredictionParameters& predictionParameters);
 
     CalculationFCM predict(const CalculationFCM& fcm);
+    void requestStop();
 
 private:
     const PredictionParameters predictionParameters;
@@ -20,4 +23,5 @@ private:
     std::shared_ptr<StopCondition> stopCondition;
     std::shared_ptr<MetricsManager> metricsManager;
     std::vector<CalculationFCM> fcms;
+    std::atomic_bool stopRequested = false;
 };
