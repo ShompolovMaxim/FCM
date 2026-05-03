@@ -49,12 +49,32 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
         }
 
         auto finished = analizer->finished();
+
+        QColor red = QColor(255, 0, 0);
+        double maxSensitivity = 0.0;
         if (parameters.changeConcepts) {
             for (auto& [id, concept] : fcm->concepts) {
                 if (!analizer->getConceptFinished(id)) {
                     continue;
                 }
-                graphScene->setConceptColor(id, ColorValueAdapter().getColor(std::min(analizer->getConceptSensitivity(id), 1.0), 0, 1), false);
+                maxSensitivity = std::max(analizer->getConceptSensitivity(id), maxSensitivity);
+            }
+        }
+        if (parameters.changeWeights) {
+            for (auto& [id, weight] : fcm->weights) {
+                if (!analizer->getWeightFinished(id)) {
+                    continue;
+                }
+                maxSensitivity = std::max(analizer->getWeightSensitivity(id), maxSensitivity);
+            }
+        }
+
+        if (parameters.changeConcepts) {
+            for (auto& [id, concept] : fcm->concepts) {
+                if (!analizer->getConceptFinished(id)) {
+                    continue;
+                }
+                graphScene->setConceptColor(id, maxSensitivity ? ColorValueAdapter().getColor(std::min(analizer->getConceptSensitivity(id), 1.0), 0, 1) : red, false);
                 concept->sensitivity = analizer->getConceptChangeSensitivity(id);
                 creationPresenter->setConceptPredictedValues(id);
             }
@@ -64,7 +84,7 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
                 if (!analizer->getWeightFinished(id)) {
                     continue;
                 }
-                graphScene->setWeightColor(id, ColorValueAdapter().getColor(std::min(analizer->getWeightSensitivity(id), 1.0), 0, 1));
+                graphScene->setWeightColor(id, maxSensitivity ? ColorValueAdapter().getColor(std::min(analizer->getWeightSensitivity(id) / maxSensitivity, 1.0), 0, 1) : red);
                 weight->sensitivity = analizer->getWeightChangeSensitivity(id);
                 creationPresenter->setWeightPredictedValues(id);
             }

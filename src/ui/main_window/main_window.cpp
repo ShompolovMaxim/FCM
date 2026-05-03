@@ -630,7 +630,9 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
 }
 
 void MainWindow::termNotesChanged() {
-    fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
+    if (ui->treeWidgetTerms->currentItem() && ui->treeWidgetTerms->currentItem()->parent()) {
+        fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
+    }
 }
 
 void MainWindow::autoConfigureTermColor() {
@@ -906,6 +908,14 @@ void MainWindow::save() {
 
 void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     QSignalBlocker b1(ui->modelName);
+    QSignalBlocker b2(ui->termValue);
+    QSignalBlocker b3(ui->termValueL);
+    QSignalBlocker b4(ui->termValueM);
+    QSignalBlocker b5(ui->termValueU);
+    QSignalBlocker b6(ui->termNotes);
+    qDeleteAll(conceptsGroup->takeChildren());
+    qDeleteAll(weightsGroup->takeChildren());
+
     fcm = newFCM;
 
     if (activeSimulation) {
@@ -915,9 +925,6 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setMarkdownText(fcm->description);
 
-    qDeleteAll(conceptsGroup->takeChildren());
-    qDeleteAll(weightsGroup->takeChildren());
-
     QTreeWidgetItem* firstItem = nullptr;
 
     std::vector<std::pair<decltype(fcm->terms)::key_type, decltype(fcm->terms)::mapped_type>> sortedTerms(
@@ -925,10 +932,9 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
         );
 
     std::sort(sortedTerms.begin(), sortedTerms.end(),
-              [](const auto& a, const auto& b) {
-                  return a.second->value < b.second->value;
-              }
-              );
+        [](const auto& a, const auto& b) {
+            return a.second->value < b.second->value;
+        });
 
     for (auto& [id, term] : sortedTerms) {
         QTreeWidgetItem* item = new QTreeWidgetItem();
@@ -956,6 +962,10 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
     connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
+    if (editMode == EditMode::EditValues) {
+        updateModeButtonText(EditMode::Create);
+    }
+
     auto newScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
     connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
