@@ -458,6 +458,8 @@ void MainWindow::analize() {
         return;
     }
 
+    activeSensitivity = true;
+
     ui->pushButtonAnalizeSensitivity->setEnabled(false);
     ui->pushButtonResetSensitivity->setEnabled(true);
     ui->doubleSpinBoxMaxChange->setEnabled(false);
@@ -477,6 +479,10 @@ void MainWindow::analize() {
 }
 
 void MainWindow::resetSensitivity() {
+    if (!activeSensitivity) {
+        return;
+    }
+
     ui->pushButtonAnalizeSensitivity->setEnabled(true);
     ui->pushButtonResetSensitivity->setEnabled(false);
     ui->doubleSpinBoxMaxChange->setEnabled(true);
@@ -484,6 +490,7 @@ void MainWindow::resetSensitivity() {
     ui->changeWeights->setEnabled(true);
     sensitivityPresenter->reset();
     ui->progressBarSensitivity->setValue(0);
+    activeSensitivity = false;
     auto* sensitivityScene = ui->graphicsViewSensitivity->scene();
     ui->graphicsViewSensitivity->setScene(ui->graphicsViewGraph->scene());
     delete sensitivityScene;
@@ -581,8 +588,6 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
     QSignalBlocker b4(ui->termValueU);
     QSignalBlocker b5(ui->termNotes);
 
-    currentTermId = current->data(0, Qt::UserRole).toUuid();
-
     if (!current || !current->parent()) {
         ui->termValue->setValue(0);
         ui->termValueL->setValue(0);
@@ -601,6 +606,8 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
         ui->fuzzyValuePlot->replot();
         return;
     }
+
+    currentTermId = current->data(0, Qt::UserRole).toUuid();
 
     ui->termValue->setEnabled(true);
     ui->termValueL->setEnabled(true);
@@ -799,14 +806,32 @@ void MainWindow::loadExperiment() {
         return;
     }
 
-    auto saveCurrentStateWindow = SaveCurrentStateWindow(this);
-    if (saveCurrentStateWindow.exec() != QDialog::Accepted) {
-        return;
+    bool canSaveCurrentState = true;
+    for (const auto& [_, concept] : fcm->concepts) {
+        if (!concept->term) {
+            canSaveCurrentState = false;
+            break;
+        }
     }
-    bool saveCurrentState = saveCurrentStateWindow.saveCurrentState();
+    if (canSaveCurrentState) {
+        for (const auto& [_, weight] : fcm->weights) {
+            if (!weight->term) {
+                canSaveCurrentState = false;
+                break;
+            }
+        }
+    }
 
-    if (saveCurrentState) {
-        createExperiment();
+    if (canSaveCurrentState) {
+        auto saveCurrentStateWindow = SaveCurrentStateWindow(this);
+        if (saveCurrentStateWindow.exec() != QDialog::Accepted) {
+            return;
+        }
+        bool saveCurrentState = saveCurrentStateWindow.saveCurrentState();
+
+        if (saveCurrentState) {
+            createExperiment();
+        }
     }
 
     fcm->terms.clear();
@@ -921,6 +946,9 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     if (activeSimulation) {
         resetPredictionScene();
     }
+    if (activeSensitivity) {
+        resetSensitivity();
+    }
 
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setMarkdownText(fcm->description);
@@ -955,6 +983,9 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
 
     ui->treeWidgetTerms->expandAll();
 
+    if (creationPresenter) {
+        creationPresenter->closeWindows();
+    }
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     ui->adjacencyTableView->loadFromFCM(fcm);
     ui->adjacencyTableView->setPresenter(creationPresenter);
@@ -1153,6 +1184,7 @@ void MainWindow::onImportJson() {
 
     if (!model) {
         QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
+        return;
     }
 
     fcm = std::make_shared<FCM>(*model);
@@ -1225,6 +1257,9 @@ void MainWindow::switchModel() {
         return;
     }
     size_t index = static_cast<size_t>(action->data().toULongLong());
+    if (index >= fcms.size()) {
+        return;
+    }
     fcm = fcms[index];
     loadFCM(fcm);
 }
@@ -1246,7 +1281,7 @@ void MainWindow::joinModels() {
     QList<QString> unsavedModelsNames;
     unsavedModelsNames.reserve(fcms.size());
     for (const auto& model : fcms) {
-        if (fcm->dbId == -1) {
+        if (model->dbId == -1) {
             unsavedModelsNames.push_back(model->name);
         }
     }
@@ -1266,19 +1301,42 @@ void MainWindow::joinModels() {
         for (auto unsavedFCM : fcms) {
             if (unsavedFCM->name == modelName) {
                 joinFCMs.push_back(unsavedFCM);
+                if (modelName == joinWindow->getTermsModel()) {
+                    baseFCM = unsavedFCM;
+                }
                 break;
             }
-        }
-        if (modelName == joinWindow->getTermsModel()) {
-            baseFCM = joinFCMs.back();
         }
     }
 
     for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Saved)) {
-        joinFCMs.push_back(std::make_shared<FCM>(*savingManager->getFCM(modelName)));
-        if (modelName == joinWindow->getTermsModel()) {
-            baseFCM = joinFCMs.back();
+        auto model = savingManager->getFCM(modelName);
+        if (!model) {
+            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load one of the selected saved models."));
+            return;
         }
+
+        auto savedFCM = std::make_shared<FCM>(*model);
+        joinFCMs.push_back(savedFCM);
+        if (modelName == joinWindow->getTermsModel()) {
+            baseFCM = savedFCM;
+        }
+    }
+
+    const auto termsModel = joinWindow->getTermsModel();
+    if (baseFCM == nullptr && templatesNames.contains(termsModel)) {
+        auto model = templatesManager->getFCM(termsModel);
+        if (!model) {
+            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load the selected terms model template."));
+            return;
+        }
+
+        baseFCM = std::make_shared<FCM>(*model);
+    }
+
+    if (baseFCM == nullptr) {
+        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Please select a valid terms model before proceeding!"));
+        return;
     }
 
     auto joinedFCM = ModelsJoiner().join(baseFCM, joinFCMs, joinWindow->getJoinMode(), joinWindow->getResultName());
@@ -1364,10 +1422,10 @@ void MainWindow::changeEvent(QEvent *event) {
 
         auto* experimentsModel = ui->experimantsTable->model();
         for (int row = 0; row < experimentsModel->rowCount(); ++row) {
-            if (auto* loadButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 8)))) {
+            if (auto* loadButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 9)))) {
                 loadButton->setText(tr("Load"));
             }
-            if (auto* deleteButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 9)))) {
+            if (auto* deleteButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 10)))) {
                 deleteButton->setText(tr("Delete"));
             }
 

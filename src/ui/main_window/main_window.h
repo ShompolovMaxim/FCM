@@ -157,6 +157,7 @@ private:
     bool paused = false;
     double currentMetricValue = 0;
     bool activeSimulation = false;
+    bool activeSensitivity = false;
 
     ToolTipController toolTipController = ToolTipController();
 
