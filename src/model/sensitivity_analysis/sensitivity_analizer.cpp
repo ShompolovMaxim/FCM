@@ -8,7 +8,7 @@ SensitivityAnalizer::SensitivityAnalizer(const SensitivityAnalysisParameters& pa
     : parameters(parameters), predictionParameters(predictionParameters) {
     predictor = std::make_shared<FinalStatePredictor>(predictionParameters);
     metricsManager = std::make_shared<MetricsManager>(MetricsFabric().create(predictionParameters.metric), predictionParameters);
-    gen = std::mt19937(rd());
+    gen = std::mt19937(7);
 }
 
 void SensitivityAnalizer::analize(CalculationFCM fcm) {

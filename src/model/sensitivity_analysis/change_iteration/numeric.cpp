@@ -4,7 +4,9 @@
 #include "model/entities/calculation_weight.h"
 
 template <typename T>
-NumericChangeIterator<T>::NumericChangeIterator(T value, double step, int index) : value(value), initialValue(value.value), step(step), index(index) {}
+NumericChangeIterator<T>::NumericChangeIterator(T value, double step, int index) : value(value), initialValue(value.value), step(step), index(index) {
+    this->value.value = initialValue + step * index;
+}
 
 template <typename T>
 void NumericChangeIterator<T>::next() {

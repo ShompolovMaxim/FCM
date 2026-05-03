@@ -6,7 +6,13 @@
 
 template <typename T>
 FuzzyChangeIterator<T>::FuzzyChangeIterator(T value, double step, int maxIndex, int indexL, int indexM, int indexU)
-    : value(value), initialValue(value.triangularFuzzyValue), step(step), maxIndex(maxIndex), indexL(indexL), indexM(indexM), indexU(indexU) {}
+    : value(value), initialValue(value.triangularFuzzyValue), step(step), maxIndex(maxIndex), indexL(indexL), indexM(indexM), indexU(indexU) {
+    this->value.triangularFuzzyValue = {
+        initialValue.l + indexL * step,
+        initialValue.m + indexM * step,
+        initialValue.u + indexU * step
+    };
+}
 
 template <typename T>
 void FuzzyChangeIterator<T>::next() {
