@@ -16,7 +16,7 @@
 class GraphScene : public QGraphicsScene {
     Q_OBJECT
 public:
-    GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter);
+    GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter, ElementWindowMode elementWindowMode);
 
     void setMode(EditMode m) { mode = m; }
 
@@ -24,7 +24,7 @@ public:
 
     std::shared_ptr<FCM> getFCM() { return fcm; }
 
-    GraphScene* copy() const;
+    GraphScene* copy(ElementWindowMode elementWindowMode) const;
 
     void setConceptColor(QUuid id, QColor color, bool highlight);
     void setWeightColor(QUuid id, QColor color);
@@ -59,4 +59,5 @@ private:
     std::map<QUuid, EdgeItem*> edges;
     bool conceptCreationColorEditBlocked = false;
     bool conceptPositionChangedFlag = false;
+    ElementWindowMode elementWindowMode;
 };

@@ -4,6 +4,8 @@
 #include "model/entities/term.h"
 #include "model/entities/weight.h"
 
+#include "presenter/element_window_mode.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -15,7 +17,7 @@ class WeightWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent = nullptr);
+    explicit WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, ElementWindowMode mode, QWidget *parent = nullptr);
     ~WeightWindow();
 
     void setPredictedValues();
@@ -45,7 +47,7 @@ private:
     Ui::WeightWindow *ui;
     const std::map<QUuid, std::shared_ptr<Term>>& terms;
     std::shared_ptr<Weight> currentWeight;
-    bool creation;
+    ElementWindowMode mode;
 };
 
 #endif // WEIGHT_WINDOW_H

@@ -66,17 +66,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     fcm = std::make_shared<FCM>();
 
-    creationPresenter = std::make_shared<CreationPresenter>(fcm, nullptr);
+    creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     presenter = std::make_shared<SimulationPresenter>(creationPresenter, nullptr);
 
-    auto* scene = new GraphScene(fcm, creationPresenter);
+    auto* scene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     ui->graphicsViewGraph->setScene(scene);
     ui->graphicsViewPredict->setScene(scene);
     ui->graphicsViewSensitivity->setScene(scene);
 
-    auto* staticAnalysisScene = new GraphScene(fcm, creationPresenter);
+    auto* staticAnalysisScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     staticAnalysisScene->setMode(EditMode::EditValues);
     staticAnalysisScene->blockConceptCreationColorEdit(true);
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
@@ -220,6 +220,10 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+    event->accept();
+}
+
 void MainWindow::descriptionChanged() {
     QSignalBlocker b1(ui->modelNotes);
     QSignalBlocker b2(ui->textEditNotesPredict);
@@ -343,7 +347,7 @@ void MainWindow::predict() {
         ui->pushButtonFinish->setEnabled(true);
     }
 
-    auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
+    auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(ElementWindowMode::PredictionResults);
     auto* oldPredictScene = ui->graphicsViewPredict->scene();
     ui->graphicsViewPredict->setScene(predictScene);
     if (oldPredictScene != ui->graphicsViewGraph->scene()) {
@@ -460,7 +464,7 @@ void MainWindow::analize() {
     ui->changeConcepts->setEnabled(false);
     ui->changeWeights->setEnabled(false);
 
-    auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy();
+    auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(ElementWindowMode::SensitivityAnalysis);
     auto* oldSensitivityScene = ui->graphicsViewGraph->scene();
     ui->graphicsViewSensitivity->setScene(sensitivityScene);
     if (oldSensitivityScene != ui->graphicsViewGraph->scene()) {
@@ -945,16 +949,16 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
 
     ui->treeWidgetTerms->expandAll();
 
-    creationPresenter = std::make_shared<CreationPresenter>(fcm);
+    creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     ui->adjacencyTableView->loadFromFCM(fcm);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     presenter = std::make_shared<SimulationPresenter>(creationPresenter);
-    QObject::connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
-    QObject::connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
+    connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
+    connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
-    auto newScene = new GraphScene(fcm, creationPresenter);
-    QObject::connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
-    QObject::connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
+    auto newScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
+    connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
+    connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     auto oldSceneCreate = ui->graphicsViewGraph->scene();
     auto oldScenePredict = ui->graphicsViewPredict->scene();
     auto oldSceneSensitivity = ui->graphicsViewSensitivity->scene();
@@ -970,7 +974,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     delete oldSceneCreate;
 
     auto* oldStaticAnalysisScene = ui->staticAnalysis->findChild<GraphView*>("graphicsView")->scene();
-    auto* newStaticAnalysisScene = new GraphScene(fcm, creationPresenter);
+    auto* newStaticAnalysisScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     newStaticAnalysisScene->blockConceptCreationColorEdit(true);
     newStaticAnalysisScene->setMode(EditMode::EditValues);
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(newStaticAnalysisScene);
@@ -1098,7 +1102,7 @@ void MainWindow::onExportPng()
     QPixmap pixmap = ui->graphicsViewGraph->grab();
 
     if (!pixmap.save(fileName, "PNG")) {
-        QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Unable to save PNG to the selected file!"));
+        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Unable to save PNG to the selected file!"));
     }
 }
 
@@ -1119,7 +1123,7 @@ void MainWindow::onExportJson() {
     updateFCM();
     if (!JsonRepository::exportToJson(*fcm, fileName))
     {
-        QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Failed to save file."));
+        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to save file."));
     }
 }
 
@@ -1138,7 +1142,7 @@ void MainWindow::onImportJson() {
     auto model = JsonRepository::importFromJson(fileName);
 
     if (!model) {
-        QMessageBox::warning(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
+        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
     }
 
     fcm = std::make_shared<FCM>(*model);

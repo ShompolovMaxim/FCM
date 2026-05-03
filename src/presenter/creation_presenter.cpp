@@ -1,6 +1,15 @@
 #include "creation_presenter.h"
 
-CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QObject* parent) : QObject(parent), fcm(fcm) {}
+CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent) : QObject(parent), fcm(fcm), elementWindowParent(elementWindowParent) {}
+
+void CreationPresenter::closeWindows() {
+    for (auto& [id, _] : conceptWindows) {
+        delete conceptWindows[id];
+    }
+    for (auto& [id, _] : weightWindows) {
+        delete weightWindows[id];
+    }
+}
 
 void CreationPresenter::createConcept(const QPointF pos) {
     auto id = QUuid::createUuid();
@@ -9,7 +18,7 @@ void CreationPresenter::createConcept(const QPointF pos) {
     fcm->concepts[id]->pos = pos;
     emit conceptCreated(fcm->concepts[id]);
 
-    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], dynamic_cast<QWidget*>(parent()));
+    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], ElementWindowMode::CreateElement, elementWindowParent);
     conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(conceptWindow, &ConceptWindow::applied,
@@ -29,13 +38,13 @@ void CreationPresenter::createConcept(const QPointF pos) {
     conceptWindow->show();
 }
 
-void CreationPresenter::updateConcept(QUuid id) {
+void CreationPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
     if (conceptWindows.find(id) != conceptWindows.end()) {
         conceptWindows[id]->raise();
         return;
     }
 
-    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], dynamic_cast<QWidget*>(parent()));
+    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], mode, elementWindowParent);
     conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(conceptWindow, &ConceptWindow::applied,
@@ -81,7 +90,7 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
     emit weightCreated(fcm->weights[id]);
 
 
-    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], dynamic_cast<QWidget*>(parent()));
+    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], ElementWindowMode::CreateElement, elementWindowParent);
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,
@@ -101,13 +110,13 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
     weightWindow->show();
 }
 
-void CreationPresenter::updateWeight(QUuid id) {
+void CreationPresenter::updateWeight(QUuid id, ElementWindowMode mode) {
     if (weightWindows.find(id) != weightWindows.end()) {
         weightWindows[id]->raise();
         return;
     }
 
-    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], dynamic_cast<QWidget*>(parent()));
+    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], mode, elementWindowParent);
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,

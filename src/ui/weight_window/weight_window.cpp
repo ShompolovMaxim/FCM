@@ -3,17 +3,19 @@
 
 #include <QPushButton>
 
-WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, QWidget *parent)
-    : terms(terms), currentWeight(currentWeight), QDialog(parent), ui(new Ui::WeightWindow) {
+WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Weight> currentWeight, ElementWindowMode mode, QWidget *parent)
+    : terms(terms), currentWeight(currentWeight), QDialog(parent), mode(mode), ui(new Ui::WeightWindow) {
     ui->setupUi(this);
 
-    if (currentWeight->name.isEmpty()) {
+    if (mode == ElementWindowMode::CreateElement) {
         setWindowTitle(tr("Create weight"));
-        creation = true;
     } else {
-        setWindowTitle(currentWeight->name);
+        if (currentWeight->name.isEmpty()) {
+            setWindowTitle(tr("Update weight"));
+        } else {
+            setWindowTitle(currentWeight->name);
+        }
         ui->nameField->setText(currentWeight->name);
-        creation = false;
     }
     ui->notesField->setMarkdownText(currentWeight->description);
 
@@ -40,6 +42,13 @@ WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, 
     ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
 
     setPredictedValues();
+
+    if (mode == ElementWindowMode::PredictionResults) {
+        ui->tabWidget->setCurrentIndex(1);
+    }
+    if (mode == ElementWindowMode::SensitivityAnalysis) {
+        ui->tabWidget->setCurrentIndex(2);
+    }
 }
 
 WeightWindow::~WeightWindow() {
@@ -130,17 +139,18 @@ void WeightWindow::updateTermsList() {
     ui->valueField->clear();
     ui->valueField->addItem("", QVariant());
 
-    std::vector<std::pair<QString, QUuid>> sortedTerms;
+    std::vector<Term> sortedTerms;
     for (const auto& [id, term] : terms) {
         if (term->type == ElementType::Edge) {
-            sortedTerms.emplace_back(term->name, id);
+            sortedTerms.push_back(*term);
         }
     }
-    std::sort(sortedTerms.begin(), sortedTerms.end(),
-              [](const auto& a, const auto& b){ return a.first < b.first; });
+    std::sort(sortedTerms.begin(), sortedTerms.end(), [](const auto& a, const auto& b){
+        return a.value + a.fuzzyValue.defuzzify() < b.value + b.fuzzyValue.defuzzify();
+    });
 
-    for (const auto& [name, id] : sortedTerms) {
-        ui->valueField->addItem(name, QVariant::fromValue(id));
+    for (const auto& term : sortedTerms) {
+        ui->valueField->addItem(term.name, QVariant::fromValue(term.id));
     }
 
     if (currentWeight->term) {
@@ -156,8 +166,14 @@ void WeightWindow::updateTermsList() {
 void WeightWindow::onApplyClicked() {
     updateCurrentWeight();
     emit applied(currentWeight);
-    creation = false;
-    setWindowTitle(currentWeight->name);
+    if (currentWeight->name.isEmpty()) {
+        setWindowTitle(tr("Update weight"));
+    } else {
+        setWindowTitle(currentWeight->name);
+    }
+    if (mode == ElementWindowMode::CreateElement) {
+        mode = ElementWindowMode::UpdateElement;
+    }
 }
 
 void WeightWindow::onOkClicked() {
@@ -167,7 +183,7 @@ void WeightWindow::onOkClicked() {
 }
 
 void WeightWindow::onCancelClicked() {
-    if (creation) {
+    if (mode == ElementWindowMode::CreateElement) {
         emit deleted(currentWeight->id);
     }
     close();
@@ -179,7 +195,6 @@ void WeightWindow::closeEvent(QCloseEvent* event) {
 
 void WeightWindow::onDelete() {
     emit deleted(currentWeight->id);
-    creation = false;
     close();
 }
 
@@ -204,7 +219,11 @@ void WeightWindow::retranslate() {
     if (currentWeight->name.isEmpty()) {
         setWindowTitle(tr("Create weight"));
     } else {
-        setWindowTitle(currentWeight->name);
+        if (currentWeight->name.isEmpty()) {
+            setWindowTitle(tr("Update weight"));
+        } else {
+            setWindowTitle(currentWeight->name);
+        }
     }
     ui->plot->xAxis->setLabel(tr("step"));
     ui->plot->yAxis->setLabel(tr("weight value"));

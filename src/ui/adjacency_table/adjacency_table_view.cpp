@@ -16,7 +16,7 @@ void AdjacencyTableView::onCellClicked(const QModelIndex& index) {
     if (idxsWeights.find(index) == idxsWeights.end()) {
         presenter->createWeight(rowsConcepts[index.row()], rowsConcepts[index.column()]);
     } else {
-        presenter->updateWeight(idxsWeights[index]);
+        presenter->updateWeight(idxsWeights[index], ElementWindowMode::UpdateElement);
     }
 }
 
@@ -94,7 +94,7 @@ void AdjacencyTableView::conceptDeleted(QUuid conceptId) {
 }
 
 void AdjacencyTableView::updateConcept(int idx) {
-    presenter->updateConcept(rowsConcepts[idx]);
+    presenter->updateConcept(rowsConcepts[idx], ElementWindowMode::UpdateElement);
 }
 
 void AdjacencyTableView::loadFromFCM(const std::shared_ptr<FCM>& fcm) {
@@ -103,7 +103,6 @@ void AdjacencyTableView::loadFromFCM(const std::shared_ptr<FCM>& fcm) {
     conceptsRows.clear();
     idxsWeights.clear();
 
-    //model->blockSignals(true);
     for (const auto& [id, concept] : fcm->concepts) {
         conceptCreated(concept);
     }
@@ -116,6 +115,4 @@ void AdjacencyTableView::loadFromFCM(const std::shared_ptr<FCM>& fcm) {
     for (const auto& [id, weight] : fcm->weights) {
         weightUpdated(weight);
     }
-    //resizeColumnsToContents();
-    //model->blockSignals(false);
 }

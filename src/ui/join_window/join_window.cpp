@@ -145,12 +145,20 @@ QMap<JoinGroupType, QList<QString>> JoinWindow::getSelectedNames() const {
 }
 
 void JoinWindow::next() {
+    selectedNames = getSelectedNames();
+    size_t modelsCount = 0;
+    for (const auto& models : selectedNames) {
+        modelsCount += models.size();
+    }
+    if (modelsCount < 2) {
+        QMessageBox::critical(this, tr("Error"), tr("Please select at least 2 models to join!"));
+        return;
+    }
     backButton->show();
     okButton->show();
     nextButton->hide();
     ui->modelListLabel->setText(tr("Choose model which terms will be used:"));
     selectionMode = SelectionMode::Single;
-    selectedNames = getSelectedNames();
     populateTree({selectedNames[JoinGroupType::Unsaved], selectedNames[JoinGroupType::Saved], templatesNames}, {tr("Unsaved models"), tr("Saved models"), tr("Templates")});
     filterTree(ui->filterLine->text());
 }
@@ -169,7 +177,7 @@ void JoinWindow::onOkClicked() {
     termsModel = getSelectedName();
 
     if (termsModel.isEmpty()) {
-        QMessageBox::warning(this, tr("Warning"), tr("Please select a terms model before proceeding."));
+        QMessageBox::critical(this, tr("Error"), tr("Please select a terms model before proceeding!"));
         return;
     }
 

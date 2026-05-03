@@ -1,6 +1,7 @@
 #include "graph_scene.h"
 
-GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter) : fcm(fcm), presenter(presenter) {
+GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter, ElementWindowMode elementWindowMode)
+    : fcm(fcm), presenter(presenter), elementWindowMode(elementWindowMode) {
     setSceneRect(-10000, -10000, 20000, 20000);
     if (!fcm) {
         return;
@@ -125,11 +126,11 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
 
-            presenter->updateConcept(n->getId());
+            presenter->updateConcept(n->getId(), elementWindowMode);
         }
 
         if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
-            presenter->updateWeight(ed->getId());
+            presenter->updateWeight(ed->getId(), elementWindowMode);
         }
     }
     if (mode == EditMode::Create && editable) {
@@ -147,8 +148,8 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     }
 }
 
-GraphScene* GraphScene::copy() const {
-    auto copyScene = new GraphScene({}, presenter);
+GraphScene* GraphScene::copy(ElementWindowMode elementWindowMode) const {
+    auto copyScene = new GraphScene({}, presenter, elementWindowMode);
     copyScene->setFCM(std::make_shared<FCM>(*fcm));
     for (QGraphicsItem* item : items()) {
         if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {

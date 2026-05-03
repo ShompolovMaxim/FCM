@@ -3,17 +3,19 @@
 
 #include <QPushButton>
 
-ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, QWidget *parent)
-    : terms(terms), currentConcept(currentConcept), QDialog(parent), ui(new Ui::ConceptWindow) {
+ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, ElementWindowMode mode, QWidget *parent)
+    : terms(terms), currentConcept(currentConcept), QDialog(parent), mode(mode), ui(new Ui::ConceptWindow) {
     ui->setupUi(this);
 
-    if (currentConcept->name.isEmpty()) {
+    if (mode == ElementWindowMode::CreateElement) {
         setWindowTitle(tr("Create concept"));
-        creation = true;
     } else {
-        setWindowTitle(currentConcept->name);
+        if (currentConcept->name.isEmpty()) {
+            setWindowTitle(tr("Update concept"));
+        } else {
+            setWindowTitle(currentConcept->name);
+        }
         ui->nameField->setText(currentConcept->name);
-        creation = false;
     }
     ui->notesField->setMarkdownText(currentConcept->description);
     ui->startStepField->setValue(currentConcept->startStep);
@@ -41,6 +43,13 @@ ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms
     ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
 
     setPredictedValues();
+
+    if (mode == ElementWindowMode::PredictionResults) {
+        ui->tabWidget->setCurrentIndex(1);
+    }
+    if (mode == ElementWindowMode::SensitivityAnalysis) {
+        ui->tabWidget->setCurrentIndex(2);
+    }
 }
 
 void ConceptWindow::setPredictedValues() {
@@ -127,17 +136,18 @@ void ConceptWindow::updateTermsList() {
     ui->valueField->clear();
     ui->valueField->addItem("", QVariant());
 
-    std::vector<std::pair<QString, QUuid>> sortedTerms;
+    std::vector<Term> sortedTerms;
     for (const auto& [id, term] : terms) {
         if (term->type == ElementType::Node) {
-            sortedTerms.emplace_back(term->name, id);
+            sortedTerms.push_back(*term);
         }
     }
-    std::sort(sortedTerms.begin(), sortedTerms.end(),
-              [](const auto& a, const auto& b){ return a.first < b.first; });
+    std::sort(sortedTerms.begin(), sortedTerms.end(), [](const auto& a, const auto& b){
+        return a.value + a.fuzzyValue.defuzzify() < b.value + b.fuzzyValue.defuzzify();
+    });
 
-    for (const auto& [name, id] : sortedTerms) {
-        ui->valueField->addItem(name, QVariant::fromValue(id));
+    for (const auto& term : sortedTerms) {
+        ui->valueField->addItem(term.name, QVariant::fromValue(term.id));
     }
 
     if (currentConcept->term) {
@@ -150,21 +160,25 @@ void ConceptWindow::updateTermsList() {
     }
 }
 
-ConceptWindow::~ConceptWindow()
-{
+ConceptWindow::~ConceptWindow() {
     delete ui;
 }
 
-void ConceptWindow::onApplyClicked()
-{
+void ConceptWindow::onApplyClicked() {
     updateCurrentConcept();
     emit applied(currentConcept);
-    creation = false;
-    setWindowTitle(currentConcept->name);
+    if (currentConcept->name.isEmpty()) {
+        setWindowTitle(tr("Update concept"));
+    } else {
+        setWindowTitle(currentConcept->name);
+    }
+    if (mode == ElementWindowMode::CreateElement) {
+        mode = ElementWindowMode::UpdateElement;
+    }
 }
 
 void ConceptWindow::onCancelClicked() {
-    if (creation) {
+    if (mode == ElementWindowMode::CreateElement) {
         emit deleted(currentConcept->id);
     }
     close();
@@ -183,7 +197,6 @@ void ConceptWindow::onOkClicked()
 
 void ConceptWindow::onDelete() {
     emit deleted(currentConcept->id);
-    creation = false;
     close();
 }
 
@@ -209,7 +222,11 @@ void ConceptWindow::retranslate() {
     if (currentConcept->name.isEmpty()) {
         setWindowTitle(tr("Create concept"));
     } else {
-        setWindowTitle(currentConcept->name);
+        if (currentConcept->name.isEmpty()) {
+            setWindowTitle(tr("Update concept"));
+        } else {
+            setWindowTitle(currentConcept->name);
+        }
     }
     ui->plot->xAxis->setLabel(tr("step"));
     ui->plot->yAxis->setLabel(tr("concept value"));

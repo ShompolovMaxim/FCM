@@ -4,6 +4,8 @@
 #include "model/entities/term.h"
 #include "model/entities/concept.h"
 
+#include "presenter/element_window_mode.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -15,7 +17,7 @@ class ConceptWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, QWidget *parent = nullptr);
+    explicit ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, ElementWindowMode mode, QWidget *parent = nullptr);
     ~ConceptWindow();
 
     void setPredictedValues();
@@ -42,10 +44,10 @@ private:
     void setFuzzyPredictedValues();
     void setSensitivity();
 
-    bool creation;
     Ui::ConceptWindow *ui;
     const std::map<QUuid, std::shared_ptr<Term>>& terms;
     std::shared_ptr<Concept> currentConcept;
+    ElementWindowMode mode;
 };
 
 #endif // CONCEPT_WINDOW_H
