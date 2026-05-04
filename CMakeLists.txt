@@ -54,7 +54,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/graph_editor/color_value_adapter/IColorValueAdapter.h
         src/ui/graph_editor/color_value_adapter/color_value_adapter.h src/ui/graph_editor/color_value_adapter/color_value_adapter.cpp
         src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
-        src/presenter/prediction_parameters.h
+        src/presenter/prediction_parameters.h src/presenter/prediction_parameters.cpp
         src/presenter/simulation_parameters.h
         src/model/activation_functions/activation_function.h
         src/model/activation_functions/bivalent.h src/model/activation_functions/bivalent.cpp
@@ -70,17 +70,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/metrics/mse.h src/model/metrics/mse.cpp
         src/model/entities/calculation_fcm.h
         src/model/predictor.h src/model/predictor.cpp
-        src/model/entities/term.h
+        src/model/entities/term.h src/model/entities/term.cpp
         src/model/fuzzy_logic/fuzzifier.h
         src/model/fuzzy_logic/linear_fuzzifier.h src/model/fuzzy_logic/linear_fuzzifier.cpp
-        src/model/entities/concept.h
-        src/model/entities/weight.h
-        src/model/entities/fcm.h
+        src/model/entities/concept.h src/model/entities/concept.cpp
+        src/model/entities/weight.h src/model/entities/weight.cpp
+        src/model/entities/fcm.h src/model/entities/fcm.cpp
         src/model/entities/helpers/fcm_copy.h src/model/entities/helpers/fcm_copy.cpp
+        src/model/entities/helpers/equality.h src/model/entities/helpers/equality.cpp
 
         src/presenter/edit_mode.h
         src/ui/graph_editor/edit_mode.h
-        src/model/entities/experiment.h
+        src/model/entities/experiment.h src/model/entities/experiment.cpp
         src/model/stop_conditions/stop_condition.h
         src/model/stop_conditions/fixed_steps.h src/model/stop_conditions/fixed_steps.cpp
         src/ui/concept_window/concept_window.h src/ui/concept_window/concept_window.cpp src/ui/concept_window/concept_window.ui

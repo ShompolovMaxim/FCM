@@ -3,6 +3,9 @@
 #include "term.h"
 
 #include <map>
+#include <memory>
+#include <variant>
+#include <vector>
 
 #include <QPointF>
 #include <QUuid>
@@ -18,4 +21,7 @@ struct Concept {
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
     std::map<double, double> sensitivity;
+
+    bool operator==(const Concept& other) const;
+    bool operator!=(const Concept& other) const;
 };

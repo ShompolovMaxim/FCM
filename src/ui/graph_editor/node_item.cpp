@@ -53,7 +53,7 @@ void NodeItem::setColor(QColor color) {
 QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant& val) {
     if (change == ItemPositionHasChanged) {
         concept->pos = scenePos();
-        emit positionChanged();
+        emit positionChanged(concept->id);
 
         for (EdgeItem* e : edges) {
             e->updatePosition();

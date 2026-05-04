@@ -195,38 +195,38 @@
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="11"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="223"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="237"/>
         <source>Create concept</source>
         <translation>Создание фактора</translation>
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="14"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="171"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="226"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="185"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="240"/>
         <source>Update concept</source>
         <translation>Изменить фактор</translation>
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="34"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="231"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="245"/>
         <source>step</source>
         <translation>шаг</translation>
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="35"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="232"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="246"/>
         <source>concept value</source>
         <translation>значение фактора</translation>
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="42"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="233"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="247"/>
         <source>change</source>
         <translation>изменение</translation>
     </message>
     <message>
         <location filename="../src/ui/concept_window/concept_window.cpp" line="43"/>
-        <location filename="../src/ui/concept_window/concept_window.cpp" line="234"/>
+        <location filename="../src/ui/concept_window/concept_window.cpp" line="248"/>
         <source>sensitivity</source>
         <translation>чувствительность</translation>
     </message>
@@ -387,7 +387,7 @@
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_join_window.h" line="160"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_join_window.h" line="160"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_join_window.h" line="160"/>
-        <location filename="../src/ui/join_window/join_window.cpp" line="166"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="170"/>
         <source>Choose models to join:</source>
         <translation>Выбор объединяемых моделей:</translation>
     </message>
@@ -413,40 +413,40 @@
     </message>
     <message>
         <location filename="../src/ui/join_window/join_window.cpp" line="52"/>
-        <location filename="../src/ui/join_window/join_window.cpp" line="158"/>
-        <location filename="../src/ui/join_window/join_window.cpp" line="168"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="162"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="172"/>
         <source>Saved models</source>
         <translation>Сохранённые модели</translation>
     </message>
     <message>
-        <location filename="../src/ui/join_window/join_window.cpp" line="150"/>
-        <location filename="../src/ui/join_window/join_window.cpp" line="176"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="154"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="180"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/ui/join_window/join_window.cpp" line="150"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="154"/>
         <source>Please select at least 2 models to join!</source>
         <translation>Выберите хотя бы 2 модели для объединения!</translation>
     </message>
     <message>
-        <location filename="../src/ui/join_window/join_window.cpp" line="156"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="160"/>
         <source>Choose model which terms will be used:</source>
         <translation>Выберите модель, термы которой будут использованы:</translation>
     </message>
     <message>
-        <location filename="../src/ui/join_window/join_window.cpp" line="158"/>
-        <location filename="../src/ui/join_window/join_window.cpp" line="168"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="162"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="172"/>
         <source>Unsaved models</source>
         <translation>Несохранённые модели</translation>
     </message>
     <message>
-        <location filename="../src/ui/join_window/join_window.cpp" line="158"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="162"/>
         <source>Templates</source>
         <translation>Шаблоны</translation>
     </message>
     <message>
-        <location filename="../src/ui/join_window/join_window.cpp" line="176"/>
+        <location filename="../src/ui/join_window/join_window.cpp" line="180"/>
         <source>Please select a terms model before proceeding!</source>
         <translation>Выберите модель, термы которой будут использованы!</translation>
     </message>
@@ -486,8 +486,8 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="23"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1383"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1384"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1385"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1376"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1380"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1376"/>
@@ -496,11 +496,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="55"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2003"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1401"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1481"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1402"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1482"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2006"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1403"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1483"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1403"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1483"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1394"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1470"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1398"/>
@@ -513,10 +513,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="66"/>
         <location filename="../src/ui/main_window/main_window.ui" line="75"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1419"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1422"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1420"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1423"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1421"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1424"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1421"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1424"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1408"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1411"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1416"/>
@@ -528,8 +528,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="84"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1423"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1424"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1425"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1425"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1412"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1420"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1412"/>
@@ -538,8 +538,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="248"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1458"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1459"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1460"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1460"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1447"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1455"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1447"/>
@@ -548,8 +548,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="219"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1454"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1455"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1456"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1456"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1443"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1451"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1443"/>
@@ -558,8 +558,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="212"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1453"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1454"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1455"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1455"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1442"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1450"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1442"/>
@@ -568,8 +568,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="277"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1462"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1463"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1464"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1464"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1451"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1459"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1451"/>
@@ -578,8 +578,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="186"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1449"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1450"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1451"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1451"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1438"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1446"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1438"/>
@@ -588,8 +588,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="321"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1472"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1473"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1474"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1474"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1461"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1469"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1461"/>
@@ -600,12 +600,12 @@
         <location filename="../src/ui/main_window/main_window.ui" line="385"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1205"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1723"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1480"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1646"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1748"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1481"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1647"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1749"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1482"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1648"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1750"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1482"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1648"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1750"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1469"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1639"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1741"/>
@@ -620,8 +620,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="330"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1473"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1474"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1475"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1475"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1462"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1470"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1462"/>
@@ -630,8 +630,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="97"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1427"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1428"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1429"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1429"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1416"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1424"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1416"/>
@@ -640,23 +640,23 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="110"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1431"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1432"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1433"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1433"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1420"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1428"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1420"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="286"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1361"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="304"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1460"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="123"/>
         <location filename="../src/ui/main_window/main_window.ui" line="146"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1435"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1440"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1436"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1441"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1437"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1442"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1437"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1442"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1424"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1429"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1432"/>
@@ -672,11 +672,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="396"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2014"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1402"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1500"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1403"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1501"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2017"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1404"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1502"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1404"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1502"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1489"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
@@ -688,13 +688,13 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="436"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1491"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1492"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1493"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1493"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1480"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1488"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1480"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="261"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1342"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="279"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1441"/>
         <source>Mode: Create</source>
         <translation>Режим создания</translation>
     </message>
@@ -702,12 +702,12 @@
         <location filename="../src/ui/main_window/main_window.ui" line="452"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1230"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1748"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1495"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1659"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1761"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1496"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1660"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1762"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1497"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1661"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1763"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1497"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1661"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1763"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1484"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1652"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1754"/>
@@ -724,12 +724,12 @@
         <location filename="../src/ui/main_window/main_window.ui" line="471"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1243"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1761"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1499"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1663"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1765"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1500"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1664"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1766"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1501"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1665"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1767"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1501"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1665"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1767"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1488"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1656"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1758"/>
@@ -744,11 +744,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="486"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2025"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1403"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1507"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1404"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1508"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2028"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1405"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1509"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1509"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1396"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1496"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1400"/>
@@ -760,11 +760,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="521"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2036"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1404"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1544"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1545"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2039"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1406"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1546"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1406"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1546"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1397"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1533"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1401"/>
@@ -776,8 +776,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="573"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1512"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1513"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1514"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1514"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1501"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1509"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1501"/>
@@ -786,8 +786,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="578"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1514"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1515"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1516"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1516"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1503"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1511"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1503"/>
@@ -796,8 +796,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="583"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1516"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1517"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1518"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1518"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1505"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1513"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1505"/>
@@ -806,8 +806,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="588"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1518"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1519"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1520"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1520"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1507"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1515"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1507"/>
@@ -816,8 +816,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="630"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1526"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1527"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1528"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1528"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1515"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1523"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1515"/>
@@ -826,8 +826,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="641"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1527"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1528"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1529"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1529"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1516"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1524"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1516"/>
@@ -836,8 +836,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="646"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1528"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1529"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1530"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1530"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1517"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1525"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1517"/>
@@ -846,8 +846,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="661"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1536"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1537"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1538"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1538"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1525"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1533"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1525"/>
@@ -857,10 +857,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="684"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1111"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1540"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1620"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1541"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1621"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1542"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1622"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1542"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1622"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1529"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1609"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1537"/>
@@ -872,8 +872,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="598"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1522"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1523"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1524"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1524"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1511"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1519"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1511"/>
@@ -882,8 +882,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="52"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1416"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1417"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1418"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1418"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1413"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1405"/>
@@ -892,8 +892,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="94"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1425"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1426"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1427"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1427"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1414"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1422"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1414"/>
@@ -902,8 +902,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="107"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1429"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1430"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1431"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1431"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1418"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1426"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1418"/>
@@ -912,8 +912,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="120"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1433"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1434"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1435"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1435"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1422"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1430"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1422"/>
@@ -922,8 +922,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="136"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1436"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1437"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1438"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1438"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1425"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1433"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1425"/>
@@ -932,8 +932,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="143"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1438"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1439"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1440"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1440"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1427"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1435"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1427"/>
@@ -942,8 +942,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="156"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1442"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1443"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1444"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1444"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1431"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1439"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1431"/>
@@ -952,8 +952,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="159"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1444"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1445"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1446"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1446"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1433"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1441"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1433"/>
@@ -962,8 +962,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="169"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1446"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1447"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1448"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1448"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1435"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1443"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1435"/>
@@ -972,8 +972,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="172"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1448"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1449"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1450"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1450"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1437"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1445"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1437"/>
@@ -982,8 +982,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="196"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1451"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1452"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1453"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1453"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1440"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1448"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1440"/>
@@ -992,8 +992,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="232"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1456"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1457"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1458"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1458"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1445"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1453"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1445"/>
@@ -1002,8 +1002,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="261"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1460"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1461"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1462"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1462"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1449"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1457"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1449"/>
@@ -1012,8 +1012,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="290"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1464"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1465"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1466"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1466"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1453"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1461"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1453"/>
@@ -1022,8 +1022,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="308"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1467"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1468"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1469"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1469"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1456"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1464"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1456"/>
@@ -1032,8 +1032,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="318"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1470"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1471"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1472"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1472"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1459"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1467"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1459"/>
@@ -1042,8 +1042,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="343"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1475"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1476"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1477"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1477"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1464"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1472"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1464"/>
@@ -1052,8 +1052,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="382"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1478"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1479"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1480"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1480"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1467"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1475"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1467"/>
@@ -1062,8 +1062,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="393"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1483"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1484"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1485"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1485"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1472"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1480"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1472"/>
@@ -1072,8 +1072,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="404"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1486"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1487"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1488"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1488"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1475"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1483"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1475"/>
@@ -1082,8 +1082,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="433"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1489"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1490"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1491"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1491"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1478"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1486"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1478"/>
@@ -1092,8 +1092,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="449"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1493"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1494"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1495"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1495"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1482"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1490"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1482"/>
@@ -1102,8 +1102,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="468"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1497"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1498"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1499"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1499"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1486"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1494"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1486"/>
@@ -1112,8 +1112,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="483"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1502"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1503"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1504"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1504"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1491"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1499"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1491"/>
@@ -1122,8 +1122,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="504"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1505"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1506"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1507"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1507"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1494"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1502"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1494"/>
@@ -1132,8 +1132,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="518"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1509"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1510"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1511"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1511"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1498"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1506"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1498"/>
@@ -1142,8 +1142,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="545"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1520"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1521"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1522"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1522"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1509"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1517"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1509"/>
@@ -1152,8 +1152,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="605"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1523"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1524"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1525"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1525"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1512"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1520"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1512"/>
@@ -1162,8 +1162,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="612"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1524"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1525"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1526"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1526"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1513"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1521"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1513"/>
@@ -1172,8 +1172,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="637"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1531"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1532"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1533"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1533"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1520"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1528"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1520"/>
@@ -1182,8 +1182,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="654"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1534"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1535"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1536"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1536"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1523"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1531"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1523"/>
@@ -1192,8 +1192,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="671"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1538"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1539"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1540"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1540"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1527"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1535"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1527"/>
@@ -1202,8 +1202,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="696"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1542"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1543"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1544"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1544"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1531"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1539"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1531"/>
@@ -1212,8 +1212,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="710"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1546"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1547"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1548"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1548"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1535"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1543"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1535"/>
@@ -1222,11 +1222,11 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="713"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2047"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1405"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1664"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1406"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1665"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2050"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1407"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1666"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1407"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1666"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1398"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1657"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1402"/>
@@ -1238,8 +1238,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="719"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1549"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1550"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1551"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1551"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1538"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1546"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1538"/>
@@ -1248,8 +1248,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="747"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1553"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1554"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1555"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1555"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1542"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1550"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1542"/>
@@ -1258,8 +1258,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="757"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1557"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1558"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1559"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1559"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1546"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1554"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1546"/>
@@ -1268,8 +1268,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="785"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1560"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1561"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1562"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1562"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1549"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1557"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1549"/>
@@ -1278,8 +1278,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="788"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1562"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1563"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1564"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1564"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1551"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1559"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1551"/>
@@ -1288,8 +1288,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="798"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1564"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1565"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1566"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1566"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1553"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1561"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1553"/>
@@ -1299,10 +1299,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="801"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1389"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1566"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1688"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1567"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1689"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1568"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1690"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1568"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1690"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1555"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1681"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1563"/>
@@ -1315,10 +1315,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="812"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1410"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1567"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1693"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1568"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1694"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1569"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1695"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1569"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1695"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1556"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1686"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1564"/>
@@ -1331,10 +1331,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="819"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1417"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1572"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1698"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1573"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1699"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1574"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1700"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1574"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1700"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1561"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1691"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1569"/>
@@ -1347,10 +1347,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="823"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1421"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1568"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1694"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1569"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1695"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1570"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1696"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1570"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1696"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1557"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1687"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1565"/>
@@ -1363,10 +1363,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="828"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1426"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1569"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1695"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1570"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1696"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1571"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1697"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1571"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1697"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1558"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1688"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1566"/>
@@ -1379,10 +1379,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="838"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1436"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1575"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1701"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1576"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1702"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1577"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1703"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1577"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1703"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1564"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1694"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1572"/>
@@ -1393,9 +1393,9 @@
         <translation>Использовать алгоритмы, основанные на нечётких значениях</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="2104"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1413"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1414"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2107"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1415"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1415"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1410"/>
         <source>F1</source>
         <translation></translation>
@@ -1404,12 +1404,12 @@
         <location filename="../src/ui/main_window/main_window.ui" line="619"/>
         <location filename="../src/ui/main_window/main_window.ui" line="841"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1439"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1525"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1577"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1703"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1526"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1578"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1704"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1527"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1579"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1705"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1527"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1579"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1705"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1514"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1566"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1696"/>
@@ -1425,10 +1425,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="850"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1448"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1578"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1704"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1579"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1705"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1580"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1706"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1580"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1706"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1567"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1697"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1575"/>
@@ -1441,10 +1441,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="858"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1456"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1579"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1705"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1580"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1706"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1581"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1707"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1581"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1707"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1568"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1698"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1576"/>
@@ -1457,10 +1457,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="863"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1461"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1580"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1706"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1581"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1707"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1582"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1708"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1582"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1708"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1569"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1699"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1577"/>
@@ -1473,10 +1473,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="868"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1466"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1581"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1707"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1582"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1708"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1583"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1709"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1583"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1709"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1570"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1700"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1578"/>
@@ -1489,10 +1489,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="873"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1471"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1582"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1708"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1583"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1709"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1584"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1710"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1584"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1710"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1571"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1701"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1579"/>
@@ -1505,10 +1505,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="878"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1476"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1583"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1709"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1584"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1710"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1585"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1711"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1585"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1711"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1572"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1702"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1580"/>
@@ -1521,10 +1521,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="913"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1511"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1586"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1712"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1587"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1713"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1588"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1714"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1588"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1714"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1575"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1705"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1583"/>
@@ -1537,10 +1537,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="916"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1514"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1588"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1714"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1589"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1715"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1590"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1716"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1590"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1716"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1577"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1707"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1585"/>
@@ -1548,17 +1548,17 @@
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1577"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1707"/>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1327"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1426"/>
         <source>Predict to static</source>
         <translation>Предсказывать до статического состояния</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="925"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1523"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1589"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1715"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1590"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1716"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1591"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1717"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1591"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1717"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1578"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1708"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1586"/>
@@ -1571,10 +1571,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="935"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1533"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1595"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1721"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1596"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1722"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1597"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1723"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1597"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1723"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1584"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1714"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1592"/>
@@ -1587,10 +1587,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="939"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1537"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1590"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1716"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1591"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1717"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1592"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1718"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1592"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1718"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1579"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1709"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1587"/>
@@ -1603,10 +1603,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="944"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1542"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1591"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1717"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1592"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1718"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1593"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1719"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1593"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1719"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1580"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1710"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1588"/>
@@ -1619,10 +1619,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="949"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1547"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1592"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1718"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1593"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1719"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1594"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1720"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1594"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1720"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1581"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1711"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1589"/>
@@ -1635,10 +1635,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="961"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1559"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1597"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1723"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1598"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1724"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1599"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1725"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1599"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1725"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1586"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1716"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1594"/>
@@ -1651,10 +1651,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="971"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1569"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1599"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1725"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1600"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1726"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1601"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1727"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1601"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1727"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1588"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1718"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1596"/>
@@ -1667,10 +1667,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="985"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1583"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1601"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1727"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1602"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1728"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1603"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1729"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1603"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1729"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1590"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1720"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1598"/>
@@ -1683,10 +1683,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="995"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1593"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1603"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1729"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1604"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1730"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1605"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1731"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1605"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1731"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1592"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1722"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1600"/>
@@ -1699,10 +1699,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1012"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1610"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1605"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1731"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1606"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1732"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1607"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1733"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1607"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1733"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1594"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1724"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1602"/>
@@ -1715,10 +1715,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1019"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1617"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1607"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1733"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1608"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1734"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1609"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1735"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1609"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1735"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1596"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1726"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1604"/>
@@ -1730,8 +1730,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1059"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1610"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1611"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1612"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1612"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1599"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1607"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1599"/>
@@ -1740,8 +1740,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1062"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1612"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1613"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1614"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1614"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1601"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1609"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1601"/>
@@ -1750,8 +1750,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1074"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1613"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1614"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1615"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1615"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1602"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1610"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1602"/>
@@ -1760,8 +1760,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1081"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1615"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1616"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1617"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1617"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1604"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1612"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1604"/>
@@ -1770,8 +1770,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1098"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1618"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1619"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1620"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1620"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1607"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1615"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1607"/>
@@ -1780,8 +1780,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1124"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1622"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1623"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1624"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1624"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1611"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1619"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1611"/>
@@ -1790,8 +1790,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1127"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1624"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1625"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1626"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1626"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1613"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1621"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1613"/>
@@ -1800,8 +1800,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1137"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1626"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1627"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1628"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1628"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1615"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1623"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1615"/>
@@ -1810,8 +1810,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1140"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1628"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1629"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1630"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1630"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1617"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1625"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1617"/>
@@ -1820,8 +1820,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1154"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1630"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1631"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1632"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1632"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1619"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1627"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1619"/>
@@ -1830,8 +1830,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1157"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1632"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1633"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1634"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1634"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1621"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1629"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1621"/>
@@ -1840,8 +1840,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1167"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1634"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1635"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1636"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1636"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1623"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1631"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1623"/>
@@ -1850,20 +1850,20 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1170"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1636"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1637"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1638"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1638"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1625"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1633"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1625"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="401"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1346"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="420"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1445"/>
         <source>Pause</source>
         <translation>Пауза</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1180"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1638"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1639"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1640"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1640"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1627"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1635"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1627"/>
@@ -1872,8 +1872,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1183"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1640"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1641"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1642"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1642"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1629"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1637"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1629"/>
@@ -1882,8 +1882,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1193"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1642"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1643"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1644"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1644"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1631"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1639"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1631"/>
@@ -1892,8 +1892,8 @@
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1196"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1644"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1645"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1646"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1646"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1633"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1641"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1633"/>
@@ -1917,10 +1917,10 @@
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1211"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1729"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1648"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1750"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1649"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1751"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1650"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1752"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1650"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1752"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1641"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1743"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1649"/>
@@ -1938,9 +1938,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="2096"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1410"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1411"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2099"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1412"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1412"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1403"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1407"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1403"/>
@@ -1949,8 +1949,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="740"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1551"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1552"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1553"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1553"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1540"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1548"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1540"/>
@@ -1959,8 +1959,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="750"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1555"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1556"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1557"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1557"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1544"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1552"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1544"/>
@@ -1969,8 +1969,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1227"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1657"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1658"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1659"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1659"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1650"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1658"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1650"/>
@@ -1979,8 +1979,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1240"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1661"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1662"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1663"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1663"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1654"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1662"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1654"/>
@@ -1989,8 +1989,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1255"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1666"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1667"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1668"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1668"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1659"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1667"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1659"/>
@@ -1999,11 +1999,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1258"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2058"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1406"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1671"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1407"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1672"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2061"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1408"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1673"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1408"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1673"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1664"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1403"/>
@@ -2015,8 +2015,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1276"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1669"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1670"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1671"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1671"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1662"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1670"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1662"/>
@@ -2025,8 +2025,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1296"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1673"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1674"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1675"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1675"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1666"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1674"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1666"/>
@@ -2035,11 +2035,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1299"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2069"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1407"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1770"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1408"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1771"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2072"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1409"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1772"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1409"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1772"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1400"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1763"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1404"/>
@@ -2051,8 +2051,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1311"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1676"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1677"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1678"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1678"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1669"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1677"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1669"/>
@@ -2061,8 +2061,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1324"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1679"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1680"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1681"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1681"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1672"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1680"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1672"/>
@@ -2071,8 +2071,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1373"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1682"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1683"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1684"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1684"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1675"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1683"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1675"/>
@@ -2081,8 +2081,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1376"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1684"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1685"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1686"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1686"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1677"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1685"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1677"/>
@@ -2091,8 +2091,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1386"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1686"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1687"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1688"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1688"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1679"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1687"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1679"/>
@@ -2101,8 +2101,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1396"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1690"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1691"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1692"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1692"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1683"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1691"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1683"/>
@@ -2111,20 +2111,20 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1399"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1692"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1693"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1694"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1694"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1685"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1693"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1685"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="498"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1352"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="526"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1451"/>
         <source>FCM Sensitivity</source>
         <translation>Чувствительность НКК</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1659"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1735"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1736"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1737"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1737"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1728"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1736"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1728"/>
@@ -2133,8 +2133,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1669"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1737"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1738"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1739"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1739"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1730"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1738"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1730"/>
@@ -2143,8 +2143,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1692"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1740"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1741"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1742"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1742"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1733"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1741"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1733"/>
@@ -2153,8 +2153,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1695"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1742"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1743"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1744"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1744"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1735"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1743"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1735"/>
@@ -2163,8 +2163,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1705"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1744"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1745"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1746"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1746"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1737"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1745"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1737"/>
@@ -2173,8 +2173,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1708"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1746"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1747"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1748"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1748"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1739"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1747"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1739"/>
@@ -2183,8 +2183,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1745"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1759"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1760"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1761"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1761"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1752"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1760"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1752"/>
@@ -2193,8 +2193,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1758"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1763"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1764"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1765"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1765"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1756"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1764"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1756"/>
@@ -2203,8 +2203,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1772"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1767"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1768"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1769"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1769"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1760"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1768"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1760"/>
@@ -2213,8 +2213,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1793"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1769"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1770"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1771"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1771"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1762"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1770"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1762"/>
@@ -2223,8 +2223,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1814"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1771"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1772"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1773"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1773"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1764"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1772"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1764"/>
@@ -2233,8 +2233,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1818"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1772"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1773"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1774"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1774"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1765"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1773"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1765"/>
@@ -2247,8 +2247,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1836"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1773"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1774"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1775"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1775"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1766"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1774"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1766"/>
@@ -2257,8 +2257,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1841"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1774"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1775"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1776"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1776"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1767"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1775"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1767"/>
@@ -2267,8 +2267,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1847"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1775"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1776"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1777"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1777"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1768"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1776"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1768"/>
@@ -2277,8 +2277,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1851"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1776"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1777"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1778"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1778"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1769"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1777"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1769"/>
@@ -2287,8 +2287,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1861"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1777"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1778"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1779"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1779"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1770"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1778"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1770"/>
@@ -2297,11 +2297,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1873"/>
-        <location filename="../src/ui/main_window/main_window.ui" line="2101"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1411"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1778"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1412"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1779"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2104"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1413"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1780"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1413"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1780"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1771"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1408"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1779"/>
@@ -2312,10 +2312,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1890"/>
         <location filename="../src/ui/main_window/main_window.ui" line="1893"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1384"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1385"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1386"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1386"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1377"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1378"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1381"/>
@@ -2327,8 +2327,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1901"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1386"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1388"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1388"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1379"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1383"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1379"/>
@@ -2337,8 +2337,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1909"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1387"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1388"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1389"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1380"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1384"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1380"/>
@@ -2347,8 +2347,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1917"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1388"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1390"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1381"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1381"/>
@@ -2357,8 +2357,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.ui" line="1925"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1389"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1391"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1391"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1382"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1386"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1382"/>
@@ -2366,9 +2366,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Сохранить как шаблон</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1933"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1390"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1391"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1936"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1392"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1383"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1383"/>
@@ -2376,9 +2376,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Автосохранение</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1938"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1391"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1941"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1393"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1393"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1384"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1388"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1384"/>
@@ -2386,9 +2386,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Импорт</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1946"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1392"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1393"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1949"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1394"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1394"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1385"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1385"/>
@@ -2396,9 +2396,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1954"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1393"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1394"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1957"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1395"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1386"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1386"/>
@@ -2406,9 +2406,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1959"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1394"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1962"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1396"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1396"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1387"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1391"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1387"/>
@@ -2416,9 +2416,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Объединить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1964"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1395"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1396"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1967"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1397"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1397"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1388"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1388"/>
@@ -2426,9 +2426,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Использовать результат</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1972"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1396"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1397"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1975"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1398"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1398"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1389"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1393"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1389"/>
@@ -2436,9 +2436,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Открыть шаблон</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1977"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1397"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1398"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1980"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1399"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1390"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1394"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1390"/>
@@ -2446,9 +2446,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Термы по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1982"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1398"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1399"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1985"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1400"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1400"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1391"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1395"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1391"/>
@@ -2456,9 +2456,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Отключить подсказки</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1987"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1399"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1400"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1990"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1401"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1401"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1392"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1396"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1392"/>
@@ -2466,9 +2466,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="1992"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1400"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1401"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="1995"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1402"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1402"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1393"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1397"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1393"/>
@@ -2476,9 +2476,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="2077"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1408"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1409"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2080"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1410"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1410"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1401"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1405"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1401"/>
@@ -2486,9 +2486,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.ui" line="2085"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1409"/>
-        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1410"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="2088"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/FCM_autogen/include/ui_main_window.h" line="1411"/>
+        <location filename="../build/Desktop_Qt_6_10_1_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1411"/>
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1402"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1406"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1402"/>
@@ -2508,236 +2508,264 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">шаг(ов)</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1091"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1163"/>
         <source>Export as PNG</source>
         <translation>Экспорт PNG</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="296"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="302"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="419"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="425"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1105"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1126"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1145"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="314"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="320"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="438"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="444"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1177"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1198"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1217"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1346"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1361"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1369"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="283"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1358"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="301"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1457"/>
         <source>Load</source>
         <translation>Восстановить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="419"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="425"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="438"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="444"/>
         <source>Value of step is not calculated or step out of range!</source>
         <translation>Состояние НКК енщё не рассчитано для шага, или шаг за пределами области определения!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="442"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1348"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="461"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1447"/>
         <source>Metric value: %1</source>
         <translation>Значение метрики: %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="500"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1350"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="528"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1449"/>
         <source>Elements Sensitivity</source>
         <translation>Чувствительность элементов НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="526"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="537"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="554"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="565"/>
         <source>New term</source>
         <translation>Новый терм</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="566"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="594"/>
         <source>Choose term %1 color</source>
         <translation>Выберите цвет терма %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="888"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="936"/>
         <source>Save FCM</source>
         <translation>Сохранить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1017"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1089"/>
         <source>Open FCM</source>
         <translation>Открыть НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1052"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1124"/>
         <source>Save FCM Template</source>
         <translation>Сохранить шаблон НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1063"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1135"/>
         <source>Open FCM Template</source>
         <translation>Открыть шаблон НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1105"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1177"/>
         <source>Unable to save PNG to the selected file!</source>
         <translation>Сохранение PNG  в выбранный файл невозможно!</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="118"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1315"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1414"/>
         <source>Concepts terms</source>
         <translation>Термы факторов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="120"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1316"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1415"/>
         <source>Weights terms</source>
         <translation>Термы связей</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1323"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1422"/>
         <source>Algorithm</source>
         <translation>Алгоритм</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1325"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1424"/>
         <source>Activation function</source>
         <translation>Функция активации</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1326"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1425"/>
         <source>Metric</source>
         <translation>Метрика</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1328"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1427"/>
         <source>Threshold</source>
         <translation>Порог изменения</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1329"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1428"/>
         <source>Steps less threshold</source>
         <translation>Шагов ниже порога для остановки</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1330"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1429"/>
         <source>Fixed steps</source>
         <translation>Фиксированное число шагов</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1331"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1430"/>
         <source>Timestamp</source>
         <translation>Время</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1324"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1423"/>
         <source>Value type</source>
         <translation>Тип значения</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="179"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1317"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1337"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1416"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1436"/>
         <source>max change</source>
         <translation>максимальное изменение</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="180"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1318"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1338"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1417"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1437"/>
         <source>sensitivity</source>
         <translation>чувствительность</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="213"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1230"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1306"/>
         <source>New model</source>
         <translation>Новая модель</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="246"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="251"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="256"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1339"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1340"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1341"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="228"/>
+        <source>There are unsaved changes!</source>
+        <translation>Есть несохранённые изменения!</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/main_window/main_window.cpp" line="229"/>
+        <source>Are you sure you want to quit the program?</source>
+        <translation>Вы уверены, что хотите завершить выполнение программы?</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/main_window/main_window.cpp" line="264"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="269"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="274"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1438"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1439"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1440"/>
         <source>Scale: %1%</source>
         <translation>Масштаб: %1%</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="261"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1342"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="279"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1441"/>
         <source>Mode: Edit values</source>
         <translation>Режим изменения значений</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="270"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1367"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="288"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1466"/>
         <source>fuzzy</source>
         <translation>нечёткий</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="270"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1367"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="288"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1466"/>
         <source>numeric</source>
         <translation>численный</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="273"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1371"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="291"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1470"/>
         <source>yes</source>
         <translation>да</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="273"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1371"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="291"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1470"/>
         <source>no</source>
         <translation>нет</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="296"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="314"/>
         <source>Not every concept has a value!</source>
         <translation>Не для каждого фактора задано значение!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="302"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="320"/>
         <source>Not every weight has a value!</source>
         <translation>Не для каждой связи задано значение!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="397"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1344"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="416"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1443"/>
         <source>Resume</source>
         <translation>Запустить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1112"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1184"/>
         <source>Save FCM Model</source>
         <translation>Сохранить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1126"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1198"/>
         <source>Failed to save file.</source>
         <translation>Не удалось выполнить экспорт.</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1205"/>
         <source>Open FCM Model</source>
         <translation>Открыть НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1145"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1217"/>
         <source>Failed to load file.</source>
         <translation>Не удалось выполнить импорт.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1346"/>
+        <source>Failed to load one of the selected saved models.</source>
+        <translation>Не удалось загрузить одну из выбранных сохранённых моделей.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1361"/>
+        <source>Failed to load the selected terms model template.</source>
+        <translation>Не удалось загрузить один из выбранных шаблонов.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1369"/>
+        <source>Please select a valid terms model before proceeding!</source>
+        <translation>Выберите корректную модель для использования термов для продолжения!</translation>
     </message>
 </context>
 <context>
@@ -3008,38 +3036,38 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="11"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="220"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="233"/>
         <source>Create weight</source>
         <translation>Создание связи</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="14"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="170"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="223"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="183"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="236"/>
         <source>Update weight</source>
         <translation>Изменить связь</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="33"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="228"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="241"/>
         <source>step</source>
         <translation>шаг</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="34"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="229"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="242"/>
         <source>weight value</source>
         <translation>значение связи</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="41"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="230"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="243"/>
         <source>change</source>
         <translation>изменение</translation>
     </message>
     <message>
         <location filename="../src/ui/weight_window/weight_window.cpp" line="42"/>
-        <location filename="../src/ui/weight_window/weight_window.cpp" line="231"/>
+        <location filename="../src/ui/weight_window/weight_window.cpp" line="244"/>
         <source>sensitivity</source>
         <translation>чувствительность</translation>
     </message>

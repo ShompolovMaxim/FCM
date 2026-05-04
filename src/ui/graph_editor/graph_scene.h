@@ -40,7 +40,7 @@ public slots:
     void conceptDeleted(QUuid id);
     void weightDeleted(QUuid id);
 
-    void conceptPositionChanged();
+    void conceptPositionChanged(QUuid id);
 
 signals:
     void modeChanged(EditMode newMode);

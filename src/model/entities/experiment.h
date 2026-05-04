@@ -6,6 +6,9 @@
 
 #include "presenter/prediction_parameters.h"
 
+#include <map>
+#include <memory>
+#include <vector>
 #include <QDateTime>
 
 struct Experiment {
@@ -15,4 +18,7 @@ struct Experiment {
     PredictionParameters predictionParameters;
     QDateTime timestamp;
     int dbId = -1;
+
+    bool operator==(const Experiment& other) const;
+    bool operator!=(const Experiment& other) const;
 };

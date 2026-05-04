@@ -111,6 +111,16 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
     weightWindow->show();
 }
 
+void CreationPresenter::updateConceptPosition(QUuid id, const QPointF& pos) {
+    auto conceptIt = fcm->concepts.find(id);
+    if (conceptIt == fcm->concepts.end()) {
+        return;
+    }
+
+    conceptIt->second->pos = pos;
+    emit conceptUpdated(conceptIt->second);
+}
+
 void CreationPresenter::updateWeight(QUuid id, ElementWindowMode mode) {
     if (weightWindows.find(id) != weightWindows.end()) {
         weightWindows[id]->raise();

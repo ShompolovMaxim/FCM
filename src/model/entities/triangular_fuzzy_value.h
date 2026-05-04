@@ -5,6 +5,9 @@ struct TriangularFuzzyValue {
     double m = 0;
     double u = 0;
 
+    bool operator==(const TriangularFuzzyValue& other) const;
+    bool operator!=(const TriangularFuzzyValue& other) const;
+
     TriangularFuzzyValue operator+(const TriangularFuzzyValue& other) const;
     TriangularFuzzyValue operator-(const TriangularFuzzyValue& other) const;
     TriangularFuzzyValue operator*(const TriangularFuzzyValue& other) const;

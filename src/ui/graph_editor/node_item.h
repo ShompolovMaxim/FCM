@@ -30,7 +30,7 @@ public:
     void highlight(bool flag);
 
 signals:
-    void positionChanged();
+    void positionChanged(QUuid id);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& val) override;

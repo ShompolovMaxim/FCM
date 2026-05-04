@@ -5,6 +5,7 @@
 #include "model/element_type.h"
 
 #include <QColor>
+#include <QString>
 #include <QUuid>
 
 struct Term {
@@ -16,4 +17,7 @@ struct Term {
     QColor color;
     ElementType type = ElementType::Node;
     int dbId = -1;
+
+    bool operator==(const Term& other) const;
+    bool operator!=(const Term& other) const;
 };

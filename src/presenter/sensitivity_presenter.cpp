@@ -28,6 +28,8 @@ void SensitivityPresenter::createWeight(QUuid) {}
 
 void SensitivityPresenter::createWeight(QUuid, QUuid) {}
 
+void SensitivityPresenter::updateConceptPosition(QUuid, const QPointF&) {}
+
 void SensitivityPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
     if (originalFcm && originalFcm->concepts.find(id) != originalFcm->concepts.end()) {
         creationPresenter->updateConcept(id, mode);
@@ -297,5 +299,4 @@ void SensitivityPresenter::updateRuntimeWeightWindow(QUuid id) {
     }
     it->second->setPredictedValues();
 }
-
 

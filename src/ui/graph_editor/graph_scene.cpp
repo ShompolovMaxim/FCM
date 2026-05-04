@@ -11,10 +11,10 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter>
     for (const auto& [_, concept] : fcm->concepts) {
         auto* n = new NodeItem(concept);
         addItem(n);
-        connect(n, &NodeItem::positionChanged, this, &GraphScene::conceptPositionChanged);
         n->setPos(concept->pos);
         n->setValue(concept->term);
         nodes[concept->id] = n;
+        connect(n, &NodeItem::positionChanged, this, &GraphScene::conceptPositionChanged);
     }
 
     for (const auto& [_, weight] : fcm->weights) {
@@ -173,6 +173,9 @@ GraphScene* GraphScene::copy(std::shared_ptr<ScenePresenter> presenter, ElementW
     return copyScene;
 }
 
-void GraphScene::conceptPositionChanged() {
+void GraphScene::conceptPositionChanged(QUuid id) {
     conceptPositionChangedFlag = true;
+    if (nodes.find(id) != nodes.end()) {
+        presenter->updateConceptPosition(id, nodes[id]->pos());
+    }
 }

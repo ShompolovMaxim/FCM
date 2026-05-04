@@ -6,7 +6,9 @@
 #include "weight.h"
 
 #include <map>
+#include <memory>
 #include <QString>
+#include <vector>
 
 struct FCM {
     QString name;
@@ -23,4 +25,7 @@ struct FCM {
     QList<int> deletedConceptsIds;
     QList<int> deletedWeightsIds;
     QList<int> deletedExperimentsIds;
+
+    bool operator==(const FCM& other) const;
+    bool operator!=(const FCM& other) const;
 };

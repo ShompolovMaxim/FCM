@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(FCM_Tests)
 
+find_package(Qt6 REQUIRED COMPONENTS Core Gui)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -75,10 +77,17 @@ endfunction()
 function(add_entity_test target_name test_source)
     add_executable(${target_name}
         ${test_source}
+        ../../src/presenter/prediction_parameters.cpp
+        ../../src/model/entities/term.cpp
+        ../../src/model/entities/concept.cpp
+        ../../src/model/entities/weight.cpp
+        ../../src/model/entities/experiment.cpp
+        ../../src/model/entities/fcm.cpp
+        ../../src/model/entities/helpers/equality.cpp
         ../../src/model/entities/triangular_fuzzy_value.cpp
     )
 
-    target_link_libraries(${target_name} PRIVATE gtest gtest_main Qt6::Core)
+    target_link_libraries(${target_name} PRIVATE gtest gtest_main Qt6::Core Qt6::Gui)
     add_test_runtime_dependencies(${target_name})
     gtest_discover_tests(${target_name})
 endfunction()
@@ -103,3 +112,4 @@ add_algorithm_test(weights_prediction_fuzzy_algorithm_test algorithms/weights_pr
 add_algorithm_test(algorithms_fabric_test algorithms/fabric_test.cpp)
 
 add_entity_test(triangular_fuzzy_value_test entities/triangular_fuzzy_value_test.cpp)
+add_entity_test(fcm_equality_test entities/fcm_equality_test.cpp)

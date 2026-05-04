@@ -221,6 +221,28 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+    for (const auto& model : fcms) {
+        std::optional<FCM> savedModel;
+        if (model->dbId != -1) {
+            savedModel = savingManager->getFCM(model->name);
+        }
+        if (!savedModel && *model != FCM() || savedModel && *model != *savedModel) {
+            QMessageBox::StandardButton reply = QMessageBox::question(
+                this,
+                tr("There are unsaved changes!"),
+                tr("Are you sure you want to quit the program?"),
+                QMessageBox::Yes | QMessageBox::No,
+                QMessageBox::No
+            );
+
+            if (reply == QMessageBox::Yes) {
+                event->accept();
+            } else {
+                event->ignore();
+            }
+            return;
+        }
+    }
     event->accept();
 }
 
@@ -922,6 +944,7 @@ void MainWindow::saveAs() {
         fcm->name = newName;
         savingManager->saveAs(*fcm);
         ui->modelName->setText(newName);
+        ui->actionAutoSave->setEnabled(true);
     }
 }
 
@@ -1024,13 +1047,6 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(newStaticAnalysisScene);
     delete oldStaticAnalysisScene;
 
-    ui->graphicsViewGraph->resetTransform();
-    ui->graphicsViewPredict->resetTransform();
-    ui->graphicsViewSensitivity->resetTransform();
-    updateGraphScaleLabel(1.0);
-    updatePredictScaleLabel(1.0);
-    updateSensitivityScaleLabel(1.0);
-
     delete staticAnalysisPresenter;
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
 
@@ -1052,7 +1068,23 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
     ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
 
+    ui->actionAutoSave->setEnabled(fcm->dbId != -1);
     ui->actionAutoSave->setChecked(fcm->autosaveOn);
+
+    ui->graphicsViewGraph->resetTransform();
+    ui->graphicsViewPredict->resetTransform();
+    ui->graphicsViewSensitivity->resetTransform();
+    updateGraphScaleLabel(1.0);
+    updatePredictScaleLabel(1.0);
+    updateSensitivityScaleLabel(1.0);
+    ui->doubleSpinBoxMaxChange->setValue(0.1);
+    ui->changeConcepts->setChecked(true);
+    ui->changeWeights->setChecked(false);
+
+    ui->useFuzzyValuesStatic->setChecked(false);
+    ui->influenceDirection->setCurrentIndex(0);
+    ui->influenceSteps->setValue(1);
+    ui->graphConcept->setCurrentIndex(0);
 }
 
 void MainWindow::open() {

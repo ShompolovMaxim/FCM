@@ -2,6 +2,14 @@
 
 #include <algorithm>
 
+bool TriangularFuzzyValue::operator==(const TriangularFuzzyValue& other) const {
+    return l == other.l && m == other.m && u == other.u;
+}
+
+bool TriangularFuzzyValue::operator!=(const TriangularFuzzyValue& other) const {
+    return !(*this == other);
+}
+
 TriangularFuzzyValue& TriangularFuzzyValue::operator+=(const TriangularFuzzyValue& other) {
     l += other.l;
     m += other.m;

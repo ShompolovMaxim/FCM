@@ -4,6 +4,9 @@
 
 #include "map"
 
+#include <memory>
+#include <variant>
+#include <vector>
 #include <QUuid>
 
 struct Weight {
@@ -17,4 +20,7 @@ struct Weight {
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;
     std::map<double, double> sensitivity;
+
+    bool operator==(const Weight& other) const;
+    bool operator!=(const Weight& other) const;
 };

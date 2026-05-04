@@ -28,6 +28,8 @@ void SimulationPresenter::createWeight(QUuid) {}
 
 void SimulationPresenter::createWeight(QUuid, QUuid) {}
 
+void SimulationPresenter::updateConceptPosition(QUuid, const QPointF&) {}
+
 void SimulationPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
     if (originalFcm && originalFcm->concepts.find(id) != originalFcm->concepts.end()) {
         creationPresenter->updateConcept(id, mode);
