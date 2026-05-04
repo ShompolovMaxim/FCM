@@ -106,9 +106,14 @@ public slots:
 protected:
     void changeEvent(QEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
     bool checkElementsHaveValues();
+    bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
+    bool closeModel(size_t index);
+    void closeOtherModels(size_t index);
+    void rebuildModelsMenu();
 
     void simulationFinished();
 
@@ -145,7 +150,6 @@ private:
     QSettings settings = QSettings("HSE", "FCM");
 
     std::vector<std::shared_ptr<FCM>> fcms;
-    std::vector<QAction*> actions;
     size_t currentModelIdx;
 
     QTranslator translatorRus;

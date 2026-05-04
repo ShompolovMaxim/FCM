@@ -12,6 +12,7 @@
 
 #include "model/join/models_joiner.h"
 
+#include <QMouseEvent>
 #include <QStandardItemModel>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -222,19 +223,136 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::createNewModel);
 
     connect(ui->actionJoinFCM, &QAction::triggered, this, &MainWindow::joinModels);
+    ui->menuModels->installEventFilter(this);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
+bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
+    if (model == fcm) {
+        updateFCM();
+    }
+
+    std::optional<FCM> savedModel;
+    if (model->dbId != -1) {
+        savedModel = savingManager->getFCM(model->name);
+    }
+
+    return (!savedModel && *model != FCM()) || (savedModel && *model != *savedModel);
+}
+
+bool MainWindow::closeModel(size_t index) {
+    if (index >= fcms.size() || fcms.size() <= 1) {
+        return false;
+    }
+
+    auto model = fcms[index];
+    if (modelHasUnsavedChanges(model)) {
+        QMessageBox::StandardButton reply = QMessageBox::question(
+            this,
+            tr("There are unsaved changes!"),
+            tr("Model \"%1\" has unsaved changes. Are you sure you want to close it?").arg(model->name),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No
+        );
+
+        if (reply != QMessageBox::Yes) {
+            return false;
+        }
+    }
+
+    fcms.erase(fcms.begin() + static_cast<std::ptrdiff_t>(index));
+
+    if (currentModelIdx == index) {
+        if (index >= fcms.size()) {
+            currentModelIdx = fcms.size() - 1;
+        } else {
+            currentModelIdx = index;
+        }
+        loadFCM(fcms[currentModelIdx]);
+    } else {
+        if (index < currentModelIdx) {
+            --currentModelIdx;
+        }
+        rebuildModelsMenu();
+    }
+
+    return true;
+}
+
+void MainWindow::closeOtherModels(size_t index) {
+    if (index >= fcms.size()) {
+        return;
+    }
+
+    while (fcms.size() > 1) {
+        size_t indexToClose = 0;
+        if (indexToClose == index) {
+            indexToClose = 1;
+        }
+
+        if (!closeModel(indexToClose)) {
+            return;
+        }
+
+        if (indexToClose < index) {
+            --index;
+        }
+    }
+
+    loadFCM(fcms.front());
+}
+
+void MainWindow::rebuildModelsMenu() {
+    ui->menuModels->clear();
+
+    for (size_t i = 0; i < fcms.size(); ++i) {
+        auto* modelMenu = ui->menuModels->addMenu(fcms[i]->name);
+        QAction* modelAction = modelMenu->menuAction();
+        modelAction->setCheckable(true);
+        modelAction->setChecked(i == currentModelIdx);
+        modelAction->setData(QVariant::fromValue(static_cast<qulonglong>(i)));
+
+        QAction* closeAction = modelMenu->addAction(tr("Close"));
+        closeAction->setEnabled(fcms.size() > 1);
+        connect(closeAction, &QAction::triggered, this, [this, i]() {
+            if (i < fcms.size()) {
+                closeModel(i);
+            }
+        });
+
+        QAction* closeOtherAction = modelMenu->addAction(tr("Close other models"));
+        closeOtherAction->setEnabled(fcms.size() > 1);
+        connect(closeOtherAction, &QAction::triggered, this, [this, i]() {
+            if (i < fcms.size()) {
+                closeOtherModels(i);
+            }
+        });
+    }
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == ui->menuModels && event->type() == QEvent::MouseButtonRelease) {
+        auto* mouseEvent = static_cast<QMouseEvent*>(event);
+        QAction* action = ui->menuModels->actionAt(mouseEvent->pos());
+        if (action && action->menu()) {
+            size_t index = static_cast<size_t>(action->data().toULongLong());
+            if (index < fcms.size()) {
+                loadFCM(fcms[index]);
+                ui->menuModels->hide();
+                return true;
+            }
+        }
+    }
+
+    return QMainWindow::eventFilter(watched, event);
+}
+
 void MainWindow::closeEvent(QCloseEvent *event) {
     for (const auto& model : fcms) {
-        std::optional<FCM> savedModel;
-        if (model->dbId != -1) {
-            savedModel = savingManager->getFCM(model->name);
-        }
-        if (!savedModel && *model != FCM() || savedModel && *model != *savedModel) {
+        if (modelHasUnsavedChanges(model)) {
             QMessageBox::StandardButton reply = QMessageBox::question(
                 this,
                 tr("There are unsaved changes!"),
@@ -992,6 +1110,11 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     qDeleteAll(weightsGroup->takeChildren());
 
     fcm = newFCM;
+    auto it = std::find(fcms.begin(), fcms.end(), fcm);
+    if (it != fcms.end()) {
+        currentModelIdx = static_cast<size_t>(std::distance(fcms.begin(), it));
+    }
+    rebuildModelsMenu();
 
     if (activeSimulation) {
         resetPredictionScene();
@@ -1305,9 +1428,7 @@ void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {
     fcm = newFcm;
     currentModelIdx = fcms.size();
     fcms.push_back(fcm);
-    actions.push_back(ui->menuModels->addAction(fcm->name));
-    actions[currentModelIdx]->setData(currentModelIdx);
-    connect(actions[currentModelIdx], &QAction::triggered, this, &MainWindow::switchModel);
+    rebuildModelsMenu();
 }
 
 void MainWindow::switchModel() {
@@ -1324,8 +1445,8 @@ void MainWindow::switchModel() {
 }
 
 void MainWindow::nameChanged(QString newName) {
-    actions[currentModelIdx]->setText(newName);
     fcm->name = newName;
+    rebuildModelsMenu();
     autosave();
 }
 
