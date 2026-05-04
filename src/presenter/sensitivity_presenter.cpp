@@ -1,25 +1,63 @@
 #include "sensitivity_presenter.h"
 
+#include "creation_presenter.h"
+#include "ui/concept_window/concept_window.h"
 #include "ui/graph_editor/color_value_adapter/color_value_adapter.h"
+#include "ui/weight_window/weight_window.h"
 
 #include <algorithm>
 
-SensitivityPresenter::SensitivityPresenter(GraphScene* graphScene, QCustomPlot* plot, std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent)
-    : graphScene(graphScene), plot(plot), creationPresenter(creationPresenter), QObject(parent) {}
+SensitivityPresenter::SensitivityPresenter(QCustomPlot* plot, std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent)
+    : ScenePresenter(parent), graphScene(nullptr), plot(plot), creationPresenter(creationPresenter) {}
 
 SensitivityPresenter::~SensitivityPresenter() {
     stopExecution();
+    closeRuntimeWindows();
 }
 
-void SensitivityPresenter::analize(PredictionParameters predictionParameters, SensitivityAnalysisParameters parameters, std::shared_ptr<FCM> fcm) {
+void SensitivityPresenter::setRuntimeContext(std::shared_ptr<FCM> originalFcm_, std::shared_ptr<FCM> runtimeFcm_, GraphScene* runtimeScene) {
+    closeRuntimeWindows();
+    originalFcm = originalFcm_;
+    runtimeFcm = runtimeFcm_;
+    graphScene = runtimeScene;
+}
+
+void SensitivityPresenter::createConcept(const QPointF) {}
+
+void SensitivityPresenter::createWeight(QUuid) {}
+
+void SensitivityPresenter::createWeight(QUuid, QUuid) {}
+
+void SensitivityPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
+    if (originalFcm && originalFcm->concepts.find(id) != originalFcm->concepts.end()) {
+        creationPresenter->updateConcept(id, mode);
+        return;
+    }
+    openRuntimeConceptWindow(id, mode);
+}
+
+void SensitivityPresenter::updateWeight(QUuid id, ElementWindowMode mode) {
+    if (originalFcm && originalFcm->weights.find(id) != originalFcm->weights.end()) {
+        creationPresenter->updateWeight(id, mode);
+        return;
+    }
+    openRuntimeWeightWindow(id, mode);
+}
+
+void SensitivityPresenter::emitAutosave() {}
+
+void SensitivityPresenter::analize(PredictionParameters predictionParameters, SensitivityAnalysisParameters parameters) {
     stopExecution();
 
-    this->fcm = fcm;
+    if (!runtimeFcm) {
+        return;
+    }
+
     analizer = std::make_shared<SensitivityAnalizer>(parameters, predictionParameters);
 
     CalculationFCM calculationFCM;
 
-    for (const auto& [id, concept] : fcm->concepts) {
+    for (const auto& [id, concept] : runtimeFcm->concepts) {
         calculationFCM.concepts[id] = CalculationConcept{
             id,
             concept->term->value,
@@ -27,7 +65,7 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
             concept->startStep
         };
     }
-    for (const auto& [id, weight] : fcm->weights) {
+    for (const auto& [id, weight] : runtimeFcm->weights) {
         calculationFCM.weights[id] = CalculationWeight{
             id,
             weight->term->value,
@@ -43,7 +81,7 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
     });
 
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, [this, predictionParameters, parameters, fcm]() {
+    connect(timer, &QTimer::timeout, this, [this, parameters]() {
         if (!analizer) {
             return;
         }
@@ -53,7 +91,7 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
         QColor red = QColor(255, 0, 0);
         double maxSensitivity = 0.0;
         if (parameters.changeConcepts) {
-            for (auto& [id, concept] : fcm->concepts) {
+            for (auto& [id, concept] : runtimeFcm->concepts) {
                 if (!analizer->getConceptFinished(id)) {
                     continue;
                 }
@@ -61,7 +99,7 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
             }
         }
         if (parameters.changeWeights) {
-            for (auto& [id, weight] : fcm->weights) {
+            for (auto& [id, weight] : runtimeFcm->weights) {
                 if (!analizer->getWeightFinished(id)) {
                     continue;
                 }
@@ -70,23 +108,37 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
         }
 
         if (parameters.changeConcepts) {
-            for (auto& [id, concept] : fcm->concepts) {
+            for (auto& [id, concept] : runtimeFcm->concepts) {
                 if (!analizer->getConceptFinished(id)) {
                     continue;
                 }
-                graphScene->setConceptColor(id, maxSensitivity ? ColorValueAdapter().getColor(std::min(analizer->getConceptSensitivity(id), 1.0), 0, 1) : red, false);
+                graphScene->setConceptColor(id, maxSensitivity ? ColorValueAdapter().getColor(std::min(analizer->getConceptSensitivity(id), 1.0) / maxSensitivity, 0, 1) : red, false);
                 concept->sensitivity = analizer->getConceptChangeSensitivity(id);
-                creationPresenter->setConceptPredictedValues(id);
+                if (originalFcm) {
+                    auto originalConceptIt = originalFcm->concepts.find(id);
+                    if (originalConceptIt != originalFcm->concepts.end()) {
+                        originalConceptIt->second->sensitivity = concept->sensitivity;
+                        creationPresenter->setConceptPredictedValues(id);
+                    }
+                }
+                updateRuntimeConceptWindow(id);
             }
         }
         if (parameters.changeWeights) {
-            for (auto& [id, weight] : fcm->weights) {
+            for (auto& [id, weight] : runtimeFcm->weights) {
                 if (!analizer->getWeightFinished(id)) {
                     continue;
                 }
                 graphScene->setWeightColor(id, maxSensitivity ? ColorValueAdapter().getColor(std::min(analizer->getWeightSensitivity(id) / maxSensitivity, 1.0), 0, 1) : red);
                 weight->sensitivity = analizer->getWeightChangeSensitivity(id);
-                creationPresenter->setWeightPredictedValues(id);
+                if (originalFcm) {
+                    auto originalWeightIt = originalFcm->weights.find(id);
+                    if (originalWeightIt != originalFcm->weights.end()) {
+                        originalWeightIt->second->sensitivity = weight->sensitivity;
+                        creationPresenter->setWeightPredictedValues(id);
+                    }
+                }
+                updateRuntimeWeightWindow(id);
             }
         }
         if (analizer->getFcmFinished()) {
@@ -114,14 +166,27 @@ void SensitivityPresenter::analize(PredictionParameters predictionParameters, Se
 void SensitivityPresenter::reset() {
     stopExecution();
 
-    for (const auto& [id, _] : fcm->concepts) {
-        fcm->concepts[id]->sensitivity = {};
-        creationPresenter->setConceptPredictedValues(id);
+    if (runtimeFcm) {
+        for (const auto& [id, _] : runtimeFcm->concepts) {
+            runtimeFcm->concepts[id]->sensitivity = {};
+            updateRuntimeConceptWindow(id);
+        }
+        for (const auto& [id, _] : runtimeFcm->weights) {
+            runtimeFcm->weights[id]->sensitivity = {};
+            updateRuntimeWeightWindow(id);
+        }
     }
-    for (const auto& [id, _] : fcm->weights) {
-        fcm->weights[id]->sensitivity = {};
-        creationPresenter->setWeightPredictedValues(id);
+    if (originalFcm) {
+        for (const auto& [id, _] : originalFcm->concepts) {
+            originalFcm->concepts[id]->sensitivity = {};
+            creationPresenter->setConceptPredictedValues(id);
+        }
+        for (const auto& [id, _] : originalFcm->weights) {
+            originalFcm->weights[id]->sensitivity = {};
+            creationPresenter->setWeightPredictedValues(id);
+        }
     }
+    closeRuntimeWindows();
 }
 
 void SensitivityPresenter::stopExecution() {
@@ -141,6 +206,96 @@ void SensitivityPresenter::stopExecution() {
     }
 
     analizer.reset();
+}
+
+void SensitivityPresenter::closeRuntimeWindows() {
+    std::vector<ConceptWindow*> conceptWindowsToDelete;
+    conceptWindowsToDelete.reserve(runtimeConceptWindows.size());
+    for (const auto& [_, window] : runtimeConceptWindows) {
+        conceptWindowsToDelete.push_back(window);
+    }
+
+    std::vector<WeightWindow*> weightWindowsToDelete;
+    weightWindowsToDelete.reserve(runtimeWeightWindows.size());
+    for (const auto& [_, window] : runtimeWeightWindows) {
+        weightWindowsToDelete.push_back(window);
+    }
+
+    runtimeConceptWindows.clear();
+    runtimeWeightWindows.clear();
+
+    for (auto* window : conceptWindowsToDelete) {
+        delete window;
+    }
+    for (auto* window : weightWindowsToDelete) {
+        delete window;
+    }
+}
+
+void SensitivityPresenter::openRuntimeConceptWindow(QUuid id, ElementWindowMode mode) {
+    if (!runtimeFcm) {
+        return;
+    }
+
+    auto conceptIt = runtimeFcm->concepts.find(id);
+    if (conceptIt == runtimeFcm->concepts.end()) {
+        return;
+    }
+
+    if (runtimeConceptWindows.find(id) != runtimeConceptWindows.end()) {
+        runtimeConceptWindows[id]->raise();
+        return;
+    }
+
+    QWidget* parentWidget = graphScene && !graphScene->views().isEmpty() ? graphScene->views().first() : nullptr;
+    auto* conceptWindow = new ConceptWindow(runtimeFcm->terms, conceptIt->second, ElementWindowMode::SensitivityAnalysisDisabled, parentWidget);
+    conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
+    connect(conceptWindow, &QDialog::finished, this, [this, id]() {
+        runtimeConceptWindows.erase(id);
+    });
+    runtimeConceptWindows[id] = conceptWindow;
+    conceptWindow->show();
+}
+
+void SensitivityPresenter::openRuntimeWeightWindow(QUuid id, ElementWindowMode mode) {
+    if (!runtimeFcm) {
+        return;
+    }
+
+    auto weightIt = runtimeFcm->weights.find(id);
+    if (weightIt == runtimeFcm->weights.end()) {
+        return;
+    }
+
+    if (runtimeWeightWindows.find(id) != runtimeWeightWindows.end()) {
+        runtimeWeightWindows[id]->raise();
+        return;
+    }
+
+    QWidget* parentWidget = graphScene && !graphScene->views().isEmpty() ? graphScene->views().first() : nullptr;
+    auto* weightWindow = new WeightWindow(runtimeFcm->terms, weightIt->second, ElementWindowMode::SensitivityAnalysisDisabled, parentWidget);
+    weightWindow->setAttribute(Qt::WA_DeleteOnClose);
+    connect(weightWindow, &QDialog::finished, this, [this, id]() {
+        runtimeWeightWindows.erase(id);
+    });
+    runtimeWeightWindows[id] = weightWindow;
+    weightWindow->show();
+}
+
+void SensitivityPresenter::updateRuntimeConceptWindow(QUuid id) {
+    auto it = runtimeConceptWindows.find(id);
+    if (it == runtimeConceptWindows.end()) {
+        return;
+    }
+    it->second->setPredictedValues();
+}
+
+void SensitivityPresenter::updateRuntimeWeightWindow(QUuid id) {
+    auto it = runtimeWeightWindows.find(id);
+    if (it == runtimeWeightWindows.end()) {
+        return;
+    }
+    it->second->setPredictedValues();
 }
 
 

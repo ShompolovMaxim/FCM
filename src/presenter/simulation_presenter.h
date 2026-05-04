@@ -2,20 +2,33 @@
 
 #include "creation_presenter.h"
 #include "prediction_parameters.h"
+#include "scene_presenter.h"
 #include "simulation_parameters.h"
 
 #include "ui/graph_editor/node_item.h"
 
 #include "model/predictor.h"
 
-class SimulationPresenter : public QObject
+class GraphScene;
+class ConceptWindow;
+class WeightWindow;
+
+class SimulationPresenter : public ScenePresenter
 {
     Q_OBJECT
 public:
     SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent = nullptr);
     ~SimulationPresenter();
 
-    void simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes, QMap<QUuid, EdgeItem*> edges, std::shared_ptr<FCM> fcm);
+    void setRuntimeContext(std::shared_ptr<FCM> originalFcm, std::shared_ptr<FCM> runtimeFcm, GraphScene* runtimeScene);
+    void simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes, QMap<QUuid, EdgeItem*> edges);
+
+    void createConcept(const QPointF pos) override;
+    void createWeight(QUuid nodeId) override;
+    void createWeight(QUuid fromNodeId, QUuid toNodeId) override;
+    void updateConcept(QUuid id, ElementWindowMode mode) override;
+    void updateWeight(QUuid id, ElementWindowMode mode) override;
+    void emitAutosave() override;
 
     void pause() { if (timer) timer->stop(); }
     void resume() { if (timer) timer->start(iterationTime); }
@@ -34,6 +47,11 @@ private:
     bool goToStep(size_t newStep);
     void stopExecution();
     void stopTimer(QTimer* t);
+    void closeRuntimeWindows();
+    void openRuntimeConceptWindow(QUuid id, ElementWindowMode mode);
+    void openRuntimeWeightWindow(QUuid id, ElementWindowMode mode);
+    void updateRuntimeConceptWindow(QUuid id);
+    void updateRuntimeWeightWindow(QUuid id);
 
     std::thread workerThread;
     QTimer* timer = nullptr;
@@ -47,6 +65,10 @@ private:
     QMap<QUuid, EdgeItem*> edges;
     std::shared_ptr<Predictor> predictor;
     std::shared_ptr<CreationPresenter> creationPresenter;
-    std::shared_ptr<FCM> fcm;
+    std::shared_ptr<FCM> originalFcm;
+    std::shared_ptr<FCM> runtimeFcm;
+    GraphScene* runtimeScene = nullptr;
+    std::map<QUuid, ConceptWindow*> runtimeConceptWindows;
+    std::map<QUuid, WeightWindow*> runtimeWeightWindows;
     PredictionParameters predictionParameters;
 };

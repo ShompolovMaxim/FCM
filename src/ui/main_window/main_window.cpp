@@ -347,7 +347,7 @@ void MainWindow::predict() {
         ui->pushButtonFinish->setEnabled(true);
     }
 
-    auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(ElementWindowMode::PredictionResults);
+    auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(presenter, ElementWindowMode::PredictionResults);
     auto* oldPredictScene = ui->graphicsViewPredict->scene();
     ui->graphicsViewPredict->setScene(predictScene);
     if (oldPredictScene != ui->graphicsViewGraph->scene()) {
@@ -367,7 +367,8 @@ void MainWindow::predict() {
 
     paused = false;
 
-    presenter->simulate(predictionParameters, simulationParameters, nodes, edges, fcm);
+    presenter->setRuntimeContext(fcm, predictScene->getFCM(), predictScene);
+    presenter->simulate(predictionParameters, simulationParameters, nodes, edges);
 }
 
 void MainWindow::resetPredictionScene() {
@@ -466,16 +467,18 @@ void MainWindow::analize() {
     ui->changeConcepts->setEnabled(false);
     ui->changeWeights->setEnabled(false);
 
-    auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(ElementWindowMode::SensitivityAnalysis);
+    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui->plotSensitivity, creationPresenter);
+
+    auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(sensitivityPresenter, ElementWindowMode::SensitivityAnalysis);
     auto* oldSensitivityScene = ui->graphicsViewGraph->scene();
     ui->graphicsViewSensitivity->setScene(sensitivityScene);
     if (oldSensitivityScene != ui->graphicsViewGraph->scene()) {
         delete oldSensitivityScene;
     }
 
-    sensitivityPresenter = std::make_shared<SensitivityPresenter>(sensitivityScene, ui->plotSensitivity, creationPresenter, nullptr);
     connect(sensitivityPresenter.get(), &SensitivityPresenter::updateProgress, this, &MainWindow::updateSensitivityProgress);
-    sensitivityPresenter->analize(getPredictionParameters(), getSensitivityParameters(), fcm);
+    sensitivityPresenter->setRuntimeContext(fcm, sensitivityScene->getFCM(), sensitivityScene);
+    sensitivityPresenter->analize(getPredictionParameters(), getSensitivityParameters());
 }
 
 void MainWindow::resetSensitivity() {

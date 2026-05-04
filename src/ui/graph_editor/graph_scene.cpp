@@ -1,6 +1,7 @@
 #include "graph_scene.h"
+#include "model/entities/helpers/fcm_copy.h"
 
-GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter, ElementWindowMode elementWindowMode)
+GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode)
     : fcm(fcm), presenter(presenter), elementWindowMode(elementWindowMode) {
     setSceneRect(-10000, -10000, 20000, 20000);
     if (!fcm) {
@@ -26,12 +27,12 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresent
         edges[weight->id] = ed;
     }
 
-    connect(presenter.get(), &CreationPresenter::conceptCreated, this, &GraphScene::conceptCreated);
-    connect(presenter.get(), &CreationPresenter::conceptUpdated, this, &GraphScene::conceptUpdated);
-    connect(presenter.get(), &CreationPresenter::weightCreated, this, &GraphScene::weightCreated);
-    connect(presenter.get(), &CreationPresenter::weightUpdated, this, &GraphScene::weightUpdated);
-    connect(presenter.get(), &CreationPresenter::conceptDeleted, this, &GraphScene::conceptDeleted);
-    connect(presenter.get(), &CreationPresenter::weightDeleted, this, &GraphScene::weightDeleted);
+    connect(presenter.get(), &ScenePresenter::conceptCreated, this, &GraphScene::conceptCreated);
+    connect(presenter.get(), &ScenePresenter::conceptUpdated, this, &GraphScene::conceptUpdated);
+    connect(presenter.get(), &ScenePresenter::weightCreated, this, &GraphScene::weightCreated);
+    connect(presenter.get(), &ScenePresenter::weightUpdated, this, &GraphScene::weightUpdated);
+    connect(presenter.get(), &ScenePresenter::conceptDeleted, this, &GraphScene::conceptDeleted);
+    connect(presenter.get(), &ScenePresenter::weightDeleted, this, &GraphScene::weightDeleted);
 }
 
 void GraphScene::switchMode() {
@@ -148,29 +149,25 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     }
 }
 
-GraphScene* GraphScene::copy(ElementWindowMode elementWindowMode) const {
+GraphScene* GraphScene::copy(std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode) const {
     auto copyScene = new GraphScene({}, presenter, elementWindowMode);
-    copyScene->setFCM(std::make_shared<FCM>(*fcm));
-    for (QGraphicsItem* item : items()) {
-        if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-            auto newNode = new NodeItem(n->getConcept());
-            copyScene->addItem(newNode);
-            newNode->setPos(n->pos());
-            newNode->setValue(fcm->concepts[n->getId()]->term);
-            copyScene->nodes[newNode->getId()] = newNode;
-        }
+    copyScene->setFCM(cloneFCMForRuntime(fcm));
+    for (const auto& [id, concept] : copyScene->fcm->concepts) {
+        auto* newNode = new NodeItem(concept);
+        copyScene->addItem(newNode);
+        connect(newNode, &NodeItem::positionChanged, copyScene, &GraphScene::conceptPositionChanged);
+        newNode->setPos(concept->pos);
+        newNode->setValue(concept->term);
+        copyScene->nodes[id] = newNode;
     }
-    for (QGraphicsItem* item : items()) {
-        if (auto e = qgraphicsitem_cast<EdgeItem*>(item)) {
-            auto newEdge = new EdgeItem(copyScene->nodes[e->src->getId()], copyScene->nodes[e->dst->getId()], e->getId());
-            copyScene->addItem(newEdge);
-            newEdge->setPos(e->pos());
-            newEdge->setValue(fcm->weights[e->getId()]->term);
-            copyScene->nodes[e->src->getId()]->addEdge(newEdge);
-            copyScene->nodes[e->dst->getId()]->addEdge(newEdge);
-            newEdge->updatePosition();
-            copyScene->edges[newEdge->getId()] = newEdge;
-        }
+    for (const auto& [id, weight] : copyScene->fcm->weights) {
+        auto* newEdge = new EdgeItem(copyScene->nodes[weight->fromConceptId], copyScene->nodes[weight->toConceptId], id);
+        copyScene->addItem(newEdge);
+        copyScene->nodes[weight->fromConceptId]->addEdge(newEdge);
+        copyScene->nodes[weight->toConceptId]->addEdge(newEdge);
+        newEdge->setValue(weight->term);
+        newEdge->updatePosition();
+        copyScene->edges[id] = newEdge;
     }
     copyScene->setMode(EditMode::EditValues);
     return copyScene;

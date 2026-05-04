@@ -4,5 +4,7 @@ enum class ElementWindowMode {
     CreateElement,
     UpdateElement,
     PredictionResults,
-    SensitivityAnalysis
+    PredictionResultsDisabled,
+    SensitivityAnalysis,
+    SensitivityAnalysisDisabled,
 };

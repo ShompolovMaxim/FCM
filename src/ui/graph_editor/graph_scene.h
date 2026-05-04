@@ -9,14 +9,14 @@
 #include "model/entities/fcm.h"
 #include "model/fuzzy_logic/fuzzifier.h"
 
-#include "presenter/creation_presenter.h"
+#include "presenter/scene_presenter.h"
 
 #include <memory>
 
 class GraphScene : public QGraphicsScene {
     Q_OBJECT
 public:
-    GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<CreationPresenter> presenter, ElementWindowMode elementWindowMode);
+    GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode);
 
     void setMode(EditMode m) { mode = m; }
 
@@ -24,7 +24,7 @@ public:
 
     std::shared_ptr<FCM> getFCM() { return fcm; }
 
-    GraphScene* copy(ElementWindowMode elementWindowMode) const;
+    GraphScene* copy(std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode) const;
 
     void setConceptColor(QUuid id, QColor color, bool highlight);
     void setWeightColor(QUuid id, QColor color);
@@ -54,7 +54,7 @@ private:
     NodeItem* firstNode = nullptr;
     std::shared_ptr<FCM> fcm;
     std::shared_ptr<Fuzzifier> fuzzifier;
-    std::shared_ptr<CreationPresenter> presenter;
+    std::shared_ptr<ScenePresenter> presenter;
     std::map<QUuid, NodeItem*> nodes;
     std::map<QUuid, EdgeItem*> edges;
     bool conceptCreationColorEditBlocked = false;

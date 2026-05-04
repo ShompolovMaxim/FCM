@@ -2,6 +2,7 @@
 #define CREATION_PRESENTER_H
 
 #include "element_window_mode.h"
+#include "scene_presenter.h"
 
 #include "model/entities/fcm.h"
 
@@ -11,16 +12,16 @@
 #include <QObject>
 #include <QWidget>
 
-class CreationPresenter : public QObject {
+class CreationPresenter : public ScenePresenter {
     Q_OBJECT
 public:
     CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent = nullptr);
 
-    void createConcept(const QPointF pos);
-    void createWeight(QUuid nodeId);
-    void createWeight(QUuid fromNodeId, QUuid toNodeId);
-    void updateConcept(QUuid id, ElementWindowMode mode);
-    void updateWeight(QUuid id, ElementWindowMode mode);
+    void createConcept(const QPointF pos) override;
+    void createWeight(QUuid nodeId) override;
+    void createWeight(QUuid fromNodeId, QUuid toNodeId) override;
+    void updateConcept(QUuid id, ElementWindowMode mode) override;
+    void updateWeight(QUuid id, ElementWindowMode mode) override;
 
     void setConceptPredictedValues(QUuid id);
     void setWeightPredictedValues(QUuid id);
@@ -30,23 +31,13 @@ public:
 
     void retranslateElementsWindows();
 
-    void emitAutosave();
+    void emitAutosave() override;
 
     void closeWindows();
 
 private slots:
     void deleteConcept(QUuid id);
     void deleteWeight(QUuid id);
-
-signals:
-    void conceptCreated(std::shared_ptr<Concept> concept);
-    void weightCreated(std::shared_ptr<Weight> weight);
-    void conceptUpdated(std::shared_ptr<Concept> concept);
-    void weightUpdated(std::shared_ptr<Weight> weight);
-    void conceptDeleted(QUuid id);
-    void weightDeleted(QUuid id);
-
-    void autosave();
 
 private:
     void updateTermsLists();

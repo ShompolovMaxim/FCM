@@ -76,6 +76,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/concept.h
         src/model/entities/weight.h
         src/model/entities/fcm.h
+        src/model/entities/helpers/fcm_copy.h src/model/entities/helpers/fcm_copy.cpp
 
         src/presenter/edit_mode.h
         src/ui/graph_editor/edit_mode.h
@@ -93,6 +94,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/repository/json_repository.h src/repository/json_repository.cpp
         src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
         src/presenter/static_analysis_presenter.h src/presenter/static_analysis_presenter.cpp
+        src/presenter/scene_presenter.h
         src/presenter/creation_presenter.h src/presenter/creation_presenter.cpp
         src/ui/adjacency_table/adjacency_table_view.h src/ui/adjacency_table/adjacency_table_view.cpp
         src/model/entities/calculation_weight.h

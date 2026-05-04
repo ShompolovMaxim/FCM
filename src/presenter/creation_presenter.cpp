@@ -1,6 +1,7 @@
 #include "creation_presenter.h"
 
-CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent) : QObject(parent), fcm(fcm), elementWindowParent(elementWindowParent) {}
+CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent)
+    : ScenePresenter(parent), fcm(fcm), elementWindowParent(elementWindowParent) {}
 
 void CreationPresenter::closeWindows() {
     for (auto& [id, _] : conceptWindows) {

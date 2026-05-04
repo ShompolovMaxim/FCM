@@ -43,11 +43,24 @@ WeightWindow::WeightWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, 
 
     setPredictedValues();
 
-    if (mode == ElementWindowMode::PredictionResults) {
+    if (mode == ElementWindowMode::PredictionResults || mode == ElementWindowMode::PredictionResultsDisabled) {
         ui->tabWidget->setCurrentIndex(1);
     }
-    if (mode == ElementWindowMode::SensitivityAnalysis) {
+    if (mode == ElementWindowMode::SensitivityAnalysis || mode == ElementWindowMode::SensitivityAnalysisDisabled) {
         ui->tabWidget->setCurrentIndex(2);
+    }
+    if (mode == ElementWindowMode::PredictionResultsDisabled || mode == ElementWindowMode::SensitivityAnalysisDisabled) {
+        ui->nameField->setEnabled(false);
+        ui->valueField->setEnabled(false);
+        ui->notesField->setEnabled(false);
+        ui->buttonBox->setEnabled(false);
+        ui->deleteButton->setEnabled(false);
+    }
+    if (mode == ElementWindowMode::PredictionResultsDisabled) {
+        ui->tabWidget->setTabEnabled(2, false);
+    }
+    if (mode == ElementWindowMode::SensitivityAnalysisDisabled) {
+        ui->tabWidget->setTabEnabled(1, false);
     }
 }
 
