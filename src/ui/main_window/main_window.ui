@@ -1743,7 +1743,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <item>
              <widget class="QLabel" name="label_14">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Sensitivity metric:</string>
               </property>
              </widget>
             </item>

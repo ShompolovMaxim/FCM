@@ -18,9 +18,17 @@ public:
     QString selectedModelName() const;
 
 signals:
-    void deleteModel(const QString &modelName);
+    void deleteModelRequested(const QString &modelName);
+
+public slots:
+    void onModelDeleted(const QString &modelName, bool success);
 
 private:
+    void onDeleteButtonClicked();
+    void removeModel(const QString &modelName);
+    void addModelItem(const QString &modelName);
+    void updateButtonsState();
+
     Ui::LoadModelWindow *ui;
 };
 

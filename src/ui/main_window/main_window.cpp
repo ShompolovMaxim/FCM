@@ -243,6 +243,37 @@ bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
     return (!savedModel && *model != FCM()) || (savedModel && *model != *savedModel);
 }
 
+void MainWindow::deleteSavedModel(const QString &modelName) {
+    auto model = savingManager->getFCM(modelName);
+    if (!model || !savingManager->deleteFCM(model->dbId)) {
+        emit modelDeletionFinished(modelName, false);
+        return;
+    }
+
+    for (const auto& openModel : fcms) {
+        if (openModel->dbId == model->dbId) {
+            openModel->dbId = -1;
+            openModel->autosaveOn = false;
+        }
+    }
+
+    if (fcm->name == modelName) {
+        ui->actionAutoSave->setEnabled(false);
+        ui->actionAutoSave->setChecked(false);
+    }
+
+    emit modelDeletionFinished(modelName, true);
+}
+
+void MainWindow::deleteSavedTemplate(const QString &templateName) {
+    if (!templatesManager->deleteTemplate(templateName)) {
+        emit modelDeletionFinished(templateName, false);
+        return;
+    }
+
+    emit modelDeletionFinished(templateName, true);
+}
+
 bool MainWindow::closeModel(size_t index) {
     if (index >= fcms.size() || fcms.size() <= 1) {
         return false;
@@ -356,7 +387,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             QMessageBox::StandardButton reply = QMessageBox::question(
                 this,
                 tr("There are unsaved changes!"),
-                tr("Are you sure you want to quit the program?"),
+                tr("There are unsaved changes! Are you sure you want to quit the program?"),
                 QMessageBox::Yes | QMessageBox::No,
                 QMessageBox::No
             );
@@ -1238,6 +1269,8 @@ void MainWindow::open() {
     const auto modelsNames = savingManager->getModelsNames();
 
     LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, MainWindow::tr("Open FCM"), this);
+    connect(loadModelWindow, &LoadModelWindow::deleteModelRequested, this, &MainWindow::deleteSavedModel);
+    connect(this, &MainWindow::modelDeletionFinished, loadModelWindow, &LoadModelWindow::onModelDeleted);
 
     if (loadModelWindow->exec() != QDialog::Accepted) {
         return;
@@ -1284,6 +1317,8 @@ void MainWindow::saveAsTemplate() {
 void MainWindow::openTemplate() {
     const auto templatesNames = templatesManager->getTemplatesNames();
     LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, MainWindow::tr("Open FCM Template"), this);
+    connect(loadModelWindow, &LoadModelWindow::deleteModelRequested, this, &MainWindow::deleteSavedTemplate);
+    connect(this, &MainWindow::modelDeletionFinished, loadModelWindow, &LoadModelWindow::onModelDeleted);
 
     if (loadModelWindow->exec() != QDialog::Accepted) {
         return;

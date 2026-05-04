@@ -33,6 +33,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void modelDeletionFinished(const QString &modelName, bool success);
+
 public slots:
     void updateGraphScaleLabel(double newScale);
     void updatePredictScaleLabel(double newScale);
@@ -114,6 +117,8 @@ private:
     bool closeModel(size_t index);
     void closeOtherModels(size_t index);
     void rebuildModelsMenu();
+    void deleteSavedModel(const QString &modelName);
+    void deleteSavedTemplate(const QString &templateName);
 
     void simulationFinished();
 
