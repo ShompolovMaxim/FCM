@@ -95,6 +95,8 @@ public slots:
     void descriptionChanged();
     void createNewModel();
     void switchModel();
+    void changeActivationFunction();
+    void changeActivationFunctionSensitivity();
 
     void joinModels();
 

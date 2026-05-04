@@ -14,8 +14,8 @@ Predictor::Predictor(PredictionParameters predictionParameters, const Calculatio
 }
 
 void Predictor::perform() {
-    auto conceptActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Node, 1);
-    auto weightActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Edge, 1);
+    auto conceptActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Node, _predictionParameters.fuzzinessDegree);
+    auto weightActivationFunction = ActivationFunctionsFabric().create(_predictionParameters.activationFunction, ElementType::Edge, _predictionParameters.fuzzinessDegree);
     auto algorithm = AlgorithmsFabric().create(_predictionParameters, conceptActivationFunction, weightActivationFunction);
     auto metricsManager = MetricsManager(MetricsFabric().create(_predictionParameters.metric), _predictionParameters);
     auto stopCondition = StopConditionsFabric().create(_predictionParameters);

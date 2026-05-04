@@ -85,6 +85,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->textEditNotesPredict, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
     connect(ui->textEditNotesSensitivity, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
 
+    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunction);
+    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunctionSensitivity);
+
     connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
     connect(scene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     connect(ui->graphicsViewGraph, &GraphView::scaleChanged, this, &MainWindow::updateGraphScaleLabel);
@@ -161,6 +164,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->useFuzzyValuesSensitivity, &QCheckBox::toggled, ui->useFuzzyValues, &QCheckBox::setChecked);
     connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivationSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivation, &QComboBox::setCurrentIndex);
+    connect(ui->fuzzinessDegree, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->fuzzinessDegreeSensitivity, &QDoubleSpinBox::setValue);
+    connect(ui->fuzzinessDegreeSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->fuzzinessDegree, &QDoubleSpinBox::setValue);
     connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, ui->checkBoxPredictToStaticSensitivity, &QCheckBox::setChecked);
     connect(ui->checkBoxPredictToStaticSensitivity, &QCheckBox::toggled, ui->checkBoxPredictToStatic, &QCheckBox::setChecked);
     connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetricSensitivity, &QComboBox::setCurrentIndex);
@@ -264,6 +269,14 @@ void MainWindow::descriptionChanged() {
     }
 }
 
+void MainWindow::changeActivationFunction() {
+    ui->fuzzinessDegree->setEnabled(ui->comboBoxActivation->currentIndex() == 3 || ui->comboBoxActivation->currentIndex() == 4);
+}
+
+void MainWindow::changeActivationFunctionSensitivity() {
+    ui->fuzzinessDegreeSensitivity->setEnabled(ui->comboBoxActivationSensitivity->currentIndex() == 3 || ui->comboBoxActivationSensitivity->currentIndex() == 4);
+}
+
 void MainWindow::updateGraphScaleLabel(double newScale) {
     ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
     graphScale = newScale;
@@ -290,7 +303,11 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     experimentsModel->insertRow(row);
     experimentsModel->setData(experimentsModel->index(row, 0), MainWindow::tr(experiment.predictionParameters.algorithm.toUtf8().constData()));
     experimentsModel->setData(experimentsModel->index(row, 1), experiment.predictionParameters.useFuzzyValues ? tr("fuzzy") : tr("numeric"));
-    experimentsModel->setData(experimentsModel->index(row, 2), MainWindow::tr(experiment.predictionParameters.activationFunction.toUtf8().constData()));
+    auto activationFunctionText = MainWindow::tr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
+    if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
+        activationFunctionText += "\n" + tr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
+    }
+    experimentsModel->setData(experimentsModel->index(row, 2), activationFunctionText);
     experimentsModel->setData(experimentsModel->index(row, 3), MainWindow::tr(experiment.predictionParameters.metric.toUtf8().constData()));
     experimentsModel->setData(experimentsModel->index(row, 4), experiment.predictionParameters.predictToStatic ? tr("yes") : tr("no"));
     experimentsModel->setData(experimentsModel->index(row, 5), experiment.predictionParameters.threshold);
@@ -310,6 +327,8 @@ void MainWindow::addExperiment(const Experiment& experiment) {
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 10), deleteButton);
     connect(deleteButton, &QPushButton::clicked, this, &MainWindow::onDeleteExperiment);
     QObject::connect(btn, &QPushButton::clicked, this, &MainWindow::loadExperiment);
+    ui->experimantsTable->setWordWrap(true);
+    ui->experimantsTable->resizeRowsToContents();
 }
 
 bool MainWindow::checkElementsHaveValues() {
@@ -929,7 +948,8 @@ PredictionParameters MainWindow::getPredictionParameters() {
         ui->checkBoxPredictToStatic->isChecked(),
         ui->doubleSpinBoxThreshold->value(),
         ui->spinBoxMetricSteps->value(),
-        ui->spinBoxFixedSteps->value()
+        ui->spinBoxFixedSteps->value(),
+        ui->fuzzinessDegree->value()
     };
 }
 
@@ -1470,9 +1490,15 @@ void MainWindow::changeEvent(QEvent *event) {
             experimentsModel->setData(experimentsModel->index(row, 1), fcm->experiments[row].predictionParameters.useFuzzyValues ? tr("fuzzy") : tr("numeric"));
 
             idx = ui->experimantsTable->model()->index(row, 2);
-            ui->experimantsTable->model()->setData(idx, MainWindow::tr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData()));
+            auto activationFunctionText = MainWindow::tr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
+            if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
+                activationFunctionText += "\n" + tr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
+            }
+            ui->experimantsTable->model()->setData(idx, activationFunctionText);
             experimentsModel->setData(experimentsModel->index(row, 4), fcm->experiments[row].predictionParameters.predictToStatic ? tr("yes") : tr("no"));
         }
+        ui->experimantsTable->setWordWrap(true);
+        ui->experimantsTable->resizeRowsToContents();
     }
 
     QMainWindow::changeEvent(event);

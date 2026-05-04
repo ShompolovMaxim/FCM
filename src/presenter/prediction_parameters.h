@@ -10,6 +10,7 @@ struct PredictionParameters {
     double threshold = 0.0;
     int stepsLessThreshold = 1;
     int fixedSteps = 0;
+    double fuzzinessDegree = 1.0;
 
     bool operator==(const PredictionParameters& other) const;
     bool operator!=(const PredictionParameters& other) const;

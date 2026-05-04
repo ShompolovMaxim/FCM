@@ -8,7 +8,8 @@ bool PredictionParameters::operator==(const PredictionParameters& other) const {
         && predictToStatic == other.predictToStatic
         && threshold == other.threshold
         && stepsLessThreshold == other.stepsLessThreshold
-        && fixedSteps == other.fixedSteps;
+        && fixedSteps == other.fixedSteps
+        && fuzzinessDegree == other.fuzzinessDegree;
 }
 
 bool PredictionParameters::operator!=(const PredictionParameters& other) const {

@@ -10,8 +10,8 @@
 #include "element_type.h"
 
 FinalStatePredictor::FinalStatePredictor(const PredictionParameters& predictionParameters) : predictionParameters(predictionParameters) {
-    auto conceptActivationFunction = ActivationFunctionsFabric().create(predictionParameters.activationFunction, ElementType::Node, 1);
-    auto weightActivationFunction = ActivationFunctionsFabric().create(predictionParameters.activationFunction, ElementType::Edge, 1);
+    auto conceptActivationFunction = ActivationFunctionsFabric().create(predictionParameters.activationFunction, ElementType::Node, predictionParameters.fuzzinessDegree);
+    auto weightActivationFunction = ActivationFunctionsFabric().create(predictionParameters.activationFunction, ElementType::Edge, predictionParameters.fuzzinessDegree);
     algorithm = AlgorithmsFabric().create(predictionParameters, conceptActivationFunction, weightActivationFunction);
     metricsManager = std::make_shared<MetricsManager>(MetricsFabric().create(predictionParameters.metric), predictionParameters);
     stopCondition = StopConditionsFabric().create(predictionParameters);
