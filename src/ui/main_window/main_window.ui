@@ -1739,6 +1739,36 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </layout>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_20">
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="sensitivityMeasureMetric">
+              <item>
+               <property name="text">
+                <string>MSE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAPE</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_37">
             <item>
              <widget class="QCheckBox" name="changeConcepts">

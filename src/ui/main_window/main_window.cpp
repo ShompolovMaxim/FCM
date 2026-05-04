@@ -52,6 +52,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->comboBoxMetricSensitivity->setItemData(0, "MSE", Qt::UserRole);
     ui->comboBoxMetricSensitivity->setItemData(1, "MAE", Qt::UserRole);
     ui->comboBoxMetricSensitivity->setItemData(2, "MAPE", Qt::UserRole);
+    ui->sensitivityMeasureMetric->setItemData(0, "MSE", Qt::UserRole);
+    ui->sensitivityMeasureMetric->setItemData(1, "MAE", Qt::UserRole);
+    ui->sensitivityMeasureMetric->setItemData(2, "MAPE", Qt::UserRole);
     ui->influenceDirection->setItemData(0, "from", Qt::UserRole);
     ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
@@ -491,7 +494,8 @@ SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
         ui->changeConcepts->isChecked(),
         ui->changeWeights->isChecked(),
         10,
-        1000
+        1000,
+        ui->sensitivityMeasureMetric->currentData(Qt::UserRole).toString()
     };
 }
 
