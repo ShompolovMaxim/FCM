@@ -65,7 +65,7 @@ void AdjacencyTableView::conceptUpdated(std::shared_ptr<Concept> concept) {
 void AdjacencyTableView::weightUpdated(std::shared_ptr<Weight> weight) {
     QModelIndex idx = model->index(conceptsRows[weight->fromConceptId], conceptsRows[weight->toConceptId]);
     model->setData(idx, weight->name);
-    auto color = QColor(255, 255, 255);
+    auto color = QColor(0, 0, 0);
     if (weight->term) {
         color = colorValueAdapter->getColor(weight->term->value, -1, 1);
     }

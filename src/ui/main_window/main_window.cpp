@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
 
     fcm = std::make_shared<FCM>();
+    fcm->name = ui->modelName->text();
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
@@ -272,7 +273,9 @@ bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
         savedModel = savingManager->getFCM(model->name);
     }
 
-    return (!savedModel && *model != FCM()) || (savedModel && *model != *savedModel);
+    auto defaultFcm = FCM();
+    defaultFcm.name = model->name;
+    return (!savedModel && *model != defaultFcm) || (savedModel && *model != *savedModel);
 }
 
 void MainWindow::deleteSavedModel(const QString &modelName) {
@@ -755,11 +758,22 @@ void MainWindow::onCreateTerm() {
         }
     }
 
+    size_t counter = 1;
+    QStringList termsNames;
+    for (const auto& [_, term] : fcm->terms) {
+        if (term->type == type) {
+            termsNames.append(term->name);
+        }
+    }
+    while (termsNames.contains(MainWindow::tr("New term") + (counter - 1 ? " (" + QString::number(counter) + ")" : ""))) {
+        ++counter;
+    }
+
     auto id = QUuid::createUuid();
 
     fcm->terms[id] = std::make_shared<Term>();
     fcm->terms[id]->id = id;
-    fcm->terms[id]->name = MainWindow::tr("New term");
+    fcm->terms[id]->name = MainWindow::tr("New term") + (counter - 1 ? " (" + QString::number(counter) + ")" : "");
     fcm->terms[id]->type = type;
 
     if (type == ElementType::Node) {
@@ -768,9 +782,8 @@ void MainWindow::onCreateTerm() {
         fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value, -1, 1);
     }
 
-
     QTreeWidgetItem* item = new QTreeWidgetItem();
-    item->setText(0, MainWindow::tr("New term"));
+    item->setText(0, fcm->terms[id]->name);
     item->setData(0, Qt::UserRole, QVariant::fromValue(id));
     item->setFlags(item->flags() | Qt::ItemIsEditable);
 
@@ -982,6 +995,13 @@ void MainWindow::updateFuzzyValuePlot() {
 
 void MainWindow::onItemChanged(QTreeWidgetItem  *item, int column) {
     auto id = item->data(0, Qt::UserRole).toUuid();
+    for (const auto [termId, term] : fcm->terms) {
+        if (termId != id && term->type == fcm->terms[id]->type && item->text(0) == term->name) {
+            item->setText(0, fcm->terms[id]->name);
+            QMessageBox::critical(this, tr("Error"), tr("There already is a term of this type with such a name"));
+            return;
+        }
+    }
     fcm->terms[id]->name = item->text(0);
     creationPresenter->updateTerm(id);
 }
@@ -1519,7 +1539,15 @@ void MainWindow::nameChanged(QString newName) {
 
 void MainWindow::createNewModel() {
     fcm = std::make_shared<FCM>();
-    fcm->name = MainWindow::tr("New model");
+    size_t counter = 1;
+    QStringList fcmsNames;
+    for (const auto& model : fcms) {
+        fcmsNames.append(model->name);
+    }
+    while (fcmsNames.contains(MainWindow::tr("New model") + (counter - 1 ? " (" + QString::number(counter) + ")" : ""))) {
+        ++counter;
+    }
+    fcm->name = MainWindow::tr("New model") + (counter - 1 ? " (" + QString::number(counter) + ")" : "");
     addFCM(fcm);
     loadFCM(fcm);
 }

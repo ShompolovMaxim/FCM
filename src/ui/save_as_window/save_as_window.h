@@ -16,9 +16,13 @@ public:
 
     QString savingModelName() const;
 
+protected:
+    void accept() override;
+
 private slots:
     void onModelDoubleClicked(QListWidgetItem* item);
 
 private:
     Ui::SaveAsWindow *ui;
+    QStringList modelsNames;
 };

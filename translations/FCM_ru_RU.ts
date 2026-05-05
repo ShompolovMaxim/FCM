@@ -666,8 +666,8 @@
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1420"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1428"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1420"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="477"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1644"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="509"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1701"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -714,8 +714,8 @@
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1480"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1488"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1480"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="448"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1625"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="480"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1682"/>
         <source>Mode: Create</source>
         <translation>Режим создания</translation>
     </message>
@@ -1576,8 +1576,8 @@
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1715"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1577"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1707"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1610"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1667"/>
         <source>Predict to static</source>
         <translation>Предсказывать до статического состояния</translation>
     </message>
@@ -1890,8 +1890,8 @@
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1625"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1633"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1625"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="595"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1629"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="627"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1686"/>
         <source>Pause</source>
         <translation>Пауза</translation>
     </message>
@@ -2151,8 +2151,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="../build/Desktop_Qt_6_10_3_MinGW_64_bit-Release/FCM_autogen/include/ui_main_window.h" line="1685"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-Release/FCM_autogen/include/ui_main_window.h" line="1693"/>
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_main_window.h" line="1685"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="702"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1635"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="734"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1692"/>
         <source>FCM Sensitivity</source>
         <translation>Чувствительность НКК</translation>
     </message>
@@ -2549,187 +2549,190 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">шаг(ов)</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1349"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1398"/>
         <source>Export as PNG</source>
         <translation>Экспорт PNG</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="489"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="495"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="613"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="619"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1363"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1384"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1403"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1530"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1545"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1553"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="521"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="527"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="645"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="651"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="998"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1412"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1433"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1452"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1587"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1602"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1610"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="390"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="422"/>
         <source>There are unsaved changes! Are you sure you want to quit the program?</source>
         <translation>Есть несохранённые изменения! Вы уверены, что хотите завершить выполнение программы?</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="474"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1641"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="506"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1698"/>
         <source>Load</source>
         <translation>Восстановить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="613"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="619"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="645"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="651"/>
         <source>Value of step is not calculated or step out of range!</source>
         <translation>Состояние НКК енщё не рассчитано для шага, или шаг за пределами области определения!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="636"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1631"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="668"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1688"/>
         <source>Metric value: %1</source>
         <translation>Значение метрики: %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="704"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1633"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="736"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1690"/>
         <source>Elements Sensitivity</source>
         <translation>Чувствительность элементов НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="730"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="741"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="765"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="773"/>
         <source>New term</source>
         <translation>Новый терм</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="770"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="812"/>
         <source>Choose term %1 color</source>
         <translation>Выберите цвет терма %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1113"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1162"/>
         <source>Save FCM</source>
         <translation>Сохранить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1271"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1320"/>
         <source>Open FCM</source>
         <translation>Открыть НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1308"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1357"/>
         <source>Save FCM Template</source>
         <translation>Сохранить шаблон НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1319"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1368"/>
         <source>Open FCM Template</source>
         <translation>Открыть шаблон НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1363"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1412"/>
         <source>Unable to save PNG to the selected file!</source>
         <translation>Сохранение PNG  в выбранный файл невозможно!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="125"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1598"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="126"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1655"/>
         <source>Concepts terms</source>
         <translation>Термы факторов</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="127"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1599"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="128"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1656"/>
         <source>Weights terms</source>
         <translation>Термы связей</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1606"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1663"/>
         <source>Algorithm</source>
         <translation>Алгоритм</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1608"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1665"/>
         <source>Activation function</source>
         <translation>Функция активации</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1609"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1666"/>
         <source>Metric</source>
         <translation>Метрика</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1611"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1668"/>
         <source>Threshold</source>
         <translation>Порог изменения</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1612"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1669"/>
         <source>Steps less threshold</source>
         <translation>Шагов ниже порога для остановки</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1613"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1670"/>
         <source>Fixed steps</source>
         <translation>Фиксированное число шагов</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1614"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1671"/>
         <source>Timestamp</source>
         <translation>Время</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="132"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1607"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="133"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1664"/>
         <source>Value type</source>
         <translation>Тип значения</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="188"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1600"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1620"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="189"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1657"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1677"/>
         <source>max change</source>
         <translation>максимальное изменение</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="189"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1601"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1621"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="190"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1658"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1678"/>
         <source>sensitivity</source>
         <translation>чувствительность</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="222"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1490"/>
+        <location filename="../src/ui/main_window/main_window.ui" line="72"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="223"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1544"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1547"/>
         <source>New model</source>
         <translation>Новая модель</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="286"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="389"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="318"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="421"/>
         <source>There are unsaved changes!</source>
         <translation>Есть несохранённые изменения!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="287"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="319"/>
         <source>Model &quot;%1&quot; has unsaved changes. Are you sure you want to close it?</source>
         <translation>Модель &quot;%1&quot; имеет несохранённые изменения. Вы уверены, что хотите закрыть её?</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="349"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="381"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="357"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="389"/>
         <source>Close other models</source>
         <translation>Закрыть остальные</translation>
     </message>
@@ -2738,99 +2741,104 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">Вы уверены, что хотите завершить выполнение программы?</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="433"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="438"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="443"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1622"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1623"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1624"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="465"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="470"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="475"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1679"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1680"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1681"/>
         <source>Scale: %1%</source>
         <translation>Масштаб: %1%</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="448"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1625"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="480"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1682"/>
         <source>Mode: Edit values</source>
         <translation>Режим изменения значений</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="457"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1650"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="489"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1707"/>
         <source>fuzzy</source>
         <translation>нечёткий</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="457"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1650"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="489"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1707"/>
         <source>numeric</source>
         <translation>численный</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="460"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1655"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="492"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1712"/>
         <source>fuzziness degree</source>
         <translation>степень нечёткости</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="464"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1658"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="496"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1715"/>
         <source>yes</source>
         <translation>да</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="464"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1658"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="496"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1715"/>
         <source>no</source>
         <translation>нет</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="489"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="521"/>
         <source>Not every concept has a value!</source>
         <translation>Не для каждого фактора задано значение!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="495"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="527"/>
         <source>Not every weight has a value!</source>
         <translation>Не для каждой связи задано значение!</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="591"/>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1627"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="623"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1684"/>
         <source>Resume</source>
         <translation>Запустить</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1370"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="998"/>
+        <source>There already is a term of this type with such a name</source>
+        <translation>Уже существует терм с таким именем</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1419"/>
         <source>Save FCM Model</source>
         <translation>Сохранить НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1384"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1433"/>
         <source>Failed to save file.</source>
         <translation>Не удалось выполнить экспорт.</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1391"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1440"/>
         <source>Open FCM Model</source>
         <translation>Открыть НКК</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1403"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1452"/>
         <source>Failed to load file.</source>
         <translation>Не удалось выполнить импорт.</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1530"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1587"/>
         <source>Failed to load one of the selected saved models.</source>
         <translation>Не удалось загрузить одну из выбранных сохранённых моделей.</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1545"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1602"/>
         <source>Failed to load the selected terms model template.</source>
         <translation>Не удалось загрузить один из выбранных шаблонов.</translation>
     </message>
     <message>
-        <location filename="../src/ui/main_window/main_window.cpp" line="1553"/>
+        <location filename="../src/ui/main_window/main_window.cpp" line="1610"/>
         <source>Please select a valid terms model before proceeding!</source>
         <translation>Выберите корректную модель для использования термов для продолжения!</translation>
     </message>
@@ -2876,6 +2884,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="../build/Desktop_Qt_6_10_3_MSVC2022_64bit-u041eu0442u043bu0430u0434u043au0430/FCM_autogen/include/ui_save_as_window.h" line="78"/>
         <source>Already saved models</source>
         <translation>Уже сохранённые модели</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/save_as_window/save_as_window.cpp" line="24"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/save_as_window/save_as_window.cpp" line="24"/>
+        <source>This name is already taken</source>
+        <translation>Данное название уже занято</translation>
     </message>
 </context>
 <context>
