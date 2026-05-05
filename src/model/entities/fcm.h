@@ -19,6 +19,9 @@ struct FCM {
     PredictionParameters predictionParameters;
     std::vector<Experiment> experiments;
     bool autosaveOn = false;
+    bool autoConfigureTermsColors = true;
+    bool autoConfigureNumericValues = true;
+    bool autoConfigureFuzzyValues = true;
     int dbId = -1;
 
     QList<int> deletedTermsIds;

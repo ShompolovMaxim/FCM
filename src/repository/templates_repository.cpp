@@ -127,7 +127,7 @@ std::optional<std::vector<std::shared_ptr<TemplateTerm>>> TemplatesRepository::g
     query.prepare(
         "SELECT "
         "id,name,description,numeric_value,tr_value_l,tr_value_m,tr_value_h,"
-        "color_r,color_g,color_b,type "
+        "color_r,color_g,color_b,color_a,type "
         "FROM templates_terms WHERE template_id=:template_id"
     );
     query.bindValue(":template_id", templateId);
@@ -145,7 +145,8 @@ std::optional<std::vector<std::shared_ptr<TemplateTerm>>> TemplatesRepository::g
         term->color = QColor(
             query.value("color_r").toInt(),
             query.value("color_g").toInt(),
-            query.value("color_b").toInt()
+            query.value("color_b").toInt(),
+            query.value("color_a").toInt()
         );
         term->type = elementTypeFromString(query.value("type").toString());
         result.push_back(term);
@@ -215,9 +216,9 @@ std::optional<int> TemplatesRepository::createTemplateTerm(TemplateTerm &term, i
     query.prepare(
         "INSERT INTO templates_terms "
         "(template_id,name,description,numeric_value,tr_value_l,tr_value_m,tr_value_h,"
-        "color_r,color_g,color_b,type) "
+        "color_r,color_g,color_b,color_a,type) "
         "VALUES (:template_id,:name,:description,:numeric_value,:tr_value_l,:tr_value_m,"
-        ":tr_value_h,:color_r,:color_g,:color_b,:type)"
+        ":tr_value_h,:color_r,:color_g,:color_b,:color_a,:type)"
     );
     query.bindValue(":template_id", templateId);
     query.bindValue(":name", term.name);
@@ -229,6 +230,7 @@ std::optional<int> TemplatesRepository::createTemplateTerm(TemplateTerm &term, i
     query.bindValue(":color_r", term.color.red());
     query.bindValue(":color_g", term.color.green());
     query.bindValue(":color_b", term.color.blue());
+    query.bindValue(":color_a", term.color.alpha());
     query.bindValue(":type", elementTypeToString(term.type));
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();

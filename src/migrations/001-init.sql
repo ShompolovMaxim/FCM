@@ -12,7 +12,10 @@ CREATE TABLE IF NOT EXISTS models (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     description TEXT,
-    autosave_on INTEGER DEFAULT 0
+    autosave_on INTEGER DEFAULT 0,
+    auto_configure_terms_colors INTEGER DEFAULT 1,
+    auto_configure_numeric_values INTEGER DEFAULT 1,
+    auto_configure_fuzzy_values INTEGER DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS terms (
@@ -28,6 +31,7 @@ CREATE TABLE IF NOT EXISTS terms (
     color_r INTEGER,
     color_g INTEGER,
     color_b INTEGER,
+    color_a INTEGER DEFAULT 255,
     type TEXT DEFAULT 'Node',
     FOREIGN KEY (experiment_id) REFERENCES experiments(id)
 );
@@ -44,6 +48,7 @@ CREATE TABLE IF NOT EXISTS experiments (
     threshold REAL,
     steps_less_threshold INTEGER,
     fixed_steps INTEGER,
+    fuzziness_degree REAL DEFAULT 1.0,
     FOREIGN KEY (model_id) REFERENCES models(id)
 );
 
@@ -112,6 +117,7 @@ CREATE TABLE IF NOT EXISTS templates_terms (
     color_r INTEGER,
     color_g INTEGER,
     color_b INTEGER,
+    color_a INTEGER DEFAULT 255,
     type TEXT DEFAULT 'Node',
     FOREIGN KEY (template_id) REFERENCES templates(id)
 );

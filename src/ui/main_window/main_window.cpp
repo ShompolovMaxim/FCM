@@ -1142,6 +1142,9 @@ void MainWindow::updateFCM() {
     fcm->name = ui->modelName->text();
     fcm->description = ui->modelNotes->markdownText();
     fcm->predictionParameters = getPredictionParameters();
+    fcm->autoConfigureTermsColors = ui->autoColorConfiguration->isChecked();
+    fcm->autoConfigureNumericValues = ui->autoNumericConfiguration->isChecked();
+    fcm->autoConfigureFuzzyValues = ui->autoFuzzyConfiguration->isChecked();
 }
 
 PredictionParameters MainWindow::getPredictionParameters() {

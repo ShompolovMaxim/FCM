@@ -22,10 +22,19 @@ bool ModelsRepository::rollback() {
 
 std::optional<int> ModelsRepository::createModel(FCM &fcm) {
     QSqlQuery query(db);
-    query.prepare("INSERT INTO models (name,description,autosave_on) VALUES (:name,:description,:autosave_on)");
+    query.prepare(
+        "INSERT INTO models "
+        "(name,description,autosave_on,auto_configure_terms_colors,"
+        "auto_configure_numeric_values,auto_configure_fuzzy_values) "
+        "VALUES (:name,:description,:autosave_on,:auto_configure_terms_colors,"
+        ":auto_configure_numeric_values,:auto_configure_fuzzy_values)"
+    );
     query.bindValue(":name", fcm.name);
     query.bindValue(":description", fcm.description);
     query.bindValue(":autosave_on", fcm.autosaveOn);
+    query.bindValue(":auto_configure_terms_colors", fcm.autoConfigureTermsColors);
+    query.bindValue(":auto_configure_numeric_values", fcm.autoConfigureNumericValues);
+    query.bindValue(":auto_configure_fuzzy_values", fcm.autoConfigureFuzzyValues);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
         return {};
@@ -36,10 +45,20 @@ std::optional<int> ModelsRepository::createModel(FCM &fcm) {
 
 bool ModelsRepository::updateModel(const FCM &fcm) {
     QSqlQuery query(db);
-    query.prepare("UPDATE models SET name=:name,description=:description,autosave_on=:autosave_on WHERE id=:id");
+    query.prepare(
+        "UPDATE models SET "
+        "name=:name,description=:description,autosave_on=:autosave_on,"
+        "auto_configure_terms_colors=:auto_configure_terms_colors,"
+        "auto_configure_numeric_values=:auto_configure_numeric_values,"
+        "auto_configure_fuzzy_values=:auto_configure_fuzzy_values "
+        "WHERE id=:id"
+    );
     query.bindValue(":name", fcm.name);
     query.bindValue(":description", fcm.description);
     query.bindValue(":autosave_on", fcm.autosaveOn);
+    query.bindValue(":auto_configure_terms_colors", fcm.autoConfigureTermsColors);
+    query.bindValue(":auto_configure_numeric_values", fcm.autoConfigureNumericValues);
+    query.bindValue(":auto_configure_fuzzy_values", fcm.autoConfigureFuzzyValues);
     query.bindValue(":id", fcm.dbId);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
@@ -64,9 +83,10 @@ std::optional<int> ModelsRepository::createExperiment(Experiment &experiment, in
     query.prepare(
         "INSERT INTO experiments "
         "(model_id,timestamp,algorithm,use_fuzzy_values,activation,predict_to_static,"
-        "metric,threshold,steps_less_threshold,fixed_steps) "
+        "metric,threshold,steps_less_threshold,fixed_steps,fuzziness_degree) "
         "VALUES (:model_id,:timestamp,:algorithm,:use_fuzzy_values,:activation,"
-        ":predict_to_static,:metric,:threshold,:steps_less_threshold,:fixed_steps)"
+        ":predict_to_static,:metric,:threshold,:steps_less_threshold,:fixed_steps,"
+        ":fuzziness_degree)"
     );
     query.bindValue(":model_id", modelId);
     query.bindValue(":timestamp", experiment.timestamp);
@@ -78,6 +98,7 @@ std::optional<int> ModelsRepository::createExperiment(Experiment &experiment, in
     query.bindValue(":threshold", experiment.predictionParameters.threshold);
     query.bindValue(":steps_less_threshold", experiment.predictionParameters.stepsLessThreshold);
     query.bindValue(":fixed_steps", experiment.predictionParameters.fixedSteps);
+    query.bindValue(":fuzziness_degree", experiment.predictionParameters.fuzzinessDegree);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
         return {};
@@ -93,7 +114,8 @@ bool ModelsRepository::updateExperiment(const Experiment &experiment) {
         "algorithm=:algorithm,use_fuzzy_values=:use_fuzzy_values,activation=:activation,"
         "predict_to_static=:predict_to_static,metric=:metric,"
         "threshold=:threshold,steps_less_threshold=:steps_less_threshold,fixed_"
-        "steps=:fixed_steps,timestamp=:timestamp WHERE id=:id"
+        "steps=:fixed_steps,fuzziness_degree=:fuzziness_degree,"
+        "timestamp=:timestamp WHERE id=:id"
     );
     query.bindValue(":algorithm", experiment.predictionParameters.algorithm);
     query.bindValue(":use_fuzzy_values", experiment.predictionParameters.useFuzzyValues);
@@ -103,6 +125,7 @@ bool ModelsRepository::updateExperiment(const Experiment &experiment) {
     query.bindValue(":threshold", experiment.predictionParameters.threshold);
     query.bindValue(":steps_less_threshold", experiment.predictionParameters.stepsLessThreshold);
     query.bindValue(":fixed_steps", experiment.predictionParameters.fixedSteps);
+    query.bindValue(":fuzziness_degree", experiment.predictionParameters.fuzzinessDegree);
     query.bindValue(":timestamp", experiment.timestamp);
     query.bindValue(":id", experiment.dbId);
     if (!query.exec()) {
@@ -126,8 +149,11 @@ bool ModelsRepository::deleteExperiment(int experimentId) {
 std::optional<int> ModelsRepository::createTerm(Term &term, int experimentId) {
     QSqlQuery query(db);
     query.prepare(
-        "INSERT INTO terms (uuid,name,description,experiment_id,numeric_value,tr_value_l,tr_value_m,tr_value_h,color_r,color_g,color_b,type) "
-        "VALUES (:uuid,:name,:description,:experiment_id,:numeric_value,:tr_value_l,:tr_value_m,:tr_value_h,:color_r,:color_g,:color_b,:type)"
+        "INSERT INTO terms "
+        "(uuid,name,description,experiment_id,numeric_value,tr_value_l,tr_value_m,"
+        "tr_value_h,color_r,color_g,color_b,color_a,type) "
+        "VALUES (:uuid,:name,:description,:experiment_id,:numeric_value,:tr_value_l,"
+        ":tr_value_m,:tr_value_h,:color_r,:color_g,:color_b,:color_a,:type)"
     );
     query.bindValue(":uuid", term.id);
     query.bindValue(":name", term.name);
@@ -140,6 +166,7 @@ std::optional<int> ModelsRepository::createTerm(Term &term, int experimentId) {
     query.bindValue(":color_r", term.color.red());
     query.bindValue(":color_g", term.color.green());
     query.bindValue(":color_b", term.color.blue());
+    query.bindValue(":color_a", term.color.alpha());
     query.bindValue(":type", elementTypeToString(term.type));
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
@@ -154,7 +181,8 @@ bool ModelsRepository::updateTerm(const Term &term) {
     query.prepare(
         "UPDATE terms SET name=:name,description=:description,numeric_value=:numeric_value,"
         "tr_value_l=:tr_value_l,tr_value_m=:tr_value_m,tr_value_h=:tr_value_h,"
-        "color_r=:color_r,color_g=:color_g,color_b=:color_b,type=:type WHERE id=:id");
+        "color_r=:color_r,color_g=:color_g,color_b=:color_b,color_a=:color_a,"
+        "type=:type WHERE id=:id");
     query.bindValue(":name", term.name);
     query.bindValue(":description", term.description);
     query.bindValue(":numeric_value", term.value);
@@ -164,6 +192,7 @@ bool ModelsRepository::updateTerm(const Term &term) {
     query.bindValue(":color_r", term.color.red());
     query.bindValue(":color_g", term.color.green());
     query.bindValue(":color_b", term.color.blue());
+    query.bindValue(":color_a", term.color.alpha());
     query.bindValue(":type", elementTypeToString(term.type));
     query.bindValue(":id", term.dbId);
     if (!query.exec()) {
@@ -305,7 +334,12 @@ QList<QString> ModelsRepository::getModelsNames() {
 
 std::optional<FCM> ModelsRepository::getModel(const QString &modelName) {
     QSqlQuery query(db);
-    query.prepare("SELECT id,name,description,autosave_on FROM models WHERE name=:name");
+    query.prepare(
+        "SELECT "
+        "id,name,description,autosave_on,auto_configure_terms_colors,"
+        "auto_configure_numeric_values,auto_configure_fuzzy_values "
+        "FROM models WHERE name=:name"
+    );
     query.bindValue(":name", modelName);
     if (!query.exec() || !query.next()) return {};
     FCM fcm;
@@ -313,6 +347,9 @@ std::optional<FCM> ModelsRepository::getModel(const QString &modelName) {
     fcm.name = query.value("name").toString();
     fcm.description = query.value("description").toString();
     fcm.autosaveOn = query.value("autosave_on").toBool();
+    fcm.autoConfigureTermsColors = query.value("auto_configure_terms_colors").toBool();
+    fcm.autoConfigureNumericValues = query.value("auto_configure_numeric_values").toBool();
+    fcm.autoConfigureFuzzyValues = query.value("auto_configure_fuzzy_values").toBool();
     auto experimentsOpt = getExperiments(fcm.dbId);
     if (!experimentsOpt) return {};
     auto experiments = *experimentsOpt;
@@ -333,7 +370,8 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(int mode
     query.prepare(
         "SELECT "
         "id,timestamp,algorithm,activation,predict_to_static,metric,"
-        "threshold,steps_less_threshold,fixed_steps,use_fuzzy_values "
+        "threshold,steps_less_threshold,fixed_steps,use_fuzzy_values,"
+        "fuzziness_degree "
         "FROM experiments WHERE model_id=:model_id");
     query.bindValue(":model_id", modelId);
     if (!query.exec()) return {};
@@ -350,7 +388,8 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(int mode
             query.value("predict_to_static").toBool(),
             query.value("threshold").toDouble(),
             query.value("steps_less_threshold").toInt(),
-            query.value("fixed_steps").toInt()
+            query.value("fixed_steps").toInt(),
+            query.value("fuzziness_degree").toDouble()
         };
         auto termsOpt = getExperimentTerms(experiment.dbId);
         if (!termsOpt) return {};
@@ -392,7 +431,7 @@ std::optional<std::map<QUuid, std::shared_ptr<Term>>> ModelsRepository::getExper
     query.prepare(
         "SELECT "
         "id,uuid,name,description,numeric_value,tr_value_l,tr_value_m,"
-        "tr_value_h,color_r,color_g,color_b,type FROM terms WHERE "
+        "tr_value_h,color_r,color_g,color_b,color_a,type FROM terms WHERE "
         "experiment_id=:experiment_id");
     query.bindValue(":experiment_id", experimentId);
     if (!query.exec()) return {};
@@ -406,7 +445,12 @@ std::optional<std::map<QUuid, std::shared_ptr<Term>>> ModelsRepository::getExper
             query.value("tr_value_l").toDouble(),
             query.value("tr_value_m").toDouble(),
             query.value("tr_value_h").toDouble(),
-            QColor(query.value("color_r").toInt(), query.value("color_g").toInt(), query.value("color_b").toInt()),
+            QColor(
+                query.value("color_r").toInt(),
+                query.value("color_g").toInt(),
+                query.value("color_b").toInt(),
+                query.value("color_a").toInt()
+            ),
             elementTypeFromString(query.value("type").toString())
         });
         term->dbId = query.value("id").toInt();

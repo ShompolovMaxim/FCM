@@ -8,7 +8,11 @@ bool FCM::operator==(const FCM& other) const {
         && areEqualMaps(concepts, other.concepts)
         && areEqualMaps(weights, other.weights)
         && predictionParameters == other.predictionParameters
-        && experiments == other.experiments;
+        && experiments == other.experiments
+        && autosaveOn == other.autosaveOn
+        && autoConfigureTermsColors == other.autoConfigureTermsColors
+        && autoConfigureNumericValues == other.autoConfigureNumericValues
+        && autoConfigureFuzzyValues == other.autoConfigureFuzzyValues;
 }
 
 bool FCM::operator!=(const FCM& other) const {
