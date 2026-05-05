@@ -28,6 +28,8 @@ public:
 
     void setConceptColor(QUuid id, QColor color, bool highlight);
     void setWeightColor(QUuid id, QColor color);
+    void updatePendingWeightPreview(const QPointF& scenePos);
+    void cancelPendingWeightCreation();
 
     void blockConceptCreationColorEdit(bool flag);
 
@@ -47,9 +49,16 @@ signals:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* e) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
+    NodeItem* findNodeItem(QGraphicsItem* item) const;
+    EdgeItem* findEdgeItem(QGraphicsItem* item) const;
+    void syncPendingWeightPreview(const QPointF& scenePos);
+    void clearPendingWeightPreview();
+    void updatePreviewGeometry(NodeItem* startNode, const QPointF& scenePos);
+
     EditMode mode = EditMode::Create;
     NodeItem* firstNode = nullptr;
     std::shared_ptr<FCM> fcm;
@@ -57,6 +66,8 @@ private:
     std::shared_ptr<ScenePresenter> presenter;
     std::map<QUuid, NodeItem*> nodes;
     std::map<QUuid, EdgeItem*> edges;
+    QGraphicsPathItem* previewEdge = nullptr;
+    QGraphicsPolygonItem* previewArrow = nullptr;
     bool conceptCreationColorEditBlocked = false;
     bool conceptPositionChangedFlag = false;
     ElementWindowMode elementWindowMode;

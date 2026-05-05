@@ -2570,7 +2570,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="390"/>
         <source>There are unsaved changes! Are you sure you want to quit the program?</source>
-        <translation type="unfinished">Есть несохранённые изменения! Вы уверены, что хотите завершить выполнение программы?</translation>
+        <translation>Есть несохранённые изменения! Вы уверены, что хотите завершить выполнение программы?</translation>
     </message>
     <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="474"/>

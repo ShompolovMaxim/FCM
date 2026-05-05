@@ -23,6 +23,9 @@ public:
     void updateConceptPosition(QUuid id, const QPointF& pos) override;
     void updateConcept(QUuid id, ElementWindowMode mode) override;
     void updateWeight(QUuid id, ElementWindowMode mode) override;
+    bool hasPendingWeightStart() const override;
+    std::optional<QUuid> pendingWeightStartId() const override;
+    void cancelPendingWeightCreation() override;
 
     void setConceptPredictedValues(QUuid id);
     void setWeightPredictedValues(QUuid id);

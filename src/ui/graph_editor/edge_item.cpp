@@ -43,35 +43,49 @@ void EdgeItem::setColor(QColor color) {
     }
 }
 
-void EdgeItem::updatePosition() {
-    QLineF line(src->scenePos(), dst->scenePos());
+EdgeItem::Geometry EdgeItem::buildGeometry(const QPointF& sourcePos, const QPointF& targetPos, qreal sourceInset, qreal targetInset) {
+    Geometry geometry;
+
+    QLineF line(sourcePos, targetPos);
     if (line.length() < 40) {
+        return geometry;
+    }
+
+    geometry.visible = true;
+
+    QPointF dir = (line.p2() - line.p1()) / line.length();
+    QPointF start = sourcePos + dir * sourceInset;
+    QPointF end = targetPos - dir * targetInset;
+
+    QPointF normal(-dir.y(), dir.x());
+    constexpr double curvature = 80.0;
+    QPointF mid = (start + end) / 2 + normal * curvature;
+
+    geometry.path.moveTo(start);
+    geometry.path.quadTo(mid, end);
+
+    QPointF tangentVec = end - mid;
+    QPolygonF arrow{{0, 0}, {-15, 8}, {-15, -8}};
+
+    QTransform transform;
+    transform.translate(end.x(), end.y());
+    transform.rotate(-QLineF(QPointF(0, 0), tangentVec).angle());
+    geometry.arrow = transform.map(arrow);
+
+    return geometry;
+}
+
+void EdgeItem::updatePosition() {
+    const auto geometry = buildGeometry(src->scenePos(), dst->scenePos(), 25, 25);
+    if (!geometry.visible) {
+        setPath(QPainterPath());
         if (arrowItem) arrowItem->setVisible(false);
         return;
     }
 
     if (arrowItem) arrowItem->setVisible(true);
-
-    QPointF dir = (line.p2() - line.p1()) / line.length();
-    QPointF start = src->scenePos() + dir * 25;
-    QPointF end   = dst->scenePos() - dir * 25;
-
-    QPointF normal(-dir.y(), dir.x());
-    double curvature = 80.0;
-    QPointF mid = (start + end) / 2 + normal * curvature;
-
-    QPainterPath path;
-    path.moveTo(start);
-    path.quadTo(mid, end);
-    setPath(path);
-
-    QPointF tangentVec = end - mid;
-    QPolygonF arrow{{0,0},{-15,8},{-15,-8}};
-
-    QTransform t;
-    t.translate(end.x(), end.y());
-    t.rotate(-QLineF(QPointF(0,0), tangentVec).angle());
-    arrowItem->setPolygon(t.map(arrow));
+    setPath(geometry.path);
+    arrowItem->setPolygon(geometry.arrow);
 }
 
 QPainterPath EdgeItem::shape() const {

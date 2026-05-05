@@ -5,6 +5,7 @@
 #include "model/entities/weight.h"
 
 #include <QObject>
+#include <optional>
 #include <QPointF>
 
 class ScenePresenter : public QObject {
@@ -20,6 +21,9 @@ public:
     virtual void updateConcept(QUuid id, ElementWindowMode mode) = 0;
     virtual void updateWeight(QUuid id, ElementWindowMode mode) = 0;
     virtual void emitAutosave() = 0;
+    virtual bool hasPendingWeightStart() const { return false; }
+    virtual std::optional<QUuid> pendingWeightStartId() const { return std::nullopt; }
+    virtual void cancelPendingWeightCreation() {}
 
 signals:
     void conceptCreated(std::shared_ptr<Concept> concept);

@@ -6,6 +6,7 @@ GraphView::GraphView(QWidget* parent) : QGraphicsView(parent) {
     setDragMode(RubberBandDrag);
     setTransformationAnchor(AnchorUnderMouse);
     setViewportUpdateMode(FullViewportUpdate);
+    setMouseTracking(true);
     panSensitivity = 2;
 }
 

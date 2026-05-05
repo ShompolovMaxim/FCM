@@ -69,6 +69,7 @@ public slots:
     void termNotesChanged();
 
     void onPredictToStaticChanged(bool checked);
+    void onCurrentTabChanged(int index);
     void loadExperiment();
     void onDeleteExperiment();
 
@@ -110,8 +111,10 @@ protected:
     void changeEvent(QEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
     bool eventFilter(QObject *watched, QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
+    void cancelPendingWeightCreation();
     bool checkElementsHaveValues();
     bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
     bool closeModel(size_t index);

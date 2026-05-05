@@ -12,7 +12,15 @@ class NodeItem;
 class EdgeItem : public QGraphicsPathItem
 {
 public:
+    struct Geometry {
+        QPainterPath path;
+        QPolygonF arrow;
+        bool visible = false;
+    };
+
     EdgeItem(NodeItem* s, NodeItem* d, QUuid id);
+
+    static Geometry buildGeometry(const QPointF& sourcePos, const QPointF& targetPos, qreal sourceInset, qreal targetInset);
 
     void updatePosition();
 

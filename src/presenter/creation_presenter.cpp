@@ -74,6 +74,18 @@ void CreationPresenter::createWeight(QUuid nodeId) {
     firstNodeId = {};
 }
 
+bool CreationPresenter::hasPendingWeightStart() const {
+    return firstNodeId.has_value();
+}
+
+std::optional<QUuid> CreationPresenter::pendingWeightStartId() const {
+    return firstNodeId;
+}
+
+void CreationPresenter::cancelPendingWeightCreation() {
+    firstNodeId = {};
+}
+
 void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
     if (fromNodeId == toNodeId) {
         return;

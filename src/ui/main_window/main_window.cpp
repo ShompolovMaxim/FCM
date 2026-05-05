@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
     connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onCurrentTabChanged);
     ui->comboBoxAlgorithm->setItemData(0, "const weights", Qt::UserRole);
     ui->comboBoxAlgorithm->setItemData(1, "changing weights", Qt::UserRole);
     ui->comboBoxAlgorithmSensitivity->setItemData(0, "const weights", Qt::UserRole);
@@ -228,6 +229,37 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Escape &&
+        ui->tabWidget->currentWidget() == ui->graph &&
+        creationPresenter &&
+        creationPresenter->hasPendingWeightStart()) {
+        cancelPendingWeightCreation();
+        event->accept();
+        return;
+    }
+
+    QMainWindow::keyPressEvent(event);
+}
+
+void MainWindow::cancelPendingWeightCreation() {
+    if (!creationPresenter || !creationPresenter->hasPendingWeightStart()) {
+        return;
+    }
+
+    if (auto* scene = qobject_cast<GraphScene*>(ui->graphicsViewGraph->scene())) {
+        scene->cancelPendingWeightCreation();
+    }
+}
+
+void MainWindow::onCurrentTabChanged(int index) {
+    if (ui->tabWidget->currentWidget() != ui->graph &&
+        creationPresenter &&
+        creationPresenter->hasPendingWeightStart()) {
+        cancelPendingWeightCreation();
+    }
 }
 
 bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {

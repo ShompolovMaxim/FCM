@@ -37,6 +37,7 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter>
 
 void GraphScene::switchMode() {
     if (mode == EditMode::Create) {
+        cancelPendingWeightCreation();
         mode = EditMode::EditValues;
     } else {
         mode = EditMode::Create;
@@ -102,36 +103,63 @@ void GraphScene::setWeightColor(QUuid id, QColor color) {
     edges[id]->setColor(color);
 }
 
+void GraphScene::updatePendingWeightPreview(const QPointF& scenePos) {
+    if (mode != EditMode::Create) {
+        clearPendingWeightPreview();
+        return;
+    }
+    syncPendingWeightPreview(scenePos);
+}
+
+void GraphScene::cancelPendingWeightCreation() {
+    presenter->cancelPendingWeightCreation();
+    clearPendingWeightPreview();
+}
+
 void GraphScene::blockConceptCreationColorEdit(bool flag) {
     conceptCreationColorEditBlocked = flag;
 }
 
-void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
-{
-    QGraphicsItem* item = itemAt(e->scenePos(), QTransform());
+void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
+    NodeItem* clickedNode = nullptr;
+    EdgeItem* clickedEdge = nullptr;
+    for (QGraphicsItem* item : items(e->scenePos())) {
+        if (!clickedNode) {
+            clickedNode = findNodeItem(item);
+        }
+        if (!clickedEdge) {
+            clickedEdge = findEdgeItem(item);
+        }
+        if (clickedNode && clickedEdge) {
+            break;
+        }
+    }
+    if (clickedNode) {
+        clickedEdge = nullptr;
+    }
 
     bool editable = e->widget() == views()[0]->viewport();
 
     if (mode == EditMode::Create && editable) {
 
-        if (e->button() == Qt::LeftButton && !item) {
+        if (e->button() == Qt::LeftButton && !clickedNode && !clickedEdge) {
             presenter->createConcept(e->scenePos());
         }
 
-        if (auto n = qgraphicsitem_cast<NodeItem*>(item); n && e->button() == Qt::RightButton) {
-            presenter->createWeight(n->getId());
+        if (clickedNode && e->button() == Qt::RightButton) {
+            presenter->createWeight(clickedNode->getId());
+            syncPendingWeightPreview(e->scenePos());
         }
     }
 
     if ((mode == EditMode::EditValues || !editable) && e->button() == Qt::RightButton) {
 
-        if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-
-            presenter->updateConcept(n->getId(), elementWindowMode);
+        if (clickedNode) {
+            presenter->updateConcept(clickedNode->getId(), elementWindowMode);
         }
 
-        if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
-            presenter->updateWeight(ed->getId(), elementWindowMode);
+        if (clickedEdge) {
+            presenter->updateWeight(clickedEdge->getId(), elementWindowMode);
         }
     }
     if (mode == EditMode::Create && editable) {
@@ -141,12 +169,99 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     }
 }
 
+NodeItem* GraphScene::findNodeItem(QGraphicsItem* item) const {
+    while (item) {
+        if (auto* node = qgraphicsitem_cast<NodeItem*>(item)) {
+            return node;
+        }
+        item = item->parentItem();
+    }
+    return nullptr;
+}
+
+EdgeItem* GraphScene::findEdgeItem(QGraphicsItem* item) const {
+    while (item) {
+        if (auto* edge = qgraphicsitem_cast<EdgeItem*>(item)) {
+            return edge;
+        }
+        item = item->parentItem();
+    }
+    return nullptr;
+}
+
+void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+    syncPendingWeightPreview(event->scenePos());
+    QGraphicsScene::mouseMoveEvent(event);
+}
+
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsScene::mouseReleaseEvent(event);
     if (conceptPositionChangedFlag) {
         presenter->emitAutosave();
         conceptPositionChangedFlag = false;
     }
+}
+
+void GraphScene::syncPendingWeightPreview(const QPointF& scenePos) {
+    if (!presenter->hasPendingWeightStart()) {
+        clearPendingWeightPreview();
+        return;
+    }
+
+    const auto pendingId = presenter->pendingWeightStartId();
+    if (!pendingId.has_value()) {
+        clearPendingWeightPreview();
+        return;
+    }
+
+    const auto nodeIt = nodes.find(*pendingId);
+    if (nodeIt == nodes.end()) {
+        clearPendingWeightPreview();
+        return;
+    }
+
+    updatePreviewGeometry(nodeIt->second, scenePos);
+}
+
+void GraphScene::clearPendingWeightPreview() {
+    if (previewArrow) {
+        removeItem(previewArrow);
+        delete previewArrow;
+        previewArrow = nullptr;
+    }
+    if (previewEdge) {
+        removeItem(previewEdge);
+        delete previewEdge;
+        previewEdge = nullptr;
+    }
+}
+
+void GraphScene::updatePreviewGeometry(NodeItem* startNode, const QPointF& scenePos) {
+    if (!previewEdge) {
+        previewEdge = addPath(QPainterPath(), QPen(QColor(0, 0, 0), 2), Qt::NoBrush);
+        previewEdge->setZValue(1);
+        previewEdge->setAcceptedMouseButtons(Qt::NoButton);
+        QPen pen = previewEdge->pen();
+        pen.setCosmetic(true);
+        previewEdge->setPen(pen);
+    }
+
+    if (!previewArrow) {
+        previewArrow = addPolygon(QPolygonF(), Qt::NoPen, QBrush(QColor(0, 0, 0)));
+        previewArrow->setZValue(1);
+        previewArrow->setAcceptedMouseButtons(Qt::NoButton);
+    }
+
+    const auto geometry = EdgeItem::buildGeometry(startNode->scenePos(), scenePos, 25, 0);
+    if (!geometry.visible) {
+        previewEdge->setPath(QPainterPath());
+        previewArrow->setVisible(false);
+        return;
+    }
+
+    previewArrow->setVisible(true);
+    previewEdge->setPath(geometry.path);
+    previewArrow->setPolygon(geometry.arrow);
 }
 
 GraphScene* GraphScene::copy(std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode) const {
