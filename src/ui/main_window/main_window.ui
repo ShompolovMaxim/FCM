@@ -45,7 +45,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="modelSettings">
        <property name="toolTip">
@@ -188,7 +188,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="termValue">
+             <widget class="SignificantSpinBox" name="termValue">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -197,6 +197,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
               </property>
               <property name="minimum">
                <double>-1.000000000000000</double>
@@ -224,7 +227,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="termValueL">
+             <widget class="SignificantSpinBox" name="termValueL">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -233,6 +236,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
               </property>
               <property name="minimum">
                <double>-1.000000000000000</double>
@@ -253,7 +259,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="termValueM">
+             <widget class="SignificantSpinBox" name="termValueM">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -262,6 +268,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
               </property>
               <property name="minimum">
                <double>-1.000000000000000</double>
@@ -282,7 +291,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="termValueU">
+             <widget class="SignificantSpinBox" name="termValueU">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -291,6 +300,9 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
               </property>
               <property name="minimum">
                <double>-1.000000000000000</double>
@@ -676,6 +688,9 @@
             <property name="minimum">
              <number>1</number>
             </property>
+            <property name="maximum">
+             <number>1000000000</number>
+            </property>
            </widget>
           </item>
           <item>
@@ -892,15 +907,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="fuzzinessDegree">
+             <widget class="SignificantSpinBox" name="fuzzinessDegree">
               <property name="enabled">
                <bool>false</bool>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
+              <property name="decimals">
+               <number>7</number>
+              </property>
               <property name="minimum">
-               <double>0.010000000000000</double>
+               <double>0.000001000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10000000000.000000000000000</double>
               </property>
               <property name="value">
                <double>1.000000000000000</double>
@@ -990,7 +1011,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBoxThreshold">
+             <widget class="SignificantSpinBox" name="doubleSpinBoxThreshold">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -999,6 +1020,18 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
+              </property>
+              <property name="minimum">
+               <double>0.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10000000000.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.000000000000000</double>
               </property>
              </widget>
             </item>
@@ -1027,6 +1060,9 @@
               <property name="minimum">
                <number>1</number>
               </property>
+              <property name="maximum">
+               <number>1000000000</number>
+              </property>
              </widget>
             </item>
            </layout>
@@ -1048,8 +1084,11 @@
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
               <property name="maximum">
-               <number>1000</number>
+               <number>1000000000</number>
               </property>
              </widget>
             </item>
@@ -1103,12 +1142,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBoxStepsPerSecond">
+             <widget class="SignificantSpinBox" name="doubleSpinBoxStepsPerSecond">
               <property name="toolTip">
                <string>Simulation speed</string>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
+              </property>
+              <property name="minimum">
+               <double>0.000001000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10000000000.000000000000000</double>
               </property>
               <property name="value">
                <double>1.000000000000000</double>
@@ -1126,6 +1174,12 @@
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>1000000000</number>
               </property>
               <property name="value">
                <number>1</number>
@@ -1517,15 +1571,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="fuzzinessDegreeSensitivity">
+             <widget class="SignificantSpinBox" name="fuzzinessDegreeSensitivity">
               <property name="enabled">
                <bool>false</bool>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
+              <property name="decimals">
+               <number>7</number>
+              </property>
               <property name="minimum">
-               <double>0.010000000000000</double>
+               <double>0.000001000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10000000000.000000000000000</double>
               </property>
               <property name="value">
                <double>1.000000000000000</double>
@@ -1615,7 +1675,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBoxThresholdSensitivity">
+             <widget class="SignificantSpinBox" name="doubleSpinBoxThresholdSensitivity">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -1624,6 +1684,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
+              </property>
+              <property name="maximum">
+               <double>10000000000.000000000000000</double>
               </property>
              </widget>
             </item>
@@ -1652,6 +1718,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <property name="minimum">
                <number>1</number>
               </property>
+              <property name="maximum">
+               <number>1000000000</number>
+              </property>
              </widget>
             </item>
            </layout>
@@ -1673,8 +1742,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
               <property name="maximum">
-               <number>1000</number>
+               <number>1000000000</number>
               </property>
              </widget>
             </item>
@@ -1715,7 +1787,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBoxMaxChange">
+             <widget class="SignificantSpinBox" name="doubleSpinBoxMaxChange">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -1724,6 +1796,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+              </property>
+              <property name="decimals">
+               <number>7</number>
+              </property>
+              <property name="minimum">
+               <double>0.000001000000000</double>
               </property>
               <property name="maximum">
                <double>1.000000000000000</double>
@@ -2213,6 +2291,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <class>MarkdownEdit</class>
    <extends>QTextEdit</extends>
    <header location="global">ui/markdown_edit/markdown_edit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SignificantSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header location="global">ui/significant_spin_box/significant_spin_box.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
