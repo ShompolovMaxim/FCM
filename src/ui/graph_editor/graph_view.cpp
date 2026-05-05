@@ -44,10 +44,8 @@ void GraphView::mousePressEvent(QMouseEvent* event)
 void GraphView::mouseMoveEvent(QMouseEvent* event)
 {
     if (!lastPanPoint.isNull()) {
-        QPointF delta = mapToScene(lastPanPoint) - mapToScene(event->pos());
-        delta *= panSensitivity;
+        QPointF delta = lastPanPoint - event->pos();
         lastPanPoint = event->pos();
-        //translate(delta.x(), delta.y());
         panAccumulator += QPointF(delta) * panSensitivity;
 
         int dx = std::round(panAccumulator.x());
