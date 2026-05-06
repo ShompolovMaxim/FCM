@@ -11,6 +11,7 @@
 #include "repository/migration_manager.h"
 
 #include "model/join/models_joiner.h"
+#include "model/entities/templates/templates_language_manager.h"
 
 #include <QMouseEvent>
 #include <QStandardItemModel>
@@ -65,7 +66,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     if (!db.open()) {
         qFatal("Cannot open database");
     }
-    MigrationManager::migrate(db);
+    if (!MigrationManager::migrate(db)) {
+        qFatal("Cannot apply database migrations");
+    }
     savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
     templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
 
@@ -1165,7 +1168,7 @@ void MainWindow::saveAs() {
     updateFCM();
 
     const auto modelsNames = savingManager->getModelsNames();
-    SaveAsWindow saveAsWindow(modelsNames, fcm->name, MainWindow::tr("Save FCM"), this);
+    SaveAsWindow saveAsWindow(modelsNames, modelsNames, fcm->name, MainWindow::tr("Save FCM"), this);
 
     if (saveAsWindow.exec() == QDialog::Accepted) {
         QString newName = saveAsWindow.savingModelName();
@@ -1364,8 +1367,19 @@ void MainWindow::autosave() {
 void MainWindow::saveAsTemplate() {
     updateFCM();
 
-    const auto templatesNames = templatesManager->getTemplatesNames();
-    SaveAsWindow saveAsWindow(templatesNames, fcm->name, MainWindow::tr("Save FCM Template"), this);
+    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
+    const auto filteredTemplatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
+        templatesNamesWithTypes,
+        settings
+    );
+    const auto allTemplatesNames = TemplatesLanguageManager::extractTemplateNames(templatesNamesWithTypes);
+    SaveAsWindow saveAsWindow(
+        filteredTemplatesNames,
+        allTemplatesNames,
+        fcm->name,
+        MainWindow::tr("Save FCM Template"),
+        this
+    );
 
     if (saveAsWindow.exec() == QDialog::Accepted) {
         fcm->name = saveAsWindow.savingModelName();
@@ -1375,7 +1389,11 @@ void MainWindow::saveAsTemplate() {
 }
 
 void MainWindow::openTemplate() {
-    const auto templatesNames = templatesManager->getTemplatesNames();
+    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
+    const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
+        templatesNamesWithTypes,
+        settings
+    );
     LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, MainWindow::tr("Open FCM Template"), this);
     connect(loadModelWindow, &LoadModelWindow::deleteModelRequested, this, &MainWindow::deleteSavedTemplate);
     connect(this, &MainWindow::modelDeletionFinished, loadModelWindow, &LoadModelWindow::onModelDeleted);
@@ -1572,7 +1590,11 @@ void MainWindow::joinModels() {
         }
     }
     const auto savedModelsNames = savingManager->getModelsNames();
-    const auto templatesNames = templatesManager->getTemplatesNames();
+    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
+    const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
+        templatesNamesWithTypes,
+        settings
+    );
 
     JoinWindow* joinWindow = new JoinWindow(unsavedModelsNames, savedModelsNames, templatesNames, this);
 

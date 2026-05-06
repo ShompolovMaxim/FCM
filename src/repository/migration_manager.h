@@ -3,5 +3,5 @@
 
 class MigrationManager {
 public:
-    static void migrate(QSqlDatabase& db);
+    static bool migrate(QSqlDatabase& db);
 };

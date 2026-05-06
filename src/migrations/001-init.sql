@@ -4,10 +4,6 @@ CREATE TABLE IF NOT EXISTS schema_version (
     version INTEGER
 );
 
-INSERT INTO schema_version (version)
-SELECT 1
-WHERE NOT EXISTS (SELECT 1 FROM schema_version);
-
 CREATE TABLE IF NOT EXISTS models (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
@@ -102,7 +98,8 @@ ON weights(concept_to_id);
 CREATE TABLE IF NOT EXISTS templates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
-    description TEXT
+    description TEXT,
+    type TEXT NOT NULL DEFAULT 'User'
 );
 
 CREATE TABLE IF NOT EXISTS templates_terms (

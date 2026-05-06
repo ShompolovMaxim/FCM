@@ -22,9 +22,10 @@ void MarkdownEdit::setMarkdownText(const QString& text) {
 
 QString MarkdownEdit::markdownText() const {
     if (_editing) {
-        return toPlainText();
+        const QString text = toPlainText();
+        return text.isNull() ? QString("") : text;
     }
-    return _markdown;
+    return _markdown.isNull() ? QString("") : _markdown;
 }
 
 void MarkdownEdit::focusOutEvent(QFocusEvent *e) {

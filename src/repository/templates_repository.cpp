@@ -20,11 +20,16 @@ bool TemplatesRepository::rollback() {
     return db.rollback();
 }
 
-QList<QString> TemplatesRepository::getTemplatesNames() {
-    QStringList templateNames;
+QList<QPair<QString, TemplateType>> TemplatesRepository::getTemplatesNames() {
+    QList<QPair<QString, TemplateType>> templateNames;
     QSqlQuery query(db);
-    if (!query.exec("SELECT name FROM templates")) return templateNames;
-    while (query.next()) templateNames.append(query.value(0).toString());
+    if (!query.exec("SELECT name,type FROM templates")) return templateNames;
+    while (query.next()) {
+        templateNames.append({
+            query.value("name").toString(),
+            templateTypeFromString(query.value("type").toString())
+        });
+    }
     return templateNames;
 }
 
@@ -38,13 +43,14 @@ std::optional<int> TemplatesRepository::getTemplateId(const QString &templateNam
 
 std::optional<Template> TemplatesRepository::getTemplate(const QString &templateName) {
     QSqlQuery query(db);
-    query.prepare("SELECT name,description FROM templates WHERE name=:name");
+    query.prepare("SELECT name,description,type FROM templates WHERE name=:name");
     query.bindValue(":name", templateName);
     if (!query.exec() || !query.next()) return {};
 
     Template templateModel;
     templateModel.name = query.value("name").toString();
     templateModel.description = query.value("description").toString();
+    templateModel.type = templateTypeFromString(query.value("type").toString());
 
     auto templateIdOpt = getTemplateId(templateName);
     if (!templateIdOpt) return {};
@@ -68,9 +74,10 @@ std::optional<Template> TemplatesRepository::getTemplate(const QString &template
 
 std::optional<int> TemplatesRepository::createTemplate(Template &templateModel) {
     QSqlQuery query(db);
-    query.prepare("INSERT INTO templates (name,description) VALUES (:name,:description)");
+    query.prepare("INSERT INTO templates (name,description,type) VALUES (:name,:description,:type)");
     query.bindValue(":name", templateModel.name);
     query.bindValue(":description", templateModel.description);
+    query.bindValue(":type", templateTypeToString(templateModel.type));
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
         return {};

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "template_term.h"
+#include "template_type.h"
 #include "template_concept.h"
 #include "template_weight.h"
 
@@ -15,4 +16,5 @@ struct Template {
     std::vector<std::shared_ptr<TemplateTerm>> terms;
     std::vector<std::shared_ptr<TemplateConcept>> concepts;
     std::vector<std::shared_ptr<TemplateWeight>> weights;
+    TemplateType type = TemplateType::User;
 };

@@ -17,7 +17,7 @@ public:
     bool commit();
     bool rollback();
 
-    QList<QString> getTemplatesNames();
+    QList<QPair<QString, TemplateType>> getTemplatesNames();
 
     std::optional<Template> getTemplate(const QString &templateName);
     std::optional<int> createTemplate(Template &templateModel);

@@ -13,7 +13,16 @@
   <property name="windowTitle">
    <string>Open FCM</string>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>520</width>
+    <height>0</height>
+   </size>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
    <item row="0" column="0">
     <widget class="QListWidget" name="modelsNames">
      <property name="toolTip">

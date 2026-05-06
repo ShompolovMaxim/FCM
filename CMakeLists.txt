@@ -146,6 +146,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/help/help_window.h src/ui/help/help_window.cpp src/ui/help/help_window.ui
         ${HELP_SOURCE_FILES}
         src/ui/significant_spin_box/significant_spin_box.h src/ui/significant_spin_box/significant_spin_box.cpp
+        src/model/entities/templates/template_type.h
+        src/model/entities/templates/template_type.cpp
+        src/model/entities/templates/templates_language_manager.h
+        src/model/entities/templates/templates_language_manager.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -3,9 +3,18 @@
 
 #include <QMessageBox>
 
-SaveAsWindow::SaveAsWindow(QStringList modelsNames, QString modelName, const QString &windowTitle, QWidget *parent) : modelsNames(modelsNames), QDialog(parent), ui(new Ui::SaveAsWindow) {
+SaveAsWindow::SaveAsWindow(
+    QStringList modelsNames,
+    QStringList existingModelsNames,
+    QString modelName,
+    const QString &windowTitle,
+    QWidget *parent
+) : modelsNames(modelsNames), existingModelsNames(existingModelsNames), QDialog(parent), ui(new Ui::SaveAsWindow) {
     ui->setupUi(this);
     setWindowTitle(windowTitle);
+    modelsNames.sort(Qt::CaseInsensitive);
+    ui->modelsNames->setWordWrap(true);
+    ui->modelsNames->setTextElideMode(Qt::ElideNone);
     ui->modelsNames->addItems(modelsNames);
     ui->savingName->setText(modelName);
     connect(ui->modelsNames, &QListWidget::itemDoubleClicked, this, &SaveAsWindow::onModelDoubleClicked);
@@ -20,7 +29,7 @@ QString SaveAsWindow::savingModelName() const {
 }
 
 void SaveAsWindow::accept() {
-    if (modelsNames.contains(ui->savingName->text())) {
+    if (existingModelsNames.contains(ui->savingName->text())) {
         QMessageBox::critical(this, tr("Error"), tr("This name is already taken"));
         return;
     }

@@ -14,7 +14,7 @@ public:
 
     bool createTemplate(const FCM &fcm);
     std::optional<FCM> getFCM(const QString &templateName);
-    QList<QString> getTemplatesNames();
+    QList<QPair<QString, TemplateType>> getTemplatesNames();
     bool deleteTemplate(const QString &templateName);
 
 private:

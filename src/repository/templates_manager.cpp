@@ -32,7 +32,7 @@ std::optional<FCM> TemplatesManager::getFCM(const QString &templateName) {
     return toFCM(*templateOpt);
 }
 
-QList<QString> TemplatesManager::getTemplatesNames() {
+QList<QPair<QString, TemplateType>> TemplatesManager::getTemplatesNames() {
     return repo.getTemplatesNames();
 }
 
