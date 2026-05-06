@@ -1289,6 +1289,10 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
         addExperiment(experiment);
     }
 
+    ui->autoColorConfiguration->setChecked(fcm->autoConfigureTermsColors);
+    ui->autoNumericConfiguration->setChecked(fcm->autoConfigureNumericValues);
+    ui->autoFuzzyConfiguration->setChecked(fcm->autoConfigureFuzzyValues);
+
     int indexAlgorithm = ui->comboBoxAlgorithm->findData(fcm->predictionParameters.algorithm, Qt::UserRole);
     ui->comboBoxAlgorithm->setCurrentIndex(indexAlgorithm);
     ui->useFuzzyValues->setChecked(fcm->predictionParameters.useFuzzyValues);
@@ -1300,6 +1304,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
     ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
     ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
+    ui->fuzzinessDegree->setValue(fcm->predictionParameters.fuzzinessDegree);
 
     ui->actionAutoSave->setEnabled(fcm->dbId != -1);
     ui->actionAutoSave->setChecked(fcm->autosaveOn);
@@ -1420,10 +1425,14 @@ void MainWindow::onExportPng()
 }
 
 void MainWindow::onExportJson() {
+    QString proposedName = "fcm.json";
+    if (!ui->modelName->text().isEmpty()) {
+        proposedName = ui->modelName->text() + ".json";
+    }
     QString fileName = QFileDialog::getSaveFileName(
         this,
         MainWindow::tr("Save FCM Model"),
-        "",
+        proposedName,
         "JSON files (*.json)"
         );
 
@@ -1434,8 +1443,7 @@ void MainWindow::onExportJson() {
         fileName += ".json";
 
     updateFCM();
-    if (!JsonRepository::exportToJson(*fcm, fileName))
-    {
+    if (!JsonRepository::exportToJson(*fcm, fileName)) {
         QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to save file."));
     }
 }
