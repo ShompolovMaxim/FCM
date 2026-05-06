@@ -24,7 +24,7 @@ void Predictor::perform() {
             break;
         }
 
-        auto next = algorithm->step(_fcms[_fcms.size() - 1]);
+        auto next = algorithm->step(_fcms[_fcms.size() - 1], _fcms.size() - 1);
         next.metricValue = metricsManager.calculate(_fcms[_fcms.size() - 1], next);
 
         if (stopRequested.load()) {

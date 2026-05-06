@@ -25,7 +25,7 @@ CalculationFCM FinalStatePredictor::predict(const CalculationFCM& fcm) {
             break;
         }
 
-        auto next = algorithm->step(fcms[fcms.size() - 1]);
+        auto next = algorithm->step(fcms[fcms.size() - 1], fcms.size() - 1);
         next.metricValue = metricsManager->calculate(fcms[fcms.size() - 1], next);
 
         if (stopRequested.load()) {

@@ -19,29 +19,41 @@ private:
     double shift;
 };
 
-inline CalculationFCM createNumericCalculationFCM(double fromValue, double toValue, double weightValue) {
+inline CalculationFCM createNumericCalculationFCM(
+    double fromValue,
+    double toValue,
+    double weightValue,
+    size_t fromStartStep = 0,
+    size_t toStartStep = 0
+) {
     CalculationFCM fcm;
 
     const QUuid fromId = QUuid::createUuid();
     const QUuid toId = QUuid::createUuid();
     const QUuid weightId = QUuid::createUuid();
 
-    fcm.concepts[fromId] = CalculationConcept {fromId, fromValue, {}, 0};
-    fcm.concepts[toId] = CalculationConcept {toId, toValue, {}, 0};
+    fcm.concepts[fromId] = CalculationConcept {fromId, fromValue, {}, fromStartStep};
+    fcm.concepts[toId] = CalculationConcept {toId, toValue, {}, toStartStep};
     fcm.weights[weightId] = CalculationWeight {weightId, weightValue, {}, fromId, toId};
 
     return fcm;
 }
 
-inline CalculationFCM createFuzzyCalculationFCM(TriangularFuzzyValue fromValue, TriangularFuzzyValue toValue, TriangularFuzzyValue weightValue) {
+inline CalculationFCM createFuzzyCalculationFCM(
+    TriangularFuzzyValue fromValue,
+    TriangularFuzzyValue toValue,
+    TriangularFuzzyValue weightValue,
+    size_t fromStartStep = 0,
+    size_t toStartStep = 0
+) {
     CalculationFCM fcm;
 
     const QUuid fromId = QUuid::createUuid();
     const QUuid toId = QUuid::createUuid();
     const QUuid weightId = QUuid::createUuid();
 
-    fcm.concepts[fromId] = CalculationConcept {fromId, 0.0, fromValue, 0};
-    fcm.concepts[toId] = CalculationConcept {toId, 0.0, toValue, 0};
+    fcm.concepts[fromId] = CalculationConcept {fromId, 0.0, fromValue, fromStartStep};
+    fcm.concepts[toId] = CalculationConcept {toId, 0.0, toValue, toStartStep};
     fcm.weights[weightId] = CalculationWeight {weightId, 0.0, weightValue, fromId, toId};
 
     return fcm;

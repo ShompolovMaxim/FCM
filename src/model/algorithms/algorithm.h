@@ -10,7 +10,7 @@ public:
     PredictionAlgorithm(std::shared_ptr<ActivationFunction> conceptsActivationFunction, std::shared_ptr<ActivationFunction> weightsActivationFunction) :
         conceptsActivationFunction(conceptsActivationFunction), weightsActivationFunction(weightsActivationFunction) {}
 
-    virtual CalculationFCM step(const CalculationFCM& fcm) const = 0;
+    virtual CalculationFCM step(const CalculationFCM& fcm, size_t currentStep) const = 0;
 
     virtual ~PredictionAlgorithm() = default;
 
