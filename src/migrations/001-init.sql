@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS concepts (
     first_step INTEGER,
     x_pos REAL,
     y_pos REAL,
+    name_location TEXT DEFAULT 'up',
     FOREIGN KEY (experiment_id) REFERENCES experiments(id),
     FOREIGN KEY (term_id) REFERENCES terms(id)
 );
@@ -130,6 +131,7 @@ CREATE TABLE IF NOT EXISTS templates_concepts (
     first_step INTEGER,
     x_pos REAL,
     y_pos REAL,
+    name_location TEXT DEFAULT 'up',
     FOREIGN KEY (template_id) REFERENCES templates(id)
 );
 

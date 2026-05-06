@@ -1,6 +1,5 @@
 #include "edge_item.h"
 #include "node_item.h"
-#include "graph_scene.h"
 
 #include "color_value_adapter/color_value_adapter.h"
 
@@ -10,14 +9,7 @@ NodeItem::NodeItem(std::shared_ptr<Concept> concept)
     setFlags(ItemIsMovable | ItemIsSelectable | ItemSendsGeometryChanges);
 
     label = new QGraphicsSimpleTextItem(nodeName, this);
-    //label->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
-
-    QRectF r = rect();
-    QRectF br = label->boundingRect();
-    label->setPos(
-        r.center().x() - br.width() / 2,
-        r.top() - br.height() - 5
-        );
+    updateLabelPosition();
 
     setValue(nullptr);
 }
@@ -28,12 +20,15 @@ void NodeItem::setName(QString name) {
 
     if (label) {
         label->setText(name);
-
-        QRectF r = rect();
-        QRectF br = label->boundingRect();
-        label->setPos(r.center().x() - br.width() / 2, r.top() - br.height() - 5);
+        updateLabelPosition();
     }
 
+    update();
+}
+
+void NodeItem::setNameLocation(ConceptNameLocation location) {
+    concept->nameLocation = location;
+    updateLabelPosition();
     update();
 }
 
@@ -59,11 +54,7 @@ QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant& val) {
             e->updatePosition();
         }
 
-        if (label) {
-            QRectF r = rect();
-            QRectF br = label->boundingRect();
-            label->setPos(r.center().x() - br.width() / 2, r.top() - br.height() - 5);
-        }
+        updateLabelPosition();
     }
     return QGraphicsItem::itemChange(change, val);
 }
@@ -76,4 +67,53 @@ void NodeItem::highlight(bool flag) {
     QPen pen(flag ? Qt::blue : Qt::black);
     setPen(pen);
     update();
+}
+
+void NodeItem::updateLabelPosition() {
+    if (!label) {
+        return;
+    }
+
+    const QRectF ellipseRect = rect();
+    const QRectF labelRect = label->boundingRect();
+    const qreal xPadding = 3.0;
+    const qreal yPadding = 3.0;
+
+    qreal x = ellipseRect.center().x() - labelRect.width() / 2;
+    qreal y = ellipseRect.top() - labelRect.height() - yPadding;
+
+    switch (concept->nameLocation) {
+    case ConceptNameLocation::Up:
+        break;
+    case ConceptNameLocation::UpLeft:
+        x = ellipseRect.left() - labelRect.width() - xPadding * 0.7;
+        break;
+    case ConceptNameLocation::UpRight:
+        x = ellipseRect.right() + xPadding * 0.7;
+        break;
+    case ConceptNameLocation::Center:
+        y = ellipseRect.center().y() - labelRect.height() / 2;
+        break;
+    case ConceptNameLocation::CenterLeft:
+        x = ellipseRect.left() - labelRect.width() - xPadding;
+        y = ellipseRect.center().y() - labelRect.height() / 2;
+        break;
+    case ConceptNameLocation::CenterRight:
+        x = ellipseRect.right() + xPadding;
+        y = ellipseRect.center().y() - labelRect.height() / 2;
+        break;
+    case ConceptNameLocation::Bottom:
+        y = ellipseRect.bottom() + yPadding;
+        break;
+    case ConceptNameLocation::BottomLeft:
+        x = ellipseRect.left() - labelRect.width() - xPadding * 0.7;
+        y = ellipseRect.bottom() + yPadding;
+        break;
+    case ConceptNameLocation::BottomRight:
+        x = ellipseRect.right() + xPadding * 0.7;
+        y = ellipseRect.bottom() + yPadding * 0.7;
+        break;
+    }
+
+    label->setPos(x, y);
 }

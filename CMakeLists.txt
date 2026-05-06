@@ -71,6 +71,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/calculation_fcm.h
         src/model/predictor.h src/model/predictor.cpp
         src/model/entities/term.h src/model/entities/term.cpp
+        src/model/entities/concept_name_location.h src/model/entities/concept_name_location.cpp
         src/model/fuzzy_logic/fuzzifier.h
         src/model/fuzzy_logic/linear_fuzzifier.h src/model/fuzzy_logic/linear_fuzzifier.cpp
         src/model/entities/concept.h src/model/entities/concept.cpp

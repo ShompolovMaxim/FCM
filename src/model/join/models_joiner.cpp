@@ -25,6 +25,7 @@ std::shared_ptr<FCM> ModelsJoiner::join(
     std::map<std::pair<QString, QString>, QString> weightsDescription;
     std::map<QString, size_t> conceptsStartStepSum;
     std::map<QString, QPointF> conceptsPos;
+    std::map<QString, ConceptNameLocation> conceptsNameLocation;
     std::map<std::pair<QString, QString>, QString> weightsName;
     for (const auto& fcm : fcms) {
         for (const auto& [_, concept] : fcm->concepts) {
@@ -32,6 +33,7 @@ std::shared_ptr<FCM> ModelsJoiner::join(
             if (conceptsCount[concept->name] == 0) {
                 conceptsDescription[concept->name] = concept->description;
                 conceptsPos[concept->name] = concept->pos;
+                conceptsNameLocation[concept->name] = concept->nameLocation;
             }
             if (concept->term) {
                 ++conceptsCount[concept->name];
@@ -94,7 +96,8 @@ std::shared_ptr<FCM> ModelsJoiner::join(
             conceptsDescription[name],
             term,
             conceptsPos[name],
-            count ? conceptsStartStepSum[name] / count : 0
+            count ? conceptsStartStepSum[name] / count : 0,
+            conceptsNameLocation[name]
         });
     }
 

@@ -168,7 +168,7 @@ std::optional<std::vector<std::shared_ptr<TemplateConcept>>> TemplatesRepository
 ) {
     QSqlQuery query(db);
     query.prepare(
-        "SELECT id,name,description,first_step,x_pos,y_pos "
+        "SELECT id,name,description,first_step,x_pos,y_pos,name_location "
         "FROM templates_concepts WHERE template_id=:template_id"
     );
     query.bindValue(":template_id", templateId);
@@ -182,6 +182,7 @@ std::optional<std::vector<std::shared_ptr<TemplateConcept>>> TemplatesRepository
         concept->description = query.value("description").toString();
         concept->startStep = static_cast<size_t>(query.value("first_step").toUInt());
         concept->pos = QPointF(query.value("x_pos").toDouble(), query.value("y_pos").toDouble());
+        concept->nameLocation = conceptNameLocationFromString(query.value("name_location").toString());
         conceptsByDbId[conceptDbId] = concept;
         result.push_back(concept);
     }
@@ -251,8 +252,8 @@ std::optional<int> TemplatesRepository::createTemplateConcept(TemplateConcept &c
     QSqlQuery query(db);
     query.prepare(
         "INSERT INTO templates_concepts "
-        "(template_id,name,description,first_step,x_pos,y_pos) "
-        "VALUES (:template_id,:name,:description,:first_step,:x_pos,:y_pos)"
+        "(template_id,name,description,first_step,x_pos,y_pos,name_location) "
+        "VALUES (:template_id,:name,:description,:first_step,:x_pos,:y_pos,:name_location)"
     );
     query.bindValue(":template_id", templateId);
     query.bindValue(":name", concept.name);
@@ -260,6 +261,7 @@ std::optional<int> TemplatesRepository::createTemplateConcept(TemplateConcept &c
     query.bindValue(":first_step", static_cast<qulonglong>(concept.startStep));
     query.bindValue(":x_pos", concept.pos.x());
     query.bindValue(":y_pos", concept.pos.y());
+    query.bindValue(":name_location", conceptNameLocationToString(concept.nameLocation));
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
         return {};

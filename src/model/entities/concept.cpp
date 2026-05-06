@@ -6,7 +6,8 @@ bool Concept::operator==(const Concept& other) const {
         && description == other.description
         && areEqualTerms(term, other.term)
         && pos == other.pos
-        && startStep == other.startStep;
+        && startStep == other.startStep
+        && nameLocation == other.nameLocation;
 }
 
 bool Concept::operator!=(const Concept& other) const {

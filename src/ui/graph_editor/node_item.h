@@ -22,6 +22,7 @@ public:
 
     QString getName() const { return nodeName; }
     void setName(QString name);
+    void setNameLocation(ConceptNameLocation location);
 
     QUuid getId() const { return id; }
 
@@ -37,6 +38,8 @@ protected:
     void paint(QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w) override;
 
 private:
+    void updateLabelPosition();
+
     QString nodeName;
     std::shared_ptr<Concept> concept;
     QList<EdgeItem*> edges;

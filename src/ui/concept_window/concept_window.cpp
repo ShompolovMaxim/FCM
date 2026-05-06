@@ -3,9 +3,24 @@
 
 #include <QPushButton>
 
+namespace {
+void setupNameLocationValues(Ui::ConceptWindow* ui) {
+    ui->nameLocation->setItemData(0, conceptNameLocationToString(ConceptNameLocation::Up));
+    ui->nameLocation->setItemData(1, conceptNameLocationToString(ConceptNameLocation::UpLeft));
+    ui->nameLocation->setItemData(2, conceptNameLocationToString(ConceptNameLocation::UpRight));
+    ui->nameLocation->setItemData(3, conceptNameLocationToString(ConceptNameLocation::Center));
+    ui->nameLocation->setItemData(4, conceptNameLocationToString(ConceptNameLocation::CenterLeft));
+    ui->nameLocation->setItemData(5, conceptNameLocationToString(ConceptNameLocation::CenterRight));
+    ui->nameLocation->setItemData(6, conceptNameLocationToString(ConceptNameLocation::Bottom));
+    ui->nameLocation->setItemData(7, conceptNameLocationToString(ConceptNameLocation::BottomLeft));
+    ui->nameLocation->setItemData(8, conceptNameLocationToString(ConceptNameLocation::BottomRight));
+}
+}
+
 ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms, std::shared_ptr<Concept> currentConcept, ElementWindowMode mode, QWidget *parent)
     : terms(terms), currentConcept(currentConcept), QDialog(parent), mode(mode), ui(new Ui::ConceptWindow) {
     ui->setupUi(this);
+    setupNameLocationValues(ui);
 
     if (mode == ElementWindowMode::CreateElement) {
         setWindowTitle(tr("Create concept"));
@@ -19,6 +34,7 @@ ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms
     }
     ui->notesField->setMarkdownText(currentConcept->description);
     ui->startStepField->setValue(currentConcept->startStep);
+    ui->nameLocation->setCurrentIndex(ui->nameLocation->findData(conceptNameLocationToString(currentConcept->nameLocation)));
 
     updateTermsList();
 
@@ -53,6 +69,7 @@ ConceptWindow::ConceptWindow(const std::map<QUuid, std::shared_ptr<Term>>& terms
     if (mode == ElementWindowMode::PredictionResultsDisabled || mode == ElementWindowMode::SensitivityAnalysisDisabled) {
         ui->nameField->setEnabled(false);
         ui->valueField->setEnabled(false);
+        ui->nameLocation->setEnabled(false);
         ui->startStepField->setEnabled(false);
         ui->notesField->setEnabled(false);
         ui->buttonBox->setEnabled(false);
@@ -218,6 +235,7 @@ void ConceptWindow::updateCurrentConcept() {
     currentConcept->name = ui->nameField->text();
     currentConcept->description = ui->notesField->markdownText();
     currentConcept->startStep = ui->startStepField->value();
+    currentConcept->nameLocation = conceptNameLocationFromString(ui->nameLocation->currentData().toString());
 
     QVariant data = ui->valueField->currentData();
     if (data.isValid()) {

@@ -1,5 +1,7 @@
 #include "json_repository.h"
 
+#include "model/entities/concept_name_location.h"
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -83,6 +85,7 @@ QJsonObject serializeConcept(const std::shared_ptr<Concept>& concept) {
     jsonConcept["first_step"] = static_cast<qint64>(concept->startStep);
     jsonConcept["x_pos"] = concept->pos.x();
     jsonConcept["y_pos"] = concept->pos.y();
+    jsonConcept["name_location"] = conceptNameLocationToString(concept->nameLocation);
     return jsonConcept;
 }
 
@@ -99,6 +102,9 @@ std::shared_ptr<Concept> deserializeConcept(
     }
     concept->pos = QPointF(obj["x_pos"].toDouble(), obj["y_pos"].toDouble());
     concept->startStep = static_cast<size_t>(obj["first_step"].toInt());
+    concept->nameLocation = obj.contains("name_location")
+        ? conceptNameLocationFromString(obj["name_location"].toString())
+        : ConceptNameLocation::Up;
     concept->dbId = -1;
     return concept;
 }

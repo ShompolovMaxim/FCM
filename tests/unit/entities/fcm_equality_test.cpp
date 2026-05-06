@@ -91,11 +91,10 @@ FCM makeModel() {
 
 }
 
-TEST(FcmEqualityTest, IgnoresServiceFieldsAndPointerIdentity) {
+TEST(FcmEqualityTest, IgnoresDbIdsDeletedIdsAndPointerIdentity) {
     FCM lhs = makeModel();
     FCM rhs = lhs;
 
-    rhs.autosaveOn = false;
     rhs.dbId = 999;
     rhs.deletedTermsIds.clear();
     rhs.deletedConceptsIds.clear();
@@ -131,6 +130,10 @@ TEST(FcmEqualityTest, DetectsDifferenceInComparedFields) {
 
     rhs = lhs;
     rhs.description = "other";
+    EXPECT_NE(lhs, rhs);
+
+    rhs = lhs;
+    rhs.autosaveOn = false;
     EXPECT_NE(lhs, rhs);
 
     rhs = lhs;

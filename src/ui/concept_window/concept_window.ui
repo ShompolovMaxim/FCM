@@ -80,28 +80,88 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Concept influence start step:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="startStepField">
-         <property name="toolTip">
-          <string>First prediction step concept and its weights start to infuence FCM</string>
-         </property>
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-         </property>
-         <property name="keyboardTracking">
-          <bool>true</bool>
-         </property>
-         <property name="maximum">
-          <number>1000000000</number>
-         </property>
-        </widget>
+       <item row="1" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Name location:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="nameLocation">
+           <item>
+            <property name="text">
+             <string>up</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>up left</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>up right</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>center</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>center left</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>center right</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>bottom</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>bottom left</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>bottom right</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Concept influence start step:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="startStepField">
+           <property name="toolTip">
+            <string>First prediction step concept and its weights start to infuence FCM</string>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="keyboardTracking">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>1000000000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="2" column="0" colspan="2">
         <widget class="MarkdownEdit" name="notesField">

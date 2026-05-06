@@ -78,6 +78,7 @@ Template TemplatesManager::toTemplate(const FCM &fcm) {
         templateConcept->description = concept->description;
         templateConcept->pos = concept->pos;
         templateConcept->startStep = concept->startStep;
+        templateConcept->nameLocation = concept->nameLocation;
         templateModel.concepts.push_back(templateConcept);
         conceptsById[conceptId] = templateConcept;
     }
@@ -127,6 +128,7 @@ FCM TemplatesManager::toFCM(const Template &templateModel) {
         concept->term = nullptr;
         concept->pos = templateConcept->pos;
         concept->startStep = templateConcept->startStep;
+        concept->nameLocation = templateConcept->nameLocation;
         fcm.concepts[concept->id] = concept;
         conceptsIds[templateConcept.get()] = concept->id;
     }

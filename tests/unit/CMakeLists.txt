@@ -79,6 +79,7 @@ function(add_entity_test target_name test_source)
         ${test_source}
         ../../src/presenter/prediction_parameters.cpp
         ../../src/model/entities/term.cpp
+        ../../src/model/entities/concept_name_location.cpp
         ../../src/model/entities/concept.cpp
         ../../src/model/entities/weight.cpp
         ../../src/model/entities/experiment.cpp

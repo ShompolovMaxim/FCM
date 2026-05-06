@@ -68,6 +68,7 @@ void GraphScene::weightCreated(std::shared_ptr<Weight> weight) {
 void GraphScene::conceptUpdated(std::shared_ptr<Concept> concept) {
     nodes[concept->id]->setPos(concept->pos);
     nodes[concept->id]->setName(concept->name);
+    nodes[concept->id]->setNameLocation(concept->nameLocation);
     if (!conceptCreationColorEditBlocked) {
         nodes[concept->id]->setValue(concept->term);
     }

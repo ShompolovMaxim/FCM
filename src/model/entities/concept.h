@@ -1,5 +1,6 @@
 #pragma once
 
+#include "concept_name_location.h"
 #include "term.h"
 
 #include <map>
@@ -17,6 +18,7 @@ struct Concept {
     std::shared_ptr<Term> term;
     QPointF pos;
     size_t startStep;
+    ConceptNameLocation nameLocation = ConceptNameLocation::Up;
     int dbId = -1;
 
     std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> predictedValues;

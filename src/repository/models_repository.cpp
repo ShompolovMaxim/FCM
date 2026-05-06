@@ -216,8 +216,8 @@ bool ModelsRepository::deleteTerm(int termId) {
 std::optional<int> ModelsRepository::createConcept(Concept &concept, int experimentId, const std::optional<int> &dbTermId) {
     QSqlQuery query(db);
     query.prepare(
-        "INSERT INTO concepts (uuid,name,description,experiment_id,term_id,first_step,x_pos,y_pos) "
-        "VALUES (:uuid,:name,:description,:experiment_id,:term_id,:first_step,:x_pos,:y_pos)");
+        "INSERT INTO concepts (uuid,name,description,experiment_id,term_id,first_step,x_pos,y_pos,name_location) "
+        "VALUES (:uuid,:name,:description,:experiment_id,:term_id,:first_step,:x_pos,:y_pos,:name_location)");
     query.bindValue(":uuid", concept.id);
     query.bindValue(":name", concept.name);
     query.bindValue(":description", concept.description);
@@ -229,6 +229,7 @@ std::optional<int> ModelsRepository::createConcept(Concept &concept, int experim
     query.bindValue(":first_step", concept.startStep);
     query.bindValue(":x_pos", concept.pos.x());
     query.bindValue(":y_pos", concept.pos.y());
+    query.bindValue(":name_location", conceptNameLocationToString(concept.nameLocation));
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
         return {};
@@ -242,7 +243,7 @@ bool ModelsRepository::updateConcept(const Concept &concept) {
     query.prepare(
         "UPDATE concepts SET "
         "name=:name,description=:description,term_id=:term_id,"
-        "first_step=:first_step,x_pos=:x_pos,y_pos=:y_pos WHERE id=:id");
+        "first_step=:first_step,x_pos=:x_pos,y_pos=:y_pos,name_location=:name_location WHERE id=:id");
     query.bindValue(":name", concept.name);
     query.bindValue(":description", concept.description);
     if (concept.term)
@@ -252,6 +253,7 @@ bool ModelsRepository::updateConcept(const Concept &concept) {
     query.bindValue(":first_step", concept.startStep);
     query.bindValue(":x_pos", concept.pos.x());
     query.bindValue(":y_pos", concept.pos.y());
+    query.bindValue(":name_location", conceptNameLocationToString(concept.nameLocation));
     query.bindValue(":id", concept.dbId);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
@@ -462,7 +464,7 @@ std::optional<std::map<QUuid, std::shared_ptr<Term>>> ModelsRepository::getExper
 std::optional<std::vector<Concept>> ModelsRepository::getExperimentConcepts(int experimentId, const std::map<QUuid, std::shared_ptr<Term>> &terms) {
     QSqlQuery query(db);
     query.prepare(
-        "SELECT id,uuid,name,description,term_id,first_step,x_pos,y_pos FROM "
+        "SELECT id,uuid,name,description,term_id,first_step,x_pos,y_pos,name_location FROM "
         "concepts WHERE experiment_id=:experiment_id");
     query.bindValue(":experiment_id", experimentId);
     if (!query.exec()) return {};
@@ -481,7 +483,8 @@ std::optional<std::vector<Concept>> ModelsRepository::getExperimentConcepts(int 
             query.value("description").toString(),
             termPtr,
             QPointF(query.value("x_pos").toDouble(), query.value("y_pos").toDouble()),
-            query.value("first_step").toUInt()
+            query.value("first_step").toUInt(),
+            conceptNameLocationFromString(query.value("name_location").toString())
         };
         concept.dbId = query.value("id").toInt();
         result.emplace_back(concept);
