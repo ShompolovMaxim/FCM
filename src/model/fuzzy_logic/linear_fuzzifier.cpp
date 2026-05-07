@@ -1,6 +1,6 @@
 #include "linear_fuzzifier.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 
 #include <cmath>
 

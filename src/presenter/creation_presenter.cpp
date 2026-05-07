@@ -1,6 +1,6 @@
 #include "creation_presenter.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 
 CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent)
     : ScenePresenter(parent), fcm(fcm), elementWindowParent(elementWindowParent) {}

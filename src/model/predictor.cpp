@@ -2,7 +2,7 @@
 
 #include "algorithms/fabric.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 #include "metrics/fabric.h"
 #include "stop_conditions/fabric.h"
 

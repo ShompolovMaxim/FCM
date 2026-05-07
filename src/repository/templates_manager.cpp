@@ -1,6 +1,6 @@
 #include "templates_manager.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 
 #include <memory>
 

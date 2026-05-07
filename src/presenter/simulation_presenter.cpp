@@ -1,6 +1,6 @@
 #include "simulation_presenter.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 #include "creation_presenter.h"
 #include "ui/concept_window/concept_window.h"
 #include "ui/graph_editor/color_value_adapter/linear_approximation_adapter.h"

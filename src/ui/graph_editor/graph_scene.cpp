@@ -1,5 +1,5 @@
 #include "graph_scene.h"
-#include "common/crash_log.h"
+#include "common/logger.h"
 #include "model/entities/helpers/fcm_copy.h"
 
 GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode)

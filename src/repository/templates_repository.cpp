@@ -1,6 +1,6 @@
 #include "templates_repository.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 #include "model/element_type.h"
 
 #include <QDebug>

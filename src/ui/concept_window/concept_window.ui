@@ -91,6 +91,9 @@
          </item>
          <item>
           <widget class="QComboBox" name="nameLocation">
+           <property name="toolTip">
+            <string>Position of concept name label on the graph area</string>
+           </property>
            <item>
             <property name="text">
              <string>up</string>

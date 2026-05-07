@@ -911,6 +911,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Fuzziness degree for sigmoid and hyperbolic tangent</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -1575,6 +1578,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Fuzziness degree for sigmoid and hyperbolic tangent</string>
+              </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
               </property>
@@ -1827,6 +1833,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </item>
             <item>
              <widget class="QComboBox" name="sensitivityMeasureMetric">
+              <property name="toolTip">
+               <string>Metric to access sensitivity</string>
+              </property>
               <item>
                <property name="text">
                 <string>MSE</string>

@@ -1,7 +1,7 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 #include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/save_as_window/save_as_window.h"

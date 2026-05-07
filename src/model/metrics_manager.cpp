@@ -1,6 +1,6 @@
 #include "metrics_manager.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 
 MetricsManager::MetricsManager(std::shared_ptr<Metric> metric, const PredictionParameters& predictionParameters)
     : metric(metric), predictionParameters(predictionParameters) {}

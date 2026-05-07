@@ -1,6 +1,6 @@
 #include "json_repository.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 #include "model/entities/concept_name_location.h"
 
 #include <QJsonDocument>

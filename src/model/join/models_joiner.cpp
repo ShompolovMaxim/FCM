@@ -1,6 +1,6 @@
 #include "models_joiner.h"
 
-#include "common/crash_log.h"
+#include "common/logger.h"
 
 ModelsJoiner::ModelsJoiner() {}
 
