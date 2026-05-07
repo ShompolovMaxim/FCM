@@ -87,9 +87,11 @@ void NodeItem::updateLabelPosition() {
         break;
     case ConceptNameLocation::UpLeft:
         x = ellipseRect.left() - labelRect.width() - xPadding * 0.7;
+        y = ellipseRect.top() - labelRect.height() - yPadding * 0.7;
         break;
     case ConceptNameLocation::UpRight:
         x = ellipseRect.right() + xPadding * 0.7;
+        y = ellipseRect.top() - labelRect.height() - yPadding * 0.7;
         break;
     case ConceptNameLocation::Center:
         y = ellipseRect.center().y() - labelRect.height() / 2;
@@ -107,7 +109,7 @@ void NodeItem::updateLabelPosition() {
         break;
     case ConceptNameLocation::BottomLeft:
         x = ellipseRect.left() - labelRect.width() - xPadding * 0.7;
-        y = ellipseRect.bottom() + yPadding;
+        y = ellipseRect.bottom() + yPadding * 0.7;
         break;
     case ConceptNameLocation::BottomRight:
         x = ellipseRect.right() + xPadding * 0.7;
