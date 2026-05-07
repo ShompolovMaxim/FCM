@@ -69,5 +69,5 @@ TriangularFuzzyValue TriangularFuzzyValue::operator/(const double& rhs) const {
 }
 
 double TriangularFuzzyValue::defuzzify() const {
-    return (l + m + u) / 3;
+    return (l + 4 * m + u) / 6;
 }

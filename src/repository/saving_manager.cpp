@@ -1,11 +1,14 @@
 #include "saving_manager.h"
 
+#include "common/crash_log.h"
+
 #include <QDateTime>
 
 SavingManager::SavingManager(ModelsRepository repository) : repo(repository) {}
 
 bool SavingManager::saveAs(FCM &fcm) {
     if (!repo.transaction()) {
+        Logger::warn("Save transaction failed");
         return false;
     }
 
@@ -13,6 +16,7 @@ bool SavingManager::saveAs(FCM &fcm) {
 
     auto modelIdOpt = repo.createModel(fcm);
     if (!modelIdOpt) {
+        Logger::warn("Save model create failed");
         repo.rollback();
         return false;
     }
@@ -20,11 +24,13 @@ bool SavingManager::saveAs(FCM &fcm) {
     fcm.dbId = *modelIdOpt;
 
     if (!saveExperiments(fcm) || !saveCurrentExperiment(fcm, false)) {
+        Logger::warn("Save data failed");
         repo.rollback();
         return false;
     }
 
     if (!repo.commit()) {
+        Logger::warn("Save commit failed");
         repo.rollback();
         return false;
     }
@@ -34,17 +40,20 @@ bool SavingManager::saveAs(FCM &fcm) {
 
 bool SavingManager::saveFCM(FCM &fcm) {
     if (!repo.transaction()) {
+        Logger::warn("Save transaction failed");
         return false;
     }
 
     if (fcm.dbId == -1) {
         auto modelIdOpt = repo.createModel(fcm);
         if (!modelIdOpt) {
+            Logger::warn("Save model create failed");
             repo.rollback();
             return false;
         }
         fcm.dbId = *modelIdOpt;
     } else if (!repo.updateModel(fcm)) {
+        Logger::warn("Save model update failed");
         repo.rollback();
         return false;
     }
@@ -52,17 +61,20 @@ bool SavingManager::saveFCM(FCM &fcm) {
     if (fcm.dbId != -1 && currentExperimentIds.find(fcm.dbId) == currentExperimentIds.end()) {
         auto currentExperimentId = getCurrentExperimentId(fcm);
         if (!currentExperimentId.has_value()) {
+            Logger::warn("Current experiment missing");
             repo.rollback();
             return false;
         }
     }
 
     if (!deleteExperiments(fcm) || !saveExperiments(fcm) || !saveCurrentExperiment(fcm, true)) {
+        Logger::warn("Save sync failed");
         repo.rollback();
         return false;
     }
 
     if (!repo.commit()) {
+        Logger::warn("Save commit failed");
         repo.rollback();
         return false;
     }
@@ -80,23 +92,27 @@ bool SavingManager::saveFCM(FCM &fcm) {
 
 bool SavingManager::deleteFCM(int fcmDbId) {
     if (!repo.transaction()) {
+        Logger::warn("Delete transaction failed");
         return false;
     }
 
     auto experimentsOpt = repo.getExperimentsInfo(fcmDbId);
     if (!experimentsOpt) {
+        Logger::warn("Delete experiments load failed");
         repo.rollback();
         return false;
     }
 
     for (const auto &[experimentId, _] : *experimentsOpt) {
         if (!deleteExperimentElements(experimentId) || !repo.deleteExperiment(experimentId)) {
+            Logger::warn("Delete experiment failed");
             repo.rollback();
             return false;
         }
     }
 
     if (!repo.deleteModel(fcmDbId)) {
+        Logger::warn("Delete model failed");
         repo.rollback();
         return false;
     }
@@ -104,6 +120,7 @@ bool SavingManager::deleteFCM(int fcmDbId) {
     currentExperimentIds.erase(fcmDbId);
 
     if (!repo.commit()) {
+        Logger::warn("Delete commit failed");
         repo.rollback();
         return false;
     }
@@ -114,11 +131,13 @@ bool SavingManager::deleteFCM(int fcmDbId) {
 std::optional<FCM> SavingManager::getFCM(const QString &modelName) {
     auto fcmOpt = repo.getModel(modelName);
     if (!fcmOpt.has_value()) {
+        Logger::warn("Load model failed");
         return {};
     }
 
     auto currentExperimentId = getCurrentExperimentId(*fcmOpt);
     if (!currentExperimentId.has_value()) {
+        Logger::warn("Current experiment missing");
         return {};
     }
 
@@ -150,6 +169,7 @@ bool SavingManager::saveCurrentExperiment(FCM &fcm, bool applyDeletedIds) {
     if (applyDeletedIds) {
         auto currentExperimentId = getCurrentExperimentId(fcm);
         if (!currentExperimentId.has_value()) {
+            Logger::warn("Current experiment missing");
             return false;
         }
         current.dbId = *currentExperimentId;
@@ -168,19 +188,23 @@ bool SavingManager::saveExperiment(Experiment &exp, int modelId, const FCM *dele
     if (exp.dbId == -1) {
         auto expIdOpt = repo.createExperiment(exp, modelId);
         if (!expIdOpt) {
+            Logger::warn("Experiment create failed");
             return false;
         }
         exp.dbId = *expIdOpt;
     } else {
         if (deletedElementsSource && !deleteCurrentElements(*deletedElementsSource)) {
+            Logger::warn("Current elements delete failed");
             return false;
         }
         if (!repo.updateExperiment(exp)) {
+            Logger::warn("Experiment update failed");
             return false;
         }
     }
 
     if (!saveTerms(exp, exp.dbId) || !saveConcepts(exp, exp.dbId) || !saveWeights(exp, exp.dbId)) {
+        Logger::warn("Experiment save failed");
         return false;
     }
 
@@ -189,14 +213,19 @@ bool SavingManager::saveExperiment(Experiment &exp, int modelId, const FCM *dele
 
 bool SavingManager::saveTerms(Experiment &exp, int experimentId) {
     for (const auto &[termId, termPtr] : exp.terms) {
-        Q_UNUSED(termId)
+        if (!termPtr) {
+            Logger::warn("Term pointer missing");
+            return false;
+        }
         if (termPtr->dbId == -1) {
             auto idOpt = repo.createTerm(*termPtr, experimentId);
             if (!idOpt) {
+                Logger::warn("Term create failed");
                 return false;
             }
             termPtr->dbId = *idOpt;
         } else if (!repo.updateTerm(*termPtr)) {
+            Logger::warn("Term update failed");
             return false;
         }
     }
@@ -205,7 +234,10 @@ bool SavingManager::saveTerms(Experiment &exp, int experimentId) {
 
 bool SavingManager::saveConcepts(Experiment &exp, int experimentId) {
     for (const auto &[conceptId, conceptPtr] : exp.concepts) {
-        Q_UNUSED(conceptId)
+        if (!conceptPtr) {
+            Logger::warn("Concept pointer missing");
+            return false;
+        }
         std::optional<int> dbTermId;
         if (conceptPtr->term) {
             dbTermId = conceptPtr->term->dbId;
@@ -214,10 +246,12 @@ bool SavingManager::saveConcepts(Experiment &exp, int experimentId) {
         if (conceptPtr->dbId == -1) {
             auto idOpt = repo.createConcept(*conceptPtr, experimentId, dbTermId);
             if (!idOpt) {
+                Logger::warn("Concept create failed");
                 return false;
             }
             conceptPtr->dbId = *idOpt;
         } else if (!repo.updateConcept(*conceptPtr)) {
+            Logger::warn("Concept update failed");
             return false;
         }
     }
@@ -237,10 +271,15 @@ bool SavingManager::saveWeights(Experiment &exp, int experimentId) {
     }
 
     for (const auto &[weightId, weightPtr] : exp.weights) {
+        if (!weightPtr) {
+            Logger::warn("Weight pointer missing");
+            return false;
+        }
         auto itFrom = conceptsDbIds.find(weightPtr->fromConceptId);
         auto itTo = conceptsDbIds.find(weightPtr->toConceptId);
 
         if (itFrom == conceptsDbIds.end() || itTo == conceptsDbIds.end()) {
+            Logger::warn("Weight concepts missing");
             return false;
         }
 
@@ -250,10 +289,12 @@ bool SavingManager::saveWeights(Experiment &exp, int experimentId) {
         if (weightPtr->dbId == -1) {
             auto idOpt = repo.createWeight(*weightPtr, experimentId, fromDb, toDb, termsDbIds);
             if (!idOpt) {
+                Logger::warn("Weight create failed");
                 return false;
             }
             weightPtr->dbId = *idOpt;
         } else if (!repo.updateWeight(*weightPtr)) {
+            Logger::warn("Weight update failed");
             return false;
         }
     }
@@ -267,14 +308,17 @@ bool SavingManager::deleteExperiments(FCM &fcm) {
 
     auto currentExperimentId = getCurrentExperimentId(fcm);
     if (!currentExperimentId.has_value()) {
+        Logger::warn("Current experiment missing");
         return false;
     }
 
     for (int experimentId : fcm.deletedExperimentsIds) {
         if (experimentId == *currentExperimentId) {
+            Logger::warn("Current experiment delete blocked");
             return false;
         }
         if (!deleteExperimentElements(experimentId) || !repo.deleteExperiment(experimentId)) {
+            Logger::warn("Experiment delete failed");
             return false;
         }
     }
@@ -285,18 +329,21 @@ bool SavingManager::deleteExperiments(FCM &fcm) {
 bool SavingManager::deleteCurrentElements(const FCM &fcm) {
     for (int weightId : fcm.deletedWeightsIds) {
         if (!repo.deleteWeight(weightId)) {
+            Logger::warn("Weight delete failed");
             return false;
         }
     }
 
     for (int conceptId : fcm.deletedConceptsIds) {
         if (!repo.deleteConcept(conceptId)) {
+            Logger::warn("Concept delete failed");
             return false;
         }
     }
 
     for (int termId : fcm.deletedTermsIds) {
         if (!repo.deleteTerm(termId)) {
+            Logger::warn("Term delete failed");
             return false;
         }
     }
@@ -307,11 +354,13 @@ bool SavingManager::deleteCurrentElements(const FCM &fcm) {
 bool SavingManager::deleteExperimentElements(int experimentId) {
     auto termsOpt = repo.getExperimentTerms(experimentId);
     if (!termsOpt) {
+        Logger::warn("Experiment terms load failed");
         return false;
     }
 
     auto conceptsOpt = repo.getExperimentConcepts(experimentId, *termsOpt);
     if (!conceptsOpt) {
+        Logger::warn("Experiment concepts load failed");
         return false;
     }
 
@@ -322,23 +371,27 @@ bool SavingManager::deleteExperimentElements(int experimentId) {
 
     auto weightsOpt = repo.getExperimentWeights(experimentId, *termsOpt, conceptsByDbId);
     if (!weightsOpt) {
+        Logger::warn("Experiment weights load failed");
         return false;
     }
 
     for (const auto &weight : *weightsOpt) {
         if (!repo.deleteWeight(weight.dbId)) {
+            Logger::warn("Weight delete failed");
             return false;
         }
     }
 
     for (const auto &concept : *conceptsOpt) {
         if (!repo.deleteConcept(concept.dbId)) {
+            Logger::warn("Concept delete failed");
             return false;
         }
     }
 
     for (const auto &[_, term] : *termsOpt) {
         if (!repo.deleteTerm(term->dbId)) {
+            Logger::warn("Term delete failed");
             return false;
         }
     }
@@ -354,6 +407,7 @@ std::optional<int> SavingManager::getCurrentExperimentId(const FCM &fcm) {
 
     auto experimentsOpt = repo.getExperimentsInfo(fcm.dbId);
     if (!experimentsOpt) {
+        Logger::warn("Experiments info load failed");
         return {};
     }
 
@@ -365,6 +419,7 @@ std::optional<int> SavingManager::getCurrentExperimentId(const FCM &fcm) {
     }
 
     if (!currentExperiment.has_value()) {
+        Logger::warn("Current experiment missing");
         return {};
     }
 
@@ -404,3 +459,4 @@ void SavingManager::resetFCMDbIds(FCM &fcm) {
         }
     }
 }
+

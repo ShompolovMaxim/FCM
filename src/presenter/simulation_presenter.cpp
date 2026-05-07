@@ -1,5 +1,6 @@
 #include "simulation_presenter.h"
 
+#include "common/crash_log.h"
 #include "creation_presenter.h"
 #include "ui/concept_window/concept_window.h"
 #include "ui/graph_editor/color_value_adapter/linear_approximation_adapter.h"
@@ -64,6 +65,10 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
     }
 
     for (const auto& [id, concept] : runtimeFcm->concepts) {
+        if (!concept || !concept->term) {
+            Logger::warn("Simulation concept term missing");
+            return;
+        }
         calculationFCM.concepts[id] = CalculationConcept{
             id,
             concept->term->value,
@@ -72,6 +77,10 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
         };
     }
     for (const auto& [id, weight] : runtimeFcm->weights) {
+        if (!weight || !weight->term) {
+            Logger::warn("Simulation weight term missing");
+            return;
+        }
         calculationFCM.weights[id] = CalculationWeight{
             id,
             weight->term->value,
@@ -87,6 +96,14 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
         predictorForThread->perform();
     });
 
+    if (simulationParameters.stepsPerSecond <= 0) {
+        Logger::warn("Simulation speed invalid");
+        stopExecution();
+        return;
+    }
+
+    iterationTime = static_cast<int>(1000 / simulationParameters.stepsPerSecond);
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this, predictionParameters]() {
         goToStep(step+1);
@@ -97,8 +114,6 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
         }
     });
 
-    iterationTime = static_cast<int>(1000 / simulationParameters.stepsPerSecond);
-
     if (simulationParameters.realTime) {
         timer->start(iterationTime);
     } else {
@@ -107,6 +122,10 @@ void SimulationPresenter::simulate(PredictionParameters predictionParameters, Si
 }
 
 void SimulationPresenter::finish() {
+    if (!predictor) {
+        Logger::warn("Simulation state missing");
+        return;
+    }
     stopTimer(calculationTimer);
     calculationTimer = new QTimer(this);
     connect(calculationTimer, &QTimer::timeout, this, [this]() {
@@ -124,6 +143,7 @@ void SimulationPresenter::finish() {
 
 bool SimulationPresenter::goToStep(size_t newStep) {
     if (!predictor || !runtimeFcm) {
+        Logger::warn("Simulation state missing");
         return false;
     }
 
@@ -131,11 +151,21 @@ bool SimulationPresenter::goToStep(size_t newStep) {
         auto newFCM = predictor->getFCM(newStep);
         auto colorValueAdapter = LinearApproximationColorValueAdapter(originalFcm->terms);
         for (auto* node : nodes) {
-            auto runtimeConceptIt = runtimeFcm->concepts.find(node->getId());
-            if (runtimeConceptIt == runtimeFcm->concepts.end()) {
+            if (!node) {
+                Logger::warn("Simulation node missing");
                 continue;
             }
-            double value = predictionParameters.useFuzzyValues ? newFCM.concepts[node->getId()].triangularFuzzyValue.defuzzify() : newFCM.concepts[node->getId()].value;
+            auto runtimeConceptIt = runtimeFcm->concepts.find(node->getId());
+            if (runtimeConceptIt == runtimeFcm->concepts.end()) {
+                Logger::warn("Simulation concept missing");
+                continue;
+            }
+            auto newConceptIt = newFCM.concepts.find(node->getId());
+            if (newConceptIt == newFCM.concepts.end()) {
+                Logger::warn("Simulation concept missing");
+                continue;
+            }
+            double value = predictionParameters.useFuzzyValues ? newConceptIt->second.triangularFuzzyValue.defuzzify() : newConceptIt->second.value;
             auto color = colorValueAdapter.getColor(value, 0, 1, true, predictionParameters.useFuzzyValues);
             node->setColor(color);
             auto predictedValues = predictor->getConceptHistoryValues(node->getId(), newStep);
@@ -150,11 +180,21 @@ bool SimulationPresenter::goToStep(size_t newStep) {
             updateRuntimeConceptWindow(node->getId());
         }
         for (auto* edge : edges) {
-            auto runtimeWeightIt = runtimeFcm->weights.find(edge->getId());
-            if (runtimeWeightIt == runtimeFcm->weights.end()) {
+            if (!edge) {
+                Logger::warn("Simulation edge missing");
                 continue;
             }
-            double value = predictionParameters.useFuzzyValues ? newFCM.weights[edge->getId()].triangularFuzzyValue.defuzzify() : newFCM.weights[edge->getId()].value;
+            auto runtimeWeightIt = runtimeFcm->weights.find(edge->getId());
+            if (runtimeWeightIt == runtimeFcm->weights.end()) {
+                Logger::warn("Simulation weight missing");
+                continue;
+            }
+            auto newWeightIt = newFCM.weights.find(edge->getId());
+            if (newWeightIt == newFCM.weights.end()) {
+                Logger::warn("Simulation weight missing");
+                continue;
+            }
+            double value = predictionParameters.useFuzzyValues ? newWeightIt->second.triangularFuzzyValue.defuzzify() : newWeightIt->second.value;
             auto color = colorValueAdapter.getColor(value, -1, 1, false, predictionParameters.useFuzzyValues);
             edge->setColor(color);
             auto predictedValues = predictor->getWeightHistoryValues(edge->getId(), newStep);
@@ -352,3 +392,4 @@ void SimulationPresenter::updateRuntimeWeightWindow(QUuid id) {
     }
     it->second->setPredictedValues();
 }
+

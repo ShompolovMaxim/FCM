@@ -38,6 +38,7 @@ private slots:
     void onDelete();
 
 private:
+    void handleCreateCancel();
     void updateCurrentConcept();
 
     void setNumericPredictedValues();
@@ -48,6 +49,7 @@ private:
     const std::map<QUuid, std::shared_ptr<Term>>& terms;
     std::shared_ptr<Concept> currentConcept;
     ElementWindowMode mode;
+    bool createCancelHandled = false;
 };
 
 #endif // CONCEPT_WINDOW_H

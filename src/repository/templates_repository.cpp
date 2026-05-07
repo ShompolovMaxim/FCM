@@ -1,5 +1,6 @@
 #include "templates_repository.h"
 
+#include "common/crash_log.h"
 #include "model/element_type.h"
 
 #include <QDebug>
@@ -23,7 +24,10 @@ bool TemplatesRepository::rollback() {
 QList<QPair<QString, TemplateType>> TemplatesRepository::getTemplatesNames() {
     QList<QPair<QString, TemplateType>> templateNames;
     QSqlQuery query(db);
-    if (!query.exec("SELECT name,type FROM templates")) return templateNames;
+    if (!query.exec("SELECT name,type FROM templates")) {
+        Logger::warn("Template names query failed");
+        return templateNames;
+    }
     while (query.next()) {
         templateNames.append({
             query.value("name").toString(),
@@ -37,7 +41,10 @@ std::optional<int> TemplatesRepository::getTemplateId(const QString &templateNam
     QSqlQuery query(db);
     query.prepare("SELECT id FROM templates WHERE name=:name");
     query.bindValue(":name", templateName);
-    if (!query.exec() || !query.next()) return {};
+    if (!query.exec() || !query.next()) {
+        Logger::warn("Template id query failed");
+        return {};
+    }
     return query.value("id").toInt();
 }
 
@@ -45,7 +52,10 @@ std::optional<Template> TemplatesRepository::getTemplate(const QString &template
     QSqlQuery query(db);
     query.prepare("SELECT name,description,type FROM templates WHERE name=:name");
     query.bindValue(":name", templateName);
-    if (!query.exec() || !query.next()) return {};
+    if (!query.exec() || !query.next()) {
+        Logger::warn("Template query failed");
+        return {};
+    }
 
     Template templateModel;
     templateModel.name = query.value("name").toString();
@@ -53,20 +63,32 @@ std::optional<Template> TemplatesRepository::getTemplate(const QString &template
     templateModel.type = templateTypeFromString(query.value("type").toString());
 
     auto templateIdOpt = getTemplateId(templateName);
-    if (!templateIdOpt) return {};
+    if (!templateIdOpt) {
+        Logger::warn("Template id missing");
+        return {};
+    }
     int templateId = *templateIdOpt;
 
     auto termsOpt = getTemplateTerms(templateId);
-    if (!termsOpt) return {};
+    if (!termsOpt) {
+        Logger::warn("Template terms load failed");
+        return {};
+    }
     templateModel.terms = *termsOpt;
 
     std::map<int, std::shared_ptr<TemplateConcept>> conceptsByDbId;
     auto conceptsOpt = getTemplateConcepts(templateId, conceptsByDbId);
-    if (!conceptsOpt) return {};
+    if (!conceptsOpt) {
+        Logger::warn("Template concepts load failed");
+        return {};
+    }
     templateModel.concepts = *conceptsOpt;
 
     auto weightsOpt = getTemplateWeights(templateId, conceptsByDbId);
-    if (!weightsOpt) return {};
+    if (!weightsOpt) {
+        Logger::warn("Template weights load failed");
+        return {};
+    }
     templateModel.weights = *weightsOpt;
 
     return templateModel;
@@ -97,11 +119,17 @@ std::optional<int> TemplatesRepository::createTemplate(Template &templateModel) 
     }
 
     for (const auto &weight : templateModel.weights) {
-        if (!weight->fromConcept || !weight->toConcept) return {};
+        if (!weight->fromConcept || !weight->toConcept) {
+            Logger::warn("Template weight concept missing");
+            return {};
+        }
 
         auto fromIt = conceptsIds.find(weight->fromConcept.get());
         auto toIt = conceptsIds.find(weight->toConcept.get());
-        if (fromIt == conceptsIds.end() || toIt == conceptsIds.end()) return {};
+        if (fromIt == conceptsIds.end() || toIt == conceptsIds.end()) {
+            Logger::warn("Template weight concept missing");
+            return {};
+        }
 
         if (!createTemplateWeight(*weight, templateId, fromIt->second, toIt->second)) return {};
     }
@@ -111,7 +139,10 @@ std::optional<int> TemplatesRepository::createTemplate(Template &templateModel) 
 
 bool TemplatesRepository::deleteTemplate(const QString &templateName) {
     auto templateIdOpt = getTemplateId(templateName);
-    if (!templateIdOpt) return false;
+    if (!templateIdOpt) {
+        Logger::warn("Template id missing");
+        return false;
+    }
     int templateId = *templateIdOpt;
 
     if (!deleteTemplateWeights(templateId)) return false;
@@ -138,7 +169,10 @@ std::optional<std::vector<std::shared_ptr<TemplateTerm>>> TemplatesRepository::g
         "FROM templates_terms WHERE template_id=:template_id"
     );
     query.bindValue(":template_id", templateId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        Logger::warn("Template terms query failed");
+        return {};
+    }
 
     std::vector<std::shared_ptr<TemplateTerm>> result;
     while (query.next()) {
@@ -172,7 +206,10 @@ std::optional<std::vector<std::shared_ptr<TemplateConcept>>> TemplatesRepository
         "FROM templates_concepts WHERE template_id=:template_id"
     );
     query.bindValue(":template_id", templateId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        Logger::warn("Template concepts query failed");
+        return {};
+    }
 
     std::vector<std::shared_ptr<TemplateConcept>> result;
     while (query.next()) {
@@ -200,13 +237,19 @@ std::optional<std::vector<std::shared_ptr<TemplateWeight>>> TemplatesRepository:
         "FROM templates_weights WHERE template_id=:template_id"
     );
     query.bindValue(":template_id", templateId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        Logger::warn("Template weights query failed");
+        return {};
+    }
 
     std::vector<std::shared_ptr<TemplateWeight>> result;
     while (query.next()) {
         auto fromIt = conceptsByDbId.find(query.value("concept_from_id").toInt());
         auto toIt = conceptsByDbId.find(query.value("concept_to_id").toInt());
-        if (fromIt == conceptsByDbId.end() || toIt == conceptsByDbId.end()) return {};
+        if (fromIt == conceptsByDbId.end() || toIt == conceptsByDbId.end()) {
+            Logger::warn("Template weight concept missing");
+            return {};
+        }
 
         auto weight = std::make_shared<TemplateWeight>();
         weight->name = query.value("name").toString();
@@ -325,3 +368,4 @@ bool TemplatesRepository::deleteTemplateWeights(int templateId) {
 
     return true;
 }
+

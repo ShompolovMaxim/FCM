@@ -1,5 +1,7 @@
 #include "models_joiner.h"
 
+#include "common/crash_log.h"
+
 ModelsJoiner::ModelsJoiner() {}
 
 std::shared_ptr<FCM> ModelsJoiner::join(
@@ -8,6 +10,15 @@ std::shared_ptr<FCM> ModelsJoiner::join(
     const JoinMode& joinMode,
     const QString& resultName
 ) {
+    if (!baseFCM) {
+        Logger::warn("Join base model missing");
+        return std::make_shared<FCM>();
+    }
+    if (!fuzzifier) {
+        Logger::warn("Join fuzzifier missing");
+        return std::make_shared<FCM>();
+    }
+
     auto result = std::make_shared<FCM>();
     result->name = resultName;
     result->description = baseFCM->description;
@@ -43,8 +54,14 @@ std::shared_ptr<FCM> ModelsJoiner::join(
             conceptsStartStepSum[concept->name] += concept->startStep;
         }
         for (const auto& [_, weight] : fcm->weights) {
-            auto fromName = fcm->concepts[weight->fromConceptId]->name;
-            auto toName = fcm->concepts[weight->toConceptId]->name;
+            const auto fromIt = fcm->concepts.find(weight->fromConceptId);
+            const auto toIt = fcm->concepts.find(weight->toConceptId);
+            if (fromIt == fcm->concepts.end() || toIt == fcm->concepts.end()) {
+                Logger::warn("Join concept missing");
+                continue;
+            }
+            auto fromName = fromIt->second->name;
+            auto toName = toIt->second->name;
             weightsCount[{fromName, toName}];
             if (weightsCount[{fromName, toName}] == 0) {
                 weightsDescription[{fromName, toName}] = weight->description;
@@ -133,3 +150,4 @@ std::shared_ptr<FCM> ModelsJoiner::join(
 
     return result;
 }
+

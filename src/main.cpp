@@ -14,7 +14,6 @@ int main(int argc, char *argv[]) {
         "border: 1px solid palette(mid);"
         "}"
         );
-
     MainWindow w;
     w.showMaximized();
     //w.show();

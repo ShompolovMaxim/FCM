@@ -1,8 +1,14 @@
 #include "linear_fuzzifier.h"
 
+#include "common/crash_log.h"
+
 #include <cmath>
 
 std::shared_ptr<Term> LinearFuzzifier::fuzzify(const std::map<QUuid, std::shared_ptr<Term>>& terms, double value) {
+    if (terms.empty()) {
+        Logger::warn("Fuzzify terms missing");
+        return {};
+    }
     auto result = (terms).begin()->second;
     for (const auto& term : terms) {
         if (std::abs(result->value - value) > std::abs(term.second->value - value)) {
@@ -13,6 +19,10 @@ std::shared_ptr<Term> LinearFuzzifier::fuzzify(const std::map<QUuid, std::shared
 }
 
 std::shared_ptr<Term> LinearFuzzifier::fuzzify(const std::map<QUuid, std::shared_ptr<Term>>& terms, TriangularFuzzyValue value) {
+    if (terms.empty()) {
+        Logger::warn("Fuzzify terms missing");
+        return {};
+    }
     auto result = (terms).begin()->second;
     for (const auto& [id, term] : terms) {
         if (std::abs(result->fuzzyValue.l - value.l) + std::abs(result->fuzzyValue.m - value.m) + std::abs(result->fuzzyValue.u - value.u) >
@@ -24,6 +34,10 @@ std::shared_ptr<Term> LinearFuzzifier::fuzzify(const std::map<QUuid, std::shared
 }
 
 std::shared_ptr<Term> LinearFuzzifier::fuzzify(const std::map<QUuid, std::shared_ptr<Term>>& terms, double value, TriangularFuzzyValue fuzzyValue) {
+    if (terms.empty()) {
+        Logger::warn("Fuzzify terms missing");
+        return {};
+    }
     auto result = (terms).begin()->second;
     for (const auto& [id, term] : terms) {
         if ((std::abs(result->fuzzyValue.l - fuzzyValue.l) + std::abs(result->fuzzyValue.m - fuzzyValue.m) + std::abs(result->fuzzyValue.u - fuzzyValue.u)) / 3 +
@@ -35,3 +49,4 @@ std::shared_ptr<Term> LinearFuzzifier::fuzzify(const std::map<QUuid, std::shared
     }
     return result;
 }
+

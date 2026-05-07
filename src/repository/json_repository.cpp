@@ -1,5 +1,6 @@
 #include "json_repository.h"
 
+#include "common/crash_log.h"
 #include "model/entities/concept_name_location.h"
 
 #include <QJsonDocument>
@@ -98,7 +99,14 @@ std::shared_ptr<Concept> deserializeConcept(
     concept->name = obj["name"].toString();
     concept->description = obj["description"].toString();
     if (obj.contains("term_id")) {
-        concept->term = terms.at(QUuid(obj["term_id"].toString()));
+        const auto termId = QUuid(obj["term_id"].toString());
+        const auto termIt = terms.find(termId);
+        if (termIt == terms.end()) {
+            Logger::warn("Json concept term missing");
+            concept->term = nullptr;
+        } else {
+            concept->term = termIt->second;
+        }
     }
     concept->pos = QPointF(obj["x_pos"].toDouble(), obj["y_pos"].toDouble());
     concept->startStep = static_cast<size_t>(obj["first_step"].toInt());
@@ -131,7 +139,14 @@ std::shared_ptr<Weight> deserializeWeight(
     weight->name = obj["name"].toString();
     weight->description = obj["description"].toString();
     if (obj.contains("term_id")) {
-        weight->term = terms.at(QUuid(obj["term_id"].toString()));
+        const auto termId = QUuid(obj["term_id"].toString());
+        const auto termIt = terms.find(termId);
+        if (termIt == terms.end()) {
+            Logger::warn("Json weight term missing");
+            weight->term = nullptr;
+        } else {
+            weight->term = termIt->second;
+        }
     }
     weight->fromConceptId = QUuid(obj["concept_from_id"].toString());
     weight->toConceptId = QUuid(obj["concept_to_id"].toString());
@@ -227,10 +242,15 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
+        Logger::warn("Json file open failed");
         return false;
     }
 
-    file.write(doc.toJson());
+    if (file.write(doc.toJson()) == -1) {
+        Logger::warn("Json file write failed");
+        return false;
+    }
+
     return true;
 }
 
@@ -238,13 +258,21 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path) {
     QFile file(path);
 
     if (!file.open(QIODevice::ReadOnly)) {
+        Logger::warn("Json file read failed");
         return {};
     }
 
     QByteArray data = file.readAll();
 
-    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        Logger::warn("Json parse failed");
+        return {};
+    }
+
     if (!doc.isObject()) {
+        Logger::warn("Json root invalid");
         return {};
     }
 
@@ -254,6 +282,7 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path) {
 
     fcm.name = root["name"].toString();
     fcm.description = root["description"].toString();
+
     fcm.predictionParameters = deserializePredictionParameters(root["predictionParameters"].toObject());
     fcm.terms = deserializeTerms(root["terms"].toArray());
     fcm.concepts = deserializeConcepts(root["concepts"].toArray(), fcm.terms);
@@ -277,3 +306,4 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path) {
 
     return fcm;
 }
+

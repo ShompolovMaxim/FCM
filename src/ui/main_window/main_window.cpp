@@ -1,6 +1,7 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
+#include "common/crash_log.h"
 #include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/save_as_window/save_as_window.h"
@@ -64,9 +65,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("models.db");
     if (!db.open()) {
+        Logger::critical("Database open failed");
         qFatal("Cannot open database");
     }
     if (!MigrationManager::migrate(db)) {
+        Logger::critical("Database migration failed");
         qFatal("Cannot apply database migrations");
     }
     savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
@@ -284,6 +287,7 @@ bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
 void MainWindow::deleteSavedModel(const QString &modelName) {
     auto model = savingManager->getFCM(modelName);
     if (!model || !savingManager->deleteFCM(model->dbId)) {
+        Logger::warn("Main model delete failed");
         emit modelDeletionFinished(modelName, false);
         return;
     }
@@ -305,6 +309,7 @@ void MainWindow::deleteSavedModel(const QString &modelName) {
 
 void MainWindow::deleteSavedTemplate(const QString &templateName) {
     if (!templatesManager->deleteTemplate(templateName)) {
+        Logger::warn("Main template delete failed");
         emit modelDeletionFinished(templateName, false);
         return;
     }
@@ -877,7 +882,17 @@ void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem 
     ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
     ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
     ui->termNotes->setMarkdownText(fcm->terms[currentTermId]->description);
-    ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
+    ui->termColorButton->setStyleSheet(QString(R"(
+        QPushButton {
+            background-color: %1;
+        }
+
+        QToolTip {
+            background-color: #ffffe1;
+            color: black;
+            border: 1px solid black;
+        }
+    )").arg(fcm->terms[currentTermId]->color.name()));
     updateFuzzyValuePlot();
 }
 
@@ -1345,6 +1360,7 @@ void MainWindow::open() {
 
     auto model = savingManager->getFCM(modelName);
     if (!model) {
+        Logger::warn("Main model load failed");
         return;
     }
 
@@ -1383,7 +1399,9 @@ void MainWindow::saveAsTemplate() {
 
     if (saveAsWindow.exec() == QDialog::Accepted) {
         fcm->name = saveAsWindow.savingModelName();
-        templatesManager->createTemplate(*fcm);
+        if (!templatesManager->createTemplate(*fcm)) {
+            Logger::warn("Main template save failed");
+        }
         ui->modelName->setText(fcm->name);
     }
 }
@@ -1408,6 +1426,7 @@ void MainWindow::openTemplate() {
 
     auto model = templatesManager->getFCM(templateName);
     if (!model) {
+        Logger::warn("Main template load failed");
         return;
     }
 
@@ -1462,6 +1481,7 @@ void MainWindow::onExportJson() {
 
     updateFCM();
     if (!JsonRepository::exportToJson(*fcm, fileName)) {
+        Logger::warn("Main json export failed");
         QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to save file."));
     }
 }
@@ -1481,6 +1501,7 @@ void MainWindow::onImportJson() {
     auto model = JsonRepository::importFromJson(fileName);
 
     if (!model) {
+        Logger::warn("Main json import failed");
         QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
         return;
     }
@@ -1550,10 +1571,12 @@ void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {
 void MainWindow::switchModel() {
     QAction *action = qobject_cast<QAction*>(sender());
     if (!action) {
+        Logger::warn("Model action missing");
         return;
     }
     size_t index = static_cast<size_t>(action->data().toULongLong());
     if (index >= fcms.size()) {
+        Logger::warn("Model index invalid");
         return;
     }
     fcm = fcms[index];
@@ -1620,6 +1643,7 @@ void MainWindow::joinModels() {
     for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Saved)) {
         auto model = savingManager->getFCM(modelName);
         if (!model) {
+            Logger::warn("Join saved model load failed");
             QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load one of the selected saved models."));
             return;
         }
@@ -1635,6 +1659,7 @@ void MainWindow::joinModels() {
     if (baseFCM == nullptr && templatesNames.contains(termsModel)) {
         auto model = templatesManager->getFCM(termsModel);
         if (!model) {
+            Logger::warn("Join template load failed");
             QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load the selected terms model template."));
             return;
         }
@@ -1756,3 +1781,4 @@ void MainWindow::changeEvent(QEvent *event) {
 
     QMainWindow::changeEvent(event);
 }
+

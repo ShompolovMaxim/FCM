@@ -2,6 +2,7 @@
 
 #include "algorithms/fabric.h"
 
+#include "common/crash_log.h"
 #include "metrics/fabric.h"
 #include "stop_conditions/fabric.h"
 
@@ -19,6 +20,11 @@ void Predictor::perform() {
     auto algorithm = AlgorithmsFabric().create(_predictionParameters, conceptActivationFunction, weightActivationFunction);
     auto metricsManager = MetricsManager(MetricsFabric().create(_predictionParameters.metric), _predictionParameters);
     auto stopCondition = StopConditionsFabric().create(_predictionParameters);
+    if (!conceptActivationFunction || !weightActivationFunction || !algorithm || !stopCondition) {
+        Logger::warn("Predictor dependency missing");
+        finished = true;
+        return;
+    }
     while (!stopRequested.load()) {
         if (stopCondition->finished(_fcms)) {
             break;
@@ -46,6 +52,10 @@ void Predictor::requestStop() {
 
 CalculationFCM Predictor::getFCM(size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
+    if (step >= _fcms.size()) {
+        Logger::warn("Predictor step invalid");
+        return _fcms.empty() ? CalculationFCM{} : _fcms.back();
+    }
     return _fcms[step];
 }
 
@@ -59,36 +69,71 @@ bool Predictor::getFinished() {
 
 std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getConceptHistoryValues(QUuid conceptId, size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
+    if (_fcms.empty() || step >= _fcms.size()) {
+        Logger::warn("Predictor step invalid");
+        if (_predictionParameters.useFuzzyValues) {
+            return std::vector<TriangularFuzzyValue>{};
+        }
+        return std::vector<double>{};
+    }
     if (_predictionParameters.useFuzzyValues) {
         std::vector<TriangularFuzzyValue> result;
         result.reserve(step + 1);
         for (size_t i = 0; i <= step; ++i) {
-            result.push_back(_fcms[i].concepts[conceptId].triangularFuzzyValue);
+            const auto conceptIt = _fcms[i].concepts.find(conceptId);
+            if (conceptIt == _fcms[i].concepts.end()) {
+                Logger::warn("Predictor concept missing");
+                return result;
+            }
+            result.push_back(conceptIt->second.triangularFuzzyValue);
         }
         return result;
     }
     std::vector<double> result;
     result.reserve(step + 1);
     for (size_t i = 0; i <= step; ++i) {
-        result.push_back(_fcms[i].concepts[conceptId].value);
+        const auto conceptIt = _fcms[i].concepts.find(conceptId);
+        if (conceptIt == _fcms[i].concepts.end()) {
+            Logger::warn("Predictor concept missing");
+            return result;
+        }
+        result.push_back(conceptIt->second.value);
     }
     return result;
 }
 
 std::variant<std::vector<double>, std::vector<TriangularFuzzyValue>> Predictor::getWeightHistoryValues(QUuid weightId, size_t step) {
     std::lock_guard<std::mutex> lock(_mutex);
+    if (_fcms.empty() || step >= _fcms.size()) {
+        Logger::warn("Predictor step invalid");
+        if (_predictionParameters.useFuzzyValues) {
+            return std::vector<TriangularFuzzyValue>{};
+        }
+        return std::vector<double>{};
+    }
     if (_predictionParameters.useFuzzyValues) {
         std::vector<TriangularFuzzyValue> result;
         result.reserve(step + 1);
         for (size_t i = 0; i <= step; ++i) {
-            result.push_back(_fcms[i].weights[weightId].triangularFuzzyValue);
+            const auto weightIt = _fcms[i].weights.find(weightId);
+            if (weightIt == _fcms[i].weights.end()) {
+                Logger::warn("Predictor weight missing");
+                return result;
+            }
+            result.push_back(weightIt->second.triangularFuzzyValue);
         }
         return result;
     }
     std::vector<double> result;
     result.reserve(step + 1);
     for (size_t i = 0; i <= step; ++i) {
-        result.push_back(_fcms[i].weights[weightId].value);
+        const auto weightIt = _fcms[i].weights.find(weightId);
+        if (weightIt == _fcms[i].weights.end()) {
+            Logger::warn("Predictor weight missing");
+            return result;
+        }
+        result.push_back(weightIt->second.value);
     }
     return result;
 }
+

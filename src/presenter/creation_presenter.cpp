@@ -1,5 +1,7 @@
 #include "creation_presenter.h"
 
+#include "common/crash_log.h"
+
 CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent)
     : ScenePresenter(parent), fcm(fcm), elementWindowParent(elementWindowParent) {}
 
@@ -45,7 +47,13 @@ void CreationPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
         return;
     }
 
-    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, fcm->concepts[id], mode, elementWindowParent);
+    const auto conceptIt = fcm->concepts.find(id);
+    if (conceptIt == fcm->concepts.end()) {
+        Logger::warn("Presenter concept missing");
+        return;
+    }
+
+    ConceptWindow* conceptWindow = new ConceptWindow(fcm->terms, conceptIt->second, mode, elementWindowParent);
     conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(conceptWindow, &ConceptWindow::applied,
@@ -90,6 +98,10 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
     if (fromNodeId == toNodeId) {
         return;
     }
+    if (fcm->concepts.find(fromNodeId) == fcm->concepts.end() || fcm->concepts.find(toNodeId) == fcm->concepts.end()) {
+        Logger::warn("Presenter concept missing");
+        return;
+    }
     for (const auto& [_, weight] : fcm->weights) {
         if (weight->fromConceptId == fromNodeId && weight->toConceptId == toNodeId) {
             return;
@@ -126,6 +138,7 @@ void CreationPresenter::createWeight(QUuid fromNodeId, QUuid toNodeId) {
 void CreationPresenter::updateConceptPosition(QUuid id, const QPointF& pos) {
     auto conceptIt = fcm->concepts.find(id);
     if (conceptIt == fcm->concepts.end()) {
+        Logger::warn("Presenter concept missing");
         return;
     }
 
@@ -139,7 +152,13 @@ void CreationPresenter::updateWeight(QUuid id, ElementWindowMode mode) {
         return;
     }
 
-    WeightWindow* weightWindow = new WeightWindow(fcm->terms, fcm->weights[id], mode, elementWindowParent);
+    const auto weightIt = fcm->weights.find(id);
+    if (weightIt == fcm->weights.end()) {
+        Logger::warn("Presenter weight missing");
+        return;
+    }
+
+    WeightWindow* weightWindow = new WeightWindow(fcm->terms, weightIt->second, mode, elementWindowParent);
     weightWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(weightWindow, &WeightWindow::applied,
@@ -160,8 +179,16 @@ void CreationPresenter::updateWeight(QUuid id, ElementWindowMode mode) {
 }
 
 void CreationPresenter::deleteConcept(QUuid id) {
-    if (fcm->concepts[id]->dbId != -1) {
-        fcm->deletedConceptsIds.push_back(fcm->concepts[id]->dbId);
+    const auto conceptIt = fcm->concepts.find(id);
+    if (conceptIt == fcm->concepts.end()) {
+        Logger::warn("Presenter concept missing");
+        return;
+    }
+    if (conceptIt->second->dbId != -1) {
+        fcm->deletedConceptsIds.push_back(conceptIt->second->dbId);
+    }
+    if (firstNodeId.has_value() && *firstNodeId == id) {
+        firstNodeId = {};
     }
     if (conceptWindows.find(id) != conceptWindows.end()) {
         conceptWindows[id]->deleteLater();
@@ -184,8 +211,13 @@ void CreationPresenter::deleteConcept(QUuid id) {
 }
 
 void CreationPresenter::deleteWeight(QUuid id) {
-    if (fcm->weights[id]->dbId != -1) {
-        fcm->deletedWeightsIds.push_back(fcm->weights[id]->dbId);
+    const auto weightIt = fcm->weights.find(id);
+    if (weightIt == fcm->weights.end()) {
+        Logger::warn("Presenter weight missing");
+        return;
+    }
+    if (weightIt->second->dbId != -1) {
+        fcm->deletedWeightsIds.push_back(weightIt->second->dbId);
     }
     if (weightWindows.find(id) != weightWindows.end()) {
         weightWindows[id]->deleteLater();
@@ -264,3 +296,4 @@ void CreationPresenter::retranslateElementsWindows() {
 void CreationPresenter::emitAutosave() {
     emit autosave();
 }
+

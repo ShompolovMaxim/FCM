@@ -38,6 +38,7 @@ private slots:
     void onDelete();
 
 private:
+    void handleCreateCancel();
     void updateCurrentWeight();
 
     void setNumericPredictedValues();
@@ -48,6 +49,7 @@ private:
     const std::map<QUuid, std::shared_ptr<Term>>& terms;
     std::shared_ptr<Weight> currentWeight;
     ElementWindowMode mode;
+    bool createCancelHandled = false;
 };
 
 #endif // WEIGHT_WINDOW_H

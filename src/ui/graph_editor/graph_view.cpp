@@ -1,4 +1,3 @@
-#include "graph_scene.h"
 #include "graph_view.h"
 
 GraphView::GraphView(QWidget* parent) : QGraphicsView(parent) {
@@ -80,3 +79,4 @@ void GraphView::mouseReleaseEvent(QMouseEvent* event)
         QGraphicsView::mouseReleaseEvent(event);
     }
 }
+

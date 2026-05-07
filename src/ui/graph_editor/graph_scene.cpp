@@ -1,4 +1,5 @@
 #include "graph_scene.h"
+#include "common/crash_log.h"
 #include "model/entities/helpers/fcm_copy.h"
 
 GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter> presenter, ElementWindowMode elementWindowMode)
@@ -18,10 +19,16 @@ GraphScene::GraphScene(std::shared_ptr<FCM> fcm, std::shared_ptr<ScenePresenter>
     }
 
     for (const auto& [_, weight] : fcm->weights) {
-        auto* ed = new EdgeItem(nodes[weight->fromConceptId], nodes[weight->toConceptId], weight->id);
+        const auto fromIt = nodes.find(weight->fromConceptId);
+        const auto toIt = nodes.find(weight->toConceptId);
+        if (fromIt == nodes.end() || toIt == nodes.end()) {
+            Logger::warn("Scene edge node missing");
+            continue;
+        }
+        auto* ed = new EdgeItem(fromIt->second, toIt->second, weight->id);
         addItem(ed);
-        nodes[weight->fromConceptId]->addEdge(ed);
-        nodes[weight->toConceptId]->addEdge(ed);
+        fromIt->second->addEdge(ed);
+        toIt->second->addEdge(ed);
         ed->updatePosition();
         ed->setValue(weight->term);
         edges[weight->id] = ed;
@@ -48,45 +55,73 @@ void GraphScene::switchMode() {
 void GraphScene::conceptCreated(std::shared_ptr<Concept> concept) {
     auto* n = new NodeItem(concept);
     addItem(n);
-    connect(n, &NodeItem::positionChanged, this, &GraphScene::conceptPositionChanged);
     n->setPos(concept->pos);
     if (!conceptCreationColorEditBlocked) {
         n->setValue(concept->term);
     }
     nodes[concept->id] = n;
+    connect(n, &NodeItem::positionChanged, this, &GraphScene::conceptPositionChanged);
 }
 
 void GraphScene::weightCreated(std::shared_ptr<Weight> weight) {
-    auto* ed = new EdgeItem(nodes[weight->fromConceptId], nodes[weight->toConceptId], weight->id);
+    const auto fromIt = nodes.find(weight->fromConceptId);
+    const auto toIt = nodes.find(weight->toConceptId);
+    if (fromIt == nodes.end() || toIt == nodes.end()) {
+        Logger::warn("Scene edge node missing");
+        return;
+    }
+
+    auto* ed = new EdgeItem(fromIt->second, toIt->second, weight->id);
     addItem(ed);
-    nodes[weight->fromConceptId]->addEdge(ed);
-    nodes[weight->toConceptId]->addEdge(ed);
+    fromIt->second->addEdge(ed);
+    toIt->second->addEdge(ed);
     ed->updatePosition();
     edges[weight->id] = ed;
 }
 
 void GraphScene::conceptUpdated(std::shared_ptr<Concept> concept) {
-    nodes[concept->id]->setPos(concept->pos);
-    nodes[concept->id]->setName(concept->name);
-    nodes[concept->id]->setNameLocation(concept->nameLocation);
+    const auto nodeIt = nodes.find(concept->id);
+    if (nodeIt == nodes.end()) {
+        Logger::warn("Scene concept missing");
+        return;
+    }
+
+    nodeIt->second->setPos(concept->pos);
+    nodeIt->second->setName(concept->name);
+    nodeIt->second->setNameLocation(concept->nameLocation);
     if (!conceptCreationColorEditBlocked) {
-        nodes[concept->id]->setValue(concept->term);
+        nodeIt->second->setValue(concept->term);
     }
 }
 
 void GraphScene::weightUpdated(std::shared_ptr<Weight> weight) {
-    edges[weight->id]->setValue(weight->term);
+    const auto edgeIt = edges.find(weight->id);
+    if (edgeIt == edges.end()) {
+        Logger::warn("Scene weight missing");
+        return;
+    }
+    edgeIt->second->setValue(weight->term);
 }
 
 void GraphScene::conceptDeleted(QUuid id) {
-    NodeItem* node = nodes[id];
+    const auto nodeIt = nodes.find(id);
+    if (nodeIt == nodes.end()) {
+        Logger::warn("Scene concept missing");
+        return;
+    }
+    NodeItem* node = nodeIt->second;
     removeItem(node);
     nodes.erase(id);
     delete node;
 }
 
 void GraphScene::weightDeleted(QUuid id) {
-    EdgeItem* edge = edges[id];
+    const auto edgeIt = edges.find(id);
+    if (edgeIt == edges.end()) {
+        Logger::warn("Scene weight missing");
+        return;
+    }
+    EdgeItem* edge = edgeIt->second;
     edge->src->removeEdge(edge);
     edge->dst->removeEdge(edge);
 
@@ -96,12 +131,22 @@ void GraphScene::weightDeleted(QUuid id) {
 }
 
 void GraphScene::setConceptColor(QUuid id, QColor color, bool highlight) {
-    nodes[id]->setBrush(color);
-    nodes[id]->highlight(highlight);
+    const auto nodeIt = nodes.find(id);
+    if (nodeIt == nodes.end()) {
+        Logger::warn("Scene concept missing");
+        return;
+    }
+    nodeIt->second->setBrush(color);
+    nodeIt->second->highlight(highlight);
 }
 
 void GraphScene::setWeightColor(QUuid id, QColor color) {
-    edges[id]->setColor(color);
+    const auto edgeIt = edges.find(id);
+    if (edgeIt == edges.end()) {
+        Logger::warn("Scene weight missing");
+        return;
+    }
+    edgeIt->second->setColor(color);
 }
 
 void GraphScene::updatePendingWeightPreview(const QPointF& scenePos) {
@@ -139,7 +184,13 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
         clickedEdge = nullptr;
     }
 
-    bool editable = e->widget() == views()[0]->viewport();
+    if (views().isEmpty()) {
+        Logger::warn("Scene view missing");
+        e->accept();
+        return;
+    }
+
+    bool editable = e->widget() == views().first()->viewport();
 
     if (mode == EditMode::Create && editable) {
 
@@ -277,10 +328,16 @@ GraphScene* GraphScene::copy(std::shared_ptr<ScenePresenter> presenter, ElementW
         copyScene->nodes[id] = newNode;
     }
     for (const auto& [id, weight] : copyScene->fcm->weights) {
-        auto* newEdge = new EdgeItem(copyScene->nodes[weight->fromConceptId], copyScene->nodes[weight->toConceptId], id);
+        const auto fromIt = copyScene->nodes.find(weight->fromConceptId);
+        const auto toIt = copyScene->nodes.find(weight->toConceptId);
+        if (fromIt == copyScene->nodes.end() || toIt == copyScene->nodes.end()) {
+            Logger::warn("Scene edge node missing");
+            continue;
+        }
+        auto* newEdge = new EdgeItem(fromIt->second, toIt->second, id);
         copyScene->addItem(newEdge);
-        copyScene->nodes[weight->fromConceptId]->addEdge(newEdge);
-        copyScene->nodes[weight->toConceptId]->addEdge(newEdge);
+        fromIt->second->addEdge(newEdge);
+        toIt->second->addEdge(newEdge);
         newEdge->setValue(weight->term);
         newEdge->updatePosition();
         copyScene->edges[id] = newEdge;
@@ -291,7 +348,11 @@ GraphScene* GraphScene::copy(std::shared_ptr<ScenePresenter> presenter, ElementW
 
 void GraphScene::conceptPositionChanged(QUuid id) {
     conceptPositionChangedFlag = true;
-    if (nodes.find(id) != nodes.end()) {
-        presenter->updateConceptPosition(id, nodes[id]->pos());
+    const auto nodeIt = nodes.find(id);
+    if (nodeIt == nodes.end()) {
+        Logger::warn("Scene concept missing");
+        return;
     }
+    presenter->updateConceptPosition(id, nodeIt->second->pos());
 }
+

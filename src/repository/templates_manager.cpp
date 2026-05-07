@@ -1,21 +1,26 @@
 #include "templates_manager.h"
 
+#include "common/crash_log.h"
+
 #include <memory>
 
 TemplatesManager::TemplatesManager(TemplatesRepository repository) : repo(repository) {}
 
 bool TemplatesManager::createTemplate(const FCM &fcm) {
     if (!repo.transaction()) {
+        Logger::warn("Template transaction failed");
         return false;
     }
 
     auto templateModel = toTemplate(fcm);
     if (!repo.createTemplate(templateModel)) {
+        Logger::warn("Template create failed");
         repo.rollback();
         return false;
     }
 
     if (!repo.commit()) {
+        Logger::warn("Template commit failed");
         repo.rollback();
         return false;
     }
@@ -26,6 +31,7 @@ bool TemplatesManager::createTemplate(const FCM &fcm) {
 std::optional<FCM> TemplatesManager::getFCM(const QString &templateName) {
     auto templateOpt = repo.getTemplate(templateName);
     if (!templateOpt) {
+        Logger::warn("Template load failed");
         return {};
     }
 
@@ -38,15 +44,18 @@ QList<QPair<QString, TemplateType>> TemplatesManager::getTemplatesNames() {
 
 bool TemplatesManager::deleteTemplate(const QString &templateName) {
     if (!repo.transaction()) {
+        Logger::warn("Template transaction failed");
         return false;
     }
 
     if (!repo.deleteTemplate(templateName)) {
+        Logger::warn("Template delete failed");
         repo.rollback();
         return false;
     }
 
     if (!repo.commit()) {
+        Logger::warn("Template commit failed");
         repo.rollback();
         return false;
     }
@@ -152,3 +161,4 @@ FCM TemplatesManager::toFCM(const Template &templateModel) {
 
     return fcm;
 }
+

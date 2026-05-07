@@ -68,6 +68,13 @@ WeightWindow::~WeightWindow() {
     delete ui;
 }
 
+void WeightWindow::handleCreateCancel() {
+    if (!createCancelHandled && mode == ElementWindowMode::CreateElement) {
+        createCancelHandled = true;
+        emit deleted(currentWeight->id);
+    }
+}
+
 void WeightWindow::setPredictedValues() {
     if (std::holds_alternative<std::vector<double>>(currentWeight->predictedValues)) {
         setNumericPredictedValues();
@@ -196,14 +203,13 @@ void WeightWindow::onOkClicked() {
 }
 
 void WeightWindow::onCancelClicked() {
-    if (mode == ElementWindowMode::CreateElement) {
-        emit deleted(currentWeight->id);
-    }
-    close();
+    handleCreateCancel();
+    reject();
 }
 
 void WeightWindow::closeEvent(QCloseEvent* event) {
-    onCancelClicked();
+    handleCreateCancel();
+    QDialog::closeEvent(event);
 }
 
 void WeightWindow::onDelete() {

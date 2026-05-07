@@ -195,6 +195,13 @@ ConceptWindow::~ConceptWindow() {
     delete ui;
 }
 
+void ConceptWindow::handleCreateCancel() {
+    if (!createCancelHandled && mode == ElementWindowMode::CreateElement) {
+        createCancelHandled = true;
+        emit deleted(currentConcept->id);
+    }
+}
+
 void ConceptWindow::onApplyClicked() {
     updateCurrentConcept();
     emit applied(currentConcept);
@@ -209,14 +216,13 @@ void ConceptWindow::onApplyClicked() {
 }
 
 void ConceptWindow::onCancelClicked() {
-    if (mode == ElementWindowMode::CreateElement) {
-        emit deleted(currentConcept->id);
-    }
-    close();
+    handleCreateCancel();
+    reject();
 }
 
 void ConceptWindow::closeEvent(QCloseEvent* event) {
-    onCancelClicked();
+    handleCreateCancel();
+    QDialog::closeEvent(event);
 }
 
 void ConceptWindow::onOkClicked()
