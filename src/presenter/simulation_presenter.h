@@ -36,8 +36,10 @@ public:
     void speedUp();
     void slowDown();
     bool moveStep(int delta);
+    void activate() { active = true; }
     void reset();
     void finish();
+    bool isActive() const { return active; }
 
     double getStepsPerSecond() { return 1000.0 / iterationTime; }
 
@@ -72,4 +74,5 @@ private:
     std::map<QUuid, ConceptWindow*> runtimeConceptWindows;
     std::map<QUuid, WeightWindow*> runtimeWeightWindows;
     PredictionParameters predictionParameters;
+    bool active = false;
 };

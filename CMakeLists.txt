@@ -31,6 +31,7 @@ set(PROJECT_SOURCES
 set(HELP_DIR ${CMAKE_SOURCE_DIR}/src/ui/help)
 set(HELP_BUILD_DIR ${CMAKE_BINARY_DIR}/help)
 set(HELP_LANGUAGES en ru)
+set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/main_window)
 
 file(GLOB_RECURSE HELP_SOURCE_FILES CONFIGURE_DEPENDS
     ${HELP_DIR}/en/*
@@ -152,6 +153,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/templates/templates_language_manager.h
         src/model/entities/templates/templates_language_manager.cpp
 
+        src/presenter/model_setup_presenter.h src/presenter/model_setup_presenter.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FCM APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -177,7 +180,6 @@ else()
 endif()
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql Qt6::PrintSupport)
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
 target_include_directories(FCM PRIVATE

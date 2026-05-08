@@ -257,6 +257,7 @@ void SimulationPresenter::slowDown() {
 
 void SimulationPresenter::reset() {
     stopExecution();
+    active = false;
     step = 0;
     lastStep = 0;
     nodes.clear();

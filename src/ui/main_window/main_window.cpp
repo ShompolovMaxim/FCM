@@ -2,6 +2,7 @@
 #include "ui_main_window.h"
 
 #include "common/logger.h"
+#include "presenter/model_setup_presenter.h"
 #include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/save_as_window/save_as_window.h"
@@ -93,10 +94,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     staticAnalysisScene->blockConceptCreationColorEdit(true);
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
 
-    connect(ui->modelNotes, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
-    connect(ui->textEditNotesPredict, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
-    connect(ui->textEditNotesSensitivity, &QTextEdit::textChanged, this, &MainWindow::descriptionChanged);
-
     connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunction);
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunctionSensitivity);
 
@@ -119,22 +116,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
     connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &MainWindow::onPredictToStaticChanged);
-
-    connect(ui->createTermButton, &QPushButton::clicked, this, &MainWindow::onCreateTerm);
-    connect(ui->deleteTermButton, &QPushButton::clicked, this, &MainWindow::onDeleteTerm);
-    connect(ui->termColorButton, &QPushButton::clicked, this, &MainWindow::onChooseTermColor);
-    connect(ui->termValue, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueChanged);
-    connect(ui->termValueL, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueLChanged);
-    connect(ui->termValueM, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueMChanged);
-    connect(ui->termValueU, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onTermValueUChanged);
-    connect(ui->termNotes, &QTextEdit::textChanged, this, &MainWindow::termNotesChanged);
-
-    conceptsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
-    conceptsGroup->setText(0, tr("Concepts terms"));
-    weightsGroup = new QTreeWidgetItem(ui->treeWidgetTerms);
-    weightsGroup->setText(0, tr("Weights terms"));
-    connect(ui->treeWidgetTerms, &QTreeWidget::currentItemChanged, this, &MainWindow::onCurrentItemChanged);
-    connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &MainWindow::onItemChanged);
 
     QStandardItemModel* experimentsModel = new QStandardItemModel();
     experimentsModel->setHorizontalHeaderLabels({tr("Algorithm"), tr("Value type"), tr("Activation function"), tr("Metric"), tr("Predict to static"), tr("Threshold"), tr("Steps less threshold"), tr("Fixed steps"), tr("Timestamp"), "", ""});
@@ -169,6 +150,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
+    recreateModelSetupPresenter();
 
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
@@ -446,22 +428,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     event->accept();
 }
 
-void MainWindow::descriptionChanged() {
-    QSignalBlocker b1(ui->modelNotes);
-    QSignalBlocker b2(ui->textEditNotesPredict);
-    QSignalBlocker b3(ui->textEditNotesSensitivity);
-    if (sender() == ui->modelNotes) {
-        ui->textEditNotesPredict->setMarkdownText(ui->modelNotes->markdownText());
-        ui->textEditNotesSensitivity->setMarkdownText(ui->modelNotes->markdownText());
-    }
-    if (sender() == ui->textEditNotesPredict) {
-        ui->modelNotes->setMarkdownText(ui->textEditNotesPredict->markdownText());
-        ui->textEditNotesSensitivity->setMarkdownText(ui->textEditNotesPredict->markdownText());
-    }
-    if (sender() == ui->textEditNotesSensitivity) {
-        ui->modelNotes->setMarkdownText(ui->textEditNotesSensitivity->markdownText());
-        ui->textEditNotesPredict->setMarkdownText(ui->textEditNotesSensitivity->markdownText());
-    }
+void MainWindow::recreateModelSetupPresenter() {
+    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, presenter, this);
 }
 
 void MainWindow::changeActivationFunction() {
@@ -559,7 +527,7 @@ void MainWindow::predict() {
         return;
     }
 
-    activeSimulation = true;
+    presenter->activate();
 
     auto predictionParameters = getPredictionParameters();
 
@@ -608,7 +576,7 @@ void MainWindow::predict() {
 }
 
 void MainWindow::resetPredictionScene() {
-    if (!activeSimulation) {
+    if (!presenter->isActive()) {
         return;
     }
     presenter->reset();
@@ -623,7 +591,6 @@ void MainWindow::resetPredictionScene() {
     ui->pushButtonSpeedUp->setEnabled(false);
     ui->pushButtonFinish->setEnabled(false);
     ui->progressBarPredict->setValue(0);
-    activeSimulation = false;
     auto* predictionScene = ui->graphicsViewPredict->scene();
     ui->graphicsViewPredict->setScene(ui->graphicsViewGraph->scene());
     delete predictionScene;
@@ -751,277 +718,6 @@ void MainWindow::showSensitivityPlot() {
 
 void MainWindow::updateSensitivityProgress(double progress) {
     ui->progressBarSensitivity->setValue(static_cast<int>(progress * 100));
-}
-
-void MainWindow::onCreateTerm() {
-    QTreeWidgetItem* currentItem = ui->treeWidgetTerms->currentItem();
-
-    QTreeWidgetItem* targetGroup = conceptsGroup;
-    ElementType type = ElementType::Node;
-
-    if (currentItem) {
-        if (currentItem == weightsGroup || (currentItem->parent() == weightsGroup)) {
-            targetGroup = weightsGroup;
-            type = ElementType::Edge;
-        }
-    }
-
-    size_t counter = 1;
-    QStringList termsNames;
-    for (const auto& [_, term] : fcm->terms) {
-        if (term->type == type) {
-            termsNames.append(term->name);
-        }
-    }
-    while (termsNames.contains(MainWindow::tr("New term") + (counter - 1 ? " (" + QString::number(counter) + ")" : ""))) {
-        ++counter;
-    }
-
-    auto id = QUuid::createUuid();
-
-    fcm->terms[id] = std::make_shared<Term>();
-    fcm->terms[id]->id = id;
-    fcm->terms[id]->name = MainWindow::tr("New term") + (counter - 1 ? " (" + QString::number(counter) + ")" : "");
-    fcm->terms[id]->type = type;
-
-    if (type == ElementType::Node) {
-        fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value, 0, 1);
-    } else {
-        fcm->terms[id]->color = ColorValueAdapter().getColor(fcm->terms[id]->value, -1, 1);
-    }
-
-    QTreeWidgetItem* item = new QTreeWidgetItem();
-    item->setText(0, fcm->terms[id]->name);
-    item->setData(0, Qt::UserRole, QVariant::fromValue(id));
-    item->setFlags(item->flags() | Qt::ItemIsEditable);
-
-    targetGroup->addChild(item);
-
-    ui->treeWidgetTerms->setCurrentItem(item);
-    ui->treeWidgetTerms->editItem(item, 0);
-
-    creationPresenter->updateTerm(id);
-    popagateTermUpdate();
-}
-
-void MainWindow::onDeleteTerm() {
-    QTreeWidgetItem  *current = ui->treeWidgetTerms->currentItem();
-    if (current && current->parent()) {
-        auto* parent = current->parent();
-        auto id = current->data(0, Qt::UserRole).toUuid();
-        if (fcm->terms[id]->dbId != -1) {
-            fcm->deletedTermsIds.push_back(fcm->terms[id]->dbId);
-        }
-        creationPresenter->deleteTerm(id);
-        popagateTermUpdate();
-        delete current;
-        ui->treeWidgetTerms->setCurrentItem(parent);
-    }
-}
-
-void MainWindow::onChooseTermColor() {
-    QColor color = QColorDialog::getColor(Qt::white, this, QString(MainWindow::tr("Choose term %1 color")).arg(fcm->terms[currentTermId]->name));
-    if (color.isValid()) {
-        fcm->terms[currentTermId]->color = color;
-        ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(color.name()));
-        creationPresenter->updateTerm(currentTermId);
-        popagateTermUpdate();
-    }
-}
-
-void MainWindow::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous) {
-    ui->createTermButton->setEnabled(current);
-
-    QSignalBlocker b1(ui->termValue);
-    QSignalBlocker b2(ui->termValueL);
-    QSignalBlocker b3(ui->termValueM);
-    QSignalBlocker b4(ui->termValueU);
-    QSignalBlocker b5(ui->termNotes);
-
-    if (!current || !current->parent()) {
-        ui->termValue->setValue(0);
-        ui->termValueL->setValue(0);
-        ui->termValueM->setValue(0);
-        ui->termValueU->setValue(0);
-        ui->termNotes->setMarkdownText("");
-        ui->termValue->setEnabled(false);
-        ui->termValueL->setEnabled(false);
-        ui->termValueM->setEnabled(false);
-        ui->termValueU->setEnabled(false);
-        ui->termNotes->setEnabled(false);
-        ui->deleteTermButton->setEnabled(false);
-        ui->termColorButton->setEnabled(false);
-        ui->termColorButton->setStyleSheet("");
-        ui->fuzzyValuePlot->graph(0)->data()->clear();
-        ui->fuzzyValuePlot->replot();
-        return;
-    }
-
-    currentTermId = current->data(0, Qt::UserRole).toUuid();
-
-    ui->termValue->setEnabled(true);
-    ui->termValueL->setEnabled(true);
-    ui->termValueM->setEnabled(true);
-    ui->termValueU->setEnabled(true);
-    ui->termNotes->setEnabled(true);
-    ui->deleteTermButton->setEnabled(true);
-    ui->termColorButton->setEnabled(true);
-
-    double mn = fcm->terms[currentTermId]->type == ElementType::Node ? 0.0 : -1.0;
-    ui->termValue->setMinimum(mn);
-    ui->termValue->setMaximum(1.0);
-    ui->termValueL->setMinimum(mn);
-    ui->termValueL->setMaximum(1.0);
-    ui->termValueM->setMinimum(mn);
-    ui->termValueM->setMaximum(1.0);
-    ui->termValueU->setMinimum(mn);
-    ui->termValueU->setMaximum(1.0);
-
-    ui->termValue->setValue(fcm->terms[currentTermId]->value);
-    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
-    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
-    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
-    ui->termNotes->setMarkdownText(fcm->terms[currentTermId]->description);
-    ui->termColorButton->setStyleSheet(QString(R"(
-        QPushButton {
-            background-color: %1;
-        }
-
-        QToolTip {
-            background-color: #ffffe1;
-            color: black;
-            border: 1px solid black;
-        }
-    )").arg(fcm->terms[currentTermId]->color.name()));
-    updateFuzzyValuePlot();
-}
-
-void MainWindow::termNotesChanged() {
-    if (ui->treeWidgetTerms->currentItem() && ui->treeWidgetTerms->currentItem()->parent()) {
-        fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
-    }
-}
-
-void MainWindow::autoConfigureTermColor() {
-    if (!ui->autoColorConfiguration->isChecked()) {
-        return;
-    }
-    double meanTermValue = (fcm->terms[currentTermId]->value + fcm->terms[currentTermId]->fuzzyValue.defuzzify()) / 2;
-    if (fcm->terms[currentTermId]->type == ElementType::Node) {
-        fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(meanTermValue, 0, 1);
-    } else {
-        fcm->terms[currentTermId]->color = ColorValueAdapter().getColor(meanTermValue, -1, 1);
-    }
-    ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
-}
-
-void MainWindow::autoConfigureNumericValue() {
-    if (!ui->autoNumericConfiguration->isChecked()) {
-        return;
-    }
-    QSignalBlocker b1(ui->termValue);
-    fcm->terms[currentTermId]->value = fcm->terms[currentTermId]->fuzzyValue.defuzzify();
-    ui->termValue->setValue(fcm->terms[currentTermId]->fuzzyValue.defuzzify());
-}
-
-void MainWindow::autoConfigureFuzzyValue() {
-    if (!ui->autoFuzzyConfiguration->isChecked()) {
-        return;
-    }
-    QSignalBlocker b1(ui->termValueL);
-    QSignalBlocker b2(ui->termValueM);
-    QSignalBlocker b3(ui->termValueU);
-    fcm->terms[currentTermId]->fuzzyValue.l = std::max(fcm->terms[currentTermId]->value - 0.2, fcm->terms[currentTermId]->type == ElementType::Edge ? -1.0 : 0.0);
-    fcm->terms[currentTermId]->fuzzyValue.m = fcm->terms[currentTermId]->value;
-    fcm->terms[currentTermId]->fuzzyValue.u = std::min(fcm->terms[currentTermId]->value + 0.2, 1.0);
-    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
-    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
-    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
-}
-
-void MainWindow::popagateTermUpdate() {
-    staticAnalysisPresenter->refreshUI(false);
-    if (activeSimulation) {
-        presenter->moveStep(0);
-    }
-}
-
-void MainWindow::onTermValueChanged(double value) {
-    fcm->terms[currentTermId]->value = value;
-    autoConfigureFuzzyValue();
-    autoConfigureTermColor();
-    updateFuzzyValuePlot();
-    creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
-}
-
-void MainWindow::onTermValueLChanged(double value) {
-    if (ui->termValueM->value() < value) {
-        ui->termValueM->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.m = value;
-    }
-    if (ui->termValueU->value() < value) {
-        ui->termValueU->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.u = value;
-    }
-    fcm->terms[currentTermId]->fuzzyValue.l = value;
-    updateFuzzyValuePlot();
-    autoConfigureNumericValue();
-    autoConfigureTermColor();
-    creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
-}
-
-void MainWindow::onTermValueMChanged(double value) {
-    if (ui->termValueL->value() > value) {
-        ui->termValueL->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.l = value;
-    }
-    if (ui->termValueU->value() < value) {
-        ui->termValueU->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.u = value;
-    }
-    fcm->terms[currentTermId]->fuzzyValue.m = value;
-    updateFuzzyValuePlot();
-    autoConfigureNumericValue();
-    autoConfigureTermColor();
-    creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
-}
-
-void MainWindow::onTermValueUChanged(double value) {
-    if (ui->termValueL->value() > value) {
-        ui->termValueL->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.l = value;
-    }
-    if (ui->termValueM->value() > value) {
-        ui->termValueM->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.m = value;
-    }
-    fcm->terms[currentTermId]->fuzzyValue.u = value;
-    updateFuzzyValuePlot();
-    autoConfigureNumericValue();
-    autoConfigureTermColor();
-    creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
-}
-
-void MainWindow::updateFuzzyValuePlot() {
-    ui->fuzzyValuePlot->graph(0)->setData(QVector<double>{ui->termValueL->value(), ui->termValueM->value(), ui->termValueU->value()}, QVector<double>{0, 1, 0});
-    ui->fuzzyValuePlot->replot();
-}
-
-void MainWindow::onItemChanged(QTreeWidgetItem  *item, int column) {
-    auto id = item->data(0, Qt::UserRole).toUuid();
-    for (const auto [termId, term] : fcm->terms) {
-        if (termId != id && term->type == fcm->terms[id]->type && item->text(0) == term->name) {
-            item->setText(0, fcm->terms[id]->name);
-            QMessageBox::critical(this, tr("Error"), tr("There already is a term of this type with such a name"));
-            return;
-        }
-    }
-    fcm->terms[id]->name = item->text(0);
-    creationPresenter->updateTerm(id);
 }
 
 void MainWindow::onPredictToStaticChanged(bool checked) {
@@ -1210,6 +906,8 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     QSignalBlocker b4(ui->termValueM);
     QSignalBlocker b5(ui->termValueU);
     QSignalBlocker b6(ui->termNotes);
+    auto* conceptsGroup = ui->treeWidgetTerms->topLevelItem(0);
+    auto* weightsGroup = ui->treeWidgetTerms->topLevelItem(1);
     qDeleteAll(conceptsGroup->takeChildren());
     qDeleteAll(weightsGroup->takeChildren());
 
@@ -1220,7 +918,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     }
     rebuildModelsMenu();
 
-    if (activeSimulation) {
+    if (presenter->isActive()) {
         resetPredictionScene();
     }
     if (activeSensitivity) {
@@ -1266,7 +964,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     ui->adjacencyTableView->loadFromFCM(fcm);
     ui->adjacencyTableView->setPresenter(creationPresenter);
-    presenter = std::make_shared<SimulationPresenter>(creationPresenter);
+    presenter = std::make_shared<SimulationPresenter>(creationPresenter, this);
     connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
     connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
@@ -1300,6 +998,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
 
     delete staticAnalysisPresenter;
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
+    recreateModelSetupPresenter();
 
     ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
 
@@ -1713,6 +1412,8 @@ void MainWindow::changeEvent(QEvent *event) {
         ui->retranslateUi(this);
 
         QSignalBlocker blocker(ui->treeWidgetTerms);
+        auto* conceptsGroup = ui->treeWidgetTerms->topLevelItem(0);
+        auto* weightsGroup = ui->treeWidgetTerms->topLevelItem(1);
         conceptsGroup->setText(0, tr("Concepts terms"));
         weightsGroup->setText(0, tr("Weights terms"));
         ui->plotSensitivity->xAxis->setLabel(tr("max change"));

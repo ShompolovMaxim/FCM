@@ -8,6 +8,7 @@
 #include "model/entities/fcm.h"
 
 #include "presenter/creation_presenter.h"
+#include "presenter/model_setup_presenter.h"
 #include "presenter/sensitivity_presenter.h"
 #include "presenter/simulation_presenter.h"
 #include "presenter/static_analysis_presenter.h"
@@ -38,8 +39,9 @@ signals:
 
 public slots:
     void updateGraphScaleLabel(double newScale);
-    void updatePredictScaleLabel(double newScale);
     void updateModeButtonText(EditMode newMode);
+
+    void updatePredictScaleLabel(double newScale);
     void predict();
     void resetPredictionScene();
     void pauseResumePrediction();
@@ -49,6 +51,7 @@ public slots:
     void stepBack();
     void finishSimulation();
     void updateProgress(size_t value, size_t maxStep, double metricValue);
+    void onPredictToStaticChanged(bool checked);
 
     SensitivityAnalysisParameters getSensitivityParameters();
     void analize();
@@ -57,18 +60,6 @@ public slots:
     void resetSensitivity();
     void updateSensitivityScaleLabel(double newScale);
 
-    void onCreateTerm();
-    void onDeleteTerm();
-    void onChooseTermColor();
-    void onCurrentItemChanged(QTreeWidgetItem  *current, QTreeWidgetItem *previous);
-    void onTermValueChanged(double value);
-    void onTermValueLChanged(double value);
-    void onTermValueMChanged(double value);
-    void onTermValueUChanged(double value);
-    void onItemChanged(QTreeWidgetItem  *item, int column);
-    void termNotesChanged();
-
-    void onPredictToStaticChanged(bool checked);
     void onCurrentTabChanged(int index);
     void loadExperiment();
     void onDeleteExperiment();
@@ -96,7 +87,6 @@ public slots:
     void showHelp();
 
     void nameChanged(QString newName);
-    void descriptionChanged();
     void createNewModel();
     void switchModel();
     void changeActivationFunction();
@@ -116,6 +106,7 @@ protected:
 private:
     void cancelPendingWeightCreation();
     bool checkElementsHaveValues();
+
     bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
     bool closeModel(size_t index);
     void closeOtherModels(size_t index);
@@ -124,17 +115,12 @@ private:
     void deleteSavedTemplate(const QString &templateName);
 
     void simulationFinished();
+    void recreateModelSetupPresenter();
 
     void updateFCM();
     PredictionParameters getPredictionParameters();
     Experiment createExperiment();
     void addExperiment(const Experiment& experiment);
-
-    void updateFuzzyValuePlot();
-    void autoConfigureTermColor();
-    void autoConfigureNumericValue();
-    void autoConfigureFuzzyValue();
-    void popagateTermUpdate();
 
     void loadFCM(std::shared_ptr<FCM> newFCM);
 
@@ -145,10 +131,8 @@ private:
     StaticAnalysisPresenter* staticAnalysisPresenter;
     std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
+    std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
     std::shared_ptr<FCM> fcm;
-    QUuid currentTermId;
-    QTreeWidgetItem* conceptsGroup;
-    QTreeWidgetItem* weightsGroup;
 
     std::shared_ptr<TemplatesManager> templatesManager;
     std::shared_ptr<SavingManager> savingManager;
@@ -170,7 +154,6 @@ private:
     EditMode editMode = EditMode::Create;
     bool paused = false;
     double currentMetricValue = 0;
-    bool activeSimulation = false;
     bool activeSensitivity = false;
 
     ToolTipController toolTipController = ToolTipController();
