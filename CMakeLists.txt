@@ -154,6 +154,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/templates/templates_language_manager.cpp
 
         src/presenter/model_setup_presenter.h src/presenter/model_setup_presenter.cpp
+        src/presenter/saving_export_presenter.h src/presenter/saving_export_presenter.cpp
         src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
         src/presenter/sensitivity_presenter.h src/presenter/sensitivity_presenter.cpp
 

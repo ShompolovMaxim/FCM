@@ -76,7 +76,7 @@ void SensitivityPresenter::analize() {
     }
 
     sensitivityScenePresenter->setRuntimeContext(fcm, sensitivityScene->getFCM(), sensitivityScene);
-    sensitivityScenePresenter->analize(simulationPresenter->getPredictionParameters(), getSensitivityParameters());
+    sensitivityScenePresenter->analize(modelSetupPresenter->getPredictionParameters(), getSensitivityParameters());
 }
 
 void SensitivityPresenter::resetSensitivity() {

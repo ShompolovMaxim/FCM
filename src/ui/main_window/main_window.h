@@ -9,13 +9,11 @@
 
 #include "presenter/creation_presenter.h"
 #include "presenter/model_setup_presenter.h"
+#include "presenter/saving_export_presenter.h"
 #include "presenter/sensitivity_presenter.h"
 #include "presenter/simulation_presenter.h"
 #include "presenter/simulation_scene_presenter.h"
 #include "presenter/static_analysis_presenter.h"
-
-#include "repository/saving_manager.h"
-#include "repository/templates_manager.h"
 
 #include "ui/graph_editor/edit_mode.h"
 #include "ui/help/help_window.h"
@@ -35,25 +33,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-signals:
-    void modelDeletionFinished(const QString &modelName, bool success);
-
 public slots:
     void updateGraphScaleLabel(double newScale);
     void updateModeButtonText(EditMode newMode);
 
     void onCurrentTabChanged(int index);
-
-    void saveAs();
-    void save();
-    void open();
-    void autosaveChange(bool flag);
-    void autosave();
-    void saveAsTemplate();
-    void openTemplate();
-    void onExportPng();
-    void onExportJson();
-    void onImportJson();
 
     void changeModelSettingsVisibility(bool checked);
     void changeGraphVisibility(bool checked);
@@ -89,12 +73,9 @@ private:
     bool closeModel(size_t index);
     void closeOtherModels(size_t index);
     void rebuildModelsMenu();
-    void deleteSavedModel(const QString &modelName);
-    void deleteSavedTemplate(const QString &templateName);
 
     void recreatePresenters();
 
-    void updateFCM();
     void loadFCM(std::shared_ptr<FCM> newFCM);
 
     void addFCM(std::shared_ptr<FCM> fcm);
@@ -102,14 +83,12 @@ private:
     Ui::MainWindow *ui;
     std::shared_ptr<SimulationScenePresenter> simulationScenePresenter;
     StaticAnalysisPresenter* staticAnalysisPresenter;
+    std::shared_ptr<SavingExportPresenter> savingExportPresenter;
     std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
     std::shared_ptr<SimulationPresenter> simulationPresenter;
     std::shared_ptr<FCM> fcm;
-
-    std::shared_ptr<TemplatesManager> templatesManager;
-    std::shared_ptr<SavingManager> savingManager;
 
     QSettings settings = QSettings("HSE", "FCM");
 

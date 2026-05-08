@@ -5,6 +5,8 @@
 #include <QTreeWidget>
 #include <memory>
 
+#include "prediction_parameters.h"
+
 class FCM;
 class QWidget;
 class CreationPresenter;
@@ -20,7 +22,9 @@ class ModelSetupPresenter : public QObject {
 public:
     ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationScenePresenter>& presenter, QWidget* parentWidget, QObject* parent = nullptr);
 
+    PredictionParameters getPredictionParameters() const;
     bool checkElementsHaveValues();
+    void updateFCM();
     void descriptionChanged();
 
     void onCreateTerm();

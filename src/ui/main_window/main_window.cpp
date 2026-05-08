@@ -9,9 +9,6 @@
 #include "ui/save_as_window/save_as_window.h"
 #include "ui/load_model_window/load_model_window.h"
 
-#include "repository/json_repository.h"
-#include "repository/migration_manager.h"
-
 #include "model/join/models_joiner.h"
 #include "model/entities/templates/templates_language_manager.h"
 
@@ -63,24 +60,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->influenceDirection->setItemData(0, "from", Qt::UserRole);
     ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("models.db");
-    if (!db.open()) {
-        Logger::critical("Database open failed");
-        qFatal("Cannot open database");
-    }
-    if (!MigrationManager::migrate(db)) {
-        Logger::critical("Database migration failed");
-        qFatal("Cannot apply database migrations");
-    }
-    savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
-    templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
-
     fcm = std::make_shared<FCM>();
     fcm->name = ui->modelName->text();
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
-    connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, nullptr);
 
@@ -105,17 +88,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     experimentsModel->setHorizontalHeaderLabels({tr("Algorithm"), tr("Value type"), tr("Activation function"), tr("Metric"), tr("Predict to static"), tr("Threshold"), tr("Steps less threshold"), tr("Fixed steps"), tr("Timestamp"), "", ""});
     ui->experimantsTable->setModel(experimentsModel);
     ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
-    connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
-    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
-    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
-    connect(ui->actionAutoSave, &QAction::toggled, this, &MainWindow::autosaveChange);
-    connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
-    connect(ui->actionSaveAsTemplate, &QAction::triggered, this, &MainWindow::saveAsTemplate);
-    connect(ui->actionOpenTemplate, &QAction::triggered, this, &MainWindow::openTemplate);
-    connect(ui->actionExportPNG, &QAction::triggered, this, &MainWindow::onExportPng);
-    connect(ui->actionExportJSON, &QAction::triggered, this, &MainWindow::onExportJson);
-    connect(ui->actionImport, &QAction::triggered, this, &MainWindow::onImportJson);
 
     ui->fuzzyValuePlot->xAxis->setRange(-1.1, 1.1);
     ui->fuzzyValuePlot->yAxis->setRange(0, 1);
@@ -226,50 +198,17 @@ void MainWindow::onCurrentTabChanged(int index) {
 
 bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
     if (model == fcm) {
-        updateFCM();
+        modelSetupPresenter->updateFCM();
     }
 
     std::optional<FCM> savedModel;
     if (model->dbId != -1) {
-        savedModel = savingManager->getFCM(model->name);
+        savedModel = savingExportPresenter->getSavedFCM(model->name);
     }
 
     auto defaultFcm = FCM();
     defaultFcm.name = model->name;
     return (!savedModel && *model != defaultFcm) || (savedModel && *model != *savedModel);
-}
-
-void MainWindow::deleteSavedModel(const QString &modelName) {
-    auto model = savingManager->getFCM(modelName);
-    if (!model || !savingManager->deleteFCM(model->dbId)) {
-        Logger::warn("Main model delete failed");
-        emit modelDeletionFinished(modelName, false);
-        return;
-    }
-
-    for (const auto& openModel : fcms) {
-        if (openModel->dbId == model->dbId) {
-            openModel->dbId = -1;
-            openModel->autosaveOn = false;
-        }
-    }
-
-    if (fcm->name == modelName) {
-        ui->actionAutoSave->setEnabled(false);
-        ui->actionAutoSave->setChecked(false);
-    }
-
-    emit modelDeletionFinished(modelName, true);
-}
-
-void MainWindow::deleteSavedTemplate(const QString &templateName) {
-    if (!templatesManager->deleteTemplate(templateName)) {
-        Logger::warn("Main template delete failed");
-        emit modelDeletionFinished(templateName, false);
-        return;
-    }
-
-    emit modelDeletionFinished(templateName, true);
 }
 
 bool MainWindow::closeModel(size_t index) {
@@ -405,7 +344,15 @@ void MainWindow::recreatePresenters() {
     modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationScenePresenter, nullptr);
     simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, simulationScenePresenter, this, nullptr);
     sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, modelSetupPresenter, simulationPresenter, creationPresenter, this, nullptr);
-    connect(simulationPresenter.get(), &SimulationPresenter::autosave, this, &MainWindow::autosave);
+    if (!savingExportPresenter) {
+        savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, fcm, fcms, modelSetupPresenter, settings, this, nullptr);
+        connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, this, &MainWindow::addFCM);
+        connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
+    } else {
+        savingExportPresenter->updateFCM(fcm, modelSetupPresenter);
+    }
+    connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
+    connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
 }
 
@@ -421,39 +368,6 @@ void MainWindow::updateModeButtonText(EditMode newMode) {
 
 void MainWindow::changeActivationFunctionSensitivity(int index) {
     ui->fuzzinessDegreeSensitivity->setEnabled(index == 3 || index == 4);
-}
-
-void MainWindow::updateFCM() {
-    fcm->name = ui->modelName->text();
-    fcm->description = ui->modelNotes->markdownText();
-    fcm->predictionParameters = simulationPresenter->getPredictionParameters();
-    fcm->autoConfigureTermsColors = ui->autoColorConfiguration->isChecked();
-    fcm->autoConfigureNumericValues = ui->autoNumericConfiguration->isChecked();
-    fcm->autoConfigureFuzzyValues = ui->autoFuzzyConfiguration->isChecked();
-}
-
-void MainWindow::saveAs() {
-    updateFCM();
-
-    const auto modelsNames = savingManager->getModelsNames();
-    SaveAsWindow saveAsWindow(modelsNames, modelsNames, fcm->name, MainWindow::tr("Save FCM"), this);
-
-    if (saveAsWindow.exec() == QDialog::Accepted) {
-        QString newName = saveAsWindow.savingModelName();
-        fcm->name = newName;
-        savingManager->saveAs(*fcm);
-        ui->modelName->setText(newName);
-        ui->actionAutoSave->setEnabled(true);
-    }
-}
-
-void MainWindow::save() {
-    if (fcm->dbId == -1) {
-        saveAs();
-    } else {
-        updateFCM();
-        savingManager->saveFCM(*fcm);
-    }
 }
 
 void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
@@ -522,7 +436,6 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->adjacencyTableView->loadFromFCM(fcm);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, this);
-    connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     if (editMode == EditMode::EditValues) {
         updateModeButtonText(EditMode::Create);
     }
@@ -595,174 +508,6 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->influenceDirection->setCurrentIndex(0);
     ui->influenceSteps->setValue(1);
     ui->graphConcept->setCurrentIndex(0);
-}
-
-void MainWindow::open() {
-    const auto modelsNames = savingManager->getModelsNames();
-
-    LoadModelWindow* loadModelWindow = new LoadModelWindow(modelsNames, MainWindow::tr("Open FCM"), this);
-    connect(loadModelWindow, &LoadModelWindow::deleteModelRequested, this, &MainWindow::deleteSavedModel);
-    connect(this, &MainWindow::modelDeletionFinished, loadModelWindow, &LoadModelWindow::onModelDeleted);
-
-    if (loadModelWindow->exec() != QDialog::Accepted) {
-        return;
-    }
-    QString modelName = loadModelWindow->selectedModelName();
-    if (modelName.isEmpty()) {
-        return;
-    }
-
-    auto model = savingManager->getFCM(modelName);
-    if (!model) {
-        Logger::warn("Main model load failed");
-        return;
-    }
-
-    fcm = std::make_shared<FCM>(*model);
-    addFCM(fcm);
-    loadFCM(fcm);
-}
-
-void MainWindow::autosaveChange(bool flag) {
-    fcm->autosaveOn = flag;
-    save();
-}
-
-void MainWindow::autosave() {
-    if (fcm->autosaveOn) {
-        save();
-    }
-}
-
-void MainWindow::saveAsTemplate() {
-    updateFCM();
-
-    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
-    const auto filteredTemplatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-    );
-    const auto allTemplatesNames = TemplatesLanguageManager::extractTemplateNames(templatesNamesWithTypes);
-    SaveAsWindow saveAsWindow(
-        filteredTemplatesNames,
-        allTemplatesNames,
-        fcm->name,
-        MainWindow::tr("Save FCM Template"),
-        this
-    );
-
-    if (saveAsWindow.exec() == QDialog::Accepted) {
-        fcm->name = saveAsWindow.savingModelName();
-        if (!templatesManager->createTemplate(*fcm)) {
-            Logger::warn("Main template save failed");
-        }
-        ui->modelName->setText(fcm->name);
-    }
-}
-
-void MainWindow::openTemplate() {
-    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
-    const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-    );
-    LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, MainWindow::tr("Open FCM Template"), this);
-    connect(loadModelWindow, &LoadModelWindow::deleteModelRequested, this, &MainWindow::deleteSavedTemplate);
-    connect(this, &MainWindow::modelDeletionFinished, loadModelWindow, &LoadModelWindow::onModelDeleted);
-
-    if (loadModelWindow->exec() != QDialog::Accepted) {
-        return;
-    }
-    QString templateName = loadModelWindow->selectedModelName();
-    if (templateName.isEmpty()) {
-        return;
-    }
-
-    auto model = templatesManager->getFCM(templateName);
-    if (!model) {
-        Logger::warn("Main template load failed");
-        return;
-    }
-
-    fcm = std::make_shared<FCM>(*model);
-    addFCM(fcm);
-    loadFCM(fcm);
-}
-
-void MainWindow::onExportPng()
-{
-    QString proposedName = "fcm.png";
-    if (!ui->modelName->text().isEmpty()) {
-        proposedName = ui->modelName->text() + ".png";
-    }
-    QString fileName = QFileDialog::getSaveFileName(
-        this,
-        MainWindow::tr("Export as PNG"),
-        proposedName,
-        "PNG Images (*.png)"
-        );
-
-    if (fileName.isEmpty())
-        return;
-
-    if (!fileName.endsWith(".png", Qt::CaseInsensitive))
-        fileName += ".png";
-
-    QPixmap pixmap = ui->graphicsViewGraph->grab();
-
-    if (!pixmap.save(fileName, "PNG")) {
-        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Unable to save PNG to the selected file!"));
-    }
-}
-
-void MainWindow::onExportJson() {
-    QString proposedName = "fcm.json";
-    if (!ui->modelName->text().isEmpty()) {
-        proposedName = ui->modelName->text() + ".json";
-    }
-    QString fileName = QFileDialog::getSaveFileName(
-        this,
-        MainWindow::tr("Save FCM Model"),
-        proposedName,
-        "JSON files (*.json)"
-        );
-
-    if (fileName.isEmpty())
-        return;
-
-    if (!fileName.endsWith(".json"))
-        fileName += ".json";
-
-    updateFCM();
-    if (!JsonRepository::exportToJson(*fcm, fileName)) {
-        Logger::warn("Main json export failed");
-        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to save file."));
-    }
-}
-
-void MainWindow::onImportJson() {
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        MainWindow::tr("Open FCM Model"),
-        "",
-        "JSON files (*.json)"
-        );
-
-    if (fileName.isEmpty()) {
-        return;
-    }
-
-    auto model = JsonRepository::importFromJson(fileName);
-
-    if (!model) {
-        Logger::warn("Main json import failed");
-        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load file."));
-        return;
-    }
-
-    fcm = std::make_shared<FCM>(*model);
-    addFCM(fcm);
-    loadFCM(fcm);
 }
 
 void MainWindow::changeModelSettingsVisibility(bool checked) {
@@ -840,7 +585,7 @@ void MainWindow::switchModel() {
 void MainWindow::nameChanged(QString newName) {
     fcm->name = newName;
     rebuildModelsMenu();
-    autosave();
+    savingExportPresenter->autosave();
 }
 
 void MainWindow::createNewModel() {
@@ -866,8 +611,8 @@ void MainWindow::joinModels() {
             unsavedModelsNames.push_back(model->name);
         }
     }
-    const auto savedModelsNames = savingManager->getModelsNames();
-    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
+    const auto savedModelsNames = savingExportPresenter->getSavedModelsNames();
+    const auto templatesNamesWithTypes = savingExportPresenter->getTemplatesNames();
     const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
         templatesNamesWithTypes,
         settings
@@ -895,7 +640,7 @@ void MainWindow::joinModels() {
     }
 
     for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Saved)) {
-        auto model = savingManager->getFCM(modelName);
+        auto model = savingExportPresenter->getSavedFCM(modelName);
         if (!model) {
             Logger::warn("Join saved model load failed");
             QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load one of the selected saved models."));
@@ -911,7 +656,7 @@ void MainWindow::joinModels() {
 
     const auto termsModel = joinWindow->getTermsModel();
     if (baseFCM == nullptr && templatesNames.contains(termsModel)) {
-        auto model = templatesManager->getFCM(termsModel);
+        auto model = savingExportPresenter->getTemplateFCM(termsModel);
         if (!model) {
             Logger::warn("Join template load failed");
             QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load the selected terms model template."));

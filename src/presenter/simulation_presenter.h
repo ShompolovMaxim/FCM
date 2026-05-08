@@ -18,7 +18,6 @@ class SimulationPresenter : public QObject {
 public:
     explicit SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<SimulationScenePresenter> simulationScenePresenter, QWidget* parentWidget, QObject *parent = nullptr);
 
-    PredictionParameters getPredictionParameters() const;
     bool isActive() const;
     void retranslateUi();
 

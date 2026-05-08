@@ -2,6 +2,7 @@
 
 #include "common/logger.h"
 #include "model/entities/fcm.h"
+#include "presenter/prediction_parameters.h"
 #include "presenter/creation_presenter.h"
 #include "presenter/simulation_scene_presenter.h"
 #include "presenter/static_analysis_presenter.h"
@@ -53,6 +54,20 @@ ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &ModelSetupPresenter::onItemChanged);
 }
 
+PredictionParameters ModelSetupPresenter::getPredictionParameters() const {
+    return PredictionParameters{
+        ui->comboBoxAlgorithm->currentData(Qt::UserRole).toString(),
+        ui->useFuzzyValues->isChecked(),
+        ui->comboBoxActivation->currentData(Qt::UserRole).toString(),
+        ui->comboBoxMetric->currentData(Qt::UserRole).toString(),
+        ui->checkBoxPredictToStatic->isChecked(),
+        ui->doubleSpinBoxThreshold->value(),
+        ui->spinBoxMetricSteps->value(),
+        ui->spinBoxFixedSteps->value(),
+        ui->fuzzinessDegree->value()
+    };
+}
+
 bool ModelSetupPresenter::checkElementsHaveValues() {
     for (const auto& [_, concept] : fcm->concepts) {
         if (!concept->term) {
@@ -67,6 +82,15 @@ bool ModelSetupPresenter::checkElementsHaveValues() {
         }
     }
     return true;
+}
+
+void ModelSetupPresenter::updateFCM() {
+    fcm->name = ui->modelName->text();
+    fcm->description = ui->modelNotes->markdownText();
+    fcm->predictionParameters = getPredictionParameters();
+    fcm->autoConfigureTermsColors = ui->autoColorConfiguration->isChecked();
+    fcm->autoConfigureNumericValues = ui->autoNumericConfiguration->isChecked();
+    fcm->autoConfigureFuzzyValues = ui->autoFuzzyConfiguration->isChecked();
 }
 
 void ModelSetupPresenter::descriptionChanged() {

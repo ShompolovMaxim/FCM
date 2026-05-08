@@ -48,20 +48,6 @@ void SimulationPresenter::changeActivationFunction(int index) {
     emit autosave();
 }
 
-PredictionParameters SimulationPresenter::getPredictionParameters() const {
-    return PredictionParameters{
-        ui->comboBoxAlgorithm->currentData(Qt::UserRole).toString(),
-        ui->useFuzzyValues->isChecked(),
-        ui->comboBoxActivation->currentData(Qt::UserRole).toString(),
-        ui->comboBoxMetric->currentData(Qt::UserRole).toString(),
-        ui->checkBoxPredictToStatic->isChecked(),
-        ui->doubleSpinBoxThreshold->value(),
-        ui->spinBoxMetricSteps->value(),
-        ui->spinBoxFixedSteps->value(),
-        ui->fuzzinessDegree->value()
-    };
-}
-
 bool SimulationPresenter::isActive() const {
     return simulationScenePresenter && simulationScenePresenter->isActive();
 }
@@ -136,7 +122,7 @@ void SimulationPresenter::predict() {
 
     simulationScenePresenter->activate();
 
-    auto predictionParameters = getPredictionParameters();
+    auto predictionParameters = modelSetupPresenter->getPredictionParameters();
 
     auto simulationParameters = SimulationParameters{
         ui->checkBoxRealTime->isChecked(),
@@ -202,7 +188,7 @@ Experiment SimulationPresenter::createExperiment() {
         experiment.weights[id]->predictedValues = {};
         experiment.weights[id]->sensitivity = {};
     }
-    experiment.predictionParameters = getPredictionParameters();
+    experiment.predictionParameters = modelSetupPresenter->getPredictionParameters();
     experiment.timestamp = QDateTime::currentDateTime();
     fcm->experiments.push_back(experiment);
     addExperiment(experiment);
