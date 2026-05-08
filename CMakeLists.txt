@@ -16,7 +16,6 @@ endif()
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
 set(TS_FILES translations/FCM_ru_RU.ts)
@@ -123,7 +122,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/sensitivity_analysis/sensitivity_analizer.h src/model/sensitivity_analysis/sensitivity_analizer.cpp
         src/model/sensitivity_analysis/parameters.h
         src/model/final_state_predictor.h src/model/final_state_predictor.cpp
-        src/presenter/sensitivity_presenter.h src/presenter/sensitivity_presenter.cpp
+        src/presenter/sensitivity_scene_presenter.h src/presenter/sensitivity_scene_presenter.cpp
         src/model/sensitivity_analysis/change_iteration/numeric.h src/model/sensitivity_analysis/change_iteration/numeric.cpp
         src/model/sensitivity_analysis/change_iteration/fuzzy.h src/model/sensitivity_analysis/change_iteration/fuzzy.cpp
 
@@ -156,6 +155,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         src/presenter/model_setup_presenter.h src/presenter/model_setup_presenter.cpp
         src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
+        src/presenter/sensitivity_presenter.h src/presenter/sensitivity_presenter.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -182,7 +182,6 @@ else()
 endif()
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql Qt6::PrintSupport)
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
 target_include_directories(FCM PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src

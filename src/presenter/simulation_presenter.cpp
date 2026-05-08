@@ -62,6 +62,10 @@ PredictionParameters SimulationPresenter::getPredictionParameters() const {
     };
 }
 
+bool SimulationPresenter::isActive() const {
+    return simulationScenePresenter && simulationScenePresenter->isActive();
+}
+
 void SimulationPresenter::retranslateUi() {
     ui->labelScalePredict->setText(QString(mainWindowTr("Scale: %1%")).arg(predictScale*100, 0, 'f', 2));
     ui->pushButtonPause->setText(paused ? mainWindowTr("Resume") : mainWindowTr("Pause"));
@@ -333,7 +337,7 @@ void SimulationPresenter::onDeleteExperiment() {
 }
 
 void SimulationPresenter::resetPredictionScene() {
-    if (!simulationScenePresenter->isActive()) {
+    if (!isActive()) {
         return;
     }
     simulationScenePresenter->reset();

@@ -1,53 +1,49 @@
 #pragma once
 
-#include "libs/qcustomplot/qcustomplot.h"
+#include <QObject>
 
-#include "prediction_parameters.h"
-#include "scene_presenter.h"
-
-#include "model/entities/fcm.h"
 #include "model/sensitivity_analysis/parameters.h"
-#include "model/sensitivity_analysis/sensitivity_analizer.h"
+#include "sensitivity_scene_presenter.h"
+#include "simulation_presenter.h"
+#include "model_setup_presenter.h"
 
-#include "ui/graph_editor/graph_scene.h"
+namespace Ui {
+class MainWindow;
+}
 
-class CreationPresenter;
-class ConceptWindow;
-class WeightWindow;
-
-class SensitivityPresenter : public ScenePresenter {
+class SensitivityPresenter : public QObject {
     Q_OBJECT
 public:
-    SensitivityPresenter(QCustomPlot* plot, std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent = nullptr);
-    ~SensitivityPresenter();
+    explicit SensitivityPresenter(
+        Ui::MainWindow* ui,
+        std::shared_ptr<FCM>& fcm,
+        std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
+        std::shared_ptr<SimulationPresenter> simulationPresenter,
+        std::shared_ptr<CreationPresenter> creationPresenter,
+        QWidget* parentWidget,
+        QObject *parent = nullptr
+    );
 
-    void setRuntimeContext(std::shared_ptr<FCM> originalFcm, std::shared_ptr<FCM> runtimeFcm, GraphScene* runtimeScene);
-    void analize(PredictionParameters predictionParameters, SensitivityAnalysisParameters parameters);
-    void reset();
+    SensitivityAnalysisParameters getSensitivityParameters();
+    bool isActive() const;
+    void retranslateUi();
 
-    void updateConcept(QUuid id, ElementWindowMode mode) override;
-    void updateWeight(QUuid id, ElementWindowMode mode) override;
-    void emitAutosave() override;
+public slots:
+    void analize();
+    void showSensitivityPlot();
+    void updateSensitivityProgress(double progress);
+    void resetSensitivity();
+    void updateSensitivityScaleLabel(double newScale);
 
 signals:
-    void updateProgress(double progress);
 
 private:
-    void stopExecution();
-    void closeRuntimeWindows();
-    void openRuntimeConceptWindow(QUuid id, ElementWindowMode mode);
-    void openRuntimeWeightWindow(QUuid id, ElementWindowMode mode);
-    void updateRuntimeConceptWindow(QUuid id);
-    void updateRuntimeWeightWindow(QUuid id);
-
-    GraphScene* graphScene;
-    QCustomPlot* plot;
+    Ui::MainWindow* ui;
+    QWidget* parentWidget;
+    std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
+    std::shared_ptr<SimulationPresenter> simulationPresenter;
+    std::shared_ptr<SensitivityScenePresenter> sensitivityScenePresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
-    QTimer* timer = nullptr;
-    std::thread workerThread;
-    std::shared_ptr<SensitivityAnalizer> analizer;
-    std::shared_ptr<FCM> originalFcm;
-    std::shared_ptr<FCM> runtimeFcm;
-    std::map<QUuid, ConceptWindow*> runtimeConceptWindows;
-    std::map<QUuid, WeightWindow*> runtimeWeightWindows;
+    std::shared_ptr<FCM>& fcm;
+    double sensitivityScale = 1;
 };

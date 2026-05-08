@@ -97,7 +97,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
     connect(scene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     connect(ui->graphicsViewGraph, &GraphView::scaleChanged, this, &MainWindow::updateGraphScaleLabel);
-    connect(ui->graphicsViewSensitivity, &GraphView::scaleChanged, this, &MainWindow::updateSensitivityScaleLabel);
     connect(ui->pushButtonScaleGraph, &QPushButton::clicked, ui->graphicsViewGraph, &GraphView::resetScale);
     connect(ui->pushButtonScalePredict, &QPushButton::clicked, ui->graphicsViewPredict, &GraphView::resetScale);
     connect(ui->pushButtonScaleSensitivity, &QPushButton::clicked, ui->graphicsViewSensitivity, &GraphView::resetScale);
@@ -147,9 +146,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->spinBoxMetricStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricSteps, &QSpinBox::setValue);
     connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedStepsSensitivity, &QSpinBox::setValue);
     connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
-    connect(ui->pushButtonAnalizeSensitivity, &QPushButton::clicked, this, &MainWindow::analize);
-    connect(ui->pushButtonResetSensitivity, &QPushButton::clicked, this, &MainWindow::resetSensitivity);
-    connect(ui->showSensitivityPlot, &QPushButton::clicked, this, &MainWindow::showSensitivityPlot);
     ui->plotSensitivity->addGraph();
     ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
     ui->plotSensitivity->xAxis->setLabel(tr("max change"));
@@ -406,8 +402,9 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::recreatePresenters() {
-    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationScenePresenter, this);
-    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, simulationScenePresenter, this, this);
+    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationScenePresenter, nullptr);
+    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, simulationScenePresenter, this, nullptr);
+    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, modelSetupPresenter, simulationPresenter, creationPresenter, this, nullptr);
     connect(simulationPresenter.get(), &SimulationPresenter::autosave, this, &MainWindow::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
 }
@@ -417,11 +414,6 @@ void MainWindow::updateGraphScaleLabel(double newScale) {
     graphScale = newScale;
 }
 
-void MainWindow::updateSensitivityScaleLabel(double newScale) {
-    ui->labelScaleSensitivity->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
-    sensitivityScale = newScale;
-}
-
 void MainWindow::updateModeButtonText(EditMode newMode) {
     ui->pushButtonMode->setText(newMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
     editMode = newMode;
@@ -429,79 +421,6 @@ void MainWindow::updateModeButtonText(EditMode newMode) {
 
 void MainWindow::changeActivationFunctionSensitivity(int index) {
     ui->fuzzinessDegreeSensitivity->setEnabled(index == 3 || index == 4);
-}
-
-SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
-    return {
-        ui->doubleSpinBoxMaxChange->value(),
-        ui->changeConcepts->isChecked(),
-        ui->changeWeights->isChecked(),
-        10,
-        1000,
-        ui->sensitivityMeasureMetric->currentData(Qt::UserRole).toString()
-    };
-}
-
-void MainWindow::analize() {
-    if (!modelSetupPresenter->checkElementsHaveValues()) {
-        return;
-    }
-
-    activeSensitivity = true;
-
-    ui->pushButtonAnalizeSensitivity->setEnabled(false);
-    ui->pushButtonResetSensitivity->setEnabled(true);
-    ui->doubleSpinBoxMaxChange->setEnabled(false);
-    ui->changeConcepts->setEnabled(false);
-    ui->changeWeights->setEnabled(false);
-
-    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui->plotSensitivity, creationPresenter);
-
-    auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(sensitivityPresenter, ElementWindowMode::SensitivityAnalysis);
-    auto* oldSensitivityScene = ui->graphicsViewGraph->scene();
-    ui->graphicsViewSensitivity->setScene(sensitivityScene);
-    if (oldSensitivityScene != ui->graphicsViewGraph->scene()) {
-        delete oldSensitivityScene;
-    }
-
-    connect(sensitivityPresenter.get(), &SensitivityPresenter::updateProgress, this, &MainWindow::updateSensitivityProgress);
-    sensitivityPresenter->setRuntimeContext(fcm, sensitivityScene->getFCM(), sensitivityScene);
-    sensitivityPresenter->analize(simulationPresenter->getPredictionParameters(), getSensitivityParameters());
-}
-
-void MainWindow::resetSensitivity() {
-    if (!activeSensitivity) {
-        return;
-    }
-
-    ui->pushButtonAnalizeSensitivity->setEnabled(true);
-    ui->pushButtonResetSensitivity->setEnabled(false);
-    ui->doubleSpinBoxMaxChange->setEnabled(true);
-    ui->changeConcepts->setEnabled(true);
-    ui->changeWeights->setEnabled(true);
-    sensitivityPresenter->reset();
-    ui->progressBarSensitivity->setValue(0);
-    activeSensitivity = false;
-    auto* sensitivityScene = ui->graphicsViewSensitivity->scene();
-    ui->graphicsViewSensitivity->setScene(ui->graphicsViewGraph->scene());
-    delete sensitivityScene;
-    ui->plotSensitivity->graph(0)->data()->clear();
-    ui->plotSensitivity->replot();
-}
-
-void MainWindow::showSensitivityPlot() {
-    int index = ui->stackedWidgetSensitivity->currentIndex();
-    ui->stackedWidgetSensitivity->setCurrentIndex(index == 0 ? 1 : 0);
-    if (sensitivityPlotShown) {;
-        ui->showSensitivityPlot->setText(MainWindow::tr("FCM Sensitivity"));
-    } else {
-        ui->showSensitivityPlot->setText(MainWindow::tr("Elements Sensitivity"));
-    }
-    sensitivityPlotShown = !sensitivityPlotShown;
-}
-
-void MainWindow::updateSensitivityProgress(double progress) {
-    ui->progressBarSensitivity->setValue(static_cast<int>(progress * 100));
 }
 
 void MainWindow::updateFCM() {
@@ -556,11 +475,11 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     }
     rebuildModelsMenu();
 
-    if (simulationScenePresenter->isActive()) {
+    if (simulationPresenter->isActive()) {
         simulationPresenter->resetPredictionScene();
     }
-    if (activeSensitivity) {
-        resetSensitivity();
+    if (sensitivityPresenter->isActive()) {
+        sensitivityPresenter->resetSensitivity();
     }
 
     ui->modelName->setText(fcm->name);
@@ -667,7 +586,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->graphicsViewSensitivity->resetTransform();
     updateGraphScaleLabel(1.0);
     simulationPresenter->updatePredictScaleLabel(1.0);
-    updateSensitivityScaleLabel(1.0);
+    sensitivityPresenter->updateSensitivityScaleLabel(1.0);
     ui->doubleSpinBoxMaxChange->setValue(0.1);
     ui->changeConcepts->setChecked(true);
     ui->changeWeights->setChecked(false);
@@ -1059,16 +978,10 @@ void MainWindow::changeEvent(QEvent *event) {
         ui->plotSensitivity->xAxis->setLabel(tr("max change"));
         ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
         ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(graphScale*100, 0, 'f', 2));
-        ui->labelScaleSensitivity->setText(QString(MainWindow::tr("Scale: %1%")).arg(sensitivityScale*100, 0, 'f', 2));
         ui->pushButtonMode->setText(editMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
-        if (sensitivityPlotShown) {
-            ui->showSensitivityPlot->setText(MainWindow::tr("Elements Sensitivity"));
-        } else {
-            ui->showSensitivityPlot->setText(MainWindow::tr("FCM Sensitivity"));
-        }
         simulationPresenter->retranslateUi();
+        sensitivityPresenter->retranslateUi();
     }
 
     QMainWindow::changeEvent(event);
 }
-

@@ -42,13 +42,6 @@ public slots:
     void updateGraphScaleLabel(double newScale);
     void updateModeButtonText(EditMode newMode);
 
-    SensitivityAnalysisParameters getSensitivityParameters();
-    void analize();
-    void showSensitivityPlot();
-    void updateSensitivityProgress(double progress);
-    void resetSensitivity();
-    void updateSensitivityScaleLabel(double newScale);
-
     void onCurrentTabChanged(int index);
 
     void saveAs();
@@ -118,8 +111,6 @@ private:
     std::shared_ptr<TemplatesManager> templatesManager;
     std::shared_ptr<SavingManager> savingManager;
 
-    bool sensitivityPlotShown = false;
-
     QSettings settings = QSettings("HSE", "FCM");
 
     std::vector<std::shared_ptr<FCM>> fcms;
@@ -130,9 +121,7 @@ private:
     QTranslator translatorWidgetsRus;
 
     double graphScale = 1;
-    double sensitivityScale = 1;
     EditMode editMode = EditMode::Create;
-    bool activeSensitivity = false;
 
     ToolTipController toolTipController = ToolTipController();
 
