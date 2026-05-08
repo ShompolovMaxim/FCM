@@ -3,7 +3,7 @@
 #include "common/logger.h"
 #include "model/entities/fcm.h"
 #include "presenter/creation_presenter.h"
-#include "presenter/simulation_presenter.h"
+#include "presenter/simulation_scene_presenter.h"
 #include "presenter/static_analysis_presenter.h"
 #include "ui/graph_editor/color_value_adapter/color_value_adapter.h"
 #include "ui_main_window.h"
@@ -19,7 +19,7 @@ QString mainWindowTr(const char* text) {
 }
 }
 
-ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationPresenter>& presenter, QWidget* parentWidget, QObject* parent)
+ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationScenePresenter>& presenter, QWidget* parentWidget, QObject* parent)
     : ui(ui),
       parentWidget(parentWidget),
       fcm(fcm),
@@ -51,6 +51,22 @@ ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->termNotes, &QTextEdit::textChanged, this, &ModelSetupPresenter::termNotesChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::currentItemChanged, this, &ModelSetupPresenter::onCurrentItemChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &ModelSetupPresenter::onItemChanged);
+}
+
+bool ModelSetupPresenter::checkElementsHaveValues() {
+    for (const auto& [_, concept] : fcm->concepts) {
+        if (!concept->term) {
+            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Not every concept has a value!"));
+            return false;
+        }
+    }
+    for (const auto& [_, weight] : fcm->weights) {
+        if (!weight->term) {
+            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Not every weight has a value!"));
+            return false;
+        }
+    }
+    return true;
 }
 
 void ModelSetupPresenter::descriptionChanged() {

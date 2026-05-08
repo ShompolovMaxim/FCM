@@ -11,6 +11,7 @@
 #include "presenter/model_setup_presenter.h"
 #include "presenter/sensitivity_presenter.h"
 #include "presenter/simulation_presenter.h"
+#include "presenter/simulation_scene_presenter.h"
 #include "presenter/static_analysis_presenter.h"
 
 #include "repository/saving_manager.h"
@@ -41,18 +42,6 @@ public slots:
     void updateGraphScaleLabel(double newScale);
     void updateModeButtonText(EditMode newMode);
 
-    void updatePredictScaleLabel(double newScale);
-    void predict();
-    void resetPredictionScene();
-    void pauseResumePrediction();
-    void speedUp();
-    void slowDown();
-    void stepForward();
-    void stepBack();
-    void finishSimulation();
-    void updateProgress(size_t value, size_t maxStep, double metricValue);
-    void onPredictToStaticChanged(bool checked);
-
     SensitivityAnalysisParameters getSensitivityParameters();
     void analize();
     void showSensitivityPlot();
@@ -61,8 +50,6 @@ public slots:
     void updateSensitivityScaleLabel(double newScale);
 
     void onCurrentTabChanged(int index);
-    void loadExperiment();
-    void onDeleteExperiment();
 
     void saveAs();
     void save();
@@ -89,8 +76,7 @@ public slots:
     void nameChanged(QString newName);
     void createNewModel();
     void switchModel();
-    void changeActivationFunction();
-    void changeActivationFunctionSensitivity();
+    void changeActivationFunctionSensitivity(int index);
 
     void joinModels();
 
@@ -105,7 +91,6 @@ protected:
 
 private:
     void cancelPendingWeightCreation();
-    bool checkElementsHaveValues();
 
     bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
     bool closeModel(size_t index);
@@ -114,24 +99,20 @@ private:
     void deleteSavedModel(const QString &modelName);
     void deleteSavedTemplate(const QString &templateName);
 
-    void simulationFinished();
-    void recreateModelSetupPresenter();
+    void recreatePresenters();
 
     void updateFCM();
-    PredictionParameters getPredictionParameters();
-    Experiment createExperiment();
-    void addExperiment(const Experiment& experiment);
-
     void loadFCM(std::shared_ptr<FCM> newFCM);
 
     void addFCM(std::shared_ptr<FCM> fcm);
 
     Ui::MainWindow *ui;
-    std::shared_ptr<SimulationPresenter> presenter;
+    std::shared_ptr<SimulationScenePresenter> simulationScenePresenter;
     StaticAnalysisPresenter* staticAnalysisPresenter;
     std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
+    std::shared_ptr<SimulationPresenter> simulationPresenter;
     std::shared_ptr<FCM> fcm;
 
     std::shared_ptr<TemplatesManager> templatesManager;
@@ -149,11 +130,8 @@ private:
     QTranslator translatorWidgetsRus;
 
     double graphScale = 1;
-    double predictScale = 1;
     double sensitivityScale = 1;
     EditMode editMode = EditMode::Create;
-    bool paused = false;
-    double currentMetricValue = 0;
     bool activeSensitivity = false;
 
     ToolTipController toolTipController = ToolTipController();

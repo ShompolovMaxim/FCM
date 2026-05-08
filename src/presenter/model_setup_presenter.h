@@ -9,7 +9,7 @@ class FCM;
 class QWidget;
 class CreationPresenter;
 class StaticAnalysisPresenter;
-class SimulationPresenter;
+class SimulationScenePresenter;
 
 namespace Ui {
 class MainWindow;
@@ -18,8 +18,9 @@ class MainWindow;
 class ModelSetupPresenter : public QObject {
     Q_OBJECT
 public:
-    ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationPresenter>& presenter, QWidget* parentWidget, QObject* parent = nullptr);
+    ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationScenePresenter>& presenter, QWidget* parentWidget, QObject* parent = nullptr);
 
+    bool checkElementsHaveValues();
     void descriptionChanged();
 
     void onCreateTerm();
@@ -48,5 +49,5 @@ private:
     QTreeWidgetItem* weightsGroup;
     std::shared_ptr<CreationPresenter>& creationPresenter;
     StaticAnalysisPresenter*& staticAnalysisPresenter;
-    std::shared_ptr<SimulationPresenter>& presenter;
+    std::shared_ptr<SimulationScenePresenter>& presenter;
 };

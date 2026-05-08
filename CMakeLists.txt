@@ -16,6 +16,7 @@ endif()
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
 set(TS_FILES translations/FCM_ru_RU.ts)
@@ -54,7 +55,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         src/ui/graph_editor/color_value_adapter/IColorValueAdapter.h
         src/ui/graph_editor/color_value_adapter/color_value_adapter.h src/ui/graph_editor/color_value_adapter/color_value_adapter.cpp
-        src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
+        src/presenter/simulation_scene_presenter.h src/presenter/simulation_scene_presenter.cpp
         src/presenter/prediction_parameters.h src/presenter/prediction_parameters.cpp
         src/presenter/simulation_parameters.h
         src/model/activation_functions/activation_function.h
@@ -154,6 +155,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/templates/templates_language_manager.cpp
 
         src/presenter/model_setup_presenter.h src/presenter/model_setup_presenter.cpp
+        src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -259,3 +261,4 @@ add_custom_target(help_docs ALL
 add_dependencies(FCM help_docs)
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Help)
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)

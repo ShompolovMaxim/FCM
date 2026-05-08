@@ -25,10 +25,6 @@ public:
     void analize(PredictionParameters predictionParameters, SensitivityAnalysisParameters parameters);
     void reset();
 
-    void createConcept(const QPointF pos) override;
-    void createWeight(QUuid nodeId) override;
-    void createWeight(QUuid fromNodeId, QUuid toNodeId) override;
-    void updateConceptPosition(QUuid id, const QPointF& pos) override;
     void updateConcept(QUuid id, ElementWindowMode mode) override;
     void updateWeight(QUuid id, ElementWindowMode mode) override;
     void emitAutosave() override;

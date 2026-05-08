@@ -22,14 +22,6 @@ void SensitivityPresenter::setRuntimeContext(std::shared_ptr<FCM> originalFcm_, 
     graphScene = runtimeScene;
 }
 
-void SensitivityPresenter::createConcept(const QPointF) {}
-
-void SensitivityPresenter::createWeight(QUuid) {}
-
-void SensitivityPresenter::createWeight(QUuid, QUuid) {}
-
-void SensitivityPresenter::updateConceptPosition(QUuid, const QPointF&) {}
-
 void SensitivityPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
     if (originalFcm && originalFcm->concepts.find(id) != originalFcm->concepts.end()) {
         creationPresenter->updateConcept(id, mode);

@@ -1,396 +1,417 @@
 #include "simulation_presenter.h"
 
-#include "common/logger.h"
-#include "creation_presenter.h"
-#include "ui/concept_window/concept_window.h"
-#include "ui/graph_editor/color_value_adapter/linear_approximation_adapter.h"
-#include "ui/graph_editor/edge_item.h"
+#include "model_setup_presenter.h"
+#include "simulation_scene_presenter.h"
+#include "ui_main_window.h"
+
 #include "ui/graph_editor/graph_scene.h"
-#include "ui/weight_window/weight_window.h"
+#include "ui/save_current_state_window/save_current_state_window.h"
 
-SimulationPresenter::SimulationPresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent)
-    : ScenePresenter(parent), creationPresenter(creationPresenter) {}
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QStandardItemModel>
 
-SimulationPresenter::~SimulationPresenter() {
-    stopExecution();
-    closeRuntimeWindows();
+namespace {
+QString mainWindowTr(const char* text) {
+    return QCoreApplication::translate("MainWindow", text);
+}
 }
 
-void SimulationPresenter::setRuntimeContext(std::shared_ptr<FCM> originalFcm_, std::shared_ptr<FCM> runtimeFcm_, GraphScene* runtimeScene_) {
-    closeRuntimeWindows();
-    originalFcm = originalFcm_;
-    runtimeFcm = runtimeFcm_;
-    runtimeScene = runtimeScene_;
+SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<SimulationScenePresenter> simulationScenePresenter, QWidget* parentWidget, QObject *parent)
+    : ui(ui), parentWidget(parentWidget), modelSetupPresenter(std::move(modelSetupPresenter)), simulationScenePresenter(std::move(simulationScenePresenter)), fcm(fcm), QObject{parent} {
+    connect(ui->graphicsViewPredict, &GraphView::scaleChanged, this, &SimulationPresenter::updatePredictScaleLabel);
+    connect(ui->pushButtonPredict, &QPushButton::clicked, this, &SimulationPresenter::predict);
+    connect(ui->pushButtonReset, &QPushButton::clicked, this, &SimulationPresenter::resetPredictionScene);
+    connect(ui->pushButtonPause, &QPushButton::clicked, this, &SimulationPresenter::pauseResumePrediction);
+    connect(ui->pushButtonSpeedUp, &QPushButton::clicked, this, &SimulationPresenter::speedUp);
+    connect(ui->pushButtonSlowDown, &QPushButton::clicked, this, &SimulationPresenter::slowDown);
+    connect(ui->pushButtonForward, &QPushButton::clicked, this, &SimulationPresenter::stepForward);
+    connect(ui->pushButtonBack, &QPushButton::clicked, this, &SimulationPresenter::stepBack);
+    connect(ui->pushButtonFinish, &QPushButton::clicked, this, &SimulationPresenter::finishSimulation);
+    connect(this->simulationScenePresenter.get(), &SimulationScenePresenter::updateProgress, this, &SimulationPresenter::updateProgress);
+    connect(this->simulationScenePresenter.get(), &SimulationScenePresenter::finished, this, &SimulationPresenter::simulationFinished);
+    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &SimulationPresenter::onPredictToStaticChanged);
+    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SimulationPresenter::autosave);
+    connect(ui->useFuzzyValues, &QCheckBox::toggled, this, &SimulationPresenter::autosave);
+    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SimulationPresenter::changeActivationFunction);
+    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SimulationPresenter::autosave);
+    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &SimulationPresenter::autosave);
+    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &SimulationPresenter::autosave);
+    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &SimulationPresenter::autosave);
+    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &SimulationPresenter::autosave);
 }
 
-void SimulationPresenter::createConcept(const QPointF) {}
-
-void SimulationPresenter::createWeight(QUuid) {}
-
-void SimulationPresenter::createWeight(QUuid, QUuid) {}
-
-void SimulationPresenter::updateConceptPosition(QUuid, const QPointF&) {}
-
-void SimulationPresenter::updateConcept(QUuid id, ElementWindowMode mode) {
-    if (originalFcm && originalFcm->concepts.find(id) != originalFcm->concepts.end()) {
-        creationPresenter->updateConcept(id, mode);
-        return;
-    }
-    openRuntimeConceptWindow(id, mode);
+void SimulationPresenter::changeActivationFunction(int index) {
+    ui->fuzzinessDegree->setEnabled(index == 3 || index == 4);
+    emit autosave();
 }
 
-void SimulationPresenter::updateWeight(QUuid id, ElementWindowMode mode) {
-    if (originalFcm && originalFcm->weights.find(id) != originalFcm->weights.end()) {
-        creationPresenter->updateWeight(id, mode);
-        return;
-    }
-    openRuntimeWeightWindow(id, mode);
+PredictionParameters SimulationPresenter::getPredictionParameters() const {
+    return PredictionParameters{
+        ui->comboBoxAlgorithm->currentData(Qt::UserRole).toString(),
+        ui->useFuzzyValues->isChecked(),
+        ui->comboBoxActivation->currentData(Qt::UserRole).toString(),
+        ui->comboBoxMetric->currentData(Qt::UserRole).toString(),
+        ui->checkBoxPredictToStatic->isChecked(),
+        ui->doubleSpinBoxThreshold->value(),
+        ui->spinBoxMetricSteps->value(),
+        ui->spinBoxFixedSteps->value(),
+        ui->fuzzinessDegree->value()
+    };
 }
 
-void SimulationPresenter::emitAutosave() {}
+void SimulationPresenter::retranslateUi() {
+    ui->labelScalePredict->setText(QString(mainWindowTr("Scale: %1%")).arg(predictScale*100, 0, 'f', 2));
+    ui->pushButtonPause->setText(paused ? mainWindowTr("Resume") : mainWindowTr("Pause"));
+    ui->labelMetricValue->setText(QString(mainWindowTr("Metric value: %1")).arg(currentMetricValue, 0, 'f', 4));
 
-void SimulationPresenter::simulate(PredictionParameters predictionParameters, SimulationParameters simulationParameters, QList<NodeItem*> nodes_, QMap<QUuid, EdgeItem*> edges_) {
-    stopExecution();
+    if (auto* experimentsModel = qobject_cast<QStandardItemModel*>(ui->experimantsTable->model())) {
+        experimentsModel->setHorizontalHeaderLabels({
+            mainWindowTr("Algorithm"),
+            mainWindowTr("Value type"),
+            mainWindowTr("Activation function"),
+            mainWindowTr("Metric"),
+            mainWindowTr("Predict to static"),
+            mainWindowTr("Threshold"),
+            mainWindowTr("Steps less threshold"),
+            mainWindowTr("Fixed steps"),
+            mainWindowTr("Timestamp"),
+            "",
+            ""
+        });
 
-    this->predictionParameters = predictionParameters;
-    nodes = nodes_;
-    edges = edges_;
+        for (int row = 0; row < experimentsModel->rowCount(); ++row) {
+            if (auto* loadButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(experimentsModel->index(row, 9)))) {
+                loadButton->setText(mainWindowTr("Load"));
+            }
+            if (auto* deleteButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(experimentsModel->index(row, 10)))) {
+                deleteButton->setText(mainWindowTr("Delete"));
+            }
 
-    step = -1;
+            QModelIndex idx = experimentsModel->index(row, 0);
+            experimentsModel->setData(idx, mainWindowTr(fcm->experiments[row].predictionParameters.algorithm.toUtf8().constData()));
+            experimentsModel->setData(experimentsModel->index(row, 1), fcm->experiments[row].predictionParameters.useFuzzyValues ? mainWindowTr("fuzzy") : mainWindowTr("numeric"));
 
-    CalculationFCM calculationFCM;
-
-    if (!runtimeFcm) {
-        return;
-    }
-
-    for (const auto& [id, concept] : runtimeFcm->concepts) {
-        if (!concept || !concept->term) {
-            Logger::warn("Simulation concept term missing");
-            return;
+            idx = experimentsModel->index(row, 2);
+            auto activationFunctionText = mainWindowTr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
+            if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
+                activationFunctionText += "\n" + mainWindowTr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
+            }
+            experimentsModel->setData(idx, activationFunctionText);
+            experimentsModel->setData(experimentsModel->index(row, 4), fcm->experiments[row].predictionParameters.predictToStatic ? mainWindowTr("yes") : mainWindowTr("no"));
         }
-        calculationFCM.concepts[id] = CalculationConcept{
-            id,
-            concept->term->value,
-            concept->term->fuzzyValue,
-            concept->startStep
-        };
-    }
-    for (const auto& [id, weight] : runtimeFcm->weights) {
-        if (!weight || !weight->term) {
-            Logger::warn("Simulation weight term missing");
-            return;
-        }
-        calculationFCM.weights[id] = CalculationWeight{
-            id,
-            weight->term->value,
-            weight->term->fuzzyValue,
-            weight->fromConceptId,
-            weight->toConceptId
-        };
-    }
 
-    predictor = std::make_shared<Predictor>(predictionParameters, calculationFCM);
-    auto predictorForThread = predictor;
-    workerThread = std::thread([predictorForThread]() {
-        predictorForThread->perform();
-    });
+        ui->experimantsTable->setWordWrap(true);
+        ui->experimantsTable->resizeRowsToContents();
+    }
+}
 
-    if (simulationParameters.stepsPerSecond <= 0) {
-        Logger::warn("Simulation speed invalid");
-        stopExecution();
+void SimulationPresenter::updatePredictScaleLabel(double newScale) {
+    ui->labelScalePredict->setText(QString(mainWindowTr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
+    predictScale = newScale;
+}
+
+void SimulationPresenter::simulationFinished() {
+    if (!paused) {
+        pauseResumePrediction();
+    }
+    ui->pushButtonBack->setEnabled(true);
+    ui->pushButtonForward->setEnabled(true);
+    ui->pushButtonSlowDown->setEnabled(true);
+    ui->pushButtonPause->setEnabled(true);
+    ui->pushButtonSpeedUp->setEnabled(true);
+    ui->pushButtonFinish->setEnabled(true);
+}
+
+void SimulationPresenter::predict() {
+    if (!modelSetupPresenter->checkElementsHaveValues()) {
         return;
     }
 
-    iterationTime = static_cast<int>(1000 / simulationParameters.stepsPerSecond);
+    simulationScenePresenter->activate();
 
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, [this, predictionParameters]() {
-        goToStep(step+1);
+    auto predictionParameters = getPredictionParameters();
 
-        if (predictor->getFinished() && step >= predictor->getCount()) {
-            timer->stop();
-            emit finished();
-        }
-    });
+    auto simulationParameters = SimulationParameters{
+        ui->checkBoxRealTime->isChecked(),
+        ui->doubleSpinBoxStepsPerSecond->value()
+    };
 
+    createExperiment();
+
+    ui->pushButtonPredict->setEnabled(false);
+    ui->pushButtonReset->setEnabled(true);
+    ui->checkBoxRealTime->setEnabled(false);
+    ui->doubleSpinBoxStepsPerSecond->setEnabled(false);
     if (simulationParameters.realTime) {
-        timer->start(iterationTime);
-    } else {
-        finish();
+        ui->pushButtonBack->setEnabled(true);
+        ui->pushButtonForward->setEnabled(true);
+        ui->pushButtonSlowDown->setEnabled(true);
+        ui->pushButtonPause->setEnabled(true);
+        ui->pushButtonSpeedUp->setEnabled(true);
+        ui->pushButtonFinish->setEnabled(true);
     }
+
+    auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(simulationScenePresenter, ElementWindowMode::PredictionResults);
+    auto* oldPredictScene = ui->graphicsViewPredict->scene();
+    ui->graphicsViewPredict->setScene(predictScene);
+    if (oldPredictScene != ui->graphicsViewGraph->scene()) {
+        delete oldPredictScene;
+    }
+
+    QList<NodeItem*> nodes;
+    QMap<QUuid, EdgeItem*> edges;
+    for (QGraphicsItem* item : predictScene->items()) {
+        if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
+            nodes.append(n);
+        }
+        if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
+            edges[ed->getId()] = ed;
+        }
+    }
+
+    paused = false;
+
+    simulationScenePresenter->setRuntimeContext(fcm, predictScene->getFCM(), predictScene);
+    simulationScenePresenter->simulate(predictionParameters, simulationParameters, nodes, edges);
 }
 
-void SimulationPresenter::finish() {
-    if (!predictor) {
-        Logger::warn("Simulation state missing");
+Experiment SimulationPresenter::createExperiment() {
+    Experiment experiment;
+    for (auto& [id, term] : fcm->terms) {
+        experiment.terms[id] = std::make_shared<Term>(*term);
+        experiment.terms[id]->dbId = -1;
+    }
+    for (const auto& [id, concept] : fcm->concepts) {
+        experiment.concepts[id] = std::make_shared<Concept>(*concept);
+        experiment.concepts[id]->dbId = -1;
+        experiment.concepts[id]->term = experiment.terms[fcm->concepts[id]->term->id];
+        experiment.concepts[id]->predictedValues = {};
+        experiment.concepts[id]->sensitivity = {};
+    }
+    for (const auto& [id, weight] : fcm->weights) {
+        experiment.weights[id] = std::make_shared<Weight>(*weight);
+        experiment.weights[id]->dbId = -1;
+        experiment.weights[id]->term = experiment.terms[fcm->weights[id]->term->id];
+        experiment.weights[id]->predictedValues = {};
+        experiment.weights[id]->sensitivity = {};
+    }
+    experiment.predictionParameters = getPredictionParameters();
+    experiment.timestamp = QDateTime::currentDateTime();
+    fcm->experiments.push_back(experiment);
+    addExperiment(experiment);
+    emit autosave();
+    return experiment;
+}
+
+void SimulationPresenter::addExperiment(const Experiment& experiment) {
+    auto experimentsModel = ui->experimantsTable->model();
+    int row = experimentsModel->rowCount();
+    experimentsModel->insertRow(row);
+    experimentsModel->setData(experimentsModel->index(row, 0), mainWindowTr(experiment.predictionParameters.algorithm.toUtf8().constData()));
+    experimentsModel->setData(experimentsModel->index(row, 1), experiment.predictionParameters.useFuzzyValues ? mainWindowTr("fuzzy") : mainWindowTr("numeric"));
+    auto activationFunctionText = mainWindowTr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
+    if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
+        activationFunctionText += "\n" + mainWindowTr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
+    }
+    experimentsModel->setData(experimentsModel->index(row, 2), activationFunctionText);
+    experimentsModel->setData(experimentsModel->index(row, 3), mainWindowTr(experiment.predictionParameters.metric.toUtf8().constData()));
+    experimentsModel->setData(experimentsModel->index(row, 4), experiment.predictionParameters.predictToStatic ? mainWindowTr("yes") : mainWindowTr("no"));
+    experimentsModel->setData(experimentsModel->index(row, 5), experiment.predictionParameters.threshold);
+    experimentsModel->setData(experimentsModel->index(row, 6), experiment.predictionParameters.stepsLessThreshold);
+    experimentsModel->setData(experimentsModel->index(row, 7), experiment.predictionParameters.fixedSteps);
+    experimentsModel->setData(experimentsModel->index(row, 8), experiment.timestamp);
+    experimentsModel->setData(experimentsModel->index(row, 9), "");
+    experimentsModel->setData(experimentsModel->index(row, 10), "");
+    for (int column = 0; column < experimentsModel->columnCount(); ++column) {
+        experimentsModel->setData(experimentsModel->index(row, column), Qt::AlignCenter, Qt::TextAlignmentRole);
+    }
+    QPushButton* btn = new QPushButton(mainWindowTr("Load"), ui->experimantsTable);
+    btn->setProperty("row", row);
+    ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 9), btn);
+    QPushButton* deleteButton = new QPushButton(mainWindowTr("Delete"), ui->experimantsTable);
+    deleteButton->setProperty("row", row);
+    ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 10), deleteButton);
+    connect(deleteButton, &QPushButton::clicked, this, &SimulationPresenter::onDeleteExperiment);
+    connect(btn, &QPushButton::clicked, this, &SimulationPresenter::loadExperiment);
+    ui->experimantsTable->setWordWrap(true);
+    ui->experimantsTable->resizeRowsToContents();
+}
+
+void SimulationPresenter::loadExperiment() {
+    auto* button = qobject_cast<QPushButton*>(sender());
+    if (!button) {
         return;
     }
-    stopTimer(calculationTimer);
-    calculationTimer = new QTimer(this);
-    connect(calculationTimer, &QTimer::timeout, this, [this]() {
-        if (!predictionParameters.predictToStatic) {
-            updateProgress(predictor->getCount(), predictionParameters.fixedSteps, 0.0);
+
+    int row = button->property("row").toInt();
+    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
+        return;
+    }
+
+    bool canSaveCurrentState = true;
+    for (const auto& [_, concept] : fcm->concepts) {
+        if (!concept->term) {
+            canSaveCurrentState = false;
+            break;
         }
-        if (predictor->getFinished()) {
-            goToStep(predictor->getCount());
-            calculationTimer->stop();
-            emit finished();
+    }
+    if (canSaveCurrentState) {
+        for (const auto& [_, weight] : fcm->weights) {
+            if (!weight->term) {
+                canSaveCurrentState = false;
+                break;
+            }
         }
-    });
-    calculationTimer->start(200);
+    }
+
+    if (canSaveCurrentState) {
+        auto saveCurrentStateWindow = SaveCurrentStateWindow(parentWidget);
+        if (saveCurrentStateWindow.exec() != QDialog::Accepted) {
+            return;
+        }
+        if (saveCurrentStateWindow.saveCurrentState()) {
+            createExperiment();
+        }
+    }
+
+    fcm->terms.clear();
+    fcm->concepts.clear();
+    fcm->weights.clear();
+    fcm->predictionParameters = fcm->experiments[row].predictionParameters;
+    for (const auto& [id, term] : fcm->experiments[row].terms) {
+        fcm->terms[id] = std::make_shared<Term>(*term);
+        fcm->terms[id]->dbId = -1;
+        if (fcm->experiments.back().terms.find(id) != fcm->experiments.back().terms.end()) {
+            fcm->terms[id]->description = fcm->experiments.back().terms[id]->description;
+        }
+    }
+    for (const auto& [id, concept] : fcm->experiments[row].concepts) {
+        fcm->concepts[id] = std::make_shared<Concept>(*concept);
+        fcm->concepts[id]->term = fcm->terms[concept->term->id];
+        fcm->concepts[id]->dbId = -1;
+        if (fcm->experiments.back().concepts.find(id) != fcm->experiments.back().concepts.end()) {
+            fcm->concepts[id]->description = fcm->experiments.back().concepts[id]->description;
+        }
+    }
+    for (const auto& [id, weight] : fcm->experiments[row].weights) {
+        fcm->weights[id] = std::make_shared<Weight>(*weight);
+        fcm->weights[id]->term = fcm->terms[weight->term->id];
+        fcm->weights[id]->dbId = -1;
+        if (fcm->experiments.back().weights.find(id) != fcm->experiments.back().weights.end()) {
+            fcm->weights[id]->description = fcm->experiments.back().weights[id]->description;
+        }
+    }
+
+    emit loadFCMRequested(fcm);
 }
 
-bool SimulationPresenter::goToStep(size_t newStep) {
-    if (!predictor || !runtimeFcm) {
-        Logger::warn("Simulation state missing");
-        return false;
+void SimulationPresenter::onDeleteExperiment() {
+    auto* button = qobject_cast<QPushButton*>(sender());
+    if (!button) {
+        return;
     }
 
-    if (predictor->getCount() >= newStep) {
-        auto newFCM = predictor->getFCM(newStep);
-        auto colorValueAdapter = LinearApproximationColorValueAdapter(originalFcm->terms);
-        for (auto* node : nodes) {
-            if (!node) {
-                Logger::warn("Simulation node missing");
-                continue;
-            }
-            auto runtimeConceptIt = runtimeFcm->concepts.find(node->getId());
-            if (runtimeConceptIt == runtimeFcm->concepts.end()) {
-                Logger::warn("Simulation concept missing");
-                continue;
-            }
-            auto newConceptIt = newFCM.concepts.find(node->getId());
-            if (newConceptIt == newFCM.concepts.end()) {
-                Logger::warn("Simulation concept missing");
-                continue;
-            }
-            double value = predictionParameters.useFuzzyValues ? newConceptIt->second.triangularFuzzyValue.defuzzify() : newConceptIt->second.value;
-            auto color = colorValueAdapter.getColor(value, 0, 1, true, predictionParameters.useFuzzyValues);
-            node->setColor(color);
-            auto predictedValues = predictor->getConceptHistoryValues(node->getId(), newStep);
-            runtimeConceptIt->second->predictedValues = predictedValues;
-            if (originalFcm) {
-                auto originalConceptIt = originalFcm->concepts.find(node->getId());
-                if (originalConceptIt != originalFcm->concepts.end()) {
-                    originalConceptIt->second->predictedValues = predictedValues;
-                    creationPresenter->setConceptPredictedValues(node->getId());
-                }
-            }
-            updateRuntimeConceptWindow(node->getId());
-        }
-        for (auto* edge : edges) {
-            if (!edge) {
-                Logger::warn("Simulation edge missing");
-                continue;
-            }
-            auto runtimeWeightIt = runtimeFcm->weights.find(edge->getId());
-            if (runtimeWeightIt == runtimeFcm->weights.end()) {
-                Logger::warn("Simulation weight missing");
-                continue;
-            }
-            auto newWeightIt = newFCM.weights.find(edge->getId());
-            if (newWeightIt == newFCM.weights.end()) {
-                Logger::warn("Simulation weight missing");
-                continue;
-            }
-            double value = predictionParameters.useFuzzyValues ? newWeightIt->second.triangularFuzzyValue.defuzzify() : newWeightIt->second.value;
-            auto color = colorValueAdapter.getColor(value, -1, 1, false, predictionParameters.useFuzzyValues);
-            edge->setColor(color);
-            auto predictedValues = predictor->getWeightHistoryValues(edge->getId(), newStep);
-            runtimeWeightIt->second->predictedValues = predictedValues;
-            if (originalFcm) {
-                auto originalWeightIt = originalFcm->weights.find(edge->getId());
-                if (originalWeightIt != originalFcm->weights.end()) {
-                    originalWeightIt->second->predictedValues = predictedValues;
-                    creationPresenter->setWeightPredictedValues(edge->getId());
-                }
-            }
-            updateRuntimeWeightWindow(edge->getId());
-        }
-        step = newStep;
-        auto maxStep = predictor->getCount();
-        if (!predictor->getFinished() && maxStep < 15) {
-            maxStep = 10000000;
-        }
-        if (!predictionParameters.predictToStatic) {
-            maxStep = predictionParameters.fixedSteps;
-        }
-        updateProgress(step, maxStep, newFCM.metricValue);
-        return true;
+    int row = button->property("row").toInt();
+    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
+        return;
     }
-    return false;
+
+    if (fcm->experiments[row].dbId != -1) {
+        fcm->deletedExperimentsIds.push_back(fcm->experiments[row].dbId);
+    }
+
+    fcm->experiments.erase(fcm->experiments.begin() + row);
+    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
+
+    for (const auto& experiment : fcm->experiments) {
+        addExperiment(experiment);
+    }
+    emit autosave();
 }
 
-void SimulationPresenter::stopTimer(QTimer* t) {
-    if (t) {
-        t->stop();
-        t->disconnect(this);
-        delete t;
+void SimulationPresenter::resetPredictionScene() {
+    if (!simulationScenePresenter->isActive()) {
+        return;
     }
+    simulationScenePresenter->reset();
+    paused = false;
+    ui->pushButtonPause->setText(mainWindowTr("Pause"));
+    ui->pushButtonPredict->setEnabled(true);
+    ui->pushButtonReset->setEnabled(false);
+    ui->checkBoxRealTime->setEnabled(true);
+    ui->doubleSpinBoxStepsPerSecond->setEnabled(true);
+    ui->pushButtonBack->setEnabled(false);
+    ui->pushButtonForward->setEnabled(false);
+    ui->pushButtonSlowDown->setEnabled(false);
+    ui->pushButtonPause->setEnabled(false);
+    ui->pushButtonSpeedUp->setEnabled(false);
+    ui->pushButtonFinish->setEnabled(false);
+    ui->progressBarPredict->setValue(0);
+    auto* predictionScene = ui->graphicsViewPredict->scene();
+    ui->graphicsViewPredict->setScene(ui->graphicsViewGraph->scene());
+    delete predictionScene;
 }
 
-bool SimulationPresenter::moveStep(int delta) {
-    int newStep = step + delta;
-    if (newStep < 0) {
-        return false;
+void SimulationPresenter::pauseResumePrediction() {
+    if (!paused) {
+        ui->pushButtonPause->setText(mainWindowTr("Resume"));
+        simulationScenePresenter->pause();
+        paused = true;
+    } else {
+        ui->pushButtonPause->setText(mainWindowTr("Pause"));
+        simulationScenePresenter->resume();
+        paused = false;
     }
-    if (!goToStep(newStep)) {
-        return false;
-    }
-    return true;
 }
 
 void SimulationPresenter::speedUp() {
-    iterationTime = static_cast<int>(iterationTime / speedUpFactor);
-    if (timer && timer->isActive()) {
-        timer->start(iterationTime);
-    }
+    simulationScenePresenter->speedUp();
+    ui->doubleSpinBoxStepsPerSecond->setValue(simulationScenePresenter->getStepsPerSecond());
 }
 
 void SimulationPresenter::slowDown() {
-    iterationTime = static_cast<int>(iterationTime * slowDownFactor);
-    if (timer && timer->isActive()) {
-        timer->start(iterationTime);
+    simulationScenePresenter->slowDown();
+    ui->doubleSpinBoxStepsPerSecond->setValue(simulationScenePresenter->getStepsPerSecond());
+}
+
+void SimulationPresenter::stepForward() {
+    if (!simulationScenePresenter->moveStep(ui->spinBoxMoveSteps->value())) {
+        QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Value of step is not calculated or step out of range!"));
     }
 }
 
-void SimulationPresenter::reset() {
-    stopExecution();
-    active = false;
-    step = 0;
-    lastStep = 0;
-    nodes.clear();
-    edges.clear();
-
-    if (runtimeFcm) {
-        for (const auto& [id, _] : runtimeFcm->concepts) {
-            runtimeFcm->concepts[id]->predictedValues = {};
-            updateRuntimeConceptWindow(id);
-        }
-        for (const auto& [id, _] : runtimeFcm->weights) {
-            runtimeFcm->weights[id]->predictedValues = {};
-            updateRuntimeWeightWindow(id);
-        }
-    }
-    if (originalFcm) {
-        for (const auto& [id, _] : originalFcm->concepts) {
-            originalFcm->concepts[id]->predictedValues = {};
-            creationPresenter->setConceptPredictedValues(id);
-        }
-        for (const auto& [id, _] : originalFcm->weights) {
-            originalFcm->weights[id]->predictedValues = {};
-            creationPresenter->setWeightPredictedValues(id);
-        }
-    }
-    closeRuntimeWindows();
-}
-
-void SimulationPresenter::stopExecution() {
-    stopTimer(timer);
-    timer = nullptr;
-
-    stopTimer(calculationTimer);
-    calculationTimer = nullptr;
-
-    if (predictor) {
-        predictor->requestStop();
-    }
-
-    if (workerThread.joinable()) {
-        workerThread.join();
-    }
-
-    predictor = {};
-}
-
-void SimulationPresenter::closeRuntimeWindows() {
-    std::vector<ConceptWindow*> conceptWindowsToDelete;
-    conceptWindowsToDelete.reserve(runtimeConceptWindows.size());
-    for (const auto& [_, window] : runtimeConceptWindows) {
-        conceptWindowsToDelete.push_back(window);
-    }
-
-    std::vector<WeightWindow*> weightWindowsToDelete;
-    weightWindowsToDelete.reserve(runtimeWeightWindows.size());
-    for (const auto& [_, window] : runtimeWeightWindows) {
-        weightWindowsToDelete.push_back(window);
-    }
-
-    runtimeConceptWindows.clear();
-    runtimeWeightWindows.clear();
-
-    for (auto* window : conceptWindowsToDelete) {
-        delete window;
-    }
-    for (auto* window : weightWindowsToDelete) {
-        delete window;
+void SimulationPresenter::stepBack() {
+    if (!simulationScenePresenter->moveStep(-ui->spinBoxMoveSteps->value())) {
+        QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Value of step is not calculated or step out of range!"));
     }
 }
 
-void SimulationPresenter::openRuntimeConceptWindow(QUuid id, ElementWindowMode mode) {
-    if (!runtimeFcm) {
-        return;
-    }
-
-    auto conceptIt = runtimeFcm->concepts.find(id);
-    if (conceptIt == runtimeFcm->concepts.end()) {
-        return;
-    }
-
-    if (runtimeConceptWindows.find(id) != runtimeConceptWindows.end()) {
-        runtimeConceptWindows[id]->raise();
-        return;
-    }
-
-    QWidget* parentWidget = runtimeScene && !runtimeScene->views().isEmpty() ? runtimeScene->views().first() : nullptr;
-    auto* conceptWindow = new ConceptWindow(runtimeFcm->terms, conceptIt->second, ElementWindowMode::PredictionResultsDisabled, parentWidget);
-    conceptWindow->setAttribute(Qt::WA_DeleteOnClose);
-    connect(conceptWindow, &QDialog::finished, this, [this, id]() {
-        runtimeConceptWindows.erase(id);
-    });
-    runtimeConceptWindows[id] = conceptWindow;
-    conceptWindow->show();
+void SimulationPresenter::finishSimulation() {
+    ui->pushButtonBack->setEnabled(false);
+    ui->pushButtonForward->setEnabled(false);
+    ui->pushButtonSlowDown->setEnabled(false);
+    ui->pushButtonPause->setEnabled(false);
+    ui->pushButtonSpeedUp->setEnabled(false);
+    ui->pushButtonFinish->setEnabled(false);
+    simulationScenePresenter->finish();
 }
 
-void SimulationPresenter::openRuntimeWeightWindow(QUuid id, ElementWindowMode mode) {
-    if (!runtimeFcm) {
-        return;
-    }
-
-    auto weightIt = runtimeFcm->weights.find(id);
-    if (weightIt == runtimeFcm->weights.end()) {
-        return;
-    }
-
-    if (runtimeWeightWindows.find(id) != runtimeWeightWindows.end()) {
-        runtimeWeightWindows[id]->raise();
-        return;
-    }
-
-    QWidget* parentWidget = runtimeScene && !runtimeScene->views().isEmpty() ? runtimeScene->views().first() : nullptr;
-    auto* weightWindow = new WeightWindow(runtimeFcm->terms, weightIt->second, ElementWindowMode::PredictionResultsDisabled, parentWidget);
-    weightWindow->setAttribute(Qt::WA_DeleteOnClose);
-    connect(weightWindow, &QDialog::finished, this, [this, id]() {
-        runtimeWeightWindows.erase(id);
-    });
-    runtimeWeightWindows[id] = weightWindow;
-    weightWindow->show();
+void SimulationPresenter::updateProgress(size_t value, size_t maxStep, double metricValue) {
+    ui->progressBarPredict->setMaximum(maxStep);
+    ui->progressBarPredict->setValue(value);
+    ui->labelMetricValue->setText(QString(mainWindowTr("Metric value: %1")).arg(metricValue, 0, 'f', 4));
+    currentMetricValue = metricValue;
 }
 
-void SimulationPresenter::updateRuntimeConceptWindow(QUuid id) {
-    auto it = runtimeConceptWindows.find(id);
-    if (it == runtimeConceptWindows.end()) {
-        return;
-    }
-    it->second->setPredictedValues();
-}
+void SimulationPresenter::onPredictToStaticChanged(bool checked) {
+    ui->doubleSpinBoxThreshold->setEnabled(checked);
+    ui->spinBoxMetricSteps->setEnabled(checked);
+    ui->spinBoxFixedSteps->setEnabled(!checked);
 
-void SimulationPresenter::updateRuntimeWeightWindow(QUuid id) {
-    auto it = runtimeWeightWindows.find(id);
-    if (it == runtimeWeightWindows.end()) {
-        return;
-    }
-    it->second->setPredictedValues();
+    ui->doubleSpinBoxThresholdSensitivity->setEnabled(checked);
+    ui->spinBoxMetricStepsSensitivity->setEnabled(checked);
+    ui->spinBoxFixedStepsSensitivity->setEnabled(!checked);
 }
-

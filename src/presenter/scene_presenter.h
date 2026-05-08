@@ -14,10 +14,10 @@ public:
     using QObject::QObject;
     virtual ~ScenePresenter() = default;
 
-    virtual void createConcept(const QPointF pos) = 0;
-    virtual void createWeight(QUuid nodeId) = 0;
-    virtual void createWeight(QUuid fromNodeId, QUuid toNodeId) = 0;
-    virtual void updateConceptPosition(QUuid id, const QPointF& pos) = 0;
+    virtual void createConcept(const QPointF pos) {};
+    virtual void createWeight(QUuid nodeId) {};
+    virtual void createWeight(QUuid fromNodeId, QUuid toNodeId) {};
+    virtual void updateConceptPosition(QUuid id, const QPointF& pos) {};
     virtual void updateConcept(QUuid id, ElementWindowMode mode) = 0;
     virtual void updateWeight(QUuid id, ElementWindowMode mode) = 0;
     virtual void emitAutosave() = 0;

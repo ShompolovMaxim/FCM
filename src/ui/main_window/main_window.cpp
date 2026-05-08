@@ -3,10 +3,10 @@
 
 #include "common/logger.h"
 #include "presenter/model_setup_presenter.h"
+#include "presenter/simulation_presenter.h"
 #include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/save_as_window/save_as_window.h"
-#include "ui/save_current_state_window/save_current_state_window.h"
 #include "ui/load_model_window/load_model_window.h"
 
 #include "repository/json_repository.h"
@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     ui->adjacencyTableView->setPresenter(creationPresenter);
-    presenter = std::make_shared<SimulationPresenter>(creationPresenter, nullptr);
+    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, nullptr);
 
     auto* scene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     ui->graphicsViewGraph->setScene(scene);
@@ -94,28 +94,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     staticAnalysisScene->blockConceptCreationColorEdit(true);
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
 
-    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunction);
-    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunctionSensitivity);
-
     connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
     connect(scene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
     connect(ui->graphicsViewGraph, &GraphView::scaleChanged, this, &MainWindow::updateGraphScaleLabel);
-    connect(ui->graphicsViewPredict, &GraphView::scaleChanged, this, &MainWindow::updatePredictScaleLabel);
     connect(ui->graphicsViewSensitivity, &GraphView::scaleChanged, this, &MainWindow::updateSensitivityScaleLabel);
     connect(ui->pushButtonScaleGraph, &QPushButton::clicked, ui->graphicsViewGraph, &GraphView::resetScale);
     connect(ui->pushButtonScalePredict, &QPushButton::clicked, ui->graphicsViewPredict, &GraphView::resetScale);
     connect(ui->pushButtonScaleSensitivity, &QPushButton::clicked, ui->graphicsViewSensitivity, &GraphView::resetScale);
-    connect(ui->pushButtonPredict, &QPushButton::clicked, this, &MainWindow::predict);
-    connect(ui->pushButtonReset, &QPushButton::clicked, this, &MainWindow::resetPredictionScene);
-    connect(ui->pushButtonPause, &QPushButton::clicked, this, &MainWindow::pauseResumePrediction);
-    connect(ui->pushButtonSpeedUp, &QPushButton::clicked, this, &MainWindow::speedUp);
-    connect(ui->pushButtonSlowDown, &QPushButton::clicked, this, &MainWindow::slowDown);
-    connect(ui->pushButtonForward, &QPushButton::clicked, this, &MainWindow::stepForward);
-    connect(ui->pushButtonBack, &QPushButton::clicked, this, &MainWindow::stepBack);
-    connect(ui->pushButtonFinish, &QPushButton::clicked, this, &MainWindow::finishSimulation);
-    connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
-    connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
-    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &MainWindow::onPredictToStaticChanged);
 
     QStandardItemModel* experimentsModel = new QStandardItemModel();
     experimentsModel->setHorizontalHeaderLabels({tr("Algorithm"), tr("Value type"), tr("Activation function"), tr("Metric"), tr("Predict to static"), tr("Threshold"), tr("Steps less threshold"), tr("Fixed steps"), tr("Timestamp"), "", ""});
@@ -133,15 +118,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionExportJSON, &QAction::triggered, this, &MainWindow::onExportJson);
     connect(ui->actionImport, &QAction::triggered, this, &MainWindow::onImportJson);
 
-    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), std::bind(&MainWindow::autosave, this));
-    connect(ui->useFuzzyValues, &QCheckBox::toggled, std::bind(&MainWindow::autosave, this));
-    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), std::bind(&MainWindow::autosave, this));
-    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), std::bind(&MainWindow::autosave, this));
-    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, std::bind(&MainWindow::autosave, this));
-    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), std::bind(&MainWindow::autosave, this));
-    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), std::bind(&MainWindow::autosave, this));
-    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), std::bind(&MainWindow::autosave, this));
-
     ui->fuzzyValuePlot->xAxis->setRange(-1.1, 1.1);
     ui->fuzzyValuePlot->yAxis->setRange(0, 1);
     ui->fuzzyValuePlot->xAxis->setLabel("x");
@@ -150,8 +126,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
-    recreateModelSetupPresenter();
+    recreatePresenters();
 
+    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunctionSensitivity);
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
     connect(ui->useFuzzyValues, &QCheckBox::toggled, ui->useFuzzyValuesSensitivity, &QCheckBox::setChecked);
@@ -428,26 +405,16 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     event->accept();
 }
 
-void MainWindow::recreateModelSetupPresenter() {
-    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, presenter, this);
-}
-
-void MainWindow::changeActivationFunction() {
-    ui->fuzzinessDegree->setEnabled(ui->comboBoxActivation->currentIndex() == 3 || ui->comboBoxActivation->currentIndex() == 4);
-}
-
-void MainWindow::changeActivationFunctionSensitivity() {
-    ui->fuzzinessDegreeSensitivity->setEnabled(ui->comboBoxActivationSensitivity->currentIndex() == 3 || ui->comboBoxActivationSensitivity->currentIndex() == 4);
+void MainWindow::recreatePresenters() {
+    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationScenePresenter, this);
+    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, simulationScenePresenter, this, this);
+    connect(simulationPresenter.get(), &SimulationPresenter::autosave, this, &MainWindow::autosave);
+    connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
 }
 
 void MainWindow::updateGraphScaleLabel(double newScale) {
     ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
     graphScale = newScale;
-}
-
-void MainWindow::updatePredictScaleLabel(double newScale) {
-    ui->labelScalePredict->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
-    predictScale = newScale;
 }
 
 void MainWindow::updateSensitivityScaleLabel(double newScale) {
@@ -460,191 +427,8 @@ void MainWindow::updateModeButtonText(EditMode newMode) {
     editMode = newMode;
 }
 
-void MainWindow::addExperiment(const Experiment& experiment) {
-    auto experimentsModel = ui->experimantsTable->model();
-    int row = experimentsModel->rowCount();
-    experimentsModel->insertRow(row);
-    experimentsModel->setData(experimentsModel->index(row, 0), MainWindow::tr(experiment.predictionParameters.algorithm.toUtf8().constData()));
-    experimentsModel->setData(experimentsModel->index(row, 1), experiment.predictionParameters.useFuzzyValues ? tr("fuzzy") : tr("numeric"));
-    auto activationFunctionText = MainWindow::tr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
-    if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
-        activationFunctionText += "\n" + tr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
-    }
-    experimentsModel->setData(experimentsModel->index(row, 2), activationFunctionText);
-    experimentsModel->setData(experimentsModel->index(row, 3), MainWindow::tr(experiment.predictionParameters.metric.toUtf8().constData()));
-    experimentsModel->setData(experimentsModel->index(row, 4), experiment.predictionParameters.predictToStatic ? tr("yes") : tr("no"));
-    experimentsModel->setData(experimentsModel->index(row, 5), experiment.predictionParameters.threshold);
-    experimentsModel->setData(experimentsModel->index(row, 6), experiment.predictionParameters.stepsLessThreshold);
-    experimentsModel->setData(experimentsModel->index(row, 7), experiment.predictionParameters.fixedSteps);
-    experimentsModel->setData(experimentsModel->index(row, 8), experiment.timestamp);
-    experimentsModel->setData(experimentsModel->index(row, 9), "");
-    experimentsModel->setData(experimentsModel->index(row, 10), "");
-    for (int column = 0; column < experimentsModel->columnCount(); ++column) {
-        experimentsModel->setData(experimentsModel->index(row, column), Qt::AlignCenter, Qt::TextAlignmentRole);
-    }
-    QPushButton* btn = new QPushButton(tr("Load"), ui->experimantsTable);
-    btn->setProperty("row", row);
-    ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 9), btn);
-    QPushButton* deleteButton = new QPushButton(tr("Delete"), ui->experimantsTable);
-    deleteButton->setProperty("row", row);
-    ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 10), deleteButton);
-    connect(deleteButton, &QPushButton::clicked, this, &MainWindow::onDeleteExperiment);
-    QObject::connect(btn, &QPushButton::clicked, this, &MainWindow::loadExperiment);
-    ui->experimantsTable->setWordWrap(true);
-    ui->experimantsTable->resizeRowsToContents();
-}
-
-bool MainWindow::checkElementsHaveValues() {
-    for (const auto& [_, concept] : fcm->concepts) {
-        if (!concept->term) {
-            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Not every concept has a value!"));
-            return false;
-        }
-    }
-    for (const auto& [_, weight] : fcm->weights) {
-        if (!weight->term) {
-            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Not every weight has a value!"));
-            return false;
-        }
-    }
-    return true;
-}
-
-void MainWindow::simulationFinished() {
-    if (!paused) {
-        pauseResumePrediction();
-    }
-    ui->pushButtonBack->setEnabled(true);
-    ui->pushButtonForward->setEnabled(true);
-    ui->pushButtonSlowDown->setEnabled(true);
-    ui->pushButtonPause->setEnabled(true);
-    ui->pushButtonSpeedUp->setEnabled(true);
-    ui->pushButtonFinish->setEnabled(true);
-}
-
-void MainWindow::predict() {
-    if (!checkElementsHaveValues()) {
-        return;
-    }
-
-    presenter->activate();
-
-    auto predictionParameters = getPredictionParameters();
-
-    auto simulationParameters = SimulationParameters{
-        ui->checkBoxRealTime->isChecked(),
-        ui->doubleSpinBoxStepsPerSecond->value()
-    };
-
-    createExperiment();
-
-    ui->pushButtonPredict->setEnabled(false);
-    ui->pushButtonReset->setEnabled(true);
-    ui->checkBoxRealTime->setEnabled(false);
-    ui->doubleSpinBoxStepsPerSecond->setEnabled(false);
-    if (simulationParameters.realTime) {
-        ui->pushButtonBack->setEnabled(true);
-        ui->pushButtonForward->setEnabled(true);
-        ui->pushButtonSlowDown->setEnabled(true);
-        ui->pushButtonPause->setEnabled(true);
-        ui->pushButtonSpeedUp->setEnabled(true);
-        ui->pushButtonFinish->setEnabled(true);
-    }
-
-    auto* predictScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(presenter, ElementWindowMode::PredictionResults);
-    auto* oldPredictScene = ui->graphicsViewPredict->scene();
-    ui->graphicsViewPredict->setScene(predictScene);
-    if (oldPredictScene != ui->graphicsViewGraph->scene()) {
-        delete oldPredictScene;
-    }
-
-    QList<NodeItem*> nodes;
-    QMap<QUuid, EdgeItem*> edges;
-    for (QGraphicsItem* item : predictScene->items()) {
-        if (auto n = qgraphicsitem_cast<NodeItem*>(item)) {
-            nodes.append(n);
-        }
-        if (auto ed = qgraphicsitem_cast<EdgeItem*>(item)) {
-            edges[ed->getId()] = ed;
-        }
-    }
-
-    paused = false;
-
-    presenter->setRuntimeContext(fcm, predictScene->getFCM(), predictScene);
-    presenter->simulate(predictionParameters, simulationParameters, nodes, edges);
-}
-
-void MainWindow::resetPredictionScene() {
-    if (!presenter->isActive()) {
-        return;
-    }
-    presenter->reset();
-    ui->pushButtonPredict->setEnabled(true);
-    ui->pushButtonReset->setEnabled(false);
-    ui->checkBoxRealTime->setEnabled(true);
-    ui->doubleSpinBoxStepsPerSecond->setEnabled(true);
-    ui->pushButtonBack->setEnabled(false);
-    ui->pushButtonForward->setEnabled(false);
-    ui->pushButtonSlowDown->setEnabled(false);
-    ui->pushButtonPause->setEnabled(false);
-    ui->pushButtonSpeedUp->setEnabled(false);
-    ui->pushButtonFinish->setEnabled(false);
-    ui->progressBarPredict->setValue(0);
-    auto* predictionScene = ui->graphicsViewPredict->scene();
-    ui->graphicsViewPredict->setScene(ui->graphicsViewGraph->scene());
-    delete predictionScene;
-}
-
-void MainWindow::pauseResumePrediction() {
-    if (!paused) {
-        ui->pushButtonPause->setText(MainWindow::tr("Resume"));
-        presenter->pause();
-        paused = true;
-    } else {
-        ui->pushButtonPause->setText(MainWindow::tr("Pause"));
-        presenter->resume();
-        paused = false;
-    }
-}
-
-void MainWindow::speedUp() {
-    presenter->speedUp();
-    ui->doubleSpinBoxStepsPerSecond->setValue(presenter->getStepsPerSecond());
-}
-
-void MainWindow::slowDown() {
-    presenter->slowDown();
-    ui->doubleSpinBoxStepsPerSecond->setValue(presenter->getStepsPerSecond());
-}
-
-void MainWindow::stepForward() {
-    if (!presenter->moveStep(ui->spinBoxMoveSteps->value())) {
-        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Value of step is not calculated or step out of range!"));
-    }
-}
-
-void MainWindow::stepBack() {
-    if (!presenter->moveStep(-ui->spinBoxMoveSteps->value())) {
-        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Value of step is not calculated or step out of range!"));
-    }
-}
-
-void MainWindow::finishSimulation() {
-    ui->pushButtonBack->setEnabled(false);
-    ui->pushButtonForward->setEnabled(false);
-    ui->pushButtonSlowDown->setEnabled(false);
-    ui->pushButtonPause->setEnabled(false);
-    ui->pushButtonSpeedUp->setEnabled(false);
-    ui->pushButtonFinish->setEnabled(false);
-    presenter->finish();
-}
-
-void MainWindow::updateProgress(size_t value, size_t maxStep, double metricValue) {
-    ui->progressBarPredict->setMaximum(maxStep);
-    ui->progressBarPredict->setValue(value);
-    ui->labelMetricValue->setText(QString(MainWindow::tr("Metric value: %1")).arg(metricValue, 0, 'f', 4));
-    currentMetricValue = metricValue;
+void MainWindow::changeActivationFunctionSensitivity(int index) {
+    ui->fuzzinessDegreeSensitivity->setEnabled(index == 3 || index == 4);
 }
 
 SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
@@ -659,7 +443,7 @@ SensitivityAnalysisParameters MainWindow::getSensitivityParameters() {
 }
 
 void MainWindow::analize() {
-    if (!checkElementsHaveValues()) {
+    if (!modelSetupPresenter->checkElementsHaveValues()) {
         return;
     }
 
@@ -682,7 +466,7 @@ void MainWindow::analize() {
 
     connect(sensitivityPresenter.get(), &SensitivityPresenter::updateProgress, this, &MainWindow::updateSensitivityProgress);
     sensitivityPresenter->setRuntimeContext(fcm, sensitivityScene->getFCM(), sensitivityScene);
-    sensitivityPresenter->analize(getPredictionParameters(), getSensitivityParameters());
+    sensitivityPresenter->analize(simulationPresenter->getPredictionParameters(), getSensitivityParameters());
 }
 
 void MainWindow::resetSensitivity() {
@@ -720,159 +504,13 @@ void MainWindow::updateSensitivityProgress(double progress) {
     ui->progressBarSensitivity->setValue(static_cast<int>(progress * 100));
 }
 
-void MainWindow::onPredictToStaticChanged(bool checked) {
-    ui->doubleSpinBoxThreshold->setEnabled(checked);
-    ui->spinBoxMetricSteps->setEnabled(checked);
-    ui->spinBoxFixedSteps->setEnabled(!checked);
-
-    ui->doubleSpinBoxThresholdSensitivity->setEnabled(checked);
-    ui->spinBoxMetricStepsSensitivity->setEnabled(checked);
-    ui->spinBoxFixedStepsSensitivity->setEnabled(!checked);
-}
-
-Experiment MainWindow::createExperiment() {
-    Experiment experiment;
-    for (auto& [id, term] : fcm->terms) {
-        experiment.terms[id] = std::make_shared<Term>(*term);
-        experiment.terms[id]->dbId = -1;
-    }
-    for (const auto& [id, concept] : fcm->concepts) {
-        experiment.concepts[id] = std::make_shared<Concept>(*concept);
-        experiment.concepts[id]->dbId = -1;
-        experiment.concepts[id]->term = experiment.terms[fcm->concepts[id]->term->id];
-        experiment.concepts[id]->predictedValues = {};
-        experiment.concepts[id]->sensitivity = {};
-    }
-    for (const auto& [id, weight] : fcm->weights) {
-        experiment.weights[id] = std::make_shared<Weight>(*weight);
-        experiment.weights[id]->dbId = -1;
-        experiment.weights[id]->term = experiment.terms[fcm->weights[id]->term->id];
-        experiment.weights[id]->predictedValues = {};
-        experiment.weights[id]->sensitivity = {};
-    }
-    experiment.predictionParameters = getPredictionParameters();
-    experiment.timestamp = QDateTime::currentDateTime();
-    fcm->experiments.push_back(experiment);
-    addExperiment(experiment);
-    autosave();
-    return experiment;
-}
-
-void MainWindow::loadExperiment() {
-    auto* button = qobject_cast<QPushButton*>(sender());
-    if (!button) {
-        return;
-    }
-
-    int row = button->property("row").toInt();
-    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
-        return;
-    }
-
-    bool canSaveCurrentState = true;
-    for (const auto& [_, concept] : fcm->concepts) {
-        if (!concept->term) {
-            canSaveCurrentState = false;
-            break;
-        }
-    }
-    if (canSaveCurrentState) {
-        for (const auto& [_, weight] : fcm->weights) {
-            if (!weight->term) {
-                canSaveCurrentState = false;
-                break;
-            }
-        }
-    }
-
-    if (canSaveCurrentState) {
-        auto saveCurrentStateWindow = SaveCurrentStateWindow(this);
-        if (saveCurrentStateWindow.exec() != QDialog::Accepted) {
-            return;
-        }
-        bool saveCurrentState = saveCurrentStateWindow.saveCurrentState();
-
-        if (saveCurrentState) {
-            createExperiment();
-        }
-    }
-
-    fcm->terms.clear();
-    fcm->concepts.clear();
-    fcm->weights.clear();
-    fcm->predictionParameters = fcm->experiments[row].predictionParameters;
-    for (const auto& [id, term] : fcm->experiments[row].terms) {
-        fcm->terms[id] = std::make_shared<Term>(*term);
-        fcm->terms[id]->dbId = -1;
-        if (fcm->experiments.back().terms.find(id) != fcm->experiments.back().terms.end()) {
-            fcm->terms[id]->description = fcm->experiments.back().terms[id]->description;
-        }
-    }
-    for (const auto& [id, concept] : fcm->experiments[row].concepts) {
-        fcm->concepts[id] = std::make_shared<Concept>(*concept);
-        fcm->concepts[id]->term = fcm->terms[concept->term->id];
-        fcm->concepts[id]->dbId = -1;
-        if (fcm->experiments.back().concepts.find(id) != fcm->experiments.back().concepts.end()) {
-            fcm->concepts[id]->description = fcm->experiments.back().concepts[id]->description;
-        }
-    }
-    for (const auto& [id, weight] : fcm->experiments[row].weights) {
-        fcm->weights[id] = std::make_shared<Weight>(*weight);
-        fcm->weights[id]->term = fcm->terms[weight->term->id];
-        fcm->weights[id]->dbId = -1;
-        if (fcm->experiments.back().weights.find(id) != fcm->experiments.back().weights.end()) {
-            fcm->weights[id]->description = fcm->experiments.back().weights[id]->description;
-        }
-    }
-
-    loadFCM(fcm);
-}
-
-void MainWindow::onDeleteExperiment() {
-    auto* button = qobject_cast<QPushButton*>(sender());
-    if (!button) {
-        return;
-    }
-
-    int row = button->property("row").toInt();
-    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
-        return;
-    }
-
-    if (fcm->experiments[row].dbId != -1) {
-        fcm->deletedExperimentsIds.push_back(fcm->experiments[row].dbId);
-    }
-
-    fcm->experiments.erase(fcm->experiments.begin() + row);
-    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
-
-    for (const auto& experiment : fcm->experiments) {
-        addExperiment(experiment);
-    }
-    autosave();
-}
-
 void MainWindow::updateFCM() {
     fcm->name = ui->modelName->text();
     fcm->description = ui->modelNotes->markdownText();
-    fcm->predictionParameters = getPredictionParameters();
+    fcm->predictionParameters = simulationPresenter->getPredictionParameters();
     fcm->autoConfigureTermsColors = ui->autoColorConfiguration->isChecked();
     fcm->autoConfigureNumericValues = ui->autoNumericConfiguration->isChecked();
     fcm->autoConfigureFuzzyValues = ui->autoFuzzyConfiguration->isChecked();
-}
-
-PredictionParameters MainWindow::getPredictionParameters() {
-    return PredictionParameters{
-        ui->comboBoxAlgorithm->currentData(Qt::UserRole).toString(),
-        ui->useFuzzyValues->isChecked(),
-        ui->comboBoxActivation->currentData(Qt::UserRole).toString(),
-        ui->comboBoxMetric->currentData(Qt::UserRole).toString(),
-        ui->checkBoxPredictToStatic->isChecked(),
-        ui->doubleSpinBoxThreshold->value(),
-        ui->spinBoxMetricSteps->value(),
-        ui->spinBoxFixedSteps->value(),
-        ui->fuzzinessDegree->value()
-    };
 }
 
 void MainWindow::saveAs() {
@@ -918,8 +556,8 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     }
     rebuildModelsMenu();
 
-    if (presenter->isActive()) {
-        resetPredictionScene();
+    if (simulationScenePresenter->isActive()) {
+        simulationPresenter->resetPredictionScene();
     }
     if (activeSensitivity) {
         resetSensitivity();
@@ -964,9 +602,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     ui->adjacencyTableView->loadFromFCM(fcm);
     ui->adjacencyTableView->setPresenter(creationPresenter);
-    presenter = std::make_shared<SimulationPresenter>(creationPresenter, this);
-    connect(&*presenter, &SimulationPresenter::updateProgress, this, &MainWindow::updateProgress);
-    connect(&*presenter, &SimulationPresenter::finished, this, &MainWindow::simulationFinished);
+    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, this);
     connect(creationPresenter.get(), &CreationPresenter::autosave, this, &MainWindow::autosave);
     if (editMode == EditMode::EditValues) {
         updateModeButtonText(EditMode::Create);
@@ -998,12 +634,12 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
 
     delete staticAnalysisPresenter;
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
-    recreateModelSetupPresenter();
+    recreatePresenters();
 
     ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
 
     for (const auto& experiment : fcm->experiments) {
-        addExperiment(experiment);
+        simulationPresenter->addExperiment(experiment);
     }
 
     ui->autoColorConfiguration->setChecked(fcm->autoConfigureTermsColors);
@@ -1030,7 +666,7 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     ui->graphicsViewPredict->resetTransform();
     ui->graphicsViewSensitivity->resetTransform();
     updateGraphScaleLabel(1.0);
-    updatePredictScaleLabel(1.0);
+    simulationPresenter->updatePredictScaleLabel(1.0);
     updateSensitivityScaleLabel(1.0);
     ui->doubleSpinBoxMaxChange->setValue(0.1);
     ui->changeConcepts->setChecked(true);
@@ -1420,64 +1056,17 @@ void MainWindow::changeEvent(QEvent *event) {
         ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
         ui->plotSensitivity->replot();
 
-        if (auto* experimentsModel = qobject_cast<QStandardItemModel*>(ui->experimantsTable->model())) {
-            experimentsModel->setHorizontalHeaderLabels({
-                tr("Algorithm"),
-                tr("Value type"),
-                tr("Activation function"),
-                tr("Metric"),
-                tr("Predict to static"),
-                tr("Threshold"),
-                tr("Steps less threshold"),
-                tr("Fixed steps"),
-                tr("Timestamp"),
-                "",
-                ""
-            });
-        }
-
         ui->plotSensitivity->xAxis->setLabel(tr("max change"));
         ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
         ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(graphScale*100, 0, 'f', 2));
-        ui->labelScalePredict->setText(QString(MainWindow::tr("Scale: %1%")).arg(predictScale*100, 0, 'f', 2));
         ui->labelScaleSensitivity->setText(QString(MainWindow::tr("Scale: %1%")).arg(sensitivityScale*100, 0, 'f', 2));
         ui->pushButtonMode->setText(editMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
-        if (paused) {
-             ui->pushButtonPause->setText(MainWindow::tr("Resume"));
-        } else {
-            ui->pushButtonPause->setText(MainWindow::tr("Pause"));
-        }
-        ui->labelMetricValue->setText(QString(MainWindow::tr("Metric value: %1")).arg(currentMetricValue, 0, 'f', 4));
         if (sensitivityPlotShown) {
             ui->showSensitivityPlot->setText(MainWindow::tr("Elements Sensitivity"));
         } else {
             ui->showSensitivityPlot->setText(MainWindow::tr("FCM Sensitivity"));
         }
-
-        auto* experimentsModel = ui->experimantsTable->model();
-        for (int row = 0; row < experimentsModel->rowCount(); ++row) {
-            if (auto* loadButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 9)))) {
-                loadButton->setText(tr("Load"));
-            }
-            if (auto* deleteButton = qobject_cast<QPushButton*>(ui->experimantsTable->indexWidget(ui->experimantsTable->model()->index(row, 10)))) {
-                deleteButton->setText(tr("Delete"));
-            }
-
-            QModelIndex idx = ui->experimantsTable->model()->index(row, 0);
-            ui->experimantsTable->model()->setData(idx, MainWindow::tr(fcm->experiments[row].predictionParameters.algorithm.toUtf8().constData()));
-
-            experimentsModel->setData(experimentsModel->index(row, 1), fcm->experiments[row].predictionParameters.useFuzzyValues ? tr("fuzzy") : tr("numeric"));
-
-            idx = ui->experimantsTable->model()->index(row, 2);
-            auto activationFunctionText = MainWindow::tr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
-            if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
-                activationFunctionText += "\n" + tr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
-            }
-            ui->experimantsTable->model()->setData(idx, activationFunctionText);
-            experimentsModel->setData(experimentsModel->index(row, 4), fcm->experiments[row].predictionParameters.predictToStatic ? tr("yes") : tr("no"));
-        }
-        ui->experimantsTable->setWordWrap(true);
-        ui->experimantsTable->resizeRowsToContents();
+        simulationPresenter->retranslateUi();
     }
 
     QMainWindow::changeEvent(event);
