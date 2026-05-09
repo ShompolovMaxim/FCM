@@ -9,7 +9,6 @@
 #include "repository/saving_manager.h"
 #include "repository/templates_manager.h"
 #include "repository/json_repository.h"
-#include "repository/migration_manager.h"
 
 #include "ui/save_as_window/save_as_window.h"
 #include "ui/load_model_window/load_model_window.h"
@@ -27,6 +26,8 @@ SavingExportPresenter::SavingExportPresenter(
     std::shared_ptr<FCM> fcm,
     std::vector<std::shared_ptr<FCM>>& fcms,
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
+    std::shared_ptr<TemplatesManager> templatesManager,
+    std::shared_ptr<SavingManager> savingManager,
     QSettings& settings,
     QWidget* parentWidget,
     QObject *parent
@@ -35,21 +36,10 @@ SavingExportPresenter::SavingExportPresenter(
         fcm(fcm),
         fcms(fcms),
         modelSetupPresenter(modelSetupPresenter),
+        templatesManager(templatesManager),
+        savingManager(savingManager),
         settings(settings),
         QObject(parent) {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("models.db");
-    if (!db.open()) {
-        Logger::critical("Database open failed");
-        qFatal("Cannot open database");
-    }
-    if (!MigrationManager::migrate(db)) {
-        Logger::critical("Database migration failed");
-        qFatal("Cannot apply database migrations");
-    }
-    savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
-    templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
-
     connect(ui->actionSaveAs, &QAction::triggered, this, &SavingExportPresenter::saveAs);
     connect(ui->actionSave, &QAction::triggered, this, &SavingExportPresenter::save);
     connect(ui->actionOpen, &QAction::triggered, this, &SavingExportPresenter::open);
@@ -64,22 +54,6 @@ SavingExportPresenter::SavingExportPresenter(
 void SavingExportPresenter::updateFCM(std::shared_ptr<FCM> newFcm, std::shared_ptr<ModelSetupPresenter> newModelSetupPresenter) {
     fcm = newFcm;
     modelSetupPresenter = newModelSetupPresenter;
-}
-
-std::optional<FCM> SavingExportPresenter::getSavedFCM(const QString& modelName) const {
-    return savingManager->getFCM(modelName);
-}
-
-QList<QString> SavingExportPresenter::getSavedModelsNames() const {
-    return savingManager->getModelsNames();
-}
-
-std::optional<FCM> SavingExportPresenter::getTemplateFCM(const QString& templateName) const {
-    return templatesManager->getFCM(templateName);
-}
-
-QList<QPair<QString, TemplateType>> SavingExportPresenter::getTemplatesNames() const {
-    return templatesManager->getTemplatesNames();
 }
 
 void SavingExportPresenter::saveAs() {

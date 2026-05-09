@@ -4,13 +4,11 @@
 #include "common/logger.h"
 #include "presenter/model_setup_presenter.h"
 #include "presenter/simulation_presenter.h"
-#include "ui/join_window/join_window.h"
 #include "ui/graph_editor/graph_scene.h"
-#include "ui/save_as_window/save_as_window.h"
-#include "ui/load_model_window/load_model_window.h"
 
-#include "model/join/models_joiner.h"
-#include "model/entities/templates/templates_language_manager.h"
+#include "repository/migration_manager.h"
+#include "repository/saving_manager.h"
+#include "repository/templates_manager.h"
 
 #include <QMouseEvent>
 #include <QStandardItemModel>
@@ -63,6 +61,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     fcm = std::make_shared<FCM>();
     fcm->name = ui->modelName->text();
 
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("models.db");
+    if (!db.open()) {
+        Logger::critical("Database open failed");
+        qFatal("Cannot open database");
+    }
+    if (!MigrationManager::migrate(db)) {
+        Logger::critical("Database migration failed");
+        qFatal("Cannot apply database migrations");
+    }
+    auto savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
+    auto templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
+
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     ui->adjacencyTableView->setPresenter(creationPresenter);
     simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, nullptr);
@@ -98,6 +109,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
     recreatePresenters();
+    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, fcm, fcms, modelSetupPresenter, templatesManager, savingManager, settings, nullptr);
+    savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, fcm, fcms, modelSetupPresenter, templatesManager, savingManager, settings, this, nullptr);
+    connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
+    connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCMRequested);
+    connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::autosaveRequested, savingExportPresenter.get(), &SavingExportPresenter::autosave);
+    connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
+    connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
+    connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
 
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunctionSensitivity);
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
@@ -152,12 +171,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actionShowTooltips->setChecked(settings.value("tooltips", true).toBool());
     connect(ui->actionHelp, &QAction::triggered, this, &MainWindow::showHelp);
 
-    QObject::connect(ui->modelName, &QLineEdit::textChanged, this, &MainWindow::nameChanged);
-    addFCM(fcm);
+    modelsSwitchingPresenter->addFCM(fcm);
     ui->modelName->setText(tr("New model"));
-    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::createNewModel);
-
-    connect(ui->actionJoinFCM, &QAction::triggered, this, &MainWindow::joinModels);
     ui->menuModels->installEventFilter(this);
 }
 
@@ -196,111 +211,6 @@ void MainWindow::onCurrentTabChanged(int index) {
     }
 }
 
-bool MainWindow::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
-    if (model == fcm) {
-        modelSetupPresenter->updateFCM();
-    }
-
-    std::optional<FCM> savedModel;
-    if (model->dbId != -1) {
-        savedModel = savingExportPresenter->getSavedFCM(model->name);
-    }
-
-    auto defaultFcm = FCM();
-    defaultFcm.name = model->name;
-    return (!savedModel && *model != defaultFcm) || (savedModel && *model != *savedModel);
-}
-
-bool MainWindow::closeModel(size_t index) {
-    if (index >= fcms.size() || fcms.size() <= 1) {
-        return false;
-    }
-
-    auto model = fcms[index];
-    if (modelHasUnsavedChanges(model)) {
-        QMessageBox::StandardButton reply = QMessageBox::question(
-            this,
-            tr("There are unsaved changes!"),
-            tr("Model \"%1\" has unsaved changes. Are you sure you want to close it?").arg(model->name),
-            QMessageBox::Yes | QMessageBox::No,
-            QMessageBox::No
-        );
-
-        if (reply != QMessageBox::Yes) {
-            return false;
-        }
-    }
-
-    fcms.erase(fcms.begin() + static_cast<std::ptrdiff_t>(index));
-
-    if (currentModelIdx == index) {
-        if (index >= fcms.size()) {
-            currentModelIdx = fcms.size() - 1;
-        } else {
-            currentModelIdx = index;
-        }
-        loadFCM(fcms[currentModelIdx]);
-    } else {
-        if (index < currentModelIdx) {
-            --currentModelIdx;
-        }
-        rebuildModelsMenu();
-    }
-
-    return true;
-}
-
-void MainWindow::closeOtherModels(size_t index) {
-    if (index >= fcms.size()) {
-        return;
-    }
-
-    while (fcms.size() > 1) {
-        size_t indexToClose = 0;
-        if (indexToClose == index) {
-            indexToClose = 1;
-        }
-
-        if (!closeModel(indexToClose)) {
-            return;
-        }
-
-        if (indexToClose < index) {
-            --index;
-        }
-    }
-
-    loadFCM(fcms.front());
-}
-
-void MainWindow::rebuildModelsMenu() {
-    ui->menuModels->clear();
-
-    for (size_t i = 0; i < fcms.size(); ++i) {
-        auto* modelMenu = ui->menuModels->addMenu(fcms[i]->name);
-        QAction* modelAction = modelMenu->menuAction();
-        modelAction->setCheckable(true);
-        modelAction->setChecked(i == currentModelIdx);
-        modelAction->setData(QVariant::fromValue(static_cast<qulonglong>(i)));
-
-        QAction* closeAction = modelMenu->addAction(tr("Close"));
-        closeAction->setEnabled(fcms.size() > 1);
-        connect(closeAction, &QAction::triggered, this, [this, i]() {
-            if (i < fcms.size()) {
-                closeModel(i);
-            }
-        });
-
-        QAction* closeOtherAction = modelMenu->addAction(tr("Close other models"));
-        closeOtherAction->setEnabled(fcms.size() > 1);
-        connect(closeOtherAction, &QAction::triggered, this, [this, i]() {
-            if (i < fcms.size()) {
-                closeOtherModels(i);
-            }
-        });
-    }
-}
-
 bool MainWindow::eventFilter(QObject *watched, QEvent *event) {
     if (watched == ui->menuModels && event->type() == QEvent::MouseButtonRelease) {
         auto* mouseEvent = static_cast<QMouseEvent*>(event);
@@ -320,7 +230,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event) {
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     for (const auto& model : fcms) {
-        if (modelHasUnsavedChanges(model)) {
+        if (modelsSwitchingPresenter->modelHasUnsavedChanges(model)) {
             QMessageBox::StandardButton reply = QMessageBox::question(
                 this,
                 tr("There are unsaved changes!"),
@@ -344,15 +254,11 @@ void MainWindow::recreatePresenters() {
     modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationScenePresenter, nullptr);
     simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, simulationScenePresenter, this, nullptr);
     sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, modelSetupPresenter, simulationPresenter, creationPresenter, this, nullptr);
-    if (!savingExportPresenter) {
-        savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, fcm, fcms, modelSetupPresenter, settings, this, nullptr);
-        connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, this, &MainWindow::addFCM);
-        connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
-    } else {
+    if (savingExportPresenter) {
         savingExportPresenter->updateFCM(fcm, modelSetupPresenter);
+        connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
+        connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     }
-    connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
-    connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
 }
 
@@ -382,12 +288,9 @@ void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
     qDeleteAll(conceptsGroup->takeChildren());
     qDeleteAll(weightsGroup->takeChildren());
 
+    modelsSwitchingPresenter->setCurrentModel(newFCM);
+    modelsSwitchingPresenter->rebuildModelsMenu();
     fcm = newFCM;
-    auto it = std::find(fcms.begin(), fcms.end(), fcm);
-    if (it != fcms.end()) {
-        currentModelIdx = static_cast<size_t>(std::distance(fcms.begin(), it));
-    }
-    rebuildModelsMenu();
 
     if (simulationPresenter->isActive()) {
         simulationPresenter->resetPredictionScene();
@@ -558,123 +461,6 @@ void MainWindow::showHelp() {
     helpWindow->retranslate();
     helpWindow->show();
     helpWindow->raise();
-}
-
-void MainWindow::addFCM(std::shared_ptr<FCM> newFcm) {
-    fcm = newFcm;
-    currentModelIdx = fcms.size();
-    fcms.push_back(fcm);
-    rebuildModelsMenu();
-}
-
-void MainWindow::switchModel() {
-    QAction *action = qobject_cast<QAction*>(sender());
-    if (!action) {
-        Logger::warn("Model action missing");
-        return;
-    }
-    size_t index = static_cast<size_t>(action->data().toULongLong());
-    if (index >= fcms.size()) {
-        Logger::warn("Model index invalid");
-        return;
-    }
-    fcm = fcms[index];
-    loadFCM(fcm);
-}
-
-void MainWindow::nameChanged(QString newName) {
-    fcm->name = newName;
-    rebuildModelsMenu();
-    savingExportPresenter->autosave();
-}
-
-void MainWindow::createNewModel() {
-    fcm = std::make_shared<FCM>();
-    size_t counter = 1;
-    QStringList fcmsNames;
-    for (const auto& model : fcms) {
-        fcmsNames.append(model->name);
-    }
-    while (fcmsNames.contains(MainWindow::tr("New model") + (counter - 1 ? " (" + QString::number(counter) + ")" : ""))) {
-        ++counter;
-    }
-    fcm->name = MainWindow::tr("New model") + (counter - 1 ? " (" + QString::number(counter) + ")" : "");
-    addFCM(fcm);
-    loadFCM(fcm);
-}
-
-void MainWindow::joinModels() {
-    QList<QString> unsavedModelsNames;
-    unsavedModelsNames.reserve(fcms.size());
-    for (const auto& model : fcms) {
-        if (model->dbId == -1) {
-            unsavedModelsNames.push_back(model->name);
-        }
-    }
-    const auto savedModelsNames = savingExportPresenter->getSavedModelsNames();
-    const auto templatesNamesWithTypes = savingExportPresenter->getTemplatesNames();
-    const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-    );
-
-    JoinWindow* joinWindow = new JoinWindow(unsavedModelsNames, savedModelsNames, templatesNames, this);
-
-    if (joinWindow->exec() != QDialog::Accepted) {
-        return;
-    }
-
-    std::shared_ptr<FCM> baseFCM;
-    std::vector<std::shared_ptr<FCM>> joinFCMs;
-
-    for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Unsaved)) {
-        for (auto unsavedFCM : fcms) {
-            if (unsavedFCM->name == modelName) {
-                joinFCMs.push_back(unsavedFCM);
-                if (modelName == joinWindow->getTermsModel()) {
-                    baseFCM = unsavedFCM;
-                }
-                break;
-            }
-        }
-    }
-
-    for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Saved)) {
-        auto model = savingExportPresenter->getSavedFCM(modelName);
-        if (!model) {
-            Logger::warn("Join saved model load failed");
-            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load one of the selected saved models."));
-            return;
-        }
-
-        auto savedFCM = std::make_shared<FCM>(*model);
-        joinFCMs.push_back(savedFCM);
-        if (modelName == joinWindow->getTermsModel()) {
-            baseFCM = savedFCM;
-        }
-    }
-
-    const auto termsModel = joinWindow->getTermsModel();
-    if (baseFCM == nullptr && templatesNames.contains(termsModel)) {
-        auto model = savingExportPresenter->getTemplateFCM(termsModel);
-        if (!model) {
-            Logger::warn("Join template load failed");
-            QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Failed to load the selected terms model template."));
-            return;
-        }
-
-        baseFCM = std::make_shared<FCM>(*model);
-    }
-
-    if (baseFCM == nullptr) {
-        QMessageBox::critical(this, MainWindow::tr("Error"), MainWindow::tr("Please select a valid terms model before proceeding!"));
-        return;
-    }
-
-    auto joinedFCM = ModelsJoiner().join(baseFCM, joinFCMs, joinWindow->getJoinMode(), joinWindow->getResultName());
-
-    addFCM(joinedFCM);
-    loadFCM(joinedFCM);
 }
 
 void MainWindow::setEnglish() {

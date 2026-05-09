@@ -9,6 +9,7 @@
 
 #include "presenter/creation_presenter.h"
 #include "presenter/model_setup_presenter.h"
+#include "presenter/models_switching_presenter.h"
 #include "presenter/saving_export_presenter.h"
 #include "presenter/sensitivity_presenter.h"
 #include "presenter/simulation_presenter.h"
@@ -49,13 +50,7 @@ public slots:
 
     void changeShowTooltips(bool checked);
     void showHelp();
-
-    void nameChanged(QString newName);
-    void createNewModel();
-    void switchModel();
     void changeActivationFunctionSensitivity(int index);
-
-    void joinModels();
 
     void setEnglish();
     void setRussian();
@@ -69,20 +64,14 @@ protected:
 private:
     void cancelPendingWeightCreation();
 
-    bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
-    bool closeModel(size_t index);
-    void closeOtherModels(size_t index);
-    void rebuildModelsMenu();
-
     void recreatePresenters();
 
     void loadFCM(std::shared_ptr<FCM> newFCM);
 
-    void addFCM(std::shared_ptr<FCM> fcm);
-
     Ui::MainWindow *ui;
     std::shared_ptr<SimulationScenePresenter> simulationScenePresenter;
     StaticAnalysisPresenter* staticAnalysisPresenter;
+    std::shared_ptr<ModelsSwitchingPresenter> modelsSwitchingPresenter;
     std::shared_ptr<SavingExportPresenter> savingExportPresenter;
     std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
@@ -93,7 +82,6 @@ private:
     QSettings settings = QSettings("HSE", "FCM");
 
     std::vector<std::shared_ptr<FCM>> fcms;
-    size_t currentModelIdx;
 
     QTranslator translatorRus;
     QTranslator translatorDefaultRus;
