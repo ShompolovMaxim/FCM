@@ -1,0 +1,53 @@
+name: CI/CD
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: windows-2025-vs2026
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.10.1'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw'
+          tools: 'tools_mingw1310'
+          cache: 'true'
+
+      - name: Configure CMake
+        run: cmake -S . -B ci-build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+
+      - name: Build
+        run: cmake --build ci-build --parallel
+
+      - name: Run tests
+        run: ctest --test-dir ci-build --build-config Release --output-on-failure
+
+      - name: Prepare distributable package
+        if: success()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist | Out-Null
+          Copy-Item ci-build/FCM.exe dist/FCM.exe
+          if (Test-Path ci-build/help) {
+            Copy-Item ci-build/help dist/help -Recurse
+          }
+          windeployqt --release --dir dist dist/FCM.exe
+
+      - name: Upload build artifact
+        if: success()
+        uses: actions/upload-artifact@v6
+        with:
+          name: FCM-build
+          path: dist/
+          if-no-files-found: error

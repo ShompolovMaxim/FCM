@@ -242,10 +242,9 @@ function(add_help_collection language)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${help_qhcp} ${help_output_dir}/help.qhcp
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${help_source_dir} ${help_output_dir}
         COMMAND ${QHELPGENERATOR_EXECUTABLE}
-                help.qhcp
+                ${help_output_dir}/help.qhcp
                 -o
-                help.qhc
-        WORKING_DIRECTORY ${help_output_dir}
+                ${help_output_dir}/help.qhc
         DEPENDS ${help_qhp} ${help_qhcp} ${help_html_files} ${help_images}
         COMMENT "Generating Qt Help collection (${language})"
     )
