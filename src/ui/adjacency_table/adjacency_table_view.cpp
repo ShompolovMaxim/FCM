@@ -98,21 +98,58 @@ void AdjacencyTableView::updateConcept(int idx) {
 }
 
 void AdjacencyTableView::loadFromFCM(const std::shared_ptr<FCM>& fcm) {
+    setUpdatesEnabled(false);
+
     model->clear();
     rowsConcepts.clear();
     conceptsRows.clear();
     idxsWeights.clear();
 
+    const int conceptCount = static_cast<int>(fcm->concepts.size());
+    rowsConcepts.reserve(conceptCount);
+
+    model->setRowCount(conceptCount);
+    model->setColumnCount(conceptCount);
+
+    int idx = 0;
     for (const auto& [id, concept] : fcm->concepts) {
-        conceptCreated(concept);
+        rowsConcepts.push_back(id);
+        conceptsRows[id] = idx;
+
+        model->setHeaderData(idx, Qt::Horizontal, concept->name);
+        model->setHeaderData(idx, Qt::Vertical, concept->name);
+
+        auto color = QColor(255, 255, 255);
+        if (concept->term) {
+            color = colorValueAdapter->getColor(concept->term->value, 0, 1);
+        }
+
+        model->setHeaderData(idx, Qt::Horizontal, color, Qt::BackgroundRole);
+        model->setHeaderData(idx, Qt::Vertical, color, Qt::BackgroundRole);
+
+        ++idx;
     }
-    for (const auto& [id, concept] : fcm->concepts) {
-        conceptUpdated(concept);
-    }
+
     for (const auto& [id, weight] : fcm->weights) {
-        weightCreated(weight);
+        const auto fromIt = conceptsRows.find(weight->fromConceptId);
+        const auto toIt = conceptsRows.find(weight->toConceptId);
+        if (fromIt == conceptsRows.end() || toIt == conceptsRows.end()) {
+            continue;
+        }
+
+        const QModelIndex index = model->index(fromIt->second, toIt->second);
+        idxsWeights[index] = weight->id;
+
+        model->setData(index, weight->name);
+
+        auto color = QColor(0, 0, 0);
+        if (weight->term) {
+            color = colorValueAdapter->getColor(weight->term->value, -1, 1);
+        }
+        model->setData(index, color, Qt::BackgroundRole);
     }
-    for (const auto& [id, weight] : fcm->weights) {
-        weightUpdated(weight);
-    }
+
+    resizeColumnsToContents();
+    setUpdatesEnabled(true);
+    viewport()->update();
 }

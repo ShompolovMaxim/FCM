@@ -37,6 +37,4 @@ private:
     std::map<QUuid, size_t> conceptsRows;
     std::vector<QUuid> rowsConcepts;
     std::map<QModelIndex, QUuid> idxsWeights;
-
-
 };
