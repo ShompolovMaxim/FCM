@@ -22,6 +22,22 @@ QString mainWindowTr(const char* text) {
 
 SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<CreationPresenter> creationPresenter, QWidget* parentWidget, QObject *parent)
     : ui(ui), parentWidget(parentWidget), modelSetupPresenter(std::move(modelSetupPresenter)), creationPresenter(std::move(creationPresenter)), fcm(fcm), QObject{parent} {
+    ui->comboBoxAlgorithm->setItemData(0, "const weights", Qt::UserRole);
+    ui->comboBoxAlgorithm->setItemData(1, "changing weights", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(0, "bivalent", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(1, "trivalent", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(2, "threshold-linear", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(3, "sigmoid", Qt::UserRole);
+    ui->comboBoxActivation->setItemData(4, "hyperbolic tangent", Qt::UserRole);
+    ui->comboBoxMetric->setItemData(0, "MSE", Qt::UserRole);
+    ui->comboBoxMetric->setItemData(1, "MAE", Qt::UserRole);
+    ui->comboBoxMetric->setItemData(2, "MAPE", Qt::UserRole);
+
+    QStandardItemModel* experimentsModel = new QStandardItemModel();
+    experimentsModel->setHorizontalHeaderLabels({mainWindowTr("Algorithm"), mainWindowTr("Value type"), mainWindowTr("Activation function"), mainWindowTr("Metric"), mainWindowTr("Predict to static"), mainWindowTr("Threshold"), mainWindowTr("Steps less threshold"), mainWindowTr("Fixed steps"), mainWindowTr("Timestamp"), "", ""});
+    ui->experimantsTable->setModel(experimentsModel);
+    ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
     connect(ui->graphicsViewPredict, &GraphView::scaleChanged, this, &SimulationPresenter::updatePredictScaleLabel);
     connect(ui->pushButtonPredict, &QPushButton::clicked, this, &SimulationPresenter::predict);
     connect(ui->pushButtonReset, &QPushButton::clicked, this, &SimulationPresenter::resetPredictionScene);
@@ -40,6 +56,16 @@ SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &SimulationPresenter::autosave);
     connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &SimulationPresenter::autosave);
     connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &SimulationPresenter::autosave);
+
+    connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
+    connect(ui->useFuzzyValuesSensitivity, &QCheckBox::toggled, ui->useFuzzyValues, &QCheckBox::setChecked);
+    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivation, &QComboBox::setCurrentIndex);
+    connect(ui->fuzzinessDegreeSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->fuzzinessDegree, &QDoubleSpinBox::setValue);
+    connect(ui->checkBoxPredictToStaticSensitivity, &QCheckBox::toggled, ui->checkBoxPredictToStatic, &QCheckBox::setChecked);
+    connect(ui->comboBoxMetricSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetric, &QComboBox::setCurrentIndex);
+    connect(ui->doubleSpinBoxThresholdSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThreshold, &QDoubleSpinBox::setValue);
+    connect(ui->spinBoxMetricStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricSteps, &QSpinBox::setValue);
+    connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
 
     recreateScenePresenter();
 }

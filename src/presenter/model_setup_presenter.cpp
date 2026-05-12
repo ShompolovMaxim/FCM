@@ -30,15 +30,17 @@ ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
       staticAnalysisPresenter(staticAnalysisPresenter),
       presenter(presenter),
       QObject(parent) {
-    conceptsGroup = ui->treeWidgetTerms->topLevelItemCount() > 0
-        ? ui->treeWidgetTerms->topLevelItem(0)
-        : new QTreeWidgetItem(ui->treeWidgetTerms);
-    weightsGroup = ui->treeWidgetTerms->topLevelItemCount() > 1
-        ? ui->treeWidgetTerms->topLevelItem(1)
-        : new QTreeWidgetItem(ui->treeWidgetTerms);
+    conceptsGroup = ui->treeWidgetTerms->topLevelItemCount() > 0 ? ui->treeWidgetTerms->topLevelItem(0) : new QTreeWidgetItem(ui->treeWidgetTerms);
+    weightsGroup = ui->treeWidgetTerms->topLevelItemCount() > 1 ? ui->treeWidgetTerms->topLevelItem(1) : new QTreeWidgetItem(ui->treeWidgetTerms);
 
     conceptsGroup->setText(0, mainWindowTr("Concepts terms"));
     weightsGroup->setText(0, mainWindowTr("Weights terms"));
+
+    ui->fuzzyValuePlot->xAxis->setRange(-1.1, 1.1);
+    ui->fuzzyValuePlot->yAxis->setRange(0, 1);
+    ui->fuzzyValuePlot->xAxis->setLabel("x");
+    ui->fuzzyValuePlot->yAxis->setLabel("μ(x)");
+    ui->fuzzyValuePlot->addGraph();
 
     connect(ui->modelNotes, &QTextEdit::textChanged, this, &ModelSetupPresenter::descriptionChanged);
     connect(ui->textEditNotesPredict, &QTextEdit::textChanged, this, &ModelSetupPresenter::descriptionChanged);

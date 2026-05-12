@@ -31,29 +31,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
     connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
-    ui->comboBoxAlgorithm->setItemData(0, "const weights", Qt::UserRole);
-    ui->comboBoxAlgorithm->setItemData(1, "changing weights", Qt::UserRole);
-    ui->comboBoxAlgorithmSensitivity->setItemData(0, "const weights", Qt::UserRole);
-    ui->comboBoxAlgorithmSensitivity->setItemData(1, "changing weights", Qt::UserRole);
-    ui->comboBoxActivation->setItemData(0, "bivalent", Qt::UserRole);
-    ui->comboBoxActivation->setItemData(1, "trivalent", Qt::UserRole);
-    ui->comboBoxActivation->setItemData(2, "threshold-linear", Qt::UserRole);
-    ui->comboBoxActivation->setItemData(3, "sigmoid", Qt::UserRole);
-    ui->comboBoxActivation->setItemData(4, "hyperbolic tangent", Qt::UserRole);
-    ui->comboBoxActivationSensitivity->setItemData(0, "bivalent", Qt::UserRole);
-    ui->comboBoxActivationSensitivity->setItemData(1, "trivalent", Qt::UserRole);
-    ui->comboBoxActivationSensitivity->setItemData(2, "threshold-linear", Qt::UserRole);
-    ui->comboBoxActivationSensitivity->setItemData(3, "sigmoid", Qt::UserRole);
-    ui->comboBoxActivationSensitivity->setItemData(4, "hyperbolic tangent", Qt::UserRole);
-    ui->comboBoxMetric->setItemData(0, "MSE", Qt::UserRole);
-    ui->comboBoxMetric->setItemData(1, "MAE", Qt::UserRole);
-    ui->comboBoxMetric->setItemData(2, "MAPE", Qt::UserRole);
-    ui->comboBoxMetricSensitivity->setItemData(0, "MSE", Qt::UserRole);
-    ui->comboBoxMetricSensitivity->setItemData(1, "MAE", Qt::UserRole);
-    ui->comboBoxMetricSensitivity->setItemData(2, "MAPE", Qt::UserRole);
-    ui->sensitivityMeasureMetric->setItemData(0, "MSE", Qt::UserRole);
-    ui->sensitivityMeasureMetric->setItemData(1, "MAE", Qt::UserRole);
-    ui->sensitivityMeasureMetric->setItemData(2, "MAPE", Qt::UserRole);
+
+    connect(ui->actionModelSettings, &QAction::toggled, this, &MainWindow::changeModelSettingsVisibility);
+    connect(ui->actionGraph, &QAction::toggled, this, &MainWindow::changeGraphVisibility);
+    connect(ui->actionAdjacencyMatrix, &QAction::toggled, this, &MainWindow::changeAdjacencyMatrixVisibility);
+    connect(ui->actionStaticAnalysis, &QAction::toggled, this, &MainWindow::changeStaticAnalysisVisibility);
+    connect(ui->actionSimulation, &QAction::toggled, this, &MainWindow::changeSimulationVisibility);
+    connect(ui->actionExperiments, &QAction::toggled, this, &MainWindow::changeExperimentsVisibility);
+    connect(ui->actionSensitivityAnalysis, &QAction::toggled, this, &MainWindow::changeSensitivityAnalysisVisibility);
+    ui->tabWidget->setTabVisible(0, settings.value("tabs/modelSettings", true).toBool());
+    ui->tabWidget->setTabVisible(1, settings.value("tabs/graph", true).toBool());
+    ui->tabWidget->setTabVisible(2, settings.value("tabs/adjMatrix", true).toBool());
+    ui->tabWidget->setTabVisible(3, settings.value("tabs/staticAnalysis", true).toBool());
+    ui->tabWidget->setTabVisible(4, settings.value("tabs/simulation", true).toBool());
+    ui->tabWidget->setTabVisible(5, settings.value("tabs/experiments", true).toBool());
+    ui->tabWidget->setTabVisible(6, settings.value("tabs/sensitivity", true).toBool());
+    ui->actionModelSettings->setChecked(settings.value("tabs/modelSettings", true).toBool());
+    ui->actionGraph->setChecked(settings.value("tabs/graph", true).toBool());
+    ui->actionAdjacencyMatrix->setChecked(settings.value("tabs/adjMatrix", true).toBool());
+    ui->actionStaticAnalysis->setChecked(settings.value("tabs/staticAnalysis", true).toBool());
+    ui->actionSimulation->setChecked(settings.value("tabs/simulation", true).toBool());
+    ui->actionExperiments->setChecked(settings.value("tabs/experiments", true).toBool());
+    ui->actionSensitivityAnalysis->setChecked(settings.value("tabs/sensitivity", true).toBool());
+
+    qApp->installEventFilter(&toolTipController);
+    toolTipController.setEnabled(settings.value("tooltips", true).toBool());
+    connect(ui->actionShowTooltips, &QAction::toggled, this, &MainWindow::changeShowTooltips);
+    ui->actionShowTooltips->setChecked(settings.value("tooltips", true).toBool());
+    connect(ui->actionHelp, &QAction::triggered, this, &MainWindow::showHelp);
+
     ui->influenceDirection->setItemData(0, "from", Qt::UserRole);
     ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
@@ -91,17 +97,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pushButtonScalePredict, &QPushButton::clicked, ui->graphicsViewPredict, &GraphView::resetScale);
     connect(ui->pushButtonScaleSensitivity, &QPushButton::clicked, ui->graphicsViewSensitivity, &GraphView::resetScale);
 
-    QStandardItemModel* experimentsModel = new QStandardItemModel();
-    experimentsModel->setHorizontalHeaderLabels({tr("Algorithm"), tr("Value type"), tr("Activation function"), tr("Metric"), tr("Predict to static"), tr("Threshold"), tr("Steps less threshold"), tr("Fixed steps"), tr("Timestamp"), "", ""});
-    ui->experimantsTable->setModel(experimentsModel);
-    ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
-    ui->fuzzyValuePlot->xAxis->setRange(-1.1, 1.1);
-    ui->fuzzyValuePlot->yAxis->setRange(0, 1);
-    ui->fuzzyValuePlot->xAxis->setLabel("x");
-    ui->fuzzyValuePlot->yAxis->setLabel("μ(x)");
-    ui->fuzzyValuePlot->addGraph();
-
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
     modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationPresenter, nullptr);
@@ -121,57 +116,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->graphicsViewGraph, &GraphView::scaleChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateGraphScaleLabel);
 
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), sensitivityPresenter.get(), &SensitivityPresenter::changeActivationFunctionSensitivity);
-    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
-    connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
-    connect(ui->useFuzzyValues, &QCheckBox::toggled, ui->useFuzzyValuesSensitivity, &QCheckBox::setChecked);
-    connect(ui->useFuzzyValuesSensitivity, &QCheckBox::toggled, ui->useFuzzyValues, &QCheckBox::setChecked);
-    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivationSensitivity, &QComboBox::setCurrentIndex);
-    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivation, &QComboBox::setCurrentIndex);
-    connect(ui->fuzzinessDegree, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->fuzzinessDegreeSensitivity, &QDoubleSpinBox::setValue);
-    connect(ui->fuzzinessDegreeSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->fuzzinessDegree, &QDoubleSpinBox::setValue);
-    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, ui->checkBoxPredictToStaticSensitivity, &QCheckBox::setChecked);
-    connect(ui->checkBoxPredictToStaticSensitivity, &QCheckBox::toggled, ui->checkBoxPredictToStatic, &QCheckBox::setChecked);
-    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetricSensitivity, &QComboBox::setCurrentIndex);
-    connect(ui->comboBoxMetricSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetric, &QComboBox::setCurrentIndex);
-    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThresholdSensitivity, &QDoubleSpinBox::setValue);
-    connect(ui->doubleSpinBoxThresholdSensitivity, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThreshold, &QDoubleSpinBox::setValue);
-    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricStepsSensitivity, &QSpinBox::setValue);
-    connect(ui->spinBoxMetricStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricSteps, &QSpinBox::setValue);
-    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedStepsSensitivity, &QSpinBox::setValue);
-    connect(ui->spinBoxFixedStepsSensitivity, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedSteps, &QSpinBox::setValue);
-    ui->plotSensitivity->addGraph();
-    ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
-    ui->plotSensitivity->xAxis->setLabel(tr("max change"));
-    ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
-    ui->plotSensitivity->setGeometry(ui->graphicsViewSensitivity->geometry());
-
-    connect(ui->actionModelSettings, &QAction::toggled, this, &MainWindow::changeModelSettingsVisibility);
-    connect(ui->actionGraph, &QAction::toggled, this, &MainWindow::changeGraphVisibility);
-    connect(ui->actionAdjacencyMatrix, &QAction::toggled, this, &MainWindow::changeAdjacencyMatrixVisibility);
-    connect(ui->actionStaticAnalysis, &QAction::toggled, this, &MainWindow::changeStaticAnalysisVisibility);
-    connect(ui->actionSimulation, &QAction::toggled, this, &MainWindow::changeSimulationVisibility);
-    connect(ui->actionExperiments, &QAction::toggled, this, &MainWindow::changeExperimentsVisibility);
-    connect(ui->actionSensitivityAnalysis, &QAction::toggled, this, &MainWindow::changeSensitivityAnalysisVisibility);
-    ui->tabWidget->setTabVisible(0, settings.value("tabs/modelSettings", true).toBool());
-    ui->tabWidget->setTabVisible(1, settings.value("tabs/graph", true).toBool());
-    ui->tabWidget->setTabVisible(2, settings.value("tabs/adjMatrix", true).toBool());
-    ui->tabWidget->setTabVisible(3, settings.value("tabs/staticAnalysis", true).toBool());
-    ui->tabWidget->setTabVisible(4, settings.value("tabs/simulation", true).toBool());
-    ui->tabWidget->setTabVisible(5, settings.value("tabs/experiments", true).toBool());
-    ui->tabWidget->setTabVisible(6, settings.value("tabs/sensitivity", true).toBool());
-    ui->actionModelSettings->setChecked(settings.value("tabs/modelSettings", true).toBool());
-    ui->actionGraph->setChecked(settings.value("tabs/graph", true).toBool());
-    ui->actionAdjacencyMatrix->setChecked(settings.value("tabs/adjMatrix", true).toBool());
-    ui->actionStaticAnalysis->setChecked(settings.value("tabs/staticAnalysis", true).toBool());
-    ui->actionSimulation->setChecked(settings.value("tabs/simulation", true).toBool());
-    ui->actionExperiments->setChecked(settings.value("tabs/experiments", true).toBool());
-    ui->actionSensitivityAnalysis->setChecked(settings.value("tabs/sensitivity", true).toBool());
-
-    qApp->installEventFilter(&toolTipController);
-    toolTipController.setEnabled(settings.value("tooltips", true).toBool());
-    connect(ui->actionShowTooltips, &QAction::toggled, this, &MainWindow::changeShowTooltips);
-    ui->actionShowTooltips->setChecked(settings.value("tooltips", true).toBool());
-    connect(ui->actionHelp, &QAction::triggered, this, &MainWindow::showHelp);
 
     modelsSwitchingPresenter->addFCM(fcm);
     ui->modelName->setText(tr("New model"));

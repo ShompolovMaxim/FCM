@@ -262,6 +262,7 @@ void ModelsSwitchingPresenter::resetCommonUiState() {
 void ModelsSwitchingPresenter::loadFCM(std::shared_ptr<FCM> newFcm) {
     setCurrentModel(newFcm);
     rebuildModelsMenu();
+    emit currentModelChanged(fcm);
 
     creationPresenter->reconfigure(fcm);
     simulationPresenter->reconfigure();
@@ -270,7 +271,6 @@ void ModelsSwitchingPresenter::loadFCM(std::shared_ptr<FCM> newFcm) {
     staticAnalysisPresenter->reconfigure(fcm);
     modelSetupPresenter->reconfigure();
     resetCommonUiState();
-    emit currentModelChanged(fcm);
 }
 
 void ModelsSwitchingPresenter::setCurrentModel(std::shared_ptr<FCM> newFcm) {

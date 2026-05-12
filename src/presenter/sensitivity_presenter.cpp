@@ -23,10 +23,40 @@ SensitivityPresenter::SensitivityPresenter(
     QWidget* parentWidget,
     QObject* parent
 ) : ui(ui), parentWidget(parentWidget), modelSetupPresenter(modelSetupPresenter), simulationPresenter(simulationPresenter), creationPresenter(creationPresenter), fcm(fcm), QObject{parent} {
+    ui->comboBoxAlgorithmSensitivity->setItemData(0, "const weights", Qt::UserRole);
+    ui->comboBoxAlgorithmSensitivity->setItemData(1, "changing weights", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(0, "bivalent", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(1, "trivalent", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(2, "threshold-linear", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(3, "sigmoid", Qt::UserRole);
+    ui->comboBoxActivationSensitivity->setItemData(4, "hyperbolic tangent", Qt::UserRole);
+    ui->comboBoxMetricSensitivity->setItemData(0, "MSE", Qt::UserRole);
+    ui->comboBoxMetricSensitivity->setItemData(1, "MAE", Qt::UserRole);
+    ui->comboBoxMetricSensitivity->setItemData(2, "MAPE", Qt::UserRole);
+    ui->sensitivityMeasureMetric->setItemData(0, "MSE", Qt::UserRole);
+    ui->sensitivityMeasureMetric->setItemData(1, "MAE", Qt::UserRole);
+    ui->sensitivityMeasureMetric->setItemData(2, "MAPE", Qt::UserRole);
+
+    ui->plotSensitivity->addGraph();
+    ui->plotSensitivity->yAxis->setRange(-0.1, 1.1);
+    ui->plotSensitivity->xAxis->setLabel(tr("max change"));
+    ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
+    ui->plotSensitivity->setGeometry(ui->graphicsViewSensitivity->geometry());
+
     connect(ui->graphicsViewSensitivity, &GraphView::scaleChanged, this, &SensitivityPresenter::updateSensitivityScaleLabel);
     connect(ui->pushButtonAnalizeSensitivity, &QPushButton::clicked, this, &SensitivityPresenter::analize);
     connect(ui->pushButtonResetSensitivity, &QPushButton::clicked, this, &SensitivityPresenter::resetSensitivity);
     connect(ui->showSensitivityPlot, &QPushButton::clicked, this, &SensitivityPresenter::showSensitivityPlot);
+
+    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
+    connect(ui->useFuzzyValues, &QCheckBox::toggled, ui->useFuzzyValuesSensitivity, &QCheckBox::setChecked);
+    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxActivationSensitivity, &QComboBox::setCurrentIndex);
+    connect(ui->fuzzinessDegree, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->fuzzinessDegreeSensitivity, &QDoubleSpinBox::setValue);
+    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, ui->checkBoxPredictToStaticSensitivity, &QCheckBox::setChecked);
+    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxMetricSensitivity, &QComboBox::setCurrentIndex);
+    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), ui->doubleSpinBoxThresholdSensitivity, &QDoubleSpinBox::setValue);
+    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxMetricStepsSensitivity, &QSpinBox::setValue);
+    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), ui->spinBoxFixedStepsSensitivity, &QSpinBox::setValue);
 }
 
 SensitivityAnalysisParameters SensitivityPresenter::getSensitivityParameters() {
