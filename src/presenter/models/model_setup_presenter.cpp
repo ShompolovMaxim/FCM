@@ -56,6 +56,16 @@ ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->termNotes, &QTextEdit::textChanged, this, &ModelSetupPresenter::termNotesChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::currentItemChanged, this, &ModelSetupPresenter::onCurrentItemChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &ModelSetupPresenter::onItemChanged);
+
+    connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->useFuzzyValues, &QCheckBox::toggled, this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->comboBoxActivation, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->comboBoxMetric, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &ModelSetupPresenter::updatePredictionParameters);
+    connect(ui->fuzzinessDegree, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ModelSetupPresenter::updatePredictionParameters);
 }
 
 bool ModelSetupPresenter::keyPressEvent(QKeyEvent* event) {
@@ -78,12 +88,35 @@ void ModelSetupPresenter::reconfigure() {
     QSignalBlocker b4(ui->termValueM);
     QSignalBlocker b5(ui->termValueU);
     QSignalBlocker b6(ui->termNotes);
+    QSignalBlocker b7(ui->comboBoxAlgorithm);
+    QSignalBlocker b8(ui->useFuzzyValues);
+    QSignalBlocker b9(ui->comboBoxActivation);
+    QSignalBlocker b10(ui->comboBoxMetric);
+    QSignalBlocker b11(ui->checkBoxPredictToStatic);
+    QSignalBlocker b12(ui->doubleSpinBoxThreshold);
+    QSignalBlocker b13(ui->spinBoxMetricSteps);
+    QSignalBlocker b14(ui->spinBoxFixedSteps);
+    QSignalBlocker b15(ui->fuzzinessDegree);
+    QSignalBlocker b16(ui->actionAutoSave);
+    QSignalBlocker b17(ui->textEditNotesPredict);
+    QSignalBlocker b18(ui->textEditNotesSensitivity);
+    QSignalBlocker b19(ui->comboBoxAlgorithmSensitivity);
+    QSignalBlocker b20(ui->useFuzzyValuesSensitivity);
+    QSignalBlocker b21(ui->comboBoxActivationSensitivity);
+    QSignalBlocker b22(ui->comboBoxMetricSensitivity);
+    QSignalBlocker b23(ui->checkBoxPredictToStaticSensitivity);
+    QSignalBlocker b24(ui->doubleSpinBoxThresholdSensitivity);
+    QSignalBlocker b25(ui->spinBoxMetricStepsSensitivity);
+    QSignalBlocker b26(ui->spinBoxFixedStepsSensitivity);
+    QSignalBlocker b27(ui->fuzzinessDegreeSensitivity);
 
     qDeleteAll(conceptsGroup->takeChildren());
     qDeleteAll(weightsGroup->takeChildren());
 
     ui->modelName->setText(fcm->name);
     ui->modelNotes->setMarkdownText(fcm->description);
+    ui->textEditNotesPredict->setMarkdownText(fcm->description);
+    ui->textEditNotesSensitivity->setMarkdownText(fcm->description);
 
     std::vector<std::pair<QUuid, std::shared_ptr<Term>>> sortedTerms(
         fcm->terms.begin(), fcm->terms.end()
@@ -115,16 +148,37 @@ void ModelSetupPresenter::reconfigure() {
 
     int indexAlgorithm = ui->comboBoxAlgorithm->findData(fcm->predictionParameters.algorithm, Qt::UserRole);
     ui->comboBoxAlgorithm->setCurrentIndex(indexAlgorithm);
+    ui->comboBoxAlgorithmSensitivity->setCurrentIndex(indexAlgorithm);
     ui->useFuzzyValues->setChecked(fcm->predictionParameters.useFuzzyValues);
+    ui->useFuzzyValuesSensitivity->setChecked(fcm->predictionParameters.useFuzzyValues);
     int indexActivation = ui->comboBoxActivation->findData(fcm->predictionParameters.activationFunction, Qt::UserRole);
     ui->comboBoxActivation->setCurrentIndex(indexActivation);
+    ui->comboBoxActivationSensitivity->setCurrentIndex(indexActivation);
     int indexMetric = ui->comboBoxMetric->findData(fcm->predictionParameters.metric, Qt::UserRole);
     ui->comboBoxMetric->setCurrentIndex(indexMetric);
+    ui->comboBoxMetricSensitivity->setCurrentIndex(indexMetric);
     ui->checkBoxPredictToStatic->setChecked(fcm->predictionParameters.predictToStatic);
+    ui->checkBoxPredictToStaticSensitivity->setChecked(fcm->predictionParameters.predictToStatic);
     ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
+    ui->doubleSpinBoxThresholdSensitivity->setValue(fcm->predictionParameters.threshold);
     ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
+    ui->spinBoxMetricStepsSensitivity->setValue(fcm->predictionParameters.stepsLessThreshold);
     ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
+    ui->spinBoxFixedStepsSensitivity->setValue(fcm->predictionParameters.fixedSteps);
     ui->fuzzinessDegree->setValue(fcm->predictionParameters.fuzzinessDegree);
+    ui->fuzzinessDegreeSensitivity->setValue(fcm->predictionParameters.fuzzinessDegree);
+
+    const bool fuzzinessEnabled = indexActivation == 3 || indexActivation == 4;
+    ui->fuzzinessDegree->setEnabled(fuzzinessEnabled);
+    ui->fuzzinessDegreeSensitivity->setEnabled(fuzzinessEnabled);
+
+    const bool predictToStatic = fcm->predictionParameters.predictToStatic;
+    ui->doubleSpinBoxThreshold->setEnabled(predictToStatic);
+    ui->spinBoxMetricSteps->setEnabled(predictToStatic);
+    ui->spinBoxFixedSteps->setEnabled(!predictToStatic);
+    ui->doubleSpinBoxThresholdSensitivity->setEnabled(predictToStatic);
+    ui->spinBoxMetricStepsSensitivity->setEnabled(predictToStatic);
+    ui->spinBoxFixedStepsSensitivity->setEnabled(!predictToStatic);
 
     ui->actionAutoSave->setEnabled(fcm->dbId != -1);
     ui->actionAutoSave->setChecked(fcm->autosaveOn);
@@ -164,26 +218,14 @@ PredictionParameters ModelSetupPresenter::getPredictionParameters() const {
     };
 }
 
-bool ModelSetupPresenter::checkElementsHaveValues() {
-    for (const auto& [_, concept] : fcm->concepts) {
-        if (!concept->term) {
-            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Not every concept has a value!"));
-            return false;
-        }
-    }
-    for (const auto& [_, weight] : fcm->weights) {
-        if (!weight->term) {
-            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Not every weight has a value!"));
-            return false;
-        }
-    }
-    return true;
+void ModelSetupPresenter::updatePredictionParameters() {
+    fcm->predictionParameters = getPredictionParameters();
 }
 
 void ModelSetupPresenter::updateFCM() {
     fcm->name = ui->modelName->text();
     fcm->description = ui->modelNotes->markdownText();
-    fcm->predictionParameters = getPredictionParameters();
+    updatePredictionParameters();
     fcm->autoConfigureTermsColors = ui->autoColorConfiguration->isChecked();
     fcm->autoConfigureNumericValues = ui->autoNumericConfiguration->isChecked();
     fcm->autoConfigureFuzzyValues = ui->autoFuzzyConfiguration->isChecked();

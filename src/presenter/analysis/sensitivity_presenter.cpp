@@ -1,6 +1,6 @@
 #include "sensitivity_presenter.h"
 
-#include "presenter/models/model_setup_presenter.h"
+#include "presenter/models/creation_presenter.h"
 #include "ui_main_window.h"
 
 #include "ui/graph_editor/graph_scene.h"
@@ -17,12 +17,10 @@ QString mainWindowTr(const char* text) {
 SensitivityPresenter::SensitivityPresenter(
     Ui::MainWindow* ui,
     std::shared_ptr<FCM>& fcm,
-    std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
-    std::shared_ptr<SimulationPresenter> simulationPresenter,
     std::shared_ptr<CreationPresenter> creationPresenter,
     QWidget* parentWidget,
     QObject* parent
-) : ui(ui), parentWidget(parentWidget), modelSetupPresenter(modelSetupPresenter), simulationPresenter(simulationPresenter), creationPresenter(creationPresenter), fcm(fcm), QObject{parent} {
+) : ui(ui), parentWidget(parentWidget), creationPresenter(creationPresenter), fcm(fcm), QObject{parent} {
     ui->comboBoxAlgorithmSensitivity->setItemData(0, "const weights", Qt::UserRole);
     ui->comboBoxAlgorithmSensitivity->setItemData(1, "changing weights", Qt::UserRole);
     ui->comboBoxActivationSensitivity->setItemData(0, "bivalent", Qt::UserRole);
@@ -104,7 +102,9 @@ void SensitivityPresenter::retranslateUi() {
 }
 
 void SensitivityPresenter::analize() {
-    if (!modelSetupPresenter->checkElementsHaveValues()) {
+    QString errorMessage;
+    if (!fcm->checkElementsHaveValues(&errorMessage)) {
+        QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr(errorMessage.toUtf8().constData()));
         return;
     }
 
@@ -127,7 +127,7 @@ void SensitivityPresenter::analize() {
     }
 
     sensitivityScenePresenter->setRuntimeContext(fcm, sensitivityScene->getFCM(), sensitivityScene);
-    sensitivityScenePresenter->analize(modelSetupPresenter->getPredictionParameters(), getSensitivityParameters());
+    sensitivityScenePresenter->analize(fcm->predictionParameters, getSensitivityParameters());
 }
 
 void SensitivityPresenter::changeActivationFunctionSensitivity(int index) {

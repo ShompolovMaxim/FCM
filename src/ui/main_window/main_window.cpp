@@ -100,8 +100,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
     modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationPresenter, nullptr);
-    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, creationPresenter, this, nullptr);
-    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, modelSetupPresenter, simulationPresenter, creationPresenter, this, nullptr);
+    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, creationPresenter, this, nullptr);
+    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, creationPresenter, this, nullptr);
     modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, fcm, fcms, creationPresenter, modelSetupPresenter, simulationPresenter, sensitivityPresenter, staticAnalysisPresenter, templatesManager, savingManager, settings, nullptr);
     savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, fcm, fcms, modelSetupPresenter, templatesManager, savingManager, settings, this, nullptr);
     connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);

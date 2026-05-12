@@ -2,11 +2,13 @@
 
 #include <QObject>
 
+#include "model/entities/fcm.h"
 #include "model/sensitivity_analysis/parameters.h"
 #include "presenter/analysis/sensitivity_scene_presenter.h"
-#include "presenter/simulation/simulation_presenter.h"
-#include "presenter/models/model_setup_presenter.h"
 
+class QWidget;
+class CreationPresenter;
+class SimulationPresenter;
 namespace Ui {
 class MainWindow;
 }
@@ -17,8 +19,6 @@ public:
     explicit SensitivityPresenter(
         Ui::MainWindow* ui,
         std::shared_ptr<FCM>& fcm,
-        std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
-        std::shared_ptr<SimulationPresenter> simulationPresenter,
         std::shared_ptr<CreationPresenter> creationPresenter,
         QWidget* parentWidget,
         QObject *parent = nullptr
@@ -42,8 +42,6 @@ signals:
 private:
     Ui::MainWindow* ui;
     QWidget* parentWidget;
-    std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
-    std::shared_ptr<SimulationPresenter> simulationPresenter;
     std::shared_ptr<SensitivityScenePresenter> sensitivityScenePresenter;
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<FCM>& fcm;

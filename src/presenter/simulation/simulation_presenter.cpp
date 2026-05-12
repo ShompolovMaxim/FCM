@@ -1,7 +1,6 @@
 #include "simulation_presenter.h"
 
 #include "presenter/models/creation_presenter.h"
-#include "presenter/models/model_setup_presenter.h"
 #include "presenter/simulation/simulation_scene_presenter.h"
 #include "ui_main_window.h"
 
@@ -20,8 +19,8 @@ QString mainWindowTr(const char* text) {
 }
 }
 
-SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<CreationPresenter> creationPresenter, QWidget* parentWidget, QObject *parent)
-    : ui(ui), parentWidget(parentWidget), modelSetupPresenter(std::move(modelSetupPresenter)), creationPresenter(std::move(creationPresenter)), fcm(fcm), QObject{parent} {
+SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter> creationPresenter, QWidget* parentWidget, QObject *parent)
+    : ui(ui), parentWidget(parentWidget), creationPresenter(std::move(creationPresenter)), fcm(fcm), QObject{parent} {
     ui->comboBoxAlgorithm->setItemData(0, "const weights", Qt::UserRole);
     ui->comboBoxAlgorithm->setItemData(1, "changing weights", Qt::UserRole);
     ui->comboBoxActivation->setItemData(0, "bivalent", Qt::UserRole);
@@ -71,7 +70,7 @@ SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
 }
 
 void SimulationPresenter::recreateScenePresenter() {
-    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, this);
+    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, nullptr);
     connect(simulationScenePresenter.get(), &SimulationScenePresenter::updateProgress, this, &SimulationPresenter::updateProgress);
     connect(simulationScenePresenter.get(), &SimulationScenePresenter::finished, this, &SimulationPresenter::simulationFinished);
 }
@@ -172,13 +171,15 @@ void SimulationPresenter::simulationFinished() {
 }
 
 void SimulationPresenter::predict() {
-    if (!modelSetupPresenter->checkElementsHaveValues()) {
+    QString errorMessage;
+    if (!fcm->checkElementsHaveValues(&errorMessage)) {
+        QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr(errorMessage.toUtf8().constData()));
         return;
     }
 
     simulationScenePresenter->activate();
 
-    auto predictionParameters = modelSetupPresenter->getPredictionParameters();
+    const auto predictionParameters = fcm->predictionParameters;
 
     auto simulationParameters = SimulationParameters{
         ui->checkBoxRealTime->isChecked(),
@@ -244,7 +245,7 @@ Experiment SimulationPresenter::createExperiment() {
         experiment.weights[id]->predictedValues = {};
         experiment.weights[id]->sensitivity = {};
     }
-    experiment.predictionParameters = modelSetupPresenter->getPredictionParameters();
+    experiment.predictionParameters = fcm->predictionParameters;
     experiment.timestamp = QDateTime::currentDateTime();
     fcm->experiments.push_back(experiment);
     addExperiment(experiment);
@@ -297,21 +298,7 @@ void SimulationPresenter::loadExperiment() {
         return;
     }
 
-    bool canSaveCurrentState = true;
-    for (const auto& [_, concept] : fcm->concepts) {
-        if (!concept->term) {
-            canSaveCurrentState = false;
-            break;
-        }
-    }
-    if (canSaveCurrentState) {
-        for (const auto& [_, weight] : fcm->weights) {
-            if (!weight->term) {
-                canSaveCurrentState = false;
-                break;
-            }
-        }
-    }
+    const bool canSaveCurrentState = fcm->checkElementsHaveValues();
 
     if (canSaveCurrentState) {
         auto saveCurrentStateWindow = SaveCurrentStateWindow(parentWidget);

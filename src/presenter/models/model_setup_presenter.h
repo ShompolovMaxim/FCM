@@ -24,8 +24,6 @@ class ModelSetupPresenter : public QObject {
 public:
     ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationPresenter>& presenter, QWidget* parentWidget, QObject* parent = nullptr);
 
-    PredictionParameters getPredictionParameters() const;
-    bool checkElementsHaveValues();
     bool keyPressEvent(QKeyEvent* event);
     void reconfigure();
     void retranslateUi();
@@ -48,6 +46,8 @@ public:
     void termNotesChanged();
 
 private:
+    PredictionParameters getPredictionParameters() const;
+    void updatePredictionParameters();
     void updateFuzzyValuePlot();
     void autoConfigureTermColor();
     void autoConfigureNumericValue();

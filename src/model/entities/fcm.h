@@ -29,6 +29,7 @@ struct FCM {
     QList<int> deletedWeightsIds;
     QList<int> deletedExperimentsIds;
 
+    bool checkElementsHaveValues(QString* errorMessage = nullptr) const;
     bool operator==(const FCM& other) const;
     bool operator!=(const FCM& other) const;
 };
