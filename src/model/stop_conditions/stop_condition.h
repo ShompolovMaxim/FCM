@@ -1,8 +1,8 @@
 #pragma once
 
-#include "model/entities/calculation_fcm.h"
+#include "model/entities/calculation/calculation_fcm.h"
 
-#include "presenter/prediction_parameters.h"
+#include "model/prediction/prediction_parameters.h"
 
 #include <vector>
 
@@ -17,3 +17,4 @@ public:
 protected:
     const PredictionParameters predictionParameters;
 };
+

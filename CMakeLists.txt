@@ -53,25 +53,25 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/graph_editor/graph_scene.h src/ui/graph_editor/graph_scene.cpp
         src/ui/graph_editor/graph_view.h src/ui/graph_editor/graph_view.cpp
 
-        src/ui/graph_editor/color_value_adapter/IColorValueAdapter.h
-        src/ui/graph_editor/color_value_adapter/color_value_adapter.h src/ui/graph_editor/color_value_adapter/color_value_adapter.cpp
-        src/presenter/simulation_scene_presenter.h src/presenter/simulation_scene_presenter.cpp
-        src/presenter/prediction_parameters.h src/presenter/prediction_parameters.cpp
-        src/presenter/simulation_parameters.h
+        src/model/color_value_adapter/adapter.h
+        src/model/color_value_adapter/default_adapter.h src/model/color_value_adapter/default_adapter.cpp
+        src/presenter/simulation/simulation_scene_presenter.h src/presenter/simulation/simulation_scene_presenter.cpp
+        src/model/prediction/prediction_parameters.h src/model/prediction/prediction_parameters.cpp
+        src/presenter/simulation/simulation_parameters.h
         src/model/activation_functions/activation_function.h
         src/model/activation_functions/bivalent.h src/model/activation_functions/bivalent.cpp
         src/model/activation_functions/trivalent.h src/model/activation_functions/trivalent.cpp
         src/model/activation_functions/threshold_linear.h src/model/activation_functions/threshold_linear.cpp
         src/model/activation_functions/sigmoid.h src/model/activation_functions/sigmoid.cpp
         src/model/activation_functions/tanh.h src/model/activation_functions/tanh.cpp
-        src/model/activation_functions/fabric.h src/model/activation_functions/fabric.cpp
-        src/model/element_type.h
+        src/model/activation_functions/factory.h src/model/activation_functions/factory.cpp
+        src/model/entities/element_type.h
         src/model/algorithms/algorithm.h
         src/model/algorithms/standard.h src/model/algorithms/standard.cpp
         src/model/metrics/metric.h
         src/model/metrics/mse.h src/model/metrics/mse.cpp
-        src/model/entities/calculation_fcm.h
-        src/model/predictor.h src/model/predictor.cpp
+        src/model/entities/calculation/calculation_fcm.h
+        src/model/prediction/predictor.h src/model/prediction/predictor.cpp
         src/model/entities/term.h src/model/entities/term.cpp
         src/model/entities/concept_name_location.h src/model/entities/concept_name_location.cpp
         src/model/fuzzy_logic/fuzzifier.h
@@ -82,7 +82,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/helpers/fcm_copy.h src/model/entities/helpers/fcm_copy.cpp
         src/model/entities/helpers/equality.h src/model/entities/helpers/equality.cpp
 
-        src/presenter/edit_mode.h
+        src/presenter/enums/edit_mode.h
         src/ui/graph_editor/edit_mode.h
         src/model/entities/experiment.h src/model/entities/experiment.cpp
         src/model/stop_conditions/stop_condition.h
@@ -97,23 +97,23 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/libs/qcustomplot/qcustomplot.h src/libs/qcustomplot/qcustomplot.cpp
         src/repository/json_repository.h src/repository/json_repository.cpp
         src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
-        src/presenter/static_analysis_presenter.h src/presenter/static_analysis_presenter.cpp
-        src/presenter/scene_presenter.h
-        src/presenter/creation_presenter.h src/presenter/creation_presenter.cpp
+        src/presenter/analysis/static_analysis_presenter.h src/presenter/analysis/static_analysis_presenter.cpp
+        src/presenter/abstract/scene_presenter.h
+        src/presenter/models/creation_presenter.h src/presenter/models/creation_presenter.cpp
         src/ui/adjacency_table/adjacency_table_view.h src/ui/adjacency_table/adjacency_table_view.cpp
-        src/model/entities/calculation_weight.h
+        src/model/entities/calculation/calculation_weight.h
         src/model/algorithms/weights_prediction.h src/model/algorithms/weights_prediction.cpp
-        src/model/algorithms/fabric.h src/model/algorithms/fabric.cpp
+        src/model/algorithms/factory.h src/model/algorithms/factory.cpp
         src/model/metrics/mae.h src/model/metrics/mae.cpp
         src/model/metrics/mape.h src/model/metrics/mape.cpp
-        src/model/metrics/fabric.h src/model/metrics/fabric.cpp
-        src/model/metrics_manager.h src/model/metrics_manager.cpp
-        src/model/stop_conditions/fabric.h src/model/stop_conditions/fabric.cpp
+        src/model/metrics/factory.h src/model/metrics/factory.cpp
+        src/model/metrics/metrics_manager.h src/model/metrics/metrics_manager.cpp
+        src/model/stop_conditions/factory.h src/model/stop_conditions/factory.cpp
         src/model/stop_conditions/static.h src/model/stop_conditions/static.cpp
         src/model/static_analysis/result.h
         src/model/entities/triangular_fuzzy_value.h src/model/entities/triangular_fuzzy_value.cpp
         src/model/activation_functions/activation_function.cpp
-        src/model/entities/calculation_concept.h
+        src/model/entities/calculation/calculation_concept.h
         src/model/entities/templates/template.h
         src/model/entities/templates/template_term.h
         src/model/entities/templates/template_concept.h
@@ -122,15 +122,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/algorithms/weights_prediction_fuzzy.h src/model/algorithms/weights_prediction_fuzzy.cpp
         src/model/sensitivity_analysis/sensitivity_analizer.h src/model/sensitivity_analysis/sensitivity_analizer.cpp
         src/model/sensitivity_analysis/parameters.h
-        src/model/final_state_predictor.h src/model/final_state_predictor.cpp
-        src/presenter/sensitivity_scene_presenter.h src/presenter/sensitivity_scene_presenter.cpp
+        src/model/prediction/final_state_predictor.h src/model/prediction/final_state_predictor.cpp
+        src/presenter/analysis/sensitivity_scene_presenter.h src/presenter/analysis/sensitivity_scene_presenter.cpp
         src/model/sensitivity_analysis/change_iteration/numeric.h src/model/sensitivity_analysis/change_iteration/numeric.cpp
         src/model/sensitivity_analysis/change_iteration/fuzzy.h src/model/sensitivity_analysis/change_iteration/fuzzy.cpp
 
         src/model/sensitivity_analysis/change_iteration/abstract.h
         src/model/sensitivity_analysis/change_iteration/range.h src/model/sensitivity_analysis/change_iteration/range.cpp
-        src/model/sensitivity_analysis/change_iteration/fabric.h src/model/sensitivity_analysis/change_iteration/fabric.cpp
-        src/repository/saving_manager.h src/repository/saving_manager.cpp
+        src/model/sensitivity_analysis/change_iteration/factory.h src/model/sensitivity_analysis/change_iteration/factory.cpp
+        src/repository/models_manager.h src/repository/models_manager.cpp
         src/repository/templates_repository.h src/repository/templates_repository.cpp
         src/repository/templates_manager.h src/repository/templates_manager.cpp
         src/ui/save_as_window/save_as_window.h src/ui/save_as_window/save_as_window.cpp src/ui/save_as_window/save_as_window.ui
@@ -141,8 +141,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/join/mode.h
         src/ui/markdown_edit/markdown_edit.h src/ui/markdown_edit/markdown_edit.cpp
         src/ui/save_current_state_window/save_current_state_window.h src/ui/save_current_state_window/save_current_state_window.cpp src/ui/save_current_state_window/save_current_state_window.ui
-        src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
-        src/ui/graph_editor/color_value_adapter/linear_approximation_adapter.cpp
+        src/model/color_value_adapter/linear_approximation_adapter.cpp
+        src/model/color_value_adapter/linear_approximation_adapter.cpp
         src/ui/tooltips/controller.h src/ui/tooltips/controller.cpp
         src/model/static_analysis/fuzzy_static_analyzer.h src/model/static_analysis/fuzzy_static_analyzer.cpp
         src/ui/help/help_browser.h src/ui/help/help_browser.cpp
@@ -154,11 +154,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/templates/templates_language_manager.h
         src/model/entities/templates/templates_language_manager.cpp
 
-        src/presenter/model_setup_presenter.h src/presenter/model_setup_presenter.cpp
-        src/presenter/models_switching_presenter.h src/presenter/models_switching_presenter.cpp
-        src/presenter/saving_export_presenter.h src/presenter/saving_export_presenter.cpp
-        src/presenter/simulation_presenter.h src/presenter/simulation_presenter.cpp
-        src/presenter/sensitivity_presenter.h src/presenter/sensitivity_presenter.cpp
+        src/presenter/models/model_setup_presenter.h src/presenter/models/model_setup_presenter.cpp
+        src/presenter/models/models_switching_presenter.h src/presenter/models/models_switching_presenter.cpp
+        src/presenter/saving/saving_export_presenter.h src/presenter/saving/saving_export_presenter.cpp
+        src/presenter/simulation/simulation_presenter.h src/presenter/simulation/simulation_presenter.cpp
+        src/presenter/analysis/sensitivity_presenter.h src/presenter/analysis/sensitivity_presenter.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -264,3 +264,4 @@ add_dependencies(FCM help_docs)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Help)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+

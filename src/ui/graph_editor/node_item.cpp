@@ -1,10 +1,10 @@
 #include "edge_item.h"
 #include "node_item.h"
 
-#include "color_value_adapter/color_value_adapter.h"
+#include "model/color_value_adapter/default_adapter.h"
 
 NodeItem::NodeItem(std::shared_ptr<Concept> concept)
-    : nodeName(concept->name), id(concept->id), concept(concept), colorValueAdapter(std::make_unique<ColorValueAdapter>()), QObject() {
+    : nodeName(concept->name), id(concept->id), concept(concept), colorValueAdapter(std::make_unique<DefaultColorValueAdapter>()), QObject() {
     setRect(-25, -25, 50, 50);
     setFlags(ItemIsMovable | ItemIsSelectable | ItemSendsGeometryChanges);
 

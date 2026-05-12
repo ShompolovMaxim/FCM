@@ -4,7 +4,7 @@
 #include "model/entities/term.h"
 #include "model/entities/concept.h"
 
-#include "presenter/element_window_mode.h"
+#include "presenter/enums/element_window_mode.h"
 
 #include <QDialog>
 

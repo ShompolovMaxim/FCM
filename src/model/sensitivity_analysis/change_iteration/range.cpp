@@ -1,7 +1,7 @@
 #include "range.h"
 
-#include "model/entities/calculation_concept.h"
-#include "model/entities/calculation_weight.h"
+#include "model/entities/calculation/calculation_concept.h"
+#include "model/entities/calculation/calculation_weight.h"
 
 template <typename T>
 ChangeRange<T>::ChangeRange(std::unique_ptr<IteratorType> beginIt,
@@ -50,3 +50,4 @@ bool ChangeRange<T>::Iterator::operator==(const Iterator& other) const {
 
 template class ChangeRange<CalculationWeight>;
 template class ChangeRange<CalculationConcept>;
+

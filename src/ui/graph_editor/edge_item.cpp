@@ -1,10 +1,10 @@
 #include "edge_item.h"
 #include "node_item.h"
 
-#include "color_value_adapter/color_value_adapter.h"
+#include "model/color_value_adapter/default_adapter.h"
 
 EdgeItem::EdgeItem(NodeItem* s, NodeItem* d, QUuid id)
-    : src(s), dst(d), colorValueAdapter(std::make_unique<ColorValueAdapter>()), id(id) {
+    : src(s), dst(d), colorValueAdapter(std::make_unique<DefaultColorValueAdapter>()), id(id) {
     setZValue(-1);
     setValue(nullptr);
 

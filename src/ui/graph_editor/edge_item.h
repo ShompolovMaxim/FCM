@@ -3,7 +3,7 @@
 #include <memory>
 #include <QtWidgets>
 
-#include "color_value_adapter/IColorValueAdapter.h"
+#include "model/color_value_adapter/adapter.h"
 
 #include "model/entities/term.h"
 
@@ -39,6 +39,6 @@ protected:
 private:
     std::shared_ptr<Term> term;
     QUuid id;
-    std::unique_ptr<IColorValueAdapter> colorValueAdapter;
+    std::unique_ptr<ColorValueAdapter> colorValueAdapter;
     QGraphicsPolygonItem* arrowItem = nullptr;
 };

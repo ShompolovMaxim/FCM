@@ -31,7 +31,7 @@ function(add_activation_function_test target_name test_source)
         ${test_source}
         ../../src/model/activation_functions/activation_function.cpp
         ../../src/model/activation_functions/bivalent.cpp
-        ../../src/model/activation_functions/fabric.cpp
+        ../../src/model/activation_functions/factory.cpp
         ../../src/model/activation_functions/sigmoid.cpp
         ../../src/model/activation_functions/tanh.cpp
         ../../src/model/activation_functions/threshold_linear.cpp
@@ -46,7 +46,7 @@ endfunction()
 function(add_metric_test target_name test_source)
     add_executable(${target_name}
         ${test_source}
-        ../../src/model/metrics/fabric.cpp
+        ../../src/model/metrics/factory.cpp
         ../../src/model/metrics/mae.cpp
         ../../src/model/metrics/mape.cpp
         ../../src/model/metrics/mse.cpp
@@ -61,7 +61,7 @@ function(add_algorithm_test target_name test_source)
     add_executable(${target_name}
         ${test_source}
         ../../src/model/activation_functions/activation_function.cpp
-        ../../src/model/algorithms/fabric.cpp
+        ../../src/model/algorithms/factory.cpp
         ../../src/model/algorithms/standard.cpp
         ../../src/model/algorithms/standard_fuzzy.cpp
         ../../src/model/algorithms/weights_prediction.cpp
@@ -77,7 +77,7 @@ endfunction()
 function(add_entity_test target_name test_source)
     add_executable(${target_name}
         ${test_source}
-        ../../src/presenter/prediction_parameters.cpp
+        ../../src/model/prediction/prediction_parameters.cpp
         ../../src/model/entities/term.cpp
         ../../src/model/entities/concept_name_location.cpp
         ../../src/model/entities/concept.cpp
@@ -85,6 +85,7 @@ function(add_entity_test target_name test_source)
         ../../src/model/entities/experiment.cpp
         ../../src/model/entities/fcm.cpp
         ../../src/model/entities/helpers/equality.cpp
+        ../../src/model/entities/helpers/fcm_copy.cpp
         ../../src/model/entities/triangular_fuzzy_value.cpp
     )
 

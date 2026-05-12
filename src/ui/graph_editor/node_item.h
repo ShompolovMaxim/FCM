@@ -3,7 +3,7 @@
 #include <memory>
 #include <QtWidgets>
 
-#include "color_value_adapter/IColorValueAdapter.h"
+#include "model/color_value_adapter/adapter.h"
 #include "model/entities/concept.h"
 
 class EdgeItem;
@@ -45,7 +45,7 @@ private:
     QList<EdgeItem*> edges;
     std::shared_ptr<Term> term;
     QUuid id;
-    std::unique_ptr<IColorValueAdapter> colorValueAdapter;
+    std::unique_ptr<ColorValueAdapter> colorValueAdapter;
     std::vector<double> predictedValues;
 
     QGraphicsSimpleTextItem* label = nullptr;

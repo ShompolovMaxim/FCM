@@ -9,7 +9,7 @@
 #include "model/entities/fcm.h"
 #include "model/fuzzy_logic/fuzzifier.h"
 
-#include "presenter/scene_presenter.h"
+#include "presenter/abstract/scene_presenter.h"
 
 #include <memory>
 

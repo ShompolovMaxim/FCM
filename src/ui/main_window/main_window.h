@@ -7,13 +7,13 @@
 
 #include "model/entities/fcm.h"
 
-#include "presenter/creation_presenter.h"
-#include "presenter/model_setup_presenter.h"
-#include "presenter/models_switching_presenter.h"
-#include "presenter/saving_export_presenter.h"
-#include "presenter/sensitivity_presenter.h"
-#include "presenter/simulation_presenter.h"
-#include "presenter/static_analysis_presenter.h"
+#include "presenter/models/creation_presenter.h"
+#include "presenter/models/model_setup_presenter.h"
+#include "presenter/models/models_switching_presenter.h"
+#include "presenter/saving/saving_export_presenter.h"
+#include "presenter/analysis/sensitivity_presenter.h"
+#include "presenter/simulation/simulation_presenter.h"
+#include "presenter/analysis/static_analysis_presenter.h"
 
 #include "ui/help/help_window.h"
 #include "ui/tooltips/controller.h"

@@ -1,7 +1,7 @@
 #include "fuzzy.h"
 
-#include "model/entities/calculation_concept.h"
-#include "model/entities/calculation_weight.h"
+#include "model/entities/calculation/calculation_concept.h"
+#include "model/entities/calculation/calculation_weight.h"
 #include <cstdlib>
 
 template <typename T>
@@ -53,3 +53,4 @@ bool FuzzyChangeIterator<T>::equals(const ChangeIterator<T>& other) const {
 
 template class FuzzyChangeIterator<CalculationWeight>;
 template class FuzzyChangeIterator<CalculationConcept>;
+

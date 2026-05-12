@@ -4,7 +4,7 @@
 #include "concept.h"
 #include "weight.h"
 
-#include "presenter/prediction_parameters.h"
+#include "model/prediction/prediction_parameters.h"
 
 #include <map>
 #include <memory>

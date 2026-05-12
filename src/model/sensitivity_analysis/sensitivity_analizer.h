@@ -2,11 +2,11 @@
 
 #include "parameters.h"
 
-#include "model/entities/calculation_fcm.h"
-#include "model/final_state_predictor.h"
-#include "model/metrics_manager.h"
+#include "model/entities/calculation/calculation_fcm.h"
+#include "model/prediction/final_state_predictor.h"
+#include "model/metrics/metrics_manager.h"
 
-#include "presenter/prediction_parameters.h"
+#include "model/prediction/prediction_parameters.h"
 
 #include <atomic>
 #include <cstdint>
@@ -72,3 +72,4 @@ private:
     std::atomic_bool stopRequested = false;
 
 };
+

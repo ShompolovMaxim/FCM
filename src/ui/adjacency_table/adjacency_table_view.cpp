@@ -4,7 +4,7 @@
 #include <QModelIndex>
 #include <algorithm>
 
-AdjacencyTableView::AdjacencyTableView(QWidget* parent) : QTableView(parent), colorValueAdapter(std::make_unique<ColorValueAdapter>()) {
+AdjacencyTableView::AdjacencyTableView(QWidget* parent) : QTableView(parent), colorValueAdapter(std::make_unique<DefaultColorValueAdapter>()) {
     model = new QStandardItemModel(this);
     setModel(model);
     connect(this, &QTableView::clicked, this, &AdjacencyTableView::onCellClicked);

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ui/graph_editor/color_value_adapter/color_value_adapter.h"
+#include "model/color_value_adapter/default_adapter.h"
 
-#include "presenter/creation_presenter.h"
+#include "presenter/models/creation_presenter.h"
 
 #include <QStandardItemModel>
 #include <QTableView>
@@ -38,3 +38,4 @@ private:
     std::vector<QUuid> rowsConcepts;
     std::map<QModelIndex, QUuid> idxsWeights;
 };
+

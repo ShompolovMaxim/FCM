@@ -2,12 +2,12 @@
 #include "ui_main_window.h"
 
 #include "common/logger.h"
-#include "presenter/model_setup_presenter.h"
-#include "presenter/simulation_presenter.h"
+#include "presenter/models/model_setup_presenter.h"
+#include "presenter/simulation/simulation_presenter.h"
 #include "ui/graph_editor/graph_scene.h"
 
 #include "repository/migration_manager.h"
-#include "repository/saving_manager.h"
+#include "repository/models_manager.h"
 #include "repository/templates_manager.h"
 
 #include <QMouseEvent>
@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
     fcm = std::make_shared<FCM>();
-    fcm->name = ui->modelName->text();
+    fcm->name = tr("New model");
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("models.db");
@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         Logger::critical("Database migration failed");
         qFatal("Cannot apply database migrations");
     }
-    auto savingManager = std::make_shared<SavingManager>(ModelsRepository(db));
+    auto savingManager = std::make_shared<ModelsSavingManager>(ModelsRepository(db));
     auto templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
@@ -118,7 +118,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), sensitivityPresenter.get(), &SensitivityPresenter::changeActivationFunctionSensitivity);
 
     modelsSwitchingPresenter->addFCM(fcm);
-    ui->modelName->setText(tr("New model"));
     modelsSwitchingPresenter->loadFCM(fcm);
     ui->menuModels->installEventFilter(this);
 }
@@ -241,3 +240,4 @@ void MainWindow::changeEvent(QEvent *event) {
 
     QMainWindow::changeEvent(event);
 }
+

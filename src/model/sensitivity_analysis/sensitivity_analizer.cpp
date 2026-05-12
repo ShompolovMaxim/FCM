@@ -1,13 +1,13 @@
 #include "sensitivity_analizer.h"
 
-#include "change_iteration/fabric.h"
+#include "change_iteration/factory.h"
 
-#include "model/metrics/fabric.h"
+#include "model/metrics/factory.h"
 
 SensitivityAnalizer::SensitivityAnalizer(const SensitivityAnalysisParameters& parameters, const PredictionParameters& predictionParameters)
     : parameters(parameters), predictionParameters(predictionParameters) {
     predictor = std::make_shared<FinalStatePredictor>(predictionParameters);
-    metricsManager = std::make_shared<MetricsManager>(MetricsFabric().create(parameters.metric), predictionParameters);
+    metricsManager = std::make_shared<MetricsManager>(MetricsFactory().create(parameters.metric), predictionParameters);
     gen = std::mt19937(7);
 }
 
@@ -297,3 +297,4 @@ double SensitivityAnalizer::getProgress() {
         fcmThresholdsProcessed  * parameters.randomIterations;
     return totalWork ? static_cast<double>(doneWork) / totalWork : 1.0;
 }
+

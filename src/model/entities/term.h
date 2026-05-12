@@ -2,7 +2,7 @@
 
 #include "triangular_fuzzy_value.h"
 
-#include "model/element_type.h"
+#include "model/entities/element_type.h"
 
 #include <QColor>
 #include <QString>

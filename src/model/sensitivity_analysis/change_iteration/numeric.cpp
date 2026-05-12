@@ -1,7 +1,7 @@
 #include "numeric.h"
 
-#include "model/entities/calculation_concept.h"
-#include "model/entities/calculation_weight.h"
+#include "model/entities/calculation/calculation_concept.h"
+#include "model/entities/calculation/calculation_weight.h"
 
 template <typename T>
 NumericChangeIterator<T>::NumericChangeIterator(T value, double step, int index) : value(value), initialValue(value.value), step(step), index(index) {
@@ -32,3 +32,4 @@ bool NumericChangeIterator<T>::equals(const ChangeIterator<T>& other) const {
 
 template class NumericChangeIterator<CalculationWeight>;
 template class NumericChangeIterator<CalculationConcept>;
+

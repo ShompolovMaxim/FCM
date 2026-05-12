@@ -1,7 +1,7 @@
 #pragma once
 
 #include "model/activation_functions/activation_function.h"
-#include "model/entities/calculation_fcm.h"
+#include "model/entities/calculation/calculation_fcm.h"
 
 #include <memory>
 
@@ -18,3 +18,4 @@ protected:
     std::shared_ptr<ActivationFunction> conceptsActivationFunction = nullptr;
     std::shared_ptr<ActivationFunction> weightsActivationFunction = nullptr;
 };
+
