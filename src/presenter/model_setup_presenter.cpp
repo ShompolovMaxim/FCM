@@ -4,13 +4,15 @@
 #include "model/entities/fcm.h"
 #include "presenter/prediction_parameters.h"
 #include "presenter/creation_presenter.h"
-#include "presenter/simulation_scene_presenter.h"
+#include "presenter/simulation_presenter.h"
 #include "presenter/static_analysis_presenter.h"
 #include "ui/graph_editor/color_value_adapter/color_value_adapter.h"
+#include "ui/graph_editor/graph_scene.h"
 #include "ui_main_window.h"
 
 #include <QColorDialog>
 #include <QCoreApplication>
+#include <QKeyEvent>
 #include <QMessageBox>
 #include <QSignalBlocker>
 
@@ -20,7 +22,7 @@ QString mainWindowTr(const char* text) {
 }
 }
 
-ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationScenePresenter>& presenter, QWidget* parentWidget, QObject* parent)
+ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationPresenter>& presenter, QWidget* parentWidget, QObject* parent)
     : ui(ui),
       parentWidget(parentWidget),
       fcm(fcm),
@@ -52,6 +54,98 @@ ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->termNotes, &QTextEdit::textChanged, this, &ModelSetupPresenter::termNotesChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::currentItemChanged, this, &ModelSetupPresenter::onCurrentItemChanged);
     connect(ui->treeWidgetTerms, &QTreeWidget::itemChanged, this, &ModelSetupPresenter::onItemChanged);
+}
+
+bool ModelSetupPresenter::keyPressEvent(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Escape &&
+        ui->tabWidget->currentWidget() == ui->graph &&
+        creationPresenter &&
+        creationPresenter->hasPendingWeightStart()) {
+        cancelPendingWeightCreation();
+        event->accept();
+        return true;
+    }
+
+    return false;
+}
+
+void ModelSetupPresenter::reconfigure() {
+    QSignalBlocker b1(ui->modelName);
+    QSignalBlocker b2(ui->termValue);
+    QSignalBlocker b3(ui->termValueL);
+    QSignalBlocker b4(ui->termValueM);
+    QSignalBlocker b5(ui->termValueU);
+    QSignalBlocker b6(ui->termNotes);
+
+    qDeleteAll(conceptsGroup->takeChildren());
+    qDeleteAll(weightsGroup->takeChildren());
+
+    ui->modelName->setText(fcm->name);
+    ui->modelNotes->setMarkdownText(fcm->description);
+
+    std::vector<std::pair<QUuid, std::shared_ptr<Term>>> sortedTerms(
+        fcm->terms.begin(), fcm->terms.end()
+    );
+
+    std::sort(sortedTerms.begin(), sortedTerms.end(),
+        [](const auto& a, const auto& b) {
+            return a.second->value < b.second->value;
+        });
+
+    for (auto& [id, term] : sortedTerms) {
+        auto* item = new QTreeWidgetItem();
+        item->setText(0, term->name);
+        item->setData(0, Qt::UserRole, QVariant::fromValue(id));
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+        if (term->type == ElementType::Node) {
+            conceptsGroup->addChild(item);
+        } else {
+            weightsGroup->addChild(item);
+        }
+    }
+
+    ui->treeWidgetTerms->expandAll();
+
+    ui->autoColorConfiguration->setChecked(fcm->autoConfigureTermsColors);
+    ui->autoNumericConfiguration->setChecked(fcm->autoConfigureNumericValues);
+    ui->autoFuzzyConfiguration->setChecked(fcm->autoConfigureFuzzyValues);
+
+    int indexAlgorithm = ui->comboBoxAlgorithm->findData(fcm->predictionParameters.algorithm, Qt::UserRole);
+    ui->comboBoxAlgorithm->setCurrentIndex(indexAlgorithm);
+    ui->useFuzzyValues->setChecked(fcm->predictionParameters.useFuzzyValues);
+    int indexActivation = ui->comboBoxActivation->findData(fcm->predictionParameters.activationFunction, Qt::UserRole);
+    ui->comboBoxActivation->setCurrentIndex(indexActivation);
+    int indexMetric = ui->comboBoxMetric->findData(fcm->predictionParameters.metric, Qt::UserRole);
+    ui->comboBoxMetric->setCurrentIndex(indexMetric);
+    ui->checkBoxPredictToStatic->setChecked(fcm->predictionParameters.predictToStatic);
+    ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
+    ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
+    ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
+    ui->fuzzinessDegree->setValue(fcm->predictionParameters.fuzzinessDegree);
+
+    ui->actionAutoSave->setEnabled(fcm->dbId != -1);
+    ui->actionAutoSave->setChecked(fcm->autosaveOn);
+}
+
+void ModelSetupPresenter::retranslateUi() {
+    QSignalBlocker blocker(ui->treeWidgetTerms);
+    auto* currentConceptsGroup = ui->treeWidgetTerms->topLevelItem(0);
+    auto* currentWeightsGroup = ui->treeWidgetTerms->topLevelItem(1);
+    currentConceptsGroup->setText(0, mainWindowTr("Concepts terms"));
+    currentWeightsGroup->setText(0, mainWindowTr("Weights terms"));
+    updateGraphScaleLabel(graphScale);
+    updateModeButtonText(editMode);
+}
+
+void ModelSetupPresenter::updateGraphScaleLabel(double newScale) {
+    ui->labelScaleGraph->setText(QString(mainWindowTr("Scale: %1%")).arg(newScale * 100, 0, 'f', 2));
+    graphScale = newScale;
+}
+
+void ModelSetupPresenter::updateModeButtonText(EditMode newMode) {
+    ui->pushButtonMode->setText(newMode == EditMode::EditValues ? mainWindowTr("Mode: Edit values") : mainWindowTr("Mode: Create"));
+    editMode = newMode;
 }
 
 PredictionParameters ModelSetupPresenter::getPredictionParameters() const {
@@ -108,6 +202,16 @@ void ModelSetupPresenter::descriptionChanged() {
     if (sender() == ui->textEditNotesSensitivity) {
         ui->modelNotes->setMarkdownText(ui->textEditNotesSensitivity->markdownText());
         ui->textEditNotesPredict->setMarkdownText(ui->textEditNotesSensitivity->markdownText());
+    }
+}
+
+void ModelSetupPresenter::cancelPendingWeightCreation() {
+    if (!creationPresenter || !creationPresenter->hasPendingWeightStart()) {
+        return;
+    }
+
+    if (auto* scene = qobject_cast<GraphScene*>(ui->graphicsViewGraph->scene())) {
+        scene->cancelPendingWeightCreation();
     }
 }
 
@@ -197,6 +301,7 @@ void ModelSetupPresenter::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWi
     QSignalBlocker b5(ui->termNotes);
 
     if (!current || !current->parent()) {
+        currentTermId = QUuid();
         ui->termValue->setValue(0);
         ui->termValueL->setValue(0);
         ui->termValueM->setValue(0);
@@ -254,6 +359,14 @@ void ModelSetupPresenter::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWi
     updateFuzzyValuePlot();
 }
 
+void ModelSetupPresenter::onCurrentTabChanged(int index) {
+    if (ui->tabWidget->currentWidget() != ui->graph &&
+        creationPresenter &&
+        creationPresenter->hasPendingWeightStart()) {
+        cancelPendingWeightCreation();
+    }
+}
+
 void ModelSetupPresenter::termNotesChanged() {
     if (ui->treeWidgetTerms->currentItem() && ui->treeWidgetTerms->currentItem()->parent()) {
         fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
@@ -299,7 +412,7 @@ void ModelSetupPresenter::autoConfigureFuzzyValue() {
 
 void ModelSetupPresenter::popagateTermUpdate() {
     staticAnalysisPresenter->refreshUI(false);
-    if (presenter->isActive()) {
+    if (presenter && presenter->isActive()) {
         presenter->moveStep(0);
     }
 }
@@ -374,7 +487,7 @@ void ModelSetupPresenter::onItemChanged(QTreeWidgetItem  *item, int column) {
     for (const auto [termId, term] : fcm->terms) {
         if (termId != id && term->type == fcm->terms[id]->type && item->text(0) == term->name) {
             item->setText(0, fcm->terms[id]->name);
-            QMessageBox::critical(parentWidget, tr("Error"), tr("There already is a term of this type with such a name"));
+            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("There already is a term of this type with such a name"));
             return;
         }
     }

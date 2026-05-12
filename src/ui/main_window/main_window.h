@@ -13,10 +13,8 @@
 #include "presenter/saving_export_presenter.h"
 #include "presenter/sensitivity_presenter.h"
 #include "presenter/simulation_presenter.h"
-#include "presenter/simulation_scene_presenter.h"
 #include "presenter/static_analysis_presenter.h"
 
-#include "ui/graph_editor/edit_mode.h"
 #include "ui/help/help_window.h"
 #include "ui/tooltips/controller.h"
 
@@ -35,11 +33,6 @@ public:
     ~MainWindow();
 
 public slots:
-    void updateGraphScaleLabel(double newScale);
-    void updateModeButtonText(EditMode newMode);
-
-    void onCurrentTabChanged(int index);
-
     void changeModelSettingsVisibility(bool checked);
     void changeGraphVisibility(bool checked);
     void changeAdjacencyMatrixVisibility(bool checked);
@@ -50,7 +43,6 @@ public slots:
 
     void changeShowTooltips(bool checked);
     void showHelp();
-    void changeActivationFunctionSensitivity(int index);
 
     void setEnglish();
     void setRussian();
@@ -62,14 +54,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    void cancelPendingWeightCreation();
-
-    void recreatePresenters();
-
-    void loadFCM(std::shared_ptr<FCM> newFCM);
-
     Ui::MainWindow *ui;
-    std::shared_ptr<SimulationScenePresenter> simulationScenePresenter;
     StaticAnalysisPresenter* staticAnalysisPresenter;
     std::shared_ptr<ModelsSwitchingPresenter> modelsSwitchingPresenter;
     std::shared_ptr<SavingExportPresenter> savingExportPresenter;
@@ -86,9 +71,6 @@ private:
     QTranslator translatorRus;
     QTranslator translatorDefaultRus;
     QTranslator translatorWidgetsRus;
-
-    double graphScale = 1;
-    EditMode editMode = EditMode::Create;
 
     ToolTipController toolTipController = ToolTipController();
 

@@ -1,5 +1,6 @@
 #include "simulation_presenter.h"
 
+#include "creation_presenter.h"
 #include "model_setup_presenter.h"
 #include "simulation_scene_presenter.h"
 #include "ui_main_window.h"
@@ -19,8 +20,8 @@ QString mainWindowTr(const char* text) {
 }
 }
 
-SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<SimulationScenePresenter> simulationScenePresenter, QWidget* parentWidget, QObject *parent)
-    : ui(ui), parentWidget(parentWidget), modelSetupPresenter(std::move(modelSetupPresenter)), simulationScenePresenter(std::move(simulationScenePresenter)), fcm(fcm), QObject{parent} {
+SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<CreationPresenter> creationPresenter, QWidget* parentWidget, QObject *parent)
+    : ui(ui), parentWidget(parentWidget), modelSetupPresenter(std::move(modelSetupPresenter)), creationPresenter(std::move(creationPresenter)), fcm(fcm), QObject{parent} {
     connect(ui->graphicsViewPredict, &GraphView::scaleChanged, this, &SimulationPresenter::updatePredictScaleLabel);
     connect(ui->pushButtonPredict, &QPushButton::clicked, this, &SimulationPresenter::predict);
     connect(ui->pushButtonReset, &QPushButton::clicked, this, &SimulationPresenter::resetPredictionScene);
@@ -30,8 +31,6 @@ SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->pushButtonForward, &QPushButton::clicked, this, &SimulationPresenter::stepForward);
     connect(ui->pushButtonBack, &QPushButton::clicked, this, &SimulationPresenter::stepBack);
     connect(ui->pushButtonFinish, &QPushButton::clicked, this, &SimulationPresenter::finishSimulation);
-    connect(this->simulationScenePresenter.get(), &SimulationScenePresenter::updateProgress, this, &SimulationPresenter::updateProgress);
-    connect(this->simulationScenePresenter.get(), &SimulationScenePresenter::finished, this, &SimulationPresenter::simulationFinished);
     connect(ui->checkBoxPredictToStatic, &QCheckBox::toggled, this, &SimulationPresenter::onPredictToStaticChanged);
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SimulationPresenter::autosave);
     connect(ui->useFuzzyValues, &QCheckBox::toggled, this, &SimulationPresenter::autosave);
@@ -41,6 +40,33 @@ SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     connect(ui->doubleSpinBoxThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &SimulationPresenter::autosave);
     connect(ui->spinBoxMetricSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &SimulationPresenter::autosave);
     connect(ui->spinBoxFixedSteps, QOverload<int>::of(&QSpinBox::valueChanged), this, &SimulationPresenter::autosave);
+
+    recreateScenePresenter();
+}
+
+void SimulationPresenter::recreateScenePresenter() {
+    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, this);
+    connect(simulationScenePresenter.get(), &SimulationScenePresenter::updateProgress, this, &SimulationPresenter::updateProgress);
+    connect(simulationScenePresenter.get(), &SimulationScenePresenter::finished, this, &SimulationPresenter::simulationFinished);
+}
+
+void SimulationPresenter::reconfigure() {
+    if (isActive()) {
+        resetPredictionScene();
+    }
+
+    recreateScenePresenter();
+
+    currentMetricValue = 0;
+    paused = false;
+    ui->pushButtonPause->setText(mainWindowTr("Pause"));
+    ui->progressBarPredict->setValue(0);
+    ui->labelMetricValue->setText(QString(mainWindowTr("Metric value: %1")).arg(currentMetricValue, 0, 'f', 4));
+
+    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
+    for (const auto& experiment : fcm->experiments) {
+        addExperiment(experiment);
+    }
 }
 
 void SimulationPresenter::changeActivationFunction(int index) {
@@ -50,6 +76,10 @@ void SimulationPresenter::changeActivationFunction(int index) {
 
 bool SimulationPresenter::isActive() const {
     return simulationScenePresenter && simulationScenePresenter->isActive();
+}
+
+bool SimulationPresenter::moveStep(int delta) {
+    return simulationScenePresenter && simulationScenePresenter->moveStep(delta);
 }
 
 void SimulationPresenter::retranslateUi() {
@@ -368,13 +398,13 @@ void SimulationPresenter::slowDown() {
 }
 
 void SimulationPresenter::stepForward() {
-    if (!simulationScenePresenter->moveStep(ui->spinBoxMoveSteps->value())) {
+    if (!moveStep(ui->spinBoxMoveSteps->value())) {
         QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Value of step is not calculated or step out of range!"));
     }
 }
 
 void SimulationPresenter::stepBack() {
-    if (!simulationScenePresenter->moveStep(-ui->spinBoxMoveSteps->value())) {
+    if (!moveStep(-ui->spinBoxMoveSteps->value())) {
         QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Value of step is not calculated or step out of range!"));
     }
 }

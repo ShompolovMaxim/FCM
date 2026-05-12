@@ -8,6 +8,7 @@
 class QWidget;
 class ModelSetupPresenter;
 class SimulationScenePresenter;
+class CreationPresenter;
 
 namespace Ui {
 class MainWindow;
@@ -16,9 +17,11 @@ class MainWindow;
 class SimulationPresenter : public QObject {
     Q_OBJECT
 public:
-    explicit SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<SimulationScenePresenter> simulationScenePresenter, QWidget* parentWidget, QObject *parent = nullptr);
+    explicit SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<ModelSetupPresenter> modelSetupPresenter, std::shared_ptr<CreationPresenter> creationPresenter, QWidget* parentWidget, QObject *parent = nullptr);
 
     bool isActive() const;
+    bool moveStep(int delta);
+    void reconfigure();
     void retranslateUi();
 
 public slots:
@@ -45,9 +48,12 @@ signals:
     void loadFCMRequested(std::shared_ptr<FCM> fcm);
 
 private:
+    void recreateScenePresenter();
+
     Ui::MainWindow* ui;
     QWidget* parentWidget;
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
+    std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<SimulationScenePresenter> simulationScenePresenter;
     std::shared_ptr<FCM>& fcm;
 

@@ -16,6 +16,7 @@ class CreationPresenter : public ScenePresenter {
     Q_OBJECT
 public:
     CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent = nullptr);
+    void reconfigure(std::shared_ptr<FCM> newFcm);
 
     void createConcept(const QPointF pos) override;
     void createWeight(QUuid nodeId) override;

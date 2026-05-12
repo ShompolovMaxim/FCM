@@ -26,10 +26,12 @@ public:
 
     SensitivityAnalysisParameters getSensitivityParameters();
     bool isActive() const;
+    void reconfigure();
     void retranslateUi();
 
 public slots:
     void analize();
+    void changeActivationFunctionSensitivity(int index);
     void showSensitivityPlot();
     void updateSensitivityProgress(double progress);
     void resetSensitivity();

@@ -44,8 +44,28 @@ bool SensitivityPresenter::isActive() const {
     return sensitivityScenePresenter && sensitivityScenePresenter->isActive();
 }
 
+void SensitivityPresenter::reconfigure() {
+    if (isActive()) {
+        resetSensitivity();
+    }
+
+    sensitivityScenePresenter.reset();
+
+    ui->progressBarSensitivity->setValue(0);
+    ui->stackedWidgetSensitivity->setCurrentIndex(0);
+    ui->doubleSpinBoxMaxChange->setValue(0.1);
+    ui->changeConcepts->setChecked(true);
+    ui->changeWeights->setChecked(false);
+    ui->plotSensitivity->graph(0)->data()->clear();
+    ui->plotSensitivity->replot();
+    retranslateUi();
+}
+
 void SensitivityPresenter::retranslateUi() {
     ui->labelScaleSensitivity->setText(QString(mainWindowTr("Scale: %1%")).arg(sensitivityScale*100, 0, 'f', 2));
+    ui->plotSensitivity->xAxis->setLabel(mainWindowTr("max change"));
+    ui->plotSensitivity->yAxis->setLabel(mainWindowTr("sensitivity"));
+    ui->plotSensitivity->replot();
     if (ui->stackedWidgetSensitivity->currentIndex() == 0) {
         ui->showSensitivityPlot->setText(mainWindowTr("FCM Sensitivity"));
     } else {
@@ -67,6 +87,7 @@ void SensitivityPresenter::analize() {
     ui->doubleSpinBoxMaxChange->setEnabled(false);
     ui->changeConcepts->setEnabled(false);
     ui->changeWeights->setEnabled(false);
+    ui->sensitivityMeasureMetric->setEnabled(false);
 
     auto* sensitivityScene = dynamic_cast<GraphScene*>(ui->graphicsViewGraph->scene())->copy(sensitivityScenePresenter, ElementWindowMode::SensitivityAnalysis);
     auto* oldSensitivityScene = ui->graphicsViewGraph->scene();
@@ -79,6 +100,10 @@ void SensitivityPresenter::analize() {
     sensitivityScenePresenter->analize(modelSetupPresenter->getPredictionParameters(), getSensitivityParameters());
 }
 
+void SensitivityPresenter::changeActivationFunctionSensitivity(int index) {
+    ui->fuzzinessDegreeSensitivity->setEnabled(index == 3 || index == 4);
+}
+
 void SensitivityPresenter::resetSensitivity() {
     if (!isActive()) {
         return;
@@ -89,6 +114,7 @@ void SensitivityPresenter::resetSensitivity() {
     ui->doubleSpinBoxMaxChange->setEnabled(true);
     ui->changeConcepts->setEnabled(true);
     ui->changeWeights->setEnabled(true);
+    ui->sensitivityMeasureMetric->setEnabled(true);
     sensitivityScenePresenter->reset();
     ui->progressBarSensitivity->setValue(0);
     auto* sensitivityScene = ui->graphicsViewSensitivity->scene();

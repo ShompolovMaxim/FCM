@@ -1,5 +1,10 @@
 #include "models_switching_presenter.h"
+
+#include "creation_presenter.h"
 #include "model_setup_presenter.h"
+#include "sensitivity_presenter.h"
+#include "simulation_presenter.h"
+#include "static_analysis_presenter.h"
 
 #include "model/join/models_joiner.h"
 #include "model/entities/templates/templates_language_manager.h"
@@ -7,10 +12,16 @@
 #include "repository/saving_manager.h"
 #include "repository/templates_manager.h"
 
+#include "ui/graph_editor/graph_scene.h"
+#include "ui/graph_editor/graph_view.h"
 #include "ui/join_window/join_window.h"
 
+#include <QCloseEvent>
 #include <QCoreApplication>
+#include <QEvent>
 #include <QMessageBox>
+#include <QMouseEvent>
+#include <QPushButton>
 
 #include <algorithm>
 
@@ -25,7 +36,11 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     QWidget* parentWidget,
     std::shared_ptr<FCM>& fcm,
     std::vector<std::shared_ptr<FCM>>& fcms,
+    std::shared_ptr<CreationPresenter>& creationPresenter,
     std::shared_ptr<ModelSetupPresenter>& modelSetupPresenter,
+    std::shared_ptr<SimulationPresenter>& simulationPresenter,
+    std::shared_ptr<SensitivityPresenter>& sensitivityPresenter,
+    StaticAnalysisPresenter*& staticAnalysisPresenter,
     std::shared_ptr<TemplatesManager> templatesManager,
     std::shared_ptr<SavingManager> savingManager,
     QSettings& settings,
@@ -34,7 +49,11 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     parentWidget(parentWidget),
     fcm(fcm),
     fcms(fcms),
+    creationPresenter(creationPresenter),
     modelSetupPresenter(modelSetupPresenter),
+    simulationPresenter(simulationPresenter),
+    sensitivityPresenter(sensitivityPresenter),
+    staticAnalysisPresenter(staticAnalysisPresenter),
     templatesManager(templatesManager),
     savingManager(savingManager),
     settings(settings),
@@ -68,8 +87,8 @@ bool ModelsSwitchingPresenter::closeModel(size_t index) {
     if (modelHasUnsavedChanges(model)) {
         QMessageBox::StandardButton reply = QMessageBox::question(
             parentWidget,
-            tr("There are unsaved changes!"),
-            tr("Model \"%1\" has unsaved changes. Are you sure you want to close it?").arg(model->name),
+            mainWindowTr("There are unsaved changes!"),
+            mainWindowTr("Model \"%1\" has unsaved changes. Are you sure you want to close it?").arg(model->name),
             QMessageBox::Yes | QMessageBox::No,
             QMessageBox::No
             );
@@ -87,7 +106,7 @@ bool ModelsSwitchingPresenter::closeModel(size_t index) {
         } else {
             currentModelIdx = index;
         }
-        emit loadFCMRequested(fcms[currentModelIdx]);
+        loadFCM(fcms[currentModelIdx]);
     } else {
         if (index < currentModelIdx) {
             --currentModelIdx;
@@ -118,7 +137,7 @@ void ModelsSwitchingPresenter::closeOtherModels(size_t index) {
         }
     }
 
-    emit loadFCMRequested(fcms.front());
+    loadFCM(fcms.front());
 }
 
 void ModelsSwitchingPresenter::rebuildModelsMenu() {
@@ -150,10 +169,108 @@ void ModelsSwitchingPresenter::rebuildModelsMenu() {
 }
 
 void ModelsSwitchingPresenter::addFCM(std::shared_ptr<FCM> newFcm) {
-    fcm = newFcm;
     currentModelIdx = fcms.size();
-    fcms.push_back(fcm);
+    fcms.push_back(newFcm);
     rebuildModelsMenu();
+}
+
+void ModelsSwitchingPresenter::closeEvent(QCloseEvent* event) {
+    for (const auto& model : fcms) {
+        if (modelHasUnsavedChanges(model)) {
+            QMessageBox::StandardButton reply = QMessageBox::question(
+                parentWidget,
+                mainWindowTr("There are unsaved changes!"),
+                mainWindowTr("There are unsaved changes! Are you sure you want to quit the program?"),
+                QMessageBox::Yes | QMessageBox::No,
+                QMessageBox::No
+            );
+
+            if (reply == QMessageBox::Yes) {
+                event->accept();
+            } else {
+                event->ignore();
+            }
+            return;
+        }
+    }
+
+    event->accept();
+}
+
+bool ModelsSwitchingPresenter::eventFilter(QObject* watched, QEvent* event) {
+    if (watched == ui->menuModels && event->type() == QEvent::MouseButtonRelease) {
+        auto* mouseEvent = static_cast<QMouseEvent*>(event);
+        QAction* action = ui->menuModels->actionAt(mouseEvent->pos());
+        if (action && action->menu()) {
+            size_t index = static_cast<size_t>(action->data().toULongLong());
+            if (index < fcms.size()) {
+                loadFCM(fcms[index]);
+                ui->menuModels->hide();
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void ModelsSwitchingPresenter::recreateScenes() {
+    ui->adjacencyTableView->loadFromFCM(fcm);
+    ui->adjacencyTableView->setPresenter(creationPresenter);
+
+    modelSetupPresenter->updateModeButtonText(EditMode::Create);
+
+    auto* newScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
+    connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
+    connect(newScene, &GraphScene::modeChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateModeButtonText);
+
+    auto* oldSceneCreate = ui->graphicsViewGraph->scene();
+    auto* oldScenePredict = ui->graphicsViewPredict->scene();
+    auto* oldSceneSensitivity = ui->graphicsViewSensitivity->scene();
+    ui->graphicsViewGraph->setScene(newScene);
+    ui->graphicsViewPredict->setScene(newScene);
+    ui->graphicsViewSensitivity->setScene(newScene);
+    if (oldSceneCreate != oldScenePredict) {
+        delete oldScenePredict;
+    }
+    if (oldSceneCreate != oldSceneSensitivity) {
+        delete oldSceneSensitivity;
+    }
+    delete oldSceneCreate;
+
+    auto* oldStaticAnalysisScene = ui->staticAnalysis->findChild<GraphView*>("graphicsView")->scene();
+    auto* newStaticAnalysisScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
+    newStaticAnalysisScene->blockConceptCreationColorEdit(true);
+    newStaticAnalysisScene->setMode(EditMode::EditValues);
+    ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(newStaticAnalysisScene);
+    delete oldStaticAnalysisScene;
+}
+
+void ModelsSwitchingPresenter::resetCommonUiState() {
+    ui->graphicsViewGraph->resetTransform();
+    ui->graphicsViewPredict->resetTransform();
+    ui->graphicsViewSensitivity->resetTransform();
+    modelSetupPresenter->updateGraphScaleLabel(1.0);
+    simulationPresenter->updatePredictScaleLabel(1.0);
+    sensitivityPresenter->updateSensitivityScaleLabel(1.0);
+    ui->useFuzzyValuesStatic->setChecked(false);
+    ui->influenceDirection->setCurrentIndex(0);
+    ui->influenceSteps->setValue(1);
+    ui->graphConcept->setCurrentIndex(0);
+}
+
+void ModelsSwitchingPresenter::loadFCM(std::shared_ptr<FCM> newFcm) {
+    setCurrentModel(newFcm);
+    rebuildModelsMenu();
+
+    creationPresenter->reconfigure(fcm);
+    simulationPresenter->reconfigure();
+    sensitivityPresenter->reconfigure();
+    recreateScenes();
+    staticAnalysisPresenter->reconfigure(fcm);
+    modelSetupPresenter->reconfigure();
+    resetCommonUiState();
+    emit currentModelChanged(fcm);
 }
 
 void ModelsSwitchingPresenter::setCurrentModel(std::shared_ptr<FCM> newFcm) {
@@ -162,21 +279,6 @@ void ModelsSwitchingPresenter::setCurrentModel(std::shared_ptr<FCM> newFcm) {
     if (it != fcms.end()) {
         currentModelIdx = static_cast<size_t>(std::distance(fcms.begin(), it));
     }
-}
-
-void ModelsSwitchingPresenter::switchModel() {
-    QAction *action = qobject_cast<QAction*>(sender());
-    if (!action) {
-        Logger::warn("Model action missing");
-        return;
-    }
-    size_t index = static_cast<size_t>(action->data().toULongLong());
-    if (index >= fcms.size()) {
-        Logger::warn("Model index invalid");
-        return;
-    }
-    fcm = fcms[index];
-    emit loadFCMRequested(fcm);
 }
 
 void ModelsSwitchingPresenter::nameChanged(QString newName) {
@@ -197,7 +299,7 @@ void ModelsSwitchingPresenter::createNewModel() {
     }
     fcm->name = mainWindowTr("New model") + (counter - 1 ? " (" + QString::number(counter) + ")" : "");
     addFCM(fcm);
-    emit loadFCMRequested(fcm);
+    loadFCM(fcm);
 }
 
 void ModelsSwitchingPresenter::joinModels() {
@@ -271,5 +373,5 @@ void ModelsSwitchingPresenter::joinModels() {
     auto joinedFCM = ModelsJoiner().join(baseFCM, joinFCMs, joinWindow->getJoinMode(), joinWindow->getResultName());
 
     addFCM(joinedFCM);
-    emit loadFCMRequested(joinedFCM);
+    loadFCM(joinedFCM);
 }

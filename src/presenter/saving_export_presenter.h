@@ -30,7 +30,7 @@ public:
         QWidget* parentWidget,
         QObject *parent = nullptr
     );
-    void updateFCM(std::shared_ptr<FCM> newFcm, std::shared_ptr<ModelSetupPresenter> newModelSetupPresenter);
+    void updateFCM(std::shared_ptr<FCM> newFcm);
 
     void saveAs();
     void save();

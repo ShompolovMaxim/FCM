@@ -31,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     connect(ui->actionRussian, &QAction::triggered, this, &MainWindow::setRussian);
     connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::setEnglish);
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onCurrentTabChanged);
     ui->comboBoxAlgorithm->setItemData(0, "const weights", Qt::UserRole);
     ui->comboBoxAlgorithm->setItemData(1, "changing weights", Qt::UserRole);
     ui->comboBoxAlgorithmSensitivity->setItemData(0, "const weights", Qt::UserRole);
@@ -76,7 +75,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
     ui->adjacencyTableView->setPresenter(creationPresenter);
-    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, nullptr);
 
     auto* scene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     ui->graphicsViewGraph->setScene(scene);
@@ -89,8 +87,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
 
     connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
-    connect(scene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
-    connect(ui->graphicsViewGraph, &GraphView::scaleChanged, this, &MainWindow::updateGraphScaleLabel);
     connect(ui->pushButtonScaleGraph, &QPushButton::clicked, ui->graphicsViewGraph, &GraphView::resetScale);
     connect(ui->pushButtonScalePredict, &QPushButton::clicked, ui->graphicsViewPredict, &GraphView::resetScale);
     connect(ui->pushButtonScaleSensitivity, &QPushButton::clicked, ui->graphicsViewSensitivity, &GraphView::resetScale);
@@ -108,17 +104,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
-    recreatePresenters();
-    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, fcm, fcms, modelSetupPresenter, templatesManager, savingManager, settings, nullptr);
+    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationPresenter, nullptr);
+    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, creationPresenter, this, nullptr);
+    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, modelSetupPresenter, simulationPresenter, creationPresenter, this, nullptr);
+    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, fcm, fcms, creationPresenter, modelSetupPresenter, simulationPresenter, sensitivityPresenter, staticAnalysisPresenter, templatesManager, savingManager, settings, nullptr);
     savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, fcm, fcms, modelSetupPresenter, templatesManager, savingManager, settings, this, nullptr);
     connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
-    connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCMRequested);
+    connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
     connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::autosaveRequested, savingExportPresenter.get(), &SavingExportPresenter::autosave);
-    connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
+    connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::currentModelChanged, savingExportPresenter.get(), &SavingExportPresenter::updateFCM);
     connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
+    connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, modelSetupPresenter.get(), &ModelSetupPresenter::onCurrentTabChanged);
+    connect(scene, &GraphScene::modeChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateModeButtonText);
+    connect(ui->graphicsViewGraph, &GraphView::scaleChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateGraphScaleLabel);
 
-    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::changeActivationFunctionSensitivity);
+    connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), sensitivityPresenter.get(), &SensitivityPresenter::changeActivationFunctionSensitivity);
     connect(ui->comboBoxAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithmSensitivity, &QComboBox::setCurrentIndex);
     connect(ui->comboBoxAlgorithmSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), ui->comboBoxAlgorithm, &QComboBox::setCurrentIndex);
     connect(ui->useFuzzyValues, &QCheckBox::toggled, ui->useFuzzyValuesSensitivity, &QCheckBox::setChecked);
@@ -173,6 +175,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     modelsSwitchingPresenter->addFCM(fcm);
     ui->modelName->setText(tr("New model"));
+    modelsSwitchingPresenter->loadFCM(fcm);
     ui->menuModels->installEventFilter(this);
 }
 
@@ -181,236 +184,27 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Escape &&
-        ui->tabWidget->currentWidget() == ui->graph &&
-        creationPresenter &&
-        creationPresenter->hasPendingWeightStart()) {
-        cancelPendingWeightCreation();
-        event->accept();
+    if (modelSetupPresenter && modelSetupPresenter->keyPressEvent(event)) {
         return;
     }
 
     QMainWindow::keyPressEvent(event);
 }
 
-void MainWindow::cancelPendingWeightCreation() {
-    if (!creationPresenter || !creationPresenter->hasPendingWeightStart()) {
-        return;
-    }
-
-    if (auto* scene = qobject_cast<GraphScene*>(ui->graphicsViewGraph->scene())) {
-        scene->cancelPendingWeightCreation();
-    }
-}
-
-void MainWindow::onCurrentTabChanged(int index) {
-    if (ui->tabWidget->currentWidget() != ui->graph &&
-        creationPresenter &&
-        creationPresenter->hasPendingWeightStart()) {
-        cancelPendingWeightCreation();
-    }
-}
-
 bool MainWindow::eventFilter(QObject *watched, QEvent *event) {
-    if (watched == ui->menuModels && event->type() == QEvent::MouseButtonRelease) {
-        auto* mouseEvent = static_cast<QMouseEvent*>(event);
-        QAction* action = ui->menuModels->actionAt(mouseEvent->pos());
-        if (action && action->menu()) {
-            size_t index = static_cast<size_t>(action->data().toULongLong());
-            if (index < fcms.size()) {
-                loadFCM(fcms[index]);
-                ui->menuModels->hide();
-                return true;
-            }
-        }
+    if (modelsSwitchingPresenter && modelsSwitchingPresenter->eventFilter(watched, event)) {
+        return true;
     }
 
     return QMainWindow::eventFilter(watched, event);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-    for (const auto& model : fcms) {
-        if (modelsSwitchingPresenter->modelHasUnsavedChanges(model)) {
-            QMessageBox::StandardButton reply = QMessageBox::question(
-                this,
-                tr("There are unsaved changes!"),
-                tr("There are unsaved changes! Are you sure you want to quit the program?"),
-                QMessageBox::Yes | QMessageBox::No,
-                QMessageBox::No
-            );
-
-            if (reply == QMessageBox::Yes) {
-                event->accept();
-            } else {
-                event->ignore();
-            }
-            return;
-        }
+    if (modelsSwitchingPresenter) {
+        modelsSwitchingPresenter->closeEvent(event);
+    } else {
+        event->accept();
     }
-    event->accept();
-}
-
-void MainWindow::recreatePresenters() {
-    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationScenePresenter, nullptr);
-    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, modelSetupPresenter, simulationScenePresenter, this, nullptr);
-    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, modelSetupPresenter, simulationPresenter, creationPresenter, this, nullptr);
-    if (savingExportPresenter) {
-        savingExportPresenter->updateFCM(fcm, modelSetupPresenter);
-        connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
-        connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
-    }
-    connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, this, &MainWindow::loadFCM);
-}
-
-void MainWindow::updateGraphScaleLabel(double newScale) {
-    ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(newScale*100, 0, 'f', 2));
-    graphScale = newScale;
-}
-
-void MainWindow::updateModeButtonText(EditMode newMode) {
-    ui->pushButtonMode->setText(newMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
-    editMode = newMode;
-}
-
-void MainWindow::changeActivationFunctionSensitivity(int index) {
-    ui->fuzzinessDegreeSensitivity->setEnabled(index == 3 || index == 4);
-}
-
-void MainWindow::loadFCM(std::shared_ptr<FCM> newFCM) {
-    QSignalBlocker b1(ui->modelName);
-    QSignalBlocker b2(ui->termValue);
-    QSignalBlocker b3(ui->termValueL);
-    QSignalBlocker b4(ui->termValueM);
-    QSignalBlocker b5(ui->termValueU);
-    QSignalBlocker b6(ui->termNotes);
-    auto* conceptsGroup = ui->treeWidgetTerms->topLevelItem(0);
-    auto* weightsGroup = ui->treeWidgetTerms->topLevelItem(1);
-    qDeleteAll(conceptsGroup->takeChildren());
-    qDeleteAll(weightsGroup->takeChildren());
-
-    modelsSwitchingPresenter->setCurrentModel(newFCM);
-    modelsSwitchingPresenter->rebuildModelsMenu();
-    fcm = newFCM;
-
-    if (simulationPresenter->isActive()) {
-        simulationPresenter->resetPredictionScene();
-    }
-    if (sensitivityPresenter->isActive()) {
-        sensitivityPresenter->resetSensitivity();
-    }
-
-    ui->modelName->setText(fcm->name);
-    ui->modelNotes->setMarkdownText(fcm->description);
-
-    QTreeWidgetItem* firstItem = nullptr;
-
-    std::vector<std::pair<decltype(fcm->terms)::key_type, decltype(fcm->terms)::mapped_type>> sortedTerms(
-        fcm->terms.begin(), fcm->terms.end()
-        );
-
-    std::sort(sortedTerms.begin(), sortedTerms.end(),
-        [](const auto& a, const auto& b) {
-            return a.second->value < b.second->value;
-        });
-
-    for (auto& [id, term] : sortedTerms) {
-        QTreeWidgetItem* item = new QTreeWidgetItem();
-        item->setText(0, term->name);
-        item->setData(0, Qt::UserRole, QVariant::fromValue(id));
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-
-        if (term->type == ElementType::Node) {
-            conceptsGroup->addChild(item);
-        } else {
-            weightsGroup->addChild(item);
-        }
-
-        if (!firstItem) {
-            firstItem = item;
-        }
-    }
-
-    ui->treeWidgetTerms->expandAll();
-
-    if (creationPresenter) {
-        creationPresenter->closeWindows();
-    }
-    creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
-    ui->adjacencyTableView->loadFromFCM(fcm);
-    ui->adjacencyTableView->setPresenter(creationPresenter);
-    simulationScenePresenter = std::make_shared<SimulationScenePresenter>(creationPresenter, this);
-    if (editMode == EditMode::EditValues) {
-        updateModeButtonText(EditMode::Create);
-    }
-
-    auto newScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
-    connect(ui->pushButtonMode, &QPushButton::clicked, newScene, &GraphScene::switchMode);
-    connect(newScene, &GraphScene::modeChanged, this, &MainWindow::updateModeButtonText);
-    auto oldSceneCreate = ui->graphicsViewGraph->scene();
-    auto oldScenePredict = ui->graphicsViewPredict->scene();
-    auto oldSceneSensitivity = ui->graphicsViewSensitivity->scene();
-    ui->graphicsViewGraph->setScene(newScene);
-    ui->graphicsViewPredict->setScene(newScene);
-    ui->graphicsViewSensitivity->setScene(newScene);
-    if (oldSceneCreate != oldScenePredict) {
-        delete oldScenePredict;
-    }
-    if (oldSceneCreate != oldSceneSensitivity) {
-        delete oldSceneSensitivity;
-    }
-    delete oldSceneCreate;
-
-    auto* oldStaticAnalysisScene = ui->staticAnalysis->findChild<GraphView*>("graphicsView")->scene();
-    auto* newStaticAnalysisScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
-    newStaticAnalysisScene->blockConceptCreationColorEdit(true);
-    newStaticAnalysisScene->setMode(EditMode::EditValues);
-    ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(newStaticAnalysisScene);
-    delete oldStaticAnalysisScene;
-
-    delete staticAnalysisPresenter;
-    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
-    recreatePresenters();
-
-    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
-
-    for (const auto& experiment : fcm->experiments) {
-        simulationPresenter->addExperiment(experiment);
-    }
-
-    ui->autoColorConfiguration->setChecked(fcm->autoConfigureTermsColors);
-    ui->autoNumericConfiguration->setChecked(fcm->autoConfigureNumericValues);
-    ui->autoFuzzyConfiguration->setChecked(fcm->autoConfigureFuzzyValues);
-
-    int indexAlgorithm = ui->comboBoxAlgorithm->findData(fcm->predictionParameters.algorithm, Qt::UserRole);
-    ui->comboBoxAlgorithm->setCurrentIndex(indexAlgorithm);
-    ui->useFuzzyValues->setChecked(fcm->predictionParameters.useFuzzyValues);
-    int indexActivation = ui->comboBoxActivation->findData(fcm->predictionParameters.activationFunction, Qt::UserRole);
-    ui->comboBoxActivation->setCurrentIndex(indexActivation);
-    int indexMetric = ui->comboBoxMetric->findData(fcm->predictionParameters.metric, Qt::UserRole);
-    ui->comboBoxMetric->setCurrentIndex(indexMetric);
-    ui->checkBoxPredictToStatic->setChecked(fcm->predictionParameters.predictToStatic);
-    ui->doubleSpinBoxThreshold->setValue(fcm->predictionParameters.threshold);
-    ui->spinBoxMetricSteps->setValue(fcm->predictionParameters.stepsLessThreshold);
-    ui->spinBoxFixedSteps->setValue(fcm->predictionParameters.fixedSteps);
-    ui->fuzzinessDegree->setValue(fcm->predictionParameters.fuzzinessDegree);
-
-    ui->actionAutoSave->setEnabled(fcm->dbId != -1);
-    ui->actionAutoSave->setChecked(fcm->autosaveOn);
-
-    ui->graphicsViewGraph->resetTransform();
-    ui->graphicsViewPredict->resetTransform();
-    ui->graphicsViewSensitivity->resetTransform();
-    updateGraphScaleLabel(1.0);
-    simulationPresenter->updatePredictScaleLabel(1.0);
-    sensitivityPresenter->updateSensitivityScaleLabel(1.0);
-    ui->doubleSpinBoxMaxChange->setValue(0.1);
-    ui->changeConcepts->setChecked(true);
-    ui->changeWeights->setChecked(false);
-
-    ui->useFuzzyValuesStatic->setChecked(false);
-    ui->influenceDirection->setCurrentIndex(0);
-    ui->influenceSteps->setValue(1);
-    ui->graphConcept->setCurrentIndex(0);
 }
 
 void MainWindow::changeModelSettingsVisibility(bool checked) {
@@ -496,20 +290,7 @@ void MainWindow::setRussian() {
 void MainWindow::changeEvent(QEvent *event) {
     if (event->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
-
-        QSignalBlocker blocker(ui->treeWidgetTerms);
-        auto* conceptsGroup = ui->treeWidgetTerms->topLevelItem(0);
-        auto* weightsGroup = ui->treeWidgetTerms->topLevelItem(1);
-        conceptsGroup->setText(0, tr("Concepts terms"));
-        weightsGroup->setText(0, tr("Weights terms"));
-        ui->plotSensitivity->xAxis->setLabel(tr("max change"));
-        ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
-        ui->plotSensitivity->replot();
-
-        ui->plotSensitivity->xAxis->setLabel(tr("max change"));
-        ui->plotSensitivity->yAxis->setLabel(tr("sensitivity"));
-        ui->labelScaleGraph->setText(QString(MainWindow::tr("Scale: %1%")).arg(graphScale*100, 0, 'f', 2));
-        ui->pushButtonMode->setText(editMode == EditMode::EditValues ? MainWindow::tr("Mode: Edit values") : MainWindow::tr("Mode: Create"));
+        modelSetupPresenter->retranslateUi();
         simulationPresenter->retranslateUi();
         sensitivityPresenter->retranslateUi();
     }

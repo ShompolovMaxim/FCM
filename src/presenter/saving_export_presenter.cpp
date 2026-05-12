@@ -51,9 +51,8 @@ SavingExportPresenter::SavingExportPresenter(
     connect(ui->actionImport, &QAction::triggered, this, &SavingExportPresenter::onImportJson);
 }
 
-void SavingExportPresenter::updateFCM(std::shared_ptr<FCM> newFcm, std::shared_ptr<ModelSetupPresenter> newModelSetupPresenter) {
+void SavingExportPresenter::updateFCM(std::shared_ptr<FCM> newFcm) {
     fcm = newFcm;
-    modelSetupPresenter = newModelSetupPresenter;
 }
 
 void SavingExportPresenter::saveAs() {
@@ -280,5 +279,4 @@ void SavingExportPresenter::deleteSavedTemplate(const QString &templateName) {
 
     emit modelDeletionFinished(templateName, true);
 }
-
 

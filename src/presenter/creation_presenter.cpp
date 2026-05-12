@@ -2,15 +2,38 @@
 
 #include "common/logger.h"
 
+#include <vector>
+
 CreationPresenter::CreationPresenter(std::shared_ptr<FCM> fcm, QWidget* elementWindowParent, QObject* parent)
     : ScenePresenter(parent), fcm(fcm), elementWindowParent(elementWindowParent) {}
 
+void CreationPresenter::reconfigure(std::shared_ptr<FCM> newFcm) {
+    closeWindows();
+    cancelPendingWeightCreation();
+    fcm = std::move(newFcm);
+}
+
 void CreationPresenter::closeWindows() {
-    for (auto& [id, _] : conceptWindows) {
-        delete conceptWindows[id];
+    std::vector<ConceptWindow*> conceptWindowsToDelete;
+    conceptWindowsToDelete.reserve(conceptWindows.size());
+    for (const auto& [_, window] : conceptWindows) {
+        conceptWindowsToDelete.push_back(window);
     }
-    for (auto& [id, _] : weightWindows) {
-        delete weightWindows[id];
+
+    std::vector<WeightWindow*> weightWindowsToDelete;
+    weightWindowsToDelete.reserve(weightWindows.size());
+    for (const auto& [_, window] : weightWindows) {
+        weightWindowsToDelete.push_back(window);
+    }
+
+    conceptWindows.clear();
+    weightWindows.clear();
+
+    for (auto* window : conceptWindowsToDelete) {
+        delete window;
+    }
+    for (auto* window : weightWindowsToDelete) {
+        delete window;
     }
 }
 
@@ -296,4 +319,3 @@ void CreationPresenter::retranslateElementsWindows() {
 void CreationPresenter::emitAutosave() {
     emit autosave();
 }
-

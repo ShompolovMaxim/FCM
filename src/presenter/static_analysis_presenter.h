@@ -18,6 +18,7 @@ class StaticAnalysisPresenter : public QObject {
     Q_OBJECT
 public:
     StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm);
+    void reconfigure(std::shared_ptr<FCM> newFcm);
 
     void refreshUI(bool changeTable = true);
 

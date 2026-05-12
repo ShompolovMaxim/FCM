@@ -37,6 +37,18 @@ StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<C
     refreshUI();
 }
 
+void StaticAnalysisPresenter::reconfigure(std::shared_ptr<FCM> newFcm) {
+    fcm = std::move(newFcm);
+    graphScene = dynamic_cast<GraphScene*>(tab->findChild<GraphView*>("graphicsView")->scene());
+    analyzer = StaticAnalyzer(fcm);
+    fuzzyAnalyzer = FuzzyStaticAnalyzer(fcm);
+    updateGraphConceptList();
+    analyzer.init();
+    fuzzyAnalyzer.init();
+
+    refreshUI();
+}
+
 void StaticAnalysisPresenter::useFuzzyValuesChanged() {
     recalculateInfluence();
     refreshUI(true);
