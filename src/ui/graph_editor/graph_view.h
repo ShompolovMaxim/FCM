@@ -25,6 +25,7 @@ private:
     QPoint lastPanPoint;
     QPointF panAccumulator;
     double panSensitivity;
+    double zoomFactor;
 
     bool hasNodes() const
     {

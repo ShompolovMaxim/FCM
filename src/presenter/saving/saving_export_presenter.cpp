@@ -27,7 +27,6 @@ SavingExportPresenter::SavingExportPresenter(
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
     std::shared_ptr<TemplatesManager> templatesManager,
     std::shared_ptr<ModelsSavingManager> savingManager,
-    QSettings& settings,
     QWidget* parentWidget,
     QObject *parent
     ) : ui(ui),
@@ -36,7 +35,6 @@ SavingExportPresenter::SavingExportPresenter(
         modelSetupPresenter(modelSetupPresenter),
         templatesManager(templatesManager),
         savingManager(savingManager),
-        settings(settings),
         QObject(parent) {
     connect(ui->actionSaveAs, &QAction::triggered, this, &SavingExportPresenter::saveAs);
     connect(ui->actionSave, &QAction::triggered, this, &SavingExportPresenter::save);
@@ -142,9 +140,8 @@ void SavingExportPresenter::saveAsTemplate() {
 
     const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
     const auto filteredTemplatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-        );
+        templatesNamesWithTypes
+    );
     const auto allTemplatesNames = TemplatesLanguageManager::extractTemplateNames(templatesNamesWithTypes);
     SaveAsWindow saveAsWindow(
         filteredTemplatesNames,
@@ -166,9 +163,8 @@ void SavingExportPresenter::saveAsTemplate() {
 void SavingExportPresenter::openTemplate() {
     const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
     const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-        );
+        templatesNamesWithTypes
+    );
     LoadModelWindow* loadModelWindow = new LoadModelWindow(templatesNames, mainWindowTr("Open FCM Template"), parentWidget);
     connect(loadModelWindow, &LoadModelWindow::deleteModelRequested, this, &SavingExportPresenter::deleteSavedTemplate);
     connect(this, &SavingExportPresenter::modelDeletionFinished, loadModelWindow, &LoadModelWindow::onModelDeleted);

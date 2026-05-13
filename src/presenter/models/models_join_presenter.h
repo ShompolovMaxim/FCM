@@ -7,7 +7,6 @@
 #include "model/entities/fcm.h"
 
 class QWidget;
-class QSettings;
 class TemplatesManager;
 class ModelsSavingManager;
 
@@ -18,7 +17,6 @@ public:
         std::vector<std::shared_ptr<FCM>>& fcms,
         std::shared_ptr<TemplatesManager> templatesManager,
         std::shared_ptr<ModelsSavingManager> savingManager,
-        QSettings& settings,
         QWidget* parentWidget,
         QObject *parent = nullptr
     );
@@ -35,7 +33,5 @@ private:
     std::shared_ptr<TemplatesManager> templatesManager;
     std::shared_ptr<ModelsSavingManager> savingManager;
     QWidget* parentWidget;
-
-    QSettings& settings;
 };
 

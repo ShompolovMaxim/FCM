@@ -2,13 +2,14 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
 #include <QTranslator>
 #include <memory>
 
 #include "model/entities/fcm.h"
-
 #include "presenter/models/creation_presenter.h"
 #include "presenter/models/model_setup_presenter.h"
+#include "presenter/models/models_join_presenter.h"
 #include "presenter/models/models_switching_presenter.h"
 #include "presenter/saving/saving_export_presenter.h"
 #include "presenter/analysis/sensitivity_presenter.h"
@@ -23,6 +24,8 @@ namespace Ui {
 class MainWindow;
 }
 QT_END_NAMESPACE
+
+class MainWindowUiTest;
 
 class MainWindow : public QMainWindow
 {
@@ -54,8 +57,11 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
+    friend class MainWindowUiTest;
+
     Ui::MainWindow *ui;
     StaticAnalysisPresenter* staticAnalysisPresenter;
+    std::shared_ptr<ModelsJoinPresenter> modelsJoinPresenter;
     std::shared_ptr<ModelsSwitchingPresenter> modelsSwitchingPresenter;
     std::shared_ptr<SavingExportPresenter> savingExportPresenter;
     std::shared_ptr<SensitivityPresenter> sensitivityPresenter;
@@ -63,7 +69,7 @@ private:
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
     std::shared_ptr<SimulationPresenter> simulationPresenter;
 
-    QSettings settings = QSettings("HSE", "FCM");
+    QSettings settings{"app.ini", QSettings::IniFormat};
 
     QTranslator translatorRus;
     QTranslator translatorDefaultRus;

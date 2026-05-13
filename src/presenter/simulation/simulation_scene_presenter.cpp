@@ -8,8 +8,21 @@
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/weight_window/weight_window.h"
 
+#include <QSettings>
+
 SimulationScenePresenter::SimulationScenePresenter(std::shared_ptr<CreationPresenter> creationPresenter, QObject* parent)
-    : ScenePresenter(parent), creationPresenter(creationPresenter) {}
+    : ScenePresenter(parent), creationPresenter(creationPresenter) {
+    const QSettings settings("app.ini", QSettings::IniFormat);
+
+    baseStepTime = static_cast<size_t>(settings.value("simulation/baseStepTimeMs", 1000).toInt());
+    iterationTime = baseStepTime;
+
+    speedUpFactor = settings.value("simulation/speedUpFactor", 2.0).toDouble();
+    slowDownFactor = settings.value("simulation/slowDownFactor", 2.0).toDouble();
+    progressUpdateTime = settings.value("simulation/progressUpdateTimeMs", 200).toInt();
+    unfinishedProgressThreshold = settings.value("simulation/unfinishedProgressThreshold", 15).toInt();
+    progressMaxStep = settings.value("simulation/progressMaxStep", 10000000).toInt();
+}
 
 SimulationScenePresenter::~SimulationScenePresenter() {
     stopExecution();
@@ -130,7 +143,7 @@ void SimulationScenePresenter::finish() {
             emit finished();
         }
     });
-    calculationTimer->start(200);
+    calculationTimer->start(progressUpdateTime);
 }
 
 bool SimulationScenePresenter::goToStep(size_t newStep) {
@@ -202,8 +215,8 @@ bool SimulationScenePresenter::goToStep(size_t newStep) {
         }
         step = newStep;
         auto maxStep = predictor->getCount();
-        if (!predictor->getFinished() && maxStep < 15) {
-            maxStep = 10000000;
+        if (!predictor->getFinished() && maxStep < static_cast<size_t>(unfinishedProgressThreshold)) {
+            maxStep = progressMaxStep;
         }
         if (!predictionParameters.predictToStatic) {
             maxStep = predictionParameters.fixedSteps;
@@ -252,6 +265,7 @@ void SimulationScenePresenter::reset() {
     active = false;
     step = 0;
     lastStep = 0;
+    iterationTime = baseStepTime;
     nodes.clear();
     edges.clear();
 

@@ -57,8 +57,12 @@ private:
     int step = 0;
     int lastStep = 0;
     size_t iterationTime = 1000;
-    const double speedUpFactor = 2;
-    const double slowDownFactor = 2;
+    size_t baseStepTime = 1000;
+    double speedUpFactor = 2.0;
+    double slowDownFactor = 2.0;
+    int progressUpdateTime = 200;
+    int unfinishedProgressThreshold = 15;
+    int progressMaxStep = 10000000;
     QList<NodeItem*> nodes;
     QMap<QUuid, EdgeItem*> edges;
     std::shared_ptr<Predictor> predictor;

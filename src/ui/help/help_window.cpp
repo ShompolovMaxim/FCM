@@ -9,8 +9,6 @@
 #include <QSettings>
 
 namespace {
-constexpr auto kSettingsOrg = "HSE";
-constexpr auto kSettingsApp = "FCM";
 constexpr auto kRuLanguage = "RU";
 constexpr auto kEnglishCode = "en";
 constexpr auto kRussianCode = "ru";
@@ -43,7 +41,7 @@ void HelpWindow::retranslate() {
 }
 
 QString HelpWindow::currentLanguageCode() const {
-    const QSettings settings(kSettingsOrg, kSettingsApp);
+    const QSettings settings("app.ini", QSettings::IniFormat);
     return settings.value("language", "").toString() == QLatin1String(kRuLanguage)
                ? QLatin1String(kRussianCode)
                : QLatin1String(kEnglishCode);
@@ -72,7 +70,10 @@ void HelpWindow::reloadHelpEngine() {
     ui->textBrowser->setHelpEngine(nullptr);
     ui->textBrowser->clear();
 
-    const QString helpDir = QCoreApplication::applicationDirPath() + "/help/" + currentLanguageCode();
+    const QSettings settings("app.ini", QSettings::IniFormat);
+    const QString helpDir = QCoreApplication::applicationDirPath() + "/" +
+                            settings.value("help/baseDir", "help").toString() + "/" +
+                            currentLanguageCode();
     const QString qhcPath = helpDir + "/help.qhc";
 
     helpEngine = new QHelpEngine(qhcPath, this);

@@ -4,15 +4,13 @@
 
 #include <QList>
 #include <QPair>
-#include <QSettings>
 #include <QStringList>
 
 class TemplatesLanguageManager {
 public:
-    static TemplateType currentDefaultTemplateType(const QSettings &settings);
+    static TemplateType currentDefaultTemplateType();
     static QStringList filterTemplateNamesForCurrentLanguage(
-        const QList<QPair<QString, TemplateType>> &templatesNamesWithTypes,
-        const QSettings &settings
+        const QList<QPair<QString, TemplateType>> &templatesNamesWithTypes
     );
     static QStringList extractTemplateNames(
         const QList<QPair<QString, TemplateType>> &templatesNamesWithTypes

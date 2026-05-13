@@ -7,6 +7,7 @@
 
 #include <QCoreApplication>
 #include <QMessageBox>
+#include <QSettings>
 
 namespace {
 QString mainWindowTr(const char* text) {
@@ -58,12 +59,14 @@ SensitivityPresenter::SensitivityPresenter(
 }
 
 SensitivityAnalysisParameters SensitivityPresenter::getSensitivityParameters() {
+    const QSettings settings("app.ini", QSettings::IniFormat);
+
     return {
         ui->doubleSpinBoxMaxChange->value(),
         ui->changeConcepts->isChecked(),
         ui->changeWeights->isChecked(),
-        10,
-        1000,
+        settings.value("sensitivity/changeSteps", 10).toInt(),
+        settings.value("sensitivity/maxIterations", 1000).toInt(),
         ui->sensitivityMeasureMetric->currentData(Qt::UserRole).toString()
     };
 }
@@ -73,6 +76,8 @@ bool SensitivityPresenter::isActive() const {
 }
 
 void SensitivityPresenter::reconfigure() {
+    const QSettings settings("app.ini", QSettings::IniFormat);
+
     if (isActive()) {
         resetSensitivity();
     }
@@ -81,7 +86,7 @@ void SensitivityPresenter::reconfigure() {
 
     ui->progressBarSensitivity->setValue(0);
     ui->stackedWidgetSensitivity->setCurrentIndex(0);
-    ui->doubleSpinBoxMaxChange->setValue(0.1);
+    ui->doubleSpinBoxMaxChange->setValue(settings.value("sensitivity/defaultMaxChange", 0.1).toDouble());
     ui->changeConcepts->setChecked(true);
     ui->changeWeights->setChecked(false);
     ui->plotSensitivity->graph(0)->data()->clear();

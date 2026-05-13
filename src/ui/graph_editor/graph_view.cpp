@@ -1,12 +1,17 @@
 #include "graph_view.h"
 
+#include <QSettings>
+
 GraphView::GraphView(QWidget* parent) : QGraphicsView(parent) {
+    const QSettings settings("app.ini", QSettings::IniFormat);
+
     setRenderHint(QPainter::Antialiasing);
     setDragMode(RubberBandDrag);
     setTransformationAnchor(AnchorUnderMouse);
     setViewportUpdateMode(FullViewportUpdate);
     setMouseTracking(true);
-    panSensitivity = 2;
+    panSensitivity = settings.value("graph/panSensitivity", 2).toDouble();
+    zoomFactor = settings.value("graph/zoomFactor", 1.15).toDouble();
 }
 
 void GraphView::resetScale() {
@@ -17,11 +22,10 @@ void GraphView::resetScale() {
 
 void GraphView::wheelEvent(QWheelEvent* event)
 {
-    const double scaleFactor = 1.15;
     if (event->angleDelta().y() > 0) {
-        scale(scaleFactor, scaleFactor);
+        scale(zoomFactor, zoomFactor);
     } else {
-        scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        scale(1.0 / zoomFactor, 1.0 / zoomFactor);
     }
     scaleChanged(transform().m11());
 }
@@ -79,4 +83,3 @@ void GraphView::mouseReleaseEvent(QMouseEvent* event)
         QGraphicsView::mouseReleaseEvent(event);
     }
 }
-

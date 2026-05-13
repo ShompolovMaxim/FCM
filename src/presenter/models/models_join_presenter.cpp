@@ -23,14 +23,12 @@ ModelsJoinPresenter::ModelsJoinPresenter(
     std::vector<std::shared_ptr<FCM>>& fcms,
     std::shared_ptr<TemplatesManager> templatesManager,
     std::shared_ptr<ModelsSavingManager> savingManager,
-    QSettings& settings,
     QWidget* parentWidget,
     QObject *parent
 ) : fcms(fcms),
     templatesManager(templatesManager),
     savingManager(savingManager),
     parentWidget(parentWidget),
-    settings(settings),
     QObject{parent} {}
 
 void ModelsJoinPresenter::joinModels() {
@@ -44,9 +42,8 @@ void ModelsJoinPresenter::joinModels() {
     const auto savedModelsNames = savingManager->getModelsNames();
     const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
     const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-        );
+        templatesNamesWithTypes
+    );
 
     JoinWindow* joinWindow = new JoinWindow(unsavedModelsNames, savedModelsNames, templatesNames, parentWidget);
 

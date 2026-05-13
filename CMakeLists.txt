@@ -17,6 +17,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
 set(TS_FILES translations/FCM_ru_RU.ts)
@@ -153,8 +154,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/templates/template_type.cpp
         src/model/entities/templates/templates_language_manager.h
         src/model/entities/templates/templates_language_manager.cpp
-
         src/presenter/models/model_setup_presenter.h src/presenter/models/model_setup_presenter.cpp
+        src/presenter/models/models_join_presenter.h src/presenter/models/models_join_presenter.cpp
         src/presenter/models/models_switching_presenter.h src/presenter/models/models_switching_presenter.cpp
         src/presenter/saving/saving_export_presenter.h src/presenter/saving/saving_export_presenter.cpp
         src/presenter/simulation/simulation_presenter.h src/presenter/simulation/simulation_presenter.cpp
@@ -262,6 +263,7 @@ add_custom_target(help_docs ALL
 add_dependencies(FCM help_docs)
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Help)
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 

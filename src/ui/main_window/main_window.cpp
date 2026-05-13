@@ -16,7 +16,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    auto lang = settings.value("language", "").toString();
+    const auto lang = settings.value("language", "").toString();
     translatorRus.load("FCM_ru_RU.qm");
     translatorDefaultRus.load("qtbase_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     translatorWidgetsRus.load("qt_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("models.db");
+    db.setDatabaseName(settings.value("database/path", "models.db").toString());
     if (!db.open()) {
         Logger::critical("Database open failed");
         qFatal("Cannot open database");
@@ -76,7 +76,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     auto savingManager = std::make_shared<ModelsSavingManager>(ModelsRepository(db));
     auto templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
 
-    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, creationPresenter, modelSetupPresenter, simulationPresenter, sensitivityPresenter, staticAnalysisPresenter, templatesManager, savingManager, settings, nullptr);
+    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, creationPresenter, modelSetupPresenter, simulationPresenter, sensitivityPresenter, staticAnalysisPresenter, savingManager, nullptr);
+    modelsJoinPresenter = std::make_shared<ModelsJoinPresenter>(modelsSwitchingPresenter->modelsRef(), templatesManager, savingManager, this, nullptr);
 
     creationPresenter = std::make_shared<CreationPresenter>(modelsSwitchingPresenter->currentModelRef(), this);
     ui->adjacencyTableView->setPresenter(creationPresenter);
@@ -101,15 +102,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, nullptr);
     simulationPresenter = std::make_shared<SimulationPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, this, nullptr);
     sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, this, nullptr);
-    savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, modelsSwitchingPresenter->modelsRef(), modelSetupPresenter, templatesManager, savingManager, settings, this, nullptr);
+    savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, modelsSwitchingPresenter->modelsRef(), modelSetupPresenter, templatesManager, savingManager, this, nullptr);
     connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
     connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
+    connect(modelsJoinPresenter.get(), &ModelsJoinPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
+    connect(modelsJoinPresenter.get(), &ModelsJoinPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
     connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::autosaveRequested, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
     connect(modelSetupPresenter.get(), &ModelSetupPresenter::popagateTermUpdate, simulationPresenter.get(), &SimulationPresenter::refreshFromModelSetup);
     connect(modelSetupPresenter.get(), &ModelSetupPresenter::popagateTermUpdate, staticAnalysisPresenter, &StaticAnalysisPresenter::refreshFromModelSetup);
+    connect(ui->actionJoinFCM, &QAction::triggered, modelsJoinPresenter.get(), &ModelsJoinPresenter::joinModels);
     connect(ui->tabWidget, &QTabWidget::currentChanged, modelSetupPresenter.get(), &ModelSetupPresenter::onCurrentTabChanged);
     connect(scene, &GraphScene::modeChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateModeButtonText);
     connect(ui->graphicsViewGraph, &GraphView::scaleChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateGraphScaleLabel);

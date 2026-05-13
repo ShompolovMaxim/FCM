@@ -1,16 +1,18 @@
 #include "templates_language_manager.h"
 
-TemplateType TemplatesLanguageManager::currentDefaultTemplateType(const QSettings &settings) {
+#include <QSettings>
+
+TemplateType TemplatesLanguageManager::currentDefaultTemplateType() {
+    const QSettings settings("app.ini", QSettings::IniFormat);
     return settings.value("language", "").toString().isEmpty()
         ? TemplateType::DefaultEnglish
         : TemplateType::DefaultRussian;
 }
 
 QStringList TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-    const QList<QPair<QString, TemplateType>> &templatesNamesWithTypes,
-    const QSettings &settings
+    const QList<QPair<QString, TemplateType>> &templatesNamesWithTypes
 ) {
-    const TemplateType currentType = currentDefaultTemplateType(settings);
+    const TemplateType currentType = currentDefaultTemplateType();
     QStringList templateNames;
     templateNames.reserve(templatesNamesWithTypes.size());
 
