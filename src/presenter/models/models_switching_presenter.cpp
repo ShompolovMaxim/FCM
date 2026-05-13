@@ -6,15 +6,10 @@
 #include "presenter/simulation/simulation_presenter.h"
 #include "presenter/analysis/static_analysis_presenter.h"
 
-#include "model/join/models_joiner.h"
-#include "model/entities/templates/templates_language_manager.h"
-
 #include "repository/models_manager.h"
-#include "repository/templates_manager.h"
 
 #include "ui/graph_editor/graph_scene.h"
 #include "ui/graph_editor/graph_view.h"
-#include "ui/join_window/join_window.h"
 
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -39,9 +34,7 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     std::shared_ptr<SimulationPresenter>& simulationPresenter,
     std::shared_ptr<SensitivityPresenter>& sensitivityPresenter,
     StaticAnalysisPresenter*& staticAnalysisPresenter,
-    std::shared_ptr<TemplatesManager> templatesManager,
     std::shared_ptr<ModelsSavingManager> savingManager,
-    QSettings& settings,
     QObject *parent
 ) : ui(ui),
     parentWidget(parentWidget),
@@ -50,9 +43,7 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     simulationPresenter(simulationPresenter),
     sensitivityPresenter(sensitivityPresenter),
     staticAnalysisPresenter(staticAnalysisPresenter),
-    templatesManager(templatesManager),
     savingManager(savingManager),
-    settings(settings),
     QObject{parent} {
     fcm = std::make_shared<FCM>();
     fcm->name = mainWindowTr("New model");
@@ -60,7 +51,6 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
 
     connect(ui->modelName, &QLineEdit::textChanged, this, &ModelsSwitchingPresenter::nameChanged);
     connect(ui->actionNew, &QAction::triggered, this, &ModelsSwitchingPresenter::createNewModel);
-    connect(ui->actionJoinFCM, &QAction::triggered, this, &ModelsSwitchingPresenter::joinModels);
 }
 
 bool ModelsSwitchingPresenter::modelHasUnsavedChanges(std::shared_ptr<FCM> model) {
@@ -299,78 +289,4 @@ void ModelsSwitchingPresenter::createNewModel() {
     fcm->name = mainWindowTr("New model") + (counter - 1 ? " (" + QString::number(counter) + ")" : "");
     addFCM(fcm);
     loadFCM(fcm);
-}
-
-void ModelsSwitchingPresenter::joinModels() {
-    QList<QString> unsavedModelsNames;
-    unsavedModelsNames.reserve(fcms.size());
-    for (const auto& model : fcms) {
-        if (model->dbId == -1) {
-            unsavedModelsNames.push_back(model->name);
-        }
-    }
-    const auto savedModelsNames = savingManager->getModelsNames();
-    const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
-    const auto templatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
-        templatesNamesWithTypes,
-        settings
-        );
-
-    JoinWindow* joinWindow = new JoinWindow(unsavedModelsNames, savedModelsNames, templatesNames, parentWidget);
-
-    if (joinWindow->exec() != QDialog::Accepted) {
-        return;
-    }
-
-    std::shared_ptr<FCM> baseFCM;
-    std::vector<std::shared_ptr<FCM>> joinFCMs;
-
-    for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Unsaved)) {
-        for (auto unsavedFCM : fcms) {
-            if (unsavedFCM->name == modelName) {
-                joinFCMs.push_back(unsavedFCM);
-                if (modelName == joinWindow->getTermsModel()) {
-                    baseFCM = unsavedFCM;
-                }
-                break;
-            }
-        }
-    }
-
-    for (const auto& modelName : joinWindow->getModelsToJoin().value(JoinGroupType::Saved)) {
-        auto model = savingManager->getFCM(modelName);
-        if (!model) {
-            Logger::warn("Join saved model load failed");
-            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Failed to load one of the selected saved models."));
-            return;
-        }
-
-        auto savedFCM = std::make_shared<FCM>(*model);
-        joinFCMs.push_back(savedFCM);
-        if (modelName == joinWindow->getTermsModel()) {
-            baseFCM = savedFCM;
-        }
-    }
-
-    const auto termsModel = joinWindow->getTermsModel();
-    if (baseFCM == nullptr && templatesNames.contains(termsModel)) {
-        auto model = templatesManager->getFCM(termsModel);
-        if (!model) {
-            Logger::warn("Join template load failed");
-            QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Failed to load the selected terms model template."));
-            return;
-        }
-
-        baseFCM = std::make_shared<FCM>(*model);
-    }
-
-    if (baseFCM == nullptr) {
-        QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Please select a valid terms model before proceeding!"));
-        return;
-    }
-
-    auto joinedFCM = ModelsJoiner().join(baseFCM, joinFCMs, joinWindow->getJoinMode(), joinWindow->getResultName());
-
-    addFCM(joinedFCM);
-    loadFCM(joinedFCM);
 }

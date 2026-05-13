@@ -9,7 +9,6 @@
 #include "ui_main_window.h"
 
 class FCM;
-class TemplatesManager;
 class ModelsSavingManager;
 class CreationPresenter;
 class ModelSetupPresenter;
@@ -18,7 +17,6 @@ class SimulationPresenter;
 class StaticAnalysisPresenter;
 class QCloseEvent;
 class QEvent;
-class QSettings;
 
 namespace Ui {
 class MainWindow;
@@ -35,9 +33,7 @@ public:
         std::shared_ptr<SimulationPresenter>& simulationPresenter,
         std::shared_ptr<SensitivityPresenter>& sensitivityPresenter,
         StaticAnalysisPresenter*& staticAnalysisPresenter,
-        std::shared_ptr<TemplatesManager> templatesManager,
         std::shared_ptr<ModelsSavingManager> savingManager,
-        QSettings& settings,
         QObject *parent = nullptr
     );
 
@@ -48,8 +44,6 @@ public:
 
     void nameChanged(QString newName);
     void createNewModel();
-
-    void joinModels();
 
     bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
     bool closeModel(size_t index);
@@ -79,8 +73,6 @@ private:
     std::shared_ptr<SimulationPresenter>& simulationPresenter;
     std::shared_ptr<SensitivityPresenter>& sensitivityPresenter;
     StaticAnalysisPresenter*& staticAnalysisPresenter;
-    std::shared_ptr<TemplatesManager> templatesManager;
     std::shared_ptr<ModelsSavingManager> savingManager;
-    QSettings& settings;
 };
 
