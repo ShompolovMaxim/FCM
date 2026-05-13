@@ -4,6 +4,7 @@
 #include "model/algorithms/standard_fuzzy.h"
 #include "model/algorithms/weights_prediction.h"
 #include "model/algorithms/weights_prediction_fuzzy.h"
+#include "model/prediction/prediction_parameters.h"
 
 #include "test_utils.h"
 
@@ -11,7 +12,7 @@ TEST(AlgorithmsFactoryTest, CreatesStandardPredictionAlgorithm) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
-        createPredictionParameters("const weights", false),
+        PredictionParameters{"const weights", false, "", "", false, 0.0, 0, 0, 1.0},
         std::make_shared<ShiftActivationFunction>(1.0),
         std::make_shared<ShiftActivationFunction>(2.0)
     );
@@ -24,7 +25,7 @@ TEST(AlgorithmsFactoryTest, CreatesWeightsPredictionAlgorithm) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
-        createPredictionParameters("changing weights", false),
+        PredictionParameters{"changing weights", false, "", "", false, 0.0, 0, 0, 1.0},
         std::make_shared<ShiftActivationFunction>(1.0),
         std::make_shared<ShiftActivationFunction>(2.0)
     );
@@ -37,7 +38,7 @@ TEST(AlgorithmsFactoryTest, CreatesStandardFuzzyAlgorithm) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
-        createPredictionParameters("const weights", true),
+        PredictionParameters{"const weights", true, "", "", false, 0.0, 0, 0, 1.0},
         std::make_shared<ShiftActivationFunction>(1.0),
         std::make_shared<ShiftActivationFunction>(2.0)
     );
@@ -50,7 +51,7 @@ TEST(AlgorithmsFactoryTest, CreatesWeightsPredictionFuzzyAlgorithm) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
-        createPredictionParameters("changing weights", true),
+        PredictionParameters{"changing weights", true, "", "", false, 0.0, 0, 0, 1.0},
         std::make_shared<ShiftActivationFunction>(1.0),
         std::make_shared<ShiftActivationFunction>(2.0)
     );
@@ -63,12 +64,10 @@ TEST(AlgorithmsFactoryTest, ReturnsNullptrForUnknownAlgorithm) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
-        createPredictionParameters("unknown", false),
+        PredictionParameters{"unknown", false, "", "", false, 0.0, 0, 0, 1.0},
         std::make_shared<ShiftActivationFunction>(1.0),
         std::make_shared<ShiftActivationFunction>(2.0)
     );
 
     EXPECT_EQ(algorithm, nullptr);
 }
-
-

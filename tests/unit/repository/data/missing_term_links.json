@@ -1,0 +1,39 @@
+{
+    "name": "Missing links",
+    "description": "Concept and weight refer to absent terms",
+    "predictionParameters": {
+        "algorithm": "standard",
+        "use_fuzzy_values": false,
+        "activation": "bivalent",
+        "metric": "MSE",
+        "predict_to_static": false,
+        "threshold": 0,
+        "steps_less_threshold": 1,
+        "fixed_steps": 1,
+        "fuzziness_degree": 1
+    },
+    "terms": [],
+    "concepts": [
+        {
+            "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+            "name": "Orphan concept",
+            "description": "Refers to missing term",
+            "term_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+            "first_step": 4,
+            "x_pos": 2,
+            "y_pos": 3,
+            "name_location": "center"
+        }
+    ],
+    "weights": [
+        {
+            "id": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+            "name": "Orphan weight",
+            "description": "Also refers to missing term",
+            "term_id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+            "concept_from_id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+            "concept_to_id": "cccccccc-cccc-cccc-cccc-cccccccccccc"
+        }
+    ],
+    "experiments": []
+}

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "model/activation_functions/activation_function.h"
-#include "model/entities/calculation_fcm.h"
-#include "presenter/prediction_parameters.h"
+#include "model/entities/calculation/calculation_fcm.h"
 
 #include <memory>
 
@@ -57,17 +56,4 @@ inline CalculationFCM createFuzzyCalculationFCM(
     fcm.weights[weightId] = CalculationWeight {weightId, 0.0, weightValue, fromId, toId};
 
     return fcm;
-}
-
-inline PredictionParameters createPredictionParameters(const QString& algorithm, bool useFuzzyValues) {
-    return PredictionParameters {
-        algorithm,
-        useFuzzyValues,
-        "",
-        "",
-        false,
-        0.0,
-        0,
-        0
-    };
 }

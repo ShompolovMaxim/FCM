@@ -1,0 +1,56 @@
+{
+    "name": "Legacy model",
+    "description": "Fixture without optional fields",
+    "predictionParameters": {
+        "algorithm": "standard",
+        "use_fuzzy_values": false,
+        "activation": "bivalent",
+        "metric": "MSE",
+        "predict_to_static": false,
+        "threshold": 0,
+        "steps_less_threshold": 1,
+        "fixed_steps": 2
+    },
+    "terms": [
+        {
+            "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "name": "Legacy term",
+            "description": "No alpha channel",
+            "numeric_value": 3,
+            "tr_value_l": 2,
+            "tr_value_m": 3,
+            "tr_value_h": 4,
+            "color_r": 10,
+            "color_g": 20,
+            "color_b": 30,
+            "type": "Node"
+        }
+    ],
+    "concepts": [
+        {
+            "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+            "name": "Legacy concept",
+            "description": "No name location",
+            "term_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "first_step": 1,
+            "x_pos": 0,
+            "y_pos": 1
+        }
+    ],
+    "weights": [],
+    "experiments": [
+        {
+            "predictionParameters": {
+                "algorithm": "standard",
+                "use_fuzzy_values": false,
+                "activation": "bivalent",
+                "metric": "MSE",
+                "predict_to_static": false,
+                "threshold": 0,
+                "steps_less_threshold": 1,
+                "fixed_steps": 1
+            },
+            "timestamp": "2026-01-01T00:00:00"
+        }
+    ]
+}

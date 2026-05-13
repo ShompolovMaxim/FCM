@@ -1,0 +1,130 @@
+{
+    "name": "Energy balance",
+    "description": "Model for json repository tests",
+    "predictionParameters": {
+        "algorithm": "standard",
+        "use_fuzzy_values": false,
+        "activation": "tanh",
+        "metric": "MSE",
+        "predict_to_static": true,
+        "threshold": 0.05,
+        "steps_less_threshold": 3,
+        "fixed_steps": 9,
+        "fuzziness_degree": 1.4
+    },
+    "terms": [
+        {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "name": "High demand",
+            "description": "Main node term",
+            "numeric_value": 1.5,
+            "tr_value_l": 0.5,
+            "tr_value_m": 1.5,
+            "tr_value_h": 2.5,
+            "color_r": 12,
+            "color_g": 34,
+            "color_b": 56,
+            "color_a": 78,
+            "type": "Node"
+        },
+        {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "name": "Strong influence",
+            "description": "Edge term",
+            "numeric_value": -0.75,
+            "tr_value_l": -1,
+            "tr_value_m": -0.75,
+            "tr_value_h": -0.25,
+            "color_r": 90,
+            "color_g": 80,
+            "color_b": 70,
+            "color_a": 255,
+            "type": "Edge"
+        }
+    ],
+    "concepts": [
+        {
+            "id": "33333333-3333-3333-3333-333333333333",
+            "name": "Demand",
+            "description": "Demand concept",
+            "term_id": "11111111-1111-1111-1111-111111111111",
+            "first_step": 2,
+            "x_pos": 10.5,
+            "y_pos": -4.25,
+            "name_location": "bottom left"
+        },
+        {
+            "id": "44444444-4444-4444-4444-444444444444",
+            "name": "Supply",
+            "description": "Supply concept",
+            "first_step": 0,
+            "x_pos": -3,
+            "y_pos": 8,
+            "name_location": "up right"
+        }
+    ],
+    "weights": [
+        {
+            "id": "55555555-5555-5555-5555-555555555555",
+            "name": "Demand to Supply",
+            "description": "Connection",
+            "term_id": "22222222-2222-2222-2222-222222222222",
+            "concept_from_id": "33333333-3333-3333-3333-333333333333",
+            "concept_to_id": "44444444-4444-4444-4444-444444444444"
+        }
+    ],
+    "experiments": [
+        {
+            "predictionParameters": {
+                "algorithm": "weights",
+                "use_fuzzy_values": true,
+                "activation": "sigmoid",
+                "metric": "MAE",
+                "predict_to_static": true,
+                "threshold": 0.2,
+                "steps_less_threshold": 7,
+                "fixed_steps": 11,
+                "fuzziness_degree": 1.8
+            },
+            "timestamp": "2026-03-14T15:09:26",
+            "terms": [
+                {
+                    "id": "66666666-6666-6666-6666-666666666666",
+                    "name": "Experiment term",
+                    "description": "Experiment node",
+                    "numeric_value": 0.25,
+                    "tr_value_l": 0.1,
+                    "tr_value_m": 0.25,
+                    "tr_value_h": 0.5,
+                    "color_r": 1,
+                    "color_g": 2,
+                    "color_b": 3,
+                    "color_a": 4,
+                    "type": "Node"
+                }
+            ],
+            "concepts": [
+                {
+                    "id": "77777777-7777-7777-7777-777777777777",
+                    "name": "Experiment concept",
+                    "description": "Experiment concept description",
+                    "term_id": "66666666-6666-6666-6666-666666666666",
+                    "first_step": 5,
+                    "x_pos": 1.25,
+                    "y_pos": 2.5,
+                    "name_location": "center right"
+                }
+            ],
+            "weights": [
+                {
+                    "id": "88888888-8888-8888-8888-888888888888",
+                    "name": "Experiment weight",
+                    "description": "Experiment connection",
+                    "term_id": "66666666-6666-6666-6666-666666666666",
+                    "concept_from_id": "77777777-7777-7777-7777-777777777777",
+                    "concept_to_id": "77777777-7777-7777-7777-777777777777"
+                }
+            ]
+        }
+    ]
+}
