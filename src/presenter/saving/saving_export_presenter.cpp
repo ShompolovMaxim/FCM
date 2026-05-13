@@ -23,7 +23,6 @@ QString mainWindowTr(const char* text) {
 
 SavingExportPresenter::SavingExportPresenter(
     Ui::MainWindow* ui,
-    std::shared_ptr<FCM> fcm,
     std::vector<std::shared_ptr<FCM>>& fcms,
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
     std::shared_ptr<TemplatesManager> templatesManager,
@@ -33,7 +32,6 @@ SavingExportPresenter::SavingExportPresenter(
     QObject *parent
     ) : ui(ui),
         parentWidget(parentWidget),
-        fcm(fcm),
         fcms(fcms),
         modelSetupPresenter(modelSetupPresenter),
         templatesManager(templatesManager),
@@ -51,12 +49,16 @@ SavingExportPresenter::SavingExportPresenter(
     connect(ui->actionImport, &QAction::triggered, this, &SavingExportPresenter::onImportJson);
 }
 
-void SavingExportPresenter::updateFCM(std::shared_ptr<FCM> newFcm) {
-    fcm = newFcm;
+std::shared_ptr<FCM> SavingExportPresenter::currentModel() const {
+    return modelSetupPresenter ? modelSetupPresenter->currentModel() : nullptr;
 }
 
 void SavingExportPresenter::saveAs() {
     modelSetupPresenter->updateFCM();
+    auto fcm = currentModel();
+    if (!fcm) {
+        return;
+    }
 
     const auto modelsNames = savingManager->getModelsNames();
     SaveAsWindow saveAsWindow(modelsNames, modelsNames, fcm->name, mainWindowTr("Save FCM"), parentWidget);
@@ -71,6 +73,11 @@ void SavingExportPresenter::saveAs() {
 }
 
 void SavingExportPresenter::save() {
+    auto fcm = currentModel();
+    if (!fcm) {
+        return;
+    }
+
     if (fcm->dbId == -1) {
         saveAs();
     } else {
@@ -106,11 +113,21 @@ void SavingExportPresenter::open() {
 }
 
 void SavingExportPresenter::autosaveChange(bool flag) {
+    auto fcm = currentModel();
+    if (!fcm) {
+        return;
+    }
+
     fcm->autosaveOn = flag;
     save();
 }
 
 void SavingExportPresenter::autosave() {
+    auto fcm = currentModel();
+    if (!fcm) {
+        return;
+    }
+
     if (fcm->autosaveOn) {
         save();
     }
@@ -118,6 +135,10 @@ void SavingExportPresenter::autosave() {
 
 void SavingExportPresenter::saveAsTemplate() {
     modelSetupPresenter->updateFCM();
+    auto fcm = currentModel();
+    if (!fcm) {
+        return;
+    }
 
     const auto templatesNamesWithTypes = templatesManager->getTemplatesNames();
     const auto filteredTemplatesNames = TemplatesLanguageManager::filterTemplateNamesForCurrentLanguage(
@@ -216,6 +237,11 @@ void SavingExportPresenter::onExportJson() {
         fileName += ".json";
 
     modelSetupPresenter->updateFCM();
+    auto fcm = currentModel();
+    if (!fcm) {
+        return;
+    }
+
     if (!JsonRepository::exportToJson(*fcm, fileName)) {
         Logger::warn("Main json export failed");
         QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("Failed to save file."));
@@ -248,6 +274,7 @@ void SavingExportPresenter::onImportJson() {
 }
 
 void SavingExportPresenter::deleteSavedModel(const QString &modelName) {
+    auto currentFcm = currentModel();
     auto model = savingManager->getFCM(modelName);
     if (!model || !savingManager->deleteFCM(model->dbId)) {
         Logger::warn("Main model delete failed");
@@ -262,7 +289,7 @@ void SavingExportPresenter::deleteSavedModel(const QString &modelName) {
         }
     }
 
-    if (fcm->name == modelName) {
+    if (currentFcm && currentFcm->name == modelName) {
         ui->actionAutoSave->setEnabled(false);
         ui->actionAutoSave->setChecked(false);
     }
@@ -279,4 +306,3 @@ void SavingExportPresenter::deleteSavedTemplate(const QString &templateName) {
 
     emit modelDeletionFinished(templateName, true);
 }
-

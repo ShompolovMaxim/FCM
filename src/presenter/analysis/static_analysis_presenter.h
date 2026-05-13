@@ -22,6 +22,9 @@ public:
 
     void refreshUI(bool changeTable = true);
 
+public slots:
+    void refreshFromModelSetup();
+
 private slots:
     void onConceptCreated(std::shared_ptr<Concept>);
     void onConceptUpdated(std::shared_ptr<Concept>);

@@ -4,8 +4,6 @@
 #include "model/entities/fcm.h"
 #include "model/prediction/prediction_parameters.h"
 #include "presenter/models/creation_presenter.h"
-#include "presenter/simulation/simulation_presenter.h"
-#include "presenter/analysis/static_analysis_presenter.h"
 #include "model/color_value_adapter/default_adapter.h"
 #include "ui/graph_editor/graph_scene.h"
 #include "ui_main_window.h"
@@ -22,13 +20,11 @@ QString mainWindowTr(const char* text) {
 }
 }
 
-ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, StaticAnalysisPresenter*& staticAnalysisPresenter, std::shared_ptr<SimulationPresenter>& presenter, QWidget* parentWidget, QObject* parent)
+ModelSetupPresenter::ModelSetupPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM>& fcm, std::shared_ptr<CreationPresenter>& creationPresenter, QWidget* parentWidget, QObject* parent)
     : ui(ui),
       parentWidget(parentWidget),
       fcm(fcm),
       creationPresenter(creationPresenter),
-      staticAnalysisPresenter(staticAnalysisPresenter),
-      presenter(presenter),
       QObject(parent) {
     conceptsGroup = ui->treeWidgetTerms->topLevelItemCount() > 0 ? ui->treeWidgetTerms->topLevelItem(0) : new QTreeWidgetItem(ui->treeWidgetTerms);
     weightsGroup = ui->treeWidgetTerms->topLevelItemCount() > 1 ? ui->treeWidgetTerms->topLevelItem(1) : new QTreeWidgetItem(ui->treeWidgetTerms);
@@ -307,7 +303,7 @@ void ModelSetupPresenter::onCreateTerm() {
     ui->treeWidgetTerms->editItem(item, 0);
 
     creationPresenter->updateTerm(id);
-    popagateTermUpdate();
+    emit popagateTermUpdate();
 }
 
 void ModelSetupPresenter::onDeleteTerm() {
@@ -319,7 +315,7 @@ void ModelSetupPresenter::onDeleteTerm() {
             fcm->deletedTermsIds.push_back(fcm->terms[id]->dbId);
         }
         creationPresenter->deleteTerm(id);
-        popagateTermUpdate();
+        emit popagateTermUpdate();
         delete current;
         ui->treeWidgetTerms->setCurrentItem(parent);
     }
@@ -331,7 +327,7 @@ void ModelSetupPresenter::onChooseTermColor() {
         fcm->terms[currentTermId]->color = color;
         ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(color.name()));
         creationPresenter->updateTerm(currentTermId);
-        popagateTermUpdate();
+        emit popagateTermUpdate();
     }
 }
 
@@ -454,20 +450,13 @@ void ModelSetupPresenter::autoConfigureFuzzyValue() {
     ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
 }
 
-void ModelSetupPresenter::popagateTermUpdate() {
-    staticAnalysisPresenter->refreshUI(false);
-    if (presenter && presenter->isActive()) {
-        presenter->moveStep(0);
-    }
-}
-
 void ModelSetupPresenter::onTermValueChanged(double value) {
     fcm->terms[currentTermId]->value = value;
     autoConfigureFuzzyValue();
     autoConfigureTermColor();
     updateFuzzyValuePlot();
     creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
+    emit popagateTermUpdate();
 }
 
 void ModelSetupPresenter::onTermValueLChanged(double value) {
@@ -484,7 +473,7 @@ void ModelSetupPresenter::onTermValueLChanged(double value) {
     autoConfigureNumericValue();
     autoConfigureTermColor();
     creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
+    emit popagateTermUpdate();
 }
 
 void ModelSetupPresenter::onTermValueMChanged(double value) {
@@ -501,7 +490,7 @@ void ModelSetupPresenter::onTermValueMChanged(double value) {
     autoConfigureNumericValue();
     autoConfigureTermColor();
     creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
+    emit popagateTermUpdate();
 }
 
 void ModelSetupPresenter::onTermValueUChanged(double value) {
@@ -518,7 +507,7 @@ void ModelSetupPresenter::onTermValueUChanged(double value) {
     autoConfigureNumericValue();
     autoConfigureTermColor();
     creationPresenter->updateTerm(currentTermId);
-    popagateTermUpdate();
+    emit popagateTermUpdate();
 }
 
 void ModelSetupPresenter::updateFuzzyValuePlot() {

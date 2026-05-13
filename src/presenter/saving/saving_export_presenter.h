@@ -21,7 +21,6 @@ class SavingExportPresenter : public QObject {
 public:
     SavingExportPresenter(
         Ui::MainWindow* ui,
-        std::shared_ptr<FCM> fcm,
         std::vector<std::shared_ptr<FCM>>& fcms,
         std::shared_ptr<ModelSetupPresenter> modelSetupPresenter,
         std::shared_ptr<TemplatesManager> templatesManager,
@@ -30,7 +29,6 @@ public:
         QWidget* parentWidget,
         QObject *parent = nullptr
     );
-    void updateFCM(std::shared_ptr<FCM> newFcm);
 
     void saveAs();
     void save();
@@ -49,9 +47,10 @@ signals:
     void loadFCMRequested(std::shared_ptr<FCM> fcm);
 
 private:
+    std::shared_ptr<FCM> currentModel() const;
+
     Ui::MainWindow* ui;
     QWidget* parentWidget;
-    std::shared_ptr<FCM> fcm;
     std::vector<std::shared_ptr<FCM>>& fcms;
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
     QSettings& settings;

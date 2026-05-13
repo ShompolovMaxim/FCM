@@ -107,6 +107,12 @@ bool SimulationPresenter::moveStep(int delta) {
     return simulationScenePresenter && simulationScenePresenter->moveStep(delta);
 }
 
+void SimulationPresenter::refreshFromModelSetup() {
+    if (isActive()) {
+        moveStep(0);
+    }
+}
+
 void SimulationPresenter::retranslateUi() {
     ui->labelScalePredict->setText(QString(mainWindowTr("Scale: %1%")).arg(predictScale*100, 0, 'f', 2));
     ui->pushButtonPause->setText(paused ? mainWindowTr("Resume") : mainWindowTr("Pause"));

@@ -62,11 +62,8 @@ private:
     std::shared_ptr<CreationPresenter> creationPresenter;
     std::shared_ptr<ModelSetupPresenter> modelSetupPresenter;
     std::shared_ptr<SimulationPresenter> simulationPresenter;
-    std::shared_ptr<FCM> fcm;
 
     QSettings settings = QSettings("HSE", "FCM");
-
-    std::vector<std::shared_ptr<FCM>> fcms;
 
     QTranslator translatorRus;
     QTranslator translatorDefaultRus;

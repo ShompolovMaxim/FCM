@@ -24,6 +24,7 @@ public:
     void retranslateUi();
 
 public slots:
+    void refreshFromModelSetup();
     void changeActivationFunction(int index);
     void updatePredictScaleLabel(double newScale);
     Experiment createExperiment();

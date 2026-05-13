@@ -49,6 +49,10 @@ void StaticAnalysisPresenter::reconfigure(std::shared_ptr<FCM> newFcm) {
     refreshUI();
 }
 
+void StaticAnalysisPresenter::refreshFromModelSetup() {
+    refreshUI(false);
+}
+
 void StaticAnalysisPresenter::useFuzzyValuesChanged() {
     recalculateInfluence();
     refreshUI(true);

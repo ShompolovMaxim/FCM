@@ -5,7 +5,7 @@ bool Term::operator==(const Term& other) const {
         && description == other.description
         && value == other.value
         && fuzzyValue == other.fuzzyValue
-        && color == other.color
+        && color.rgba() == other.color.rgba()
         && type == other.type;
 }
 

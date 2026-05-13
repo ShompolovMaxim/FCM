@@ -63,9 +63,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->influenceDirection->setItemData(0, "from", Qt::UserRole);
     ui->influenceDirection->setItemData(1, "on", Qt::UserRole);
 
-    fcm = std::make_shared<FCM>();
-    fcm->name = tr("New model");
-
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("models.db");
     if (!db.open()) {
@@ -79,15 +76,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     auto savingManager = std::make_shared<ModelsSavingManager>(ModelsRepository(db));
     auto templatesManager = std::make_shared<TemplatesManager>(TemplatesRepository(db));
 
-    creationPresenter = std::make_shared<CreationPresenter>(fcm, this);
+    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, creationPresenter, modelSetupPresenter, simulationPresenter, sensitivityPresenter, staticAnalysisPresenter, templatesManager, savingManager, settings, nullptr);
+
+    creationPresenter = std::make_shared<CreationPresenter>(modelsSwitchingPresenter->currentModelRef(), this);
     ui->adjacencyTableView->setPresenter(creationPresenter);
 
-    auto* scene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
+    auto* scene = new GraphScene(modelsSwitchingPresenter->currentModel(), creationPresenter, ElementWindowMode::UpdateElement);
     ui->graphicsViewGraph->setScene(scene);
     ui->graphicsViewPredict->setScene(scene);
     ui->graphicsViewSensitivity->setScene(scene);
 
-    auto* staticAnalysisScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
+    auto* staticAnalysisScene = new GraphScene(modelsSwitchingPresenter->currentModel(), creationPresenter, ElementWindowMode::UpdateElement);
     staticAnalysisScene->setMode(EditMode::EditValues);
     staticAnalysisScene->blockConceptCreationColorEdit(true);
     ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
@@ -98,27 +97,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pushButtonScaleSensitivity, &QPushButton::clicked, ui->graphicsViewSensitivity, &GraphView::resetScale);
 
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, fcm);
-    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, fcm, creationPresenter, staticAnalysisPresenter, simulationPresenter, nullptr);
-    simulationPresenter = std::make_shared<SimulationPresenter>(ui, fcm, creationPresenter, this, nullptr);
-    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, fcm, creationPresenter, this, nullptr);
-    modelsSwitchingPresenter = std::make_shared<ModelsSwitchingPresenter>(ui, this, fcm, fcms, creationPresenter, modelSetupPresenter, simulationPresenter, sensitivityPresenter, staticAnalysisPresenter, templatesManager, savingManager, settings, nullptr);
-    savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, fcm, fcms, modelSetupPresenter, templatesManager, savingManager, settings, this, nullptr);
+    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, modelsSwitchingPresenter->currentModel());
+    modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, nullptr);
+    simulationPresenter = std::make_shared<SimulationPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, this, nullptr);
+    sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, this, nullptr);
+    savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, modelsSwitchingPresenter->modelsRef(), modelSetupPresenter, templatesManager, savingManager, settings, this, nullptr);
     connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
     connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
     connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::autosaveRequested, savingExportPresenter.get(), &SavingExportPresenter::autosave);
-    connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::currentModelChanged, savingExportPresenter.get(), &SavingExportPresenter::updateFCM);
     connect(creationPresenter.get(), &CreationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::autosave, savingExportPresenter.get(), &SavingExportPresenter::autosave);
     connect(simulationPresenter.get(), &SimulationPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
+    connect(modelSetupPresenter.get(), &ModelSetupPresenter::popagateTermUpdate, simulationPresenter.get(), &SimulationPresenter::refreshFromModelSetup);
+    connect(modelSetupPresenter.get(), &ModelSetupPresenter::popagateTermUpdate, staticAnalysisPresenter, &StaticAnalysisPresenter::refreshFromModelSetup);
     connect(ui->tabWidget, &QTabWidget::currentChanged, modelSetupPresenter.get(), &ModelSetupPresenter::onCurrentTabChanged);
     connect(scene, &GraphScene::modeChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateModeButtonText);
     connect(ui->graphicsViewGraph, &GraphView::scaleChanged, modelSetupPresenter.get(), &ModelSetupPresenter::updateGraphScaleLabel);
 
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), sensitivityPresenter.get(), &SensitivityPresenter::changeActivationFunctionSensitivity);
 
-    modelsSwitchingPresenter->addFCM(fcm);
-    modelsSwitchingPresenter->loadFCM(fcm);
+    modelsSwitchingPresenter->loadFCM(modelsSwitchingPresenter->currentModel());
     ui->menuModels->installEventFilter(this);
 }
 

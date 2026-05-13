@@ -30,8 +30,6 @@ public:
     ModelsSwitchingPresenter(
         Ui::MainWindow* ui,
         QWidget* parentWidget,
-        std::shared_ptr<FCM>& fcm,
-        std::vector<std::shared_ptr<FCM>>& fcms,
         std::shared_ptr<CreationPresenter>& creationPresenter,
         std::shared_ptr<ModelSetupPresenter>& modelSetupPresenter,
         std::shared_ptr<SimulationPresenter>& simulationPresenter,
@@ -42,6 +40,11 @@ public:
         QSettings& settings,
         QObject *parent = nullptr
     );
+
+    std::shared_ptr<FCM> currentModel() const { return fcm; }
+    std::shared_ptr<FCM>& currentModelRef() { return fcm; }
+    const std::vector<std::shared_ptr<FCM>>& models() const { return fcms; }
+    std::vector<std::shared_ptr<FCM>>& modelsRef() { return fcms; }
 
     void nameChanged(QString newName);
     void createNewModel();
@@ -60,7 +63,6 @@ public:
 
 signals:
     void autosaveRequested();
-    void currentModelChanged(std::shared_ptr<FCM> fcm);
 
 private:
     void recreateScenes();
@@ -68,8 +70,8 @@ private:
 
     Ui::MainWindow* ui;
     QWidget* parentWidget;
-    std::shared_ptr<FCM>& fcm;
-    std::vector<std::shared_ptr<FCM>>& fcms;
+    std::shared_ptr<FCM> fcm;
+    std::vector<std::shared_ptr<FCM>> fcms;
     size_t currentModelIdx = 0;
 
     std::shared_ptr<CreationPresenter>& creationPresenter;

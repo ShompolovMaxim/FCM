@@ -34,8 +34,6 @@ QString mainWindowTr(const char* text) {
 ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     Ui::MainWindow* ui,
     QWidget* parentWidget,
-    std::shared_ptr<FCM>& fcm,
-    std::vector<std::shared_ptr<FCM>>& fcms,
     std::shared_ptr<CreationPresenter>& creationPresenter,
     std::shared_ptr<ModelSetupPresenter>& modelSetupPresenter,
     std::shared_ptr<SimulationPresenter>& simulationPresenter,
@@ -47,8 +45,6 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     QObject *parent
 ) : ui(ui),
     parentWidget(parentWidget),
-    fcm(fcm),
-    fcms(fcms),
     creationPresenter(creationPresenter),
     modelSetupPresenter(modelSetupPresenter),
     simulationPresenter(simulationPresenter),
@@ -58,6 +54,10 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     savingManager(savingManager),
     settings(settings),
     QObject{parent} {
+    fcm = std::make_shared<FCM>();
+    fcm->name = mainWindowTr("New model");
+    fcms.push_back(fcm);
+
     connect(ui->modelName, &QLineEdit::textChanged, this, &ModelsSwitchingPresenter::nameChanged);
     connect(ui->actionNew, &QAction::triggered, this, &ModelsSwitchingPresenter::createNewModel);
     connect(ui->actionJoinFCM, &QAction::triggered, this, &ModelsSwitchingPresenter::joinModels);
@@ -262,7 +262,6 @@ void ModelsSwitchingPresenter::resetCommonUiState() {
 void ModelsSwitchingPresenter::loadFCM(std::shared_ptr<FCM> newFcm) {
     setCurrentModel(newFcm);
     rebuildModelsMenu();
-    emit currentModelChanged(fcm);
 
     creationPresenter->reconfigure(fcm);
     simulationPresenter->reconfigure();
@@ -375,4 +374,3 @@ void ModelsSwitchingPresenter::joinModels() {
     addFCM(joinedFCM);
     loadFCM(joinedFCM);
 }
-
