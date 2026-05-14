@@ -18,6 +18,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Hel
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
 
 set(TS_FILES translations/FCM_ru_RU.ts)
@@ -144,7 +145,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/save_current_state_window/save_current_state_window.h src/ui/save_current_state_window/save_current_state_window.cpp src/ui/save_current_state_window/save_current_state_window.ui
         src/model/color_value_adapter/linear_approximation_adapter.cpp
         src/model/color_value_adapter/linear_approximation_adapter.cpp
-        src/ui/tooltips/controller.h src/ui/tooltips/controller.cpp
+        src/presenter/settings/toollip_controller.h src/presenter/settings/toollip_controller.cpp
         src/model/static_analysis/fuzzy_static_analyzer.h src/model/static_analysis/fuzzy_static_analyzer.cpp
         src/ui/help/help_browser.h src/ui/help/help_browser.cpp
         src/ui/help/help_window.h src/ui/help/help_window.cpp src/ui/help/help_window.ui
@@ -157,6 +158,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/presenter/models/model_setup_presenter.h src/presenter/models/model_setup_presenter.cpp
         src/presenter/models/models_join_presenter.h src/presenter/models/models_join_presenter.cpp
         src/presenter/models/models_switching_presenter.h src/presenter/models/models_switching_presenter.cpp
+        src/presenter/settings/settings_presenter.h src/presenter/settings/settings_presenter.cpp
         src/presenter/saving/saving_export_presenter.h src/presenter/saving/saving_export_presenter.cpp
         src/presenter/simulation/simulation_presenter.h src/presenter/simulation/simulation_presenter.cpp
         src/presenter/analysis/sensitivity_presenter.h src/presenter/analysis/sensitivity_presenter.cpp
@@ -263,6 +265,7 @@ add_custom_target(help_docs ALL
 add_dependencies(FCM help_docs)
 
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Help)
+target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)

@@ -1,4 +1,4 @@
-#include "controller.h"
+#include "toollip_controller.h"
 
 ToolTipController::ToolTipController(QObject *parent) : QObject(parent), enabled(true) {}
 
