@@ -157,7 +157,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/model/entities/templates/templates_language_manager.cpp
         src/presenter/models/model_setup_presenter.h src/presenter/models/model_setup_presenter.cpp
         src/presenter/models/models_join_presenter.h src/presenter/models/models_join_presenter.cpp
-        src/presenter/models/models_switching_presenter.h src/presenter/models/models_switching_presenter.cpp
+        src/presenter/models_switching/models_switching_presenter.h src/presenter/models_switching/models_switching_presenter.cpp
         src/presenter/settings/settings_presenter.h src/presenter/settings/settings_presenter.cpp
         src/presenter/saving/saving_export_presenter.h src/presenter/saving/saving_export_presenter.cpp
         src/presenter/simulation/simulation_presenter.h src/presenter/simulation/simulation_presenter.cpp

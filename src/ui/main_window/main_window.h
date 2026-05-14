@@ -8,7 +8,7 @@
 #include "presenter/models/creation_presenter.h"
 #include "presenter/models/model_setup_presenter.h"
 #include "presenter/models/models_join_presenter.h"
-#include "presenter/models/models_switching_presenter.h"
+#include "presenter/models_switching/models_switching_presenter.h"
 #include "presenter/settings/settings_presenter.h"
 #include "presenter/saving/saving_export_presenter.h"
 #include "presenter/analysis/sensitivity_presenter.h"
