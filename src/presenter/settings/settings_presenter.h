@@ -18,6 +18,7 @@ public:
         Ui::MainWindow* ui,
         QObject *parent = nullptr
     );
+    void applyInitialLanguage();
 
     void changeModelSettingsVisibility(bool checked);
     void changeGraphVisibility(bool checked);

@@ -329,7 +329,7 @@ void SimulationPresenter::loadExperiment() {
     }
     for (const auto& [id, concept] : fcm->experiments[row].concepts) {
         fcm->concepts[id] = std::make_shared<Concept>(*concept);
-        fcm->concepts[id]->term = fcm->terms[concept->term->id];
+        fcm->concepts[id]->term = concept->term ? fcm->terms[concept->term->id] : nullptr;
         fcm->concepts[id]->dbId = -1;
         if (fcm->experiments.back().concepts.find(id) != fcm->experiments.back().concepts.end()) {
             fcm->concepts[id]->description = fcm->experiments.back().concepts[id]->description;
@@ -337,7 +337,7 @@ void SimulationPresenter::loadExperiment() {
     }
     for (const auto& [id, weight] : fcm->experiments[row].weights) {
         fcm->weights[id] = std::make_shared<Weight>(*weight);
-        fcm->weights[id]->term = fcm->terms[weight->term->id];
+        fcm->weights[id]->term = weight->term ? fcm->terms[weight->term->id] : nullptr;
         fcm->weights[id]->dbId = -1;
         if (fcm->experiments.back().weights.find(id) != fcm->experiments.back().weights.end()) {
             fcm->weights[id]->description = fcm->experiments.back().weights[id]->description;

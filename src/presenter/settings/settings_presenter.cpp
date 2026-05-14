@@ -18,9 +18,6 @@ SettingsPresenter::SettingsPresenter(
         ui->actionEnglish->setChecked(true);
     } else {
         ui->actionRussian->setChecked(true);
-        qApp->installTranslator(&translatorRus);
-        qApp->installTranslator(&translatorDefaultRus);
-        qApp->installTranslator(&translatorWidgetsRus);
     }
 
     connect(ui->actionRussian, &QAction::triggered, this, &SettingsPresenter::setRussian);
@@ -53,6 +50,15 @@ SettingsPresenter::SettingsPresenter(
     toolTipController.setEnabled(settings.value("tooltips", true).toBool());
     connect(ui->actionShowTooltips, &QAction::toggled, this, &SettingsPresenter::changeShowTooltips);
     ui->actionShowTooltips->setChecked(settings.value("tooltips", true).toBool());
+}
+
+void SettingsPresenter::applyInitialLanguage() {
+    if (settings.value("language", "").toString().isEmpty()) {
+        return;
+    }
+    qApp->installTranslator(&translatorRus);
+    qApp->installTranslator(&translatorDefaultRus);
+    qApp->installTranslator(&translatorWidgetsRus);
 }
 
 void SettingsPresenter::changeModelSettingsVisibility(bool checked) {

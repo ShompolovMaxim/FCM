@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->comboBoxActivationSensitivity, QOverload<int>::of(&QComboBox::currentIndexChanged), sensitivityPresenter.get(), &SensitivityPresenter::changeActivationFunctionSensitivity);
 
+    settingsPresenter->applyInitialLanguage();
     modelsSwitchingPresenter->loadFCM(modelsSwitchingPresenter->currentModel());
     ui->menuModels->installEventFilter(this);
 }
@@ -125,10 +126,18 @@ void MainWindow::showHelp() {
 void MainWindow::changeEvent(QEvent *event) {
     if (event->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
-        modelSetupPresenter->retranslateUi();
-        simulationPresenter->retranslateUi();
-        sensitivityPresenter->retranslateUi();
-        creationPresenter->retranslateElementsWindows();
+        if (modelSetupPresenter) {
+            modelSetupPresenter->retranslateUi();
+        }
+        if (simulationPresenter) {
+            simulationPresenter->retranslateUi();
+        }
+        if (sensitivityPresenter) {
+            sensitivityPresenter->retranslateUi();
+        }
+        if (creationPresenter) {
+            creationPresenter->retranslateElementsWindows();
+        }
         if (helpWindow) {
             helpWindow->retranslate();
         }
