@@ -2,7 +2,7 @@
     "name": "Missing links",
     "description": "Concept and weight refer to absent terms",
     "predictionParameters": {
-        "algorithm": "standard",
+        "algorithm": "const weights",
         "use_fuzzy_values": false,
         "activation": "bivalent",
         "metric": "MSE",

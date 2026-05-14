@@ -2,9 +2,9 @@
     "name": "Energy balance",
     "description": "Model for json repository tests",
     "predictionParameters": {
-        "algorithm": "standard",
+        "algorithm": "const weights",
         "use_fuzzy_values": false,
-        "activation": "tanh",
+        "activation": "hyperbolic tangent",
         "metric": "MSE",
         "predict_to_static": true,
         "threshold": 0.05,
@@ -76,7 +76,7 @@
     "experiments": [
         {
             "predictionParameters": {
-                "algorithm": "weights",
+                "algorithm": "changing weights",
                 "use_fuzzy_values": true,
                 "activation": "sigmoid",
                 "metric": "MAE",

@@ -99,7 +99,7 @@ FCM makeModelForExport() {
     experimentWeight->toConceptId = experimentConcept->id;
 
     Experiment experiment;
-    experiment.predictionParameters.algorithm = "weights";
+    experiment.predictionParameters.algorithm = "changing weights";
     experiment.predictionParameters.useFuzzyValues = true;
     experiment.predictionParameters.activationFunction = "sigmoid";
     experiment.predictionParameters.metric = "MAE";
@@ -116,9 +116,9 @@ FCM makeModelForExport() {
     FCM fcm;
     fcm.name = "Energy balance";
     fcm.description = "Model for json repository tests";
-    fcm.predictionParameters.algorithm = "standard";
+    fcm.predictionParameters.algorithm = "const weights";
     fcm.predictionParameters.useFuzzyValues = false;
-    fcm.predictionParameters.activationFunction = "tanh";
+    fcm.predictionParameters.activationFunction = "hyperbolic tangent";
     fcm.predictionParameters.metric = "MSE";
     fcm.predictionParameters.predictToStatic = true;
     fcm.predictionParameters.threshold = 0.05;
@@ -157,9 +157,9 @@ TEST(JsonRepositoryTest, ImportFromJsonReadsCompleteModel) {
     const FCM& fcm = imported.value();
     EXPECT_EQ(fcm.name, "Energy balance");
     EXPECT_EQ(fcm.description, "Model for json repository tests");
-    EXPECT_EQ(fcm.predictionParameters.algorithm, "standard");
+    EXPECT_EQ(fcm.predictionParameters.algorithm, "const weights");
     EXPECT_FALSE(fcm.predictionParameters.useFuzzyValues);
-    EXPECT_EQ(fcm.predictionParameters.activationFunction, "tanh");
+    EXPECT_EQ(fcm.predictionParameters.activationFunction, "hyperbolic tangent");
     EXPECT_EQ(fcm.predictionParameters.metric, "MSE");
     EXPECT_TRUE(fcm.predictionParameters.predictToStatic);
     EXPECT_DOUBLE_EQ(fcm.predictionParameters.threshold, 0.05);
@@ -205,7 +205,7 @@ TEST(JsonRepositoryTest, ImportFromJsonReadsCompleteModel) {
     EXPECT_EQ(weight->dbId, -1);
 
     const Experiment& experiment = fcm.experiments.front();
-    EXPECT_EQ(experiment.predictionParameters.algorithm, "weights");
+    EXPECT_EQ(experiment.predictionParameters.algorithm, "changing weights");
     EXPECT_TRUE(experiment.predictionParameters.useFuzzyValues);
     EXPECT_EQ(experiment.predictionParameters.activationFunction, "sigmoid");
     EXPECT_EQ(experiment.predictionParameters.metric, "MAE");

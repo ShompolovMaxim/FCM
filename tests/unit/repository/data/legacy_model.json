@@ -2,7 +2,7 @@
     "name": "Legacy model",
     "description": "Fixture without optional fields",
     "predictionParameters": {
-        "algorithm": "standard",
+        "algorithm": "const weights",
         "use_fuzzy_values": false,
         "activation": "bivalent",
         "metric": "MSE",
@@ -41,7 +41,7 @@
     "experiments": [
         {
             "predictionParameters": {
-                "algorithm": "standard",
+                "algorithm": "const weights",
                 "use_fuzzy_values": false,
                 "activation": "bivalent",
                 "metric": "MSE",

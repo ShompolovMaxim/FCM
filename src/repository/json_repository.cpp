@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
+#include <QSet>
 
 namespace {
 
@@ -24,7 +25,11 @@ QJsonObject serializePredictionParameters(const PredictionParameters& prediction
     return params;
 }
 
-PredictionParameters deserializePredictionParameters(const QJsonObject& params) {
+std::optional<PredictionParameters> deserializePredictionParameters(const QJsonObject& params) {
+    static const QSet<QString> algorithms{"const weights", "changing weights"};
+    static const QSet<QString> activations{"bivalent", "trivalent", "threshold-linear", "sigmoid", "hyperbolic tangent"};
+    static const QSet<QString> metrics{"MSE", "MAE", "MAPE"};
+
     PredictionParameters predictionParameters;
     predictionParameters.algorithm = params["algorithm"].toString();
     predictionParameters.useFuzzyValues = params["use_fuzzy_values"].toBool();
@@ -35,6 +40,12 @@ PredictionParameters deserializePredictionParameters(const QJsonObject& params) 
     predictionParameters.stepsLessThreshold = params["steps_less_threshold"].toInt();
     predictionParameters.fixedSteps = params["fixed_steps"].toInt();
     predictionParameters.fuzzinessDegree = params.contains("fuzziness_degree") ? params["fuzziness_degree"].toDouble() : 1.0;
+    if (!algorithms.contains(predictionParameters.algorithm) ||
+        !activations.contains(predictionParameters.activationFunction) ||
+        !metrics.contains(predictionParameters.metric)) {
+        Logger::warn("Json prediction parameters invalid");
+        return {};
+    }
     return predictionParameters;
 }
 
@@ -90,7 +101,7 @@ QJsonObject serializeConcept(const std::shared_ptr<Concept>& concept) {
     return jsonConcept;
 }
 
-std::shared_ptr<Concept> deserializeConcept(
+std::optional<std::shared_ptr<Concept>> deserializeConcept(
     const QJsonObject& obj,
     const std::map<QUuid, std::shared_ptr<Term>>& terms
 ) {
@@ -110,9 +121,7 @@ std::shared_ptr<Concept> deserializeConcept(
     }
     concept->pos = QPointF(obj["x_pos"].toDouble(), obj["y_pos"].toDouble());
     concept->startStep = static_cast<size_t>(obj["first_step"].toInt());
-    concept->nameLocation = obj.contains("name_location")
-        ? conceptNameLocationFromString(obj["name_location"].toString())
-        : ConceptNameLocation::Up;
+    concept->nameLocation = obj.contains("name_location") ? conceptNameLocationFromString(obj["name_location"].toString()) : ConceptNameLocation::Up;
     concept->dbId = -1;
     return concept;
 }
@@ -130,7 +139,7 @@ QJsonObject serializeWeight(const std::shared_ptr<Weight>& weight) {
     return jsonWeight;
 }
 
-std::shared_ptr<Weight> deserializeWeight(
+std::optional<std::shared_ptr<Weight>> deserializeWeight(
     const QJsonObject& obj,
     const std::map<QUuid, std::shared_ptr<Term>>& terms
 ) {
@@ -187,28 +196,48 @@ std::map<QUuid, std::shared_ptr<Term>> deserializeTerms(const QJsonArray& termsA
     return terms;
 }
 
-std::map<QUuid, std::shared_ptr<Concept>> deserializeConcepts(
+std::optional<std::map<QUuid, std::shared_ptr<Concept>>> deserializeConcepts(
     const QJsonArray& conceptsArray,
     const std::map<QUuid, std::shared_ptr<Term>>& terms
 ) {
     std::map<QUuid, std::shared_ptr<Concept>> concepts;
     for (const auto& jsonValue : conceptsArray) {
         auto concept = deserializeConcept(jsonValue.toObject(), terms);
-        concepts[concept->id] = concept;
+        if (!concept) {
+            return {};
+        }
+        concepts[concept.value()->id] = concept.value();
     }
     return concepts;
 }
 
-std::map<QUuid, std::shared_ptr<Weight>> deserializeWeights(
+std::optional<std::map<QUuid, std::shared_ptr<Weight>>> deserializeWeights(
     const QJsonArray& weightsArray,
     const std::map<QUuid, std::shared_ptr<Term>>& terms
 ) {
     std::map<QUuid, std::shared_ptr<Weight>> weights;
     for (const auto& jsonValue : weightsArray) {
         auto weight = deserializeWeight(jsonValue.toObject(), terms);
-        weights[weight->id] = weight;
+        if (!weight) {
+            return {};
+        }
+        weights[weight.value()->id] = weight.value();
     }
     return weights;
+}
+
+bool validateWeights(
+    const std::map<QUuid, std::shared_ptr<Concept>>& concepts,
+    const std::map<QUuid, std::shared_ptr<Weight>>& weights
+) {
+    for (const auto& [_, weight] : weights) {
+        if (concepts.find(weight->fromConceptId) == concepts.end() || concepts.find(weight->toConceptId) == concepts.end()) {
+            Logger::warn("Json weight concept link missing");
+            return false;
+        }
+    }
+
+    return true;
 }
 
 }
@@ -225,15 +254,15 @@ bool JsonRepository::exportToJson(const FCM& fcm, const QString& path) {
 
     QJsonArray experimentsArray;
 
-    for (const auto& exp : fcm.experiments) {
-        QJsonObject e;
-        e["predictionParameters"] = serializePredictionParameters(exp.predictionParameters);
-        e["timestamp"] = exp.timestamp.toString(Qt::ISODate);
-        e["terms"] = serializeTerms(exp.terms);
-        e["concepts"] = serializeConcepts(exp.concepts);
-        e["weights"] = serializeWeights(exp.weights);
+    for (const auto& experiment : fcm.experiments) {
+        QJsonObject experimentObj;
+        experimentObj["predictionParameters"] = serializePredictionParameters(experiment.predictionParameters);
+        experimentObj["timestamp"] = experiment.timestamp.toString(Qt::ISODate);
+        experimentObj["terms"] = serializeTerms(experiment.terms);
+        experimentObj["concepts"] = serializeConcepts(experiment.concepts);
+        experimentObj["weights"] = serializeWeights(experiment.weights);
 
-        experimentsArray.append(e);
+        experimentsArray.append(experimentObj);
     }
 
     root["experiments"] = experimentsArray;
@@ -283,27 +312,57 @@ std::optional<FCM> JsonRepository::importFromJson(const QString& path) {
     fcm.name = root["name"].toString();
     fcm.description = root["description"].toString();
 
-    fcm.predictionParameters = deserializePredictionParameters(root["predictionParameters"].toObject());
+    const auto predictionParameters = deserializePredictionParameters(root["predictionParameters"].toObject());
+    if (!predictionParameters) {
+        return {};
+    }
+    fcm.predictionParameters = predictionParameters.value();
     fcm.terms = deserializeTerms(root["terms"].toArray());
-    fcm.concepts = deserializeConcepts(root["concepts"].toArray(), fcm.terms);
-    fcm.weights = deserializeWeights(root["weights"].toArray(), fcm.terms);
+    const auto concepts = deserializeConcepts(root["concepts"].toArray(), fcm.terms);
+    if (!concepts) {
+        return {};
+    }
+    fcm.concepts = concepts.value();
+    const auto weights = deserializeWeights(root["weights"].toArray(), fcm.terms);
+    if (!weights) {
+        return {};
+    }
+    fcm.weights = weights.value();
+    if (!validateWeights(fcm.concepts, fcm.weights)) {
+        return {};
+    }
 
-    for (auto e : root["experiments"].toArray()) {
-        auto obj = e.toObject();
+    for (const auto& experimentValue : root["experiments"].toArray()) {
+        auto obj = experimentValue.toObject();
 
-        Experiment exp;
-        exp.predictionParameters = deserializePredictionParameters(obj["predictionParameters"].toObject());
-        exp.timestamp = QDateTime::fromString(obj["timestamp"].toString(), Qt::ISODate);
-        exp.dbId = -1;
-        if (obj.contains("terms")) {
-            exp.terms = deserializeTerms(obj["terms"].toArray());
-            exp.concepts = deserializeConcepts(obj["concepts"].toArray(), exp.terms);
-            exp.weights = deserializeWeights(obj["weights"].toArray(), exp.terms);
+        Experiment experiment;
+        const auto experimentPredictionParameters = deserializePredictionParameters(obj["predictionParameters"].toObject());
+        if (!experimentPredictionParameters) {
+            return {};
+        }
+        experiment.predictionParameters = experimentPredictionParameters.value();
+        experiment.timestamp = QDateTime::fromString(obj["timestamp"].toString(), Qt::ISODate);
+        experiment.dbId = -1;
+        experiment.terms = deserializeTerms(obj["terms"].toArray());
+
+        const auto experimentConcepts = deserializeConcepts(obj["concepts"].toArray(), experiment.terms);
+        if (!experimentConcepts) {
+            return {};
+        }
+        experiment.concepts = experimentConcepts.value();
+
+        const auto experimentWeights = deserializeWeights(obj["weights"].toArray(), experiment.terms);
+        if (!experimentWeights) {
+            return {};
+        }
+        experiment.weights = experimentWeights.value();
+
+        if (!validateWeights(experiment.concepts, experiment.weights)) {
+            return {};
         }
 
-        fcm.experiments.push_back(exp);
+        fcm.experiments.push_back(experiment);
     }
 
     return fcm;
 }
-
