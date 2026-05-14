@@ -57,6 +57,6 @@ private:
     size_t T = 0;
 
     QUuid influenceConceptId;
-    size_t influenceSteps;
-    bool influenceFrom;
+    size_t influenceSteps = 1;
+    bool influenceFrom = false;
 };

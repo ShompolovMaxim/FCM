@@ -40,9 +40,12 @@ std::optional<PredictionParameters> deserializePredictionParameters(const QJsonO
     predictionParameters.stepsLessThreshold = params["steps_less_threshold"].toInt();
     predictionParameters.fixedSteps = params["fixed_steps"].toInt();
     predictionParameters.fuzzinessDegree = params.contains("fuzziness_degree") ? params["fuzziness_degree"].toDouble() : 1.0;
+
     if (!algorithms.contains(predictionParameters.algorithm) ||
         !activations.contains(predictionParameters.activationFunction) ||
-        !metrics.contains(predictionParameters.metric)) {
+        !metrics.contains(predictionParameters.metric) ||
+        predictionParameters.fixedSteps < 0 ||
+        predictionParameters.stepsLessThreshold < 0) {
         Logger::warn("Json prediction parameters invalid");
         return {};
     }

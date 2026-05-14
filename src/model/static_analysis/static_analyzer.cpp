@@ -5,6 +5,14 @@ StaticAnalyzer::StaticAnalyzer(std::shared_ptr<FCM> fcm) : fcm(fcm) {}
 void StaticAnalyzer::init() {
     if (!fcm) return;
 
+    od.clear();
+    id.clear();
+    inCount.clear();
+    outCount.clear();
+    oldWeights.clear();
+    R = 0;
+    T = 0;
+
     N = fcm->concepts.size();
     C = fcm->weights.size();
 

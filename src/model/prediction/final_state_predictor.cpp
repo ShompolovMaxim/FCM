@@ -1,5 +1,6 @@
 #include "final_state_predictor.h"
 
+#include "common/logger.h"
 #include "model/activation_functions/factory.h"
 
 #include "model/algorithms/factory.h"
@@ -12,7 +13,9 @@
 FinalStatePredictor::FinalStatePredictor(const PredictionParameters& predictionParameters) : predictionParameters(predictionParameters) {
     auto conceptActivationFunction = ActivationFunctionsFactory().create(predictionParameters.activationFunction, ElementType::Node, predictionParameters.fuzzinessDegree);
     auto weightActivationFunction = ActivationFunctionsFactory().create(predictionParameters.activationFunction, ElementType::Edge, predictionParameters.fuzzinessDegree);
-    algorithm = AlgorithmsFactory().create(predictionParameters, conceptActivationFunction, weightActivationFunction);
+    if (conceptActivationFunction && weightActivationFunction) {
+        algorithm = AlgorithmsFactory().create(predictionParameters, conceptActivationFunction, weightActivationFunction);
+    }
     metricsManager = std::make_shared<MetricsManager>(MetricsFactory().create(predictionParameters.metric), predictionParameters);
     stopCondition = StopConditionsFactory().create(predictionParameters);
 }
@@ -20,6 +23,10 @@ FinalStatePredictor::FinalStatePredictor(const PredictionParameters& predictionP
 CalculationFCM FinalStatePredictor::predict(const CalculationFCM& fcm) {
     fcms.clear();
     fcms.push_back(fcm);
+    if (!algorithm || !stopCondition) {
+        Logger::warn("Final state predictor dependency missing");
+        return fcm;
+    }
     while (!stopRequested.load()) {
         if (stopCondition->finished(fcms)) {
             break;

@@ -9,11 +9,17 @@ CalculationFCM WeightsPredictionFuzzyAlgorithm::step(const CalculationFCM& fcm, 
     result.weights = fcm.weights;
 
     for (const auto& [id, weight] : fcm.weights) {
-        if (fcm.concepts.at(weight.toConceptId).startStep <= currentStep && fcm.concepts.at(weight.fromConceptId).startStep <= currentStep) {
-            result.concepts[weight.toConceptId].triangularFuzzyValue = fcm.concepts.at(weight.toConceptId).triangularFuzzyValue +
-                                                                       fcm.concepts.at(weight.fromConceptId).triangularFuzzyValue * weight.triangularFuzzyValue;
-            result.weights[id].triangularFuzzyValue = fcm.weights.at(id).triangularFuzzyValue + fcm.concepts.at(weight.fromConceptId).triangularFuzzyValue *
-                                                                                                    fcm.concepts.at(weight.toConceptId).triangularFuzzyValue;
+        const auto toConceptIt = fcm.concepts.find(weight.toConceptId);
+        const auto fromConceptIt = fcm.concepts.find(weight.fromConceptId);
+        if (toConceptIt == fcm.concepts.end() || fromConceptIt == fcm.concepts.end()) {
+            continue;
+        }
+
+        if (toConceptIt->second.startStep <= currentStep && fromConceptIt->second.startStep <= currentStep) {
+            result.concepts[weight.toConceptId].triangularFuzzyValue = toConceptIt->second.triangularFuzzyValue +
+                                                                       fromConceptIt->second.triangularFuzzyValue * weight.triangularFuzzyValue;
+            result.weights[id].triangularFuzzyValue = fcm.weights.at(id).triangularFuzzyValue +
+                                                      fromConceptIt->second.triangularFuzzyValue * toConceptIt->second.triangularFuzzyValue;
         }
     }
     for (const auto& [id, _] : result.concepts) {

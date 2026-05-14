@@ -393,6 +393,10 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(int mode
             query.value("fixed_steps").toInt(),
             query.value("fuzziness_degree").toDouble()
         };
+        if (experiment.predictionParameters.fixedSteps < 0 ||
+            experiment.predictionParameters.stepsLessThreshold < 0) {
+            return {};
+        }
         auto termsOpt = getExperimentTerms(experiment.dbId);
         if (!termsOpt) return {};
         experiment.terms = *termsOpt;
