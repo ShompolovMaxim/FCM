@@ -1,5 +1,4 @@
-#ifndef SAVE_CURRENT_STATE_WINDOWTEWINDOW_H
-#define SAVE_CURRENT_STATE_WINDOWTEWINDOW_H
+#pragma once
 
 #include <QDialog>
 
@@ -20,4 +19,3 @@ private:
     Ui::SaveCurrentStateWindow *ui;
 };
 
-#endif // SAVE_CURRENT_STATE_WINDOWTEWINDOW_H

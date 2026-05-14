@@ -13,13 +13,7 @@ if(MINGW)
     add_compile_options(-Wa,-mbig-obj)
 endif()
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Help)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Help)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-find_package(Qt6 REQUIRED COMPONENTS Sql PrintSupport)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets LinguistTools Help Sql PrintSupport)
 
 set(TS_FILES translations/FCM_ru_RU.ts)
 
@@ -46,148 +40,131 @@ if(NOT QHELPGENERATOR_EXECUTABLE)
     message(FATAL_ERROR "qhelpgenerator not found")
 endif()
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(FCM
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-        src/ui/graph_editor/node_item.h src/ui/graph_editor/node_item.cpp
-        src/ui/graph_editor/edge_item.h src/ui/graph_editor/edge_item.cpp
-        src/ui/graph_editor/graph_scene.h src/ui/graph_editor/graph_scene.cpp
-        src/ui/graph_editor/graph_view.h src/ui/graph_editor/graph_view.cpp
+qt_add_executable(FCM
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+    src/ui/graph_editor/node_item.h src/ui/graph_editor/node_item.cpp
+    src/ui/graph_editor/edge_item.h src/ui/graph_editor/edge_item.cpp
+    src/ui/graph_editor/graph_scene.h src/ui/graph_editor/graph_scene.cpp
+    src/ui/graph_editor/graph_view.h src/ui/graph_editor/graph_view.cpp
 
-        src/model/color_value_adapter/adapter.h
-        src/model/color_value_adapter/default_adapter.h src/model/color_value_adapter/default_adapter.cpp
-        src/presenter/simulation/simulation_scene_presenter.h src/presenter/simulation/simulation_scene_presenter.cpp
-        src/model/prediction/prediction_parameters.h src/model/prediction/prediction_parameters.cpp
-        src/presenter/simulation/simulation_parameters.h
-        src/model/activation_functions/activation_function.h
-        src/model/activation_functions/bivalent.h src/model/activation_functions/bivalent.cpp
-        src/model/activation_functions/trivalent.h src/model/activation_functions/trivalent.cpp
-        src/model/activation_functions/threshold_linear.h src/model/activation_functions/threshold_linear.cpp
-        src/model/activation_functions/sigmoid.h src/model/activation_functions/sigmoid.cpp
-        src/model/activation_functions/tanh.h src/model/activation_functions/tanh.cpp
-        src/model/activation_functions/factory.h src/model/activation_functions/factory.cpp
-        src/model/entities/element_type.h
-        src/model/algorithms/algorithm.h
-        src/model/algorithms/standard.h src/model/algorithms/standard.cpp
-        src/model/metrics/metric.h
-        src/model/metrics/mse.h src/model/metrics/mse.cpp
-        src/model/entities/calculation/calculation_fcm.h
-        src/model/prediction/predictor.h src/model/prediction/predictor.cpp
-        src/model/entities/term.h src/model/entities/term.cpp
-        src/model/entities/concept_name_location.h src/model/entities/concept_name_location.cpp
-        src/model/fuzzy_logic/fuzzifier.h
-        src/model/fuzzy_logic/linear_fuzzifier.h src/model/fuzzy_logic/linear_fuzzifier.cpp
-        src/model/entities/concept.h src/model/entities/concept.cpp
-        src/model/entities/weight.h src/model/entities/weight.cpp
-        src/model/entities/fcm.h src/model/entities/fcm.cpp
-        src/model/entities/helpers/fcm_copy.h src/model/entities/helpers/fcm_copy.cpp
-        src/model/entities/helpers/equality.h src/model/entities/helpers/equality.cpp
+    src/model/color_value_adapter/adapter.h
+    src/model/color_value_adapter/default_adapter.h src/model/color_value_adapter/default_adapter.cpp
+    src/presenter/simulation/simulation_scene_presenter.h src/presenter/simulation/simulation_scene_presenter.cpp
+    src/model/prediction/prediction_parameters.h src/model/prediction/prediction_parameters.cpp
+    src/presenter/simulation/simulation_parameters.h
+    src/model/activation_functions/activation_function.h
+    src/model/activation_functions/bivalent.h src/model/activation_functions/bivalent.cpp
+    src/model/activation_functions/trivalent.h src/model/activation_functions/trivalent.cpp
+    src/model/activation_functions/threshold_linear.h src/model/activation_functions/threshold_linear.cpp
+    src/model/activation_functions/sigmoid.h src/model/activation_functions/sigmoid.cpp
+    src/model/activation_functions/tanh.h src/model/activation_functions/tanh.cpp
+    src/model/activation_functions/factory.h src/model/activation_functions/factory.cpp
+    src/model/entities/element_type.h
+    src/model/algorithms/algorithm.h
+    src/model/algorithms/standard.h src/model/algorithms/standard.cpp
+    src/model/metrics/metric.h
+    src/model/metrics/mse.h src/model/metrics/mse.cpp
+    src/model/entities/calculation/calculation_fcm.h
+    src/model/prediction/predictor.h src/model/prediction/predictor.cpp
+    src/model/entities/term.h src/model/entities/term.cpp
+    src/model/entities/concept_name_location.h src/model/entities/concept_name_location.cpp
+    src/model/fuzzy_logic/fuzzifier.h
+    src/model/fuzzy_logic/linear_fuzzifier.h src/model/fuzzy_logic/linear_fuzzifier.cpp
+    src/model/entities/concept.h src/model/entities/concept.cpp
+    src/model/entities/weight.h src/model/entities/weight.cpp
+    src/model/entities/fcm.h src/model/entities/fcm.cpp
+    src/model/entities/helpers/fcm_copy.h src/model/entities/helpers/fcm_copy.cpp
+    src/model/entities/helpers/equality.h src/model/entities/helpers/equality.cpp
 
-        src/presenter/enums/edit_mode.h
-        src/ui/graph_editor/edit_mode.h
-        src/model/entities/experiment.h src/model/entities/experiment.cpp
-        src/model/stop_conditions/stop_condition.h
-        src/model/stop_conditions/fixed_steps.h src/model/stop_conditions/fixed_steps.cpp
-        src/ui/concept_window/concept_window.h src/ui/concept_window/concept_window.cpp src/ui/concept_window/concept_window.ui
-        src/ui/weight_window/weight_window.h src/ui/weight_window/weight_window.cpp src/ui/weight_window/weight_window.ui
-        src/repository/models_repository.h src/repository/models_repository.cpp
-        src/repository/migration_manager.h src/repository/migration_manager.cpp
-        src/resources.qrc
-        src/ui/load_model_window/load_model_window.h src/ui/load_model_window/load_model_window.cpp src/ui/load_model_window/load_model_window.ui
+    src/presenter/enums/edit_mode.h
+    src/ui/graph_editor/edit_mode.h
+    src/model/entities/experiment.h src/model/entities/experiment.cpp
+    src/model/stop_conditions/stop_condition.h
+    src/model/stop_conditions/fixed_steps.h src/model/stop_conditions/fixed_steps.cpp
+    src/ui/concept_window/concept_window.h src/ui/concept_window/concept_window.cpp src/ui/concept_window/concept_window.ui
+    src/ui/weight_window/weight_window.h src/ui/weight_window/weight_window.cpp src/ui/weight_window/weight_window.ui
+    src/repository/models_repository.h src/repository/models_repository.cpp
+    src/repository/migration_manager.h src/repository/migration_manager.cpp
+    src/resources.qrc
+    src/ui/load_model_window/load_model_window.h src/ui/load_model_window/load_model_window.cpp src/ui/load_model_window/load_model_window.ui
 
-        src/libs/qcustomplot/qcustomplot.h src/libs/qcustomplot/qcustomplot.cpp
-        src/repository/json_repository.h src/repository/json_repository.cpp
-        src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
-        src/presenter/analysis/static_analysis_presenter.h src/presenter/analysis/static_analysis_presenter.cpp
-        src/presenter/abstract/scene_presenter.h
-        src/presenter/models/creation_presenter.h src/presenter/models/creation_presenter.cpp
-        src/ui/adjacency_table/adjacency_table_view.h src/ui/adjacency_table/adjacency_table_view.cpp
-        src/model/entities/calculation/calculation_weight.h
-        src/model/algorithms/weights_prediction.h src/model/algorithms/weights_prediction.cpp
-        src/model/algorithms/factory.h src/model/algorithms/factory.cpp
-        src/model/metrics/mae.h src/model/metrics/mae.cpp
-        src/model/metrics/mape.h src/model/metrics/mape.cpp
-        src/model/metrics/factory.h src/model/metrics/factory.cpp
-        src/model/metrics/metrics_manager.h src/model/metrics/metrics_manager.cpp
-        src/model/stop_conditions/factory.h src/model/stop_conditions/factory.cpp
-        src/model/stop_conditions/static.h src/model/stop_conditions/static.cpp
-        src/model/static_analysis/result.h
-        src/model/entities/triangular_fuzzy_value.h src/model/entities/triangular_fuzzy_value.cpp
-        src/model/activation_functions/activation_function.cpp
-        src/model/entities/calculation/calculation_concept.h
-        src/model/entities/templates/template.h
-        src/model/entities/templates/template_term.h
-        src/model/entities/templates/template_concept.h
-        src/model/entities/templates/template_weight.h
-        src/model/algorithms/standard_fuzzy.h src/model/algorithms/standard_fuzzy.cpp
-        src/model/algorithms/weights_prediction_fuzzy.h src/model/algorithms/weights_prediction_fuzzy.cpp
-        src/model/sensitivity_analysis/sensitivity_analizer.h src/model/sensitivity_analysis/sensitivity_analizer.cpp
-        src/model/sensitivity_analysis/parameters.h
-        src/model/prediction/final_state_predictor.h src/model/prediction/final_state_predictor.cpp
-        src/presenter/analysis/sensitivity_scene_presenter.h src/presenter/analysis/sensitivity_scene_presenter.cpp
-        src/model/sensitivity_analysis/change_iteration/numeric.h src/model/sensitivity_analysis/change_iteration/numeric.cpp
-        src/model/sensitivity_analysis/change_iteration/fuzzy.h src/model/sensitivity_analysis/change_iteration/fuzzy.cpp
+    src/libs/qcustomplot/qcustomplot.h src/libs/qcustomplot/qcustomplot.cpp
+    src/repository/json_repository.h src/repository/json_repository.cpp
+    src/model/static_analysis/static_analyzer.h src/model/static_analysis/static_analyzer.cpp
+    src/presenter/analysis/static_analysis_presenter.h src/presenter/analysis/static_analysis_presenter.cpp
+    src/presenter/abstract/scene_presenter.h
+    src/presenter/models/creation_presenter.h src/presenter/models/creation_presenter.cpp
+    src/ui/adjacency_table/adjacency_table_view.h src/ui/adjacency_table/adjacency_table_view.cpp
+    src/model/entities/calculation/calculation_weight.h
+    src/model/algorithms/weights_prediction.h src/model/algorithms/weights_prediction.cpp
+    src/model/algorithms/factory.h src/model/algorithms/factory.cpp
+    src/model/metrics/mae.h src/model/metrics/mae.cpp
+    src/model/metrics/mape.h src/model/metrics/mape.cpp
+    src/model/metrics/factory.h src/model/metrics/factory.cpp
+    src/model/metrics/metrics_manager.h src/model/metrics/metrics_manager.cpp
+    src/model/stop_conditions/factory.h src/model/stop_conditions/factory.cpp
+    src/model/stop_conditions/static.h src/model/stop_conditions/static.cpp
+    src/model/static_analysis/result.h
+    src/model/entities/triangular_fuzzy_value.h src/model/entities/triangular_fuzzy_value.cpp
+    src/model/activation_functions/activation_function.cpp
+    src/model/entities/calculation/calculation_concept.h
+    src/model/entities/templates/template.h
+    src/model/entities/templates/template_term.h
+    src/model/entities/templates/template_concept.h
+    src/model/entities/templates/template_weight.h
+    src/model/algorithms/standard_fuzzy.h src/model/algorithms/standard_fuzzy.cpp
+    src/model/algorithms/weights_prediction_fuzzy.h src/model/algorithms/weights_prediction_fuzzy.cpp
+    src/model/sensitivity_analysis/sensitivity_analizer.h src/model/sensitivity_analysis/sensitivity_analizer.cpp
+    src/model/sensitivity_analysis/parameters.h
+    src/model/prediction/final_state_predictor.h src/model/prediction/final_state_predictor.cpp
+    src/presenter/analysis/sensitivity_scene_presenter.h src/presenter/analysis/sensitivity_scene_presenter.cpp
+    src/model/sensitivity_analysis/change_iteration/numeric.h src/model/sensitivity_analysis/change_iteration/numeric.cpp
+    src/model/sensitivity_analysis/change_iteration/fuzzy.h src/model/sensitivity_analysis/change_iteration/fuzzy.cpp
 
-        src/model/sensitivity_analysis/change_iteration/abstract.h
-        src/model/sensitivity_analysis/change_iteration/range.h src/model/sensitivity_analysis/change_iteration/range.cpp
-        src/model/sensitivity_analysis/change_iteration/factory.h src/model/sensitivity_analysis/change_iteration/factory.cpp
-        src/repository/models_manager.h src/repository/models_manager.cpp
-        src/repository/templates_repository.h src/repository/templates_repository.cpp
-        src/repository/templates_manager.h src/repository/templates_manager.cpp
-        src/ui/save_as_window/save_as_window.h src/ui/save_as_window/save_as_window.cpp src/ui/save_as_window/save_as_window.ui
-        src/ui/join_window/join_window.h src/ui/join_window/join_window.cpp src/ui/join_window/join_window.ui
-        src/model/join/models_joiner.h src/model/join/models_joiner.cpp
-        src/ui/join_window/selection_mode.h
-        src/ui/join_window/group_type.h
-        src/model/join/mode.h
-        src/ui/markdown_edit/markdown_edit.h src/ui/markdown_edit/markdown_edit.cpp
-        src/ui/save_current_state_window/save_current_state_window.h src/ui/save_current_state_window/save_current_state_window.cpp src/ui/save_current_state_window/save_current_state_window.ui
-        src/model/color_value_adapter/linear_approximation_adapter.cpp
-        src/model/color_value_adapter/linear_approximation_adapter.cpp
-        src/presenter/settings/toollip_controller.h src/presenter/settings/toollip_controller.cpp
-        src/model/static_analysis/fuzzy_static_analyzer.h src/model/static_analysis/fuzzy_static_analyzer.cpp
-        src/ui/help/help_browser.h src/ui/help/help_browser.cpp
-        src/ui/help/help_window.h src/ui/help/help_window.cpp src/ui/help/help_window.ui
-        ${HELP_SOURCE_FILES}
-        src/ui/significant_spin_box/significant_spin_box.h src/ui/significant_spin_box/significant_spin_box.cpp
-        src/model/entities/templates/template_type.h
-        src/model/entities/templates/template_type.cpp
-        src/model/entities/templates/templates_language_manager.h
-        src/model/entities/templates/templates_language_manager.cpp
-        src/presenter/models/model_setup_presenter.h src/presenter/models/model_setup_presenter.cpp
-        src/presenter/models/models_join_presenter.h src/presenter/models/models_join_presenter.cpp
-        src/presenter/models_switching/models_switching_presenter.h src/presenter/models_switching/models_switching_presenter.cpp
-        src/presenter/settings/settings_presenter.h src/presenter/settings/settings_presenter.cpp
-        src/presenter/saving/saving_export_presenter.h src/presenter/saving/saving_export_presenter.cpp
-        src/presenter/simulation/simulation_presenter.h src/presenter/simulation/simulation_presenter.cpp
-        src/presenter/analysis/sensitivity_presenter.h src/presenter/analysis/sensitivity_presenter.cpp
+    src/model/sensitivity_analysis/change_iteration/abstract.h
+    src/model/sensitivity_analysis/change_iteration/range.h src/model/sensitivity_analysis/change_iteration/range.cpp
+    src/model/sensitivity_analysis/change_iteration/factory.h src/model/sensitivity_analysis/change_iteration/factory.cpp
+    src/repository/models_manager.h src/repository/models_manager.cpp
+    src/repository/templates_repository.h src/repository/templates_repository.cpp
+    src/repository/templates_manager.h src/repository/templates_manager.cpp
+    src/ui/save_as_window/save_as_window.h src/ui/save_as_window/save_as_window.cpp src/ui/save_as_window/save_as_window.ui
+    src/ui/join_window/join_window.h src/ui/join_window/join_window.cpp src/ui/join_window/join_window.ui
+    src/model/join/models_joiner.h src/model/join/models_joiner.cpp
+    src/ui/join_window/selection_mode.h
+    src/ui/join_window/group_type.h
+    src/model/join/mode.h
+    src/ui/markdown_edit/markdown_edit.h src/ui/markdown_edit/markdown_edit.cpp
+    src/ui/save_current_state_window/save_current_state_window.h src/ui/save_current_state_window/save_current_state_window.cpp src/ui/save_current_state_window/save_current_state_window.ui
+    src/model/color_value_adapter/linear_approximation_adapter.cpp
+    src/presenter/settings/toollip_controller.h src/presenter/settings/toollip_controller.cpp
+    src/model/static_analysis/fuzzy_static_analyzer.h src/model/static_analysis/fuzzy_static_analyzer.cpp
+    src/ui/help/help_browser.h src/ui/help/help_browser.cpp
+    src/ui/help/help_window.h src/ui/help/help_window.cpp src/ui/help/help_window.ui
+    ${HELP_SOURCE_FILES}
+    src/ui/significant_spin_box/significant_spin_box.h src/ui/significant_spin_box/significant_spin_box.cpp
+    src/model/entities/templates/template_type.h
+    src/model/entities/templates/template_type.cpp
+    src/model/entities/templates/templates_language_manager.h
+    src/model/entities/templates/templates_language_manager.cpp
+    src/presenter/models/model_setup_presenter.h src/presenter/models/model_setup_presenter.cpp
+    src/presenter/models/models_join_presenter.h src/presenter/models/models_join_presenter.cpp
+    src/presenter/models_switching/models_switching_presenter.h src/presenter/models_switching/models_switching_presenter.cpp
+    src/presenter/settings/settings_presenter.h src/presenter/settings/settings_presenter.cpp
+    src/presenter/saving/saving_export_presenter.h src/presenter/saving/saving_export_presenter.cpp
+    src/presenter/simulation/simulation_presenter.h src/presenter/simulation/simulation_presenter.cpp
+    src/presenter/analysis/sensitivity_presenter.h src/presenter/analysis/sensitivity_presenter.cpp
+)
 
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET FCM APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+qt_add_translations(FCM TS_FILES translations/FCM_ru_RU.ts)
 
-    #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-    qt_add_translations(FCM TS_FILES translations/FCM_ru_RU.ts)
-else()
-    if(ANDROID)
-        add_library(FCM SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(FCM
-            ${PROJECT_SOURCES}
-        )
-    endif()
-
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif()
-
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql Qt6::PrintSupport)
+target_link_libraries(FCM PRIVATE
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Help
+    Qt6::Sql
+    Qt6::PrintSupport
+)
 
 target_include_directories(FCM PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -196,7 +173,7 @@ target_include_directories(FCM PRIVATE
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
+if(Qt6_VERSION VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.FCM)
 endif()
 set_target_properties(FCM PROPERTIES
@@ -214,15 +191,7 @@ install(TARGETS FCM
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(FCM)
-endif()
-
-qt_add_resources(PROJECT_RESOURCES
-    src/resources.qrc
-)
-
-target_sources(FCM PRIVATE ${PROJECT_RESOURCES})
+qt_finalize_executable(FCM)
 
 enable_testing()
 add_subdirectory(tests)
@@ -264,9 +233,4 @@ add_custom_target(help_docs ALL
 )
 add_dependencies(FCM help_docs)
 
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Help)
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-target_link_libraries(FCM PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 

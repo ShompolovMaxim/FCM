@@ -1,5 +1,4 @@
-#ifndef JOIN_WINDOW_H
-#define JOIN_WINDOW_H
+#pragma once
 
 #include "group_type.h"
 #include "selection_mode.h"
@@ -49,4 +48,3 @@ private:
     QString termsModel;
 };
 
-#endif // JOIN_WINDOW_H

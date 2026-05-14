@@ -1,5 +1,4 @@
-#ifndef CONCEPT_WINDOW_H
-#define CONCEPT_WINDOW_H
+#pragma once
 
 #include "model/entities/term.h"
 #include "model/entities/concept.h"
@@ -52,4 +51,3 @@ private:
     bool createCancelHandled = false;
 };
 
-#endif // CONCEPT_WINDOW_H

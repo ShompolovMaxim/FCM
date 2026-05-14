@@ -1,5 +1,4 @@
-#ifndef LOAD_MODEL_WINDOW_H
-#define LOAD_MODEL_WINDOW_H
+#pragma once
 
 #include <QDialog>
 
@@ -36,5 +35,3 @@ private:
 
     Ui::LoadModelWindow *ui;
 };
-
-#endif // LOAD_MODEL_WINDOW_H

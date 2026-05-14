@@ -1,5 +1,4 @@
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <memory>
@@ -57,4 +56,3 @@ private:
 
     HelpWindow *helpWindow = nullptr;
 };
-#endif // MAIN_WINDOW_H

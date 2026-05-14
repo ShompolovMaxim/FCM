@@ -1,5 +1,4 @@
-#ifndef CREATION_PRESENTER_H
-#define CREATION_PRESENTER_H
+#pragma once
 
 #include "presenter/enums/element_window_mode.h"
 #include "presenter/abstract/scene_presenter.h"
@@ -54,4 +53,3 @@ private:
     QWidget* elementWindowParent;
 };
 
-#endif // CREATION_PRESENTER_H

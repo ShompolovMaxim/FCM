@@ -1,5 +1,4 @@
-#ifndef WEIGHT_WINDOW_H
-#define WEIGHT_WINDOW_H
+#pragma once
 
 #include "model/entities/term.h"
 #include "model/entities/weight.h"
@@ -52,4 +51,3 @@ private:
     bool createCancelHandled = false;
 };
 
-#endif // WEIGHT_WINDOW_H
