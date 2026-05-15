@@ -55,6 +55,7 @@ public:
     void loadFCM(std::shared_ptr<FCM> fcm);
     void restoreCurrentModelName(const QString &name);
     void setCurrentModel(std::shared_ptr<FCM> fcm);
+    void retranslateUi();
 
 signals:
     void autosaveRequested();

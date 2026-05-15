@@ -136,6 +136,9 @@ void MainWindow::changeEvent(QEvent *event) {
         if (sensitivityPresenter) {
             sensitivityPresenter->retranslateUi();
         }
+        if (modelsSwitchingPresenter) {
+            modelsSwitchingPresenter->retranslateUi();
+        }
         if (creationPresenter) {
             creationPresenter->retranslateElementsWindows();
         }

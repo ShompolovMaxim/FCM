@@ -282,6 +282,13 @@ void ModelsSwitchingPresenter::setCurrentModel(std::shared_ptr<FCM> newFcm) {
     }
 }
 
+void ModelsSwitchingPresenter::retranslateUi() {
+    if (fcm && modelSetupPresenter) {
+        modelSetupPresenter->updateFCM();
+    }
+    rebuildModelsMenu();
+}
+
 void ModelsSwitchingPresenter::nameChanged() {
     fcm->name = ui->modelName->text();
     rebuildModelsMenu();
