@@ -3,7 +3,9 @@
 StaticAnalyzer::StaticAnalyzer(std::shared_ptr<FCM> fcm) : fcm(fcm) {}
 
 void StaticAnalyzer::init() {
-    if (!fcm) return;
+    if (!fcm) {
+        return;
+    }
 
     od.clear();
     id.clear();
@@ -208,7 +210,9 @@ void StaticAnalyzer::updateHierarchy() {
 }
 
 void StaticAnalyzer::updateInfluenceTo(QUuid conceptId, size_t steps) {
-    if (!fcm->concepts.count(conceptId)) return;
+    if (!fcm->concepts.count(conceptId)) {
+        return;
+    }
 
     std::map<QUuid, std::map<QUuid, double>> W;
     for (const auto& [idWeight, w] : fcm->weights) {
@@ -244,7 +248,9 @@ void StaticAnalyzer::updateInfluenceTo(QUuid conceptId, size_t steps) {
 }
 
 void StaticAnalyzer::updateInfluenceFrom(QUuid conceptId, size_t steps) {
-    if (!fcm->concepts.count(conceptId)) return;
+    if (!fcm->concepts.count(conceptId)) {
+        return;
+    }
 
     std::map<QUuid, std::map<QUuid, double>> W;
     for (const auto& [idWeight, w] : fcm->weights) {

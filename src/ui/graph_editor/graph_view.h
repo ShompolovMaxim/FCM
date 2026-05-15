@@ -30,8 +30,9 @@ private:
     bool hasNodes() const
     {
         for (auto* item : scene()->items()) {
-            if (dynamic_cast<NodeItem*>(item))
+            if (dynamic_cast<NodeItem*>(item)) {
                 return true;
+            }
         }
         return false;
     }

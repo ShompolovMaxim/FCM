@@ -71,8 +71,9 @@ bool executeMigrationFile(QSqlDatabase &db, const QString &resourcePath) {
     QSqlQuery query(db);
     for (const QString &statement : sql.split(';', Qt::SkipEmptyParts)) {
         const QString trimmed = statement.trimmed();
-        if (trimmed.isEmpty())
+        if (trimmed.isEmpty()) {
             continue;
+        }
 
         if (!query.exec(trimmed)) {
             qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << trimmed;

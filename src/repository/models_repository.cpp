@@ -224,10 +224,11 @@ std::optional<int> ModelsRepository::createConcept(Concept &concept, int experim
     query.bindValue(":name", concept.name);
     query.bindValue(":description", concept.description);
     query.bindValue(":experiment_id", experimentId);
-    if (dbTermId.has_value())
+    if (dbTermId.has_value()) {
         query.bindValue(":term_id", dbTermId.value());
-    else
+    } else {
         query.bindValue(":term_id", QVariant());
+    }
     query.bindValue(":first_step", concept.startStep);
     query.bindValue(":x_pos", concept.pos.x());
     query.bindValue(":y_pos", concept.pos.y());
@@ -248,10 +249,11 @@ bool ModelsRepository::updateConcept(const Concept &concept) {
         "first_step=:first_step,x_pos=:x_pos,y_pos=:y_pos,name_location=:name_location WHERE id=:id");
     query.bindValue(":name", concept.name);
     query.bindValue(":description", concept.description);
-    if (concept.term)
+    if (concept.term) {
         query.bindValue(":term_id", concept.term->dbId);
-    else
+    } else {
         query.bindValue(":term_id", QVariant());
+    }
     query.bindValue(":first_step", concept.startStep);
     query.bindValue(":x_pos", concept.pos.x());
     query.bindValue(":y_pos", concept.pos.y());
@@ -311,10 +313,11 @@ bool ModelsRepository::updateWeight(const Weight &weight) {
         "WHERE id=:id");
     query.bindValue(":name", weight.name);
     query.bindValue(":description", weight.description);
-    if (weight.term)
+    if (weight.term) {
         query.bindValue(":term_id", weight.term->dbId);
-    else
+    } else {
         query.bindValue(":term_id", QVariant());
+    }
     query.bindValue(":id", weight.dbId);
     if (!query.exec()) {
         qDebug() << "SQL Error:" << query.lastError().text() << "Query:" << query.lastQuery();
@@ -337,8 +340,12 @@ bool ModelsRepository::deleteWeight(int weightId) {
 QList<QString> ModelsRepository::getModelsNames() {
     QStringList modelNames;
     QSqlQuery query(db);
-    if (!query.exec("SELECT name FROM models")) return modelNames;
-    while (query.next()) modelNames.append(query.value(0).toString());
+    if (!query.exec("SELECT name FROM models")) {
+        return modelNames;
+    }
+    while (query.next()) {
+        modelNames.append(query.value(0).toString());
+    }
     return modelNames;
 }
 
@@ -351,7 +358,9 @@ std::optional<FCM> ModelsRepository::getModel(const QString &modelName) {
         "FROM models WHERE name=:name"
     );
     query.bindValue(":name", modelName);
-    if (!query.exec() || !query.next()) return {};
+    if (!query.exec() || !query.next()) {
+        return {};
+    }
     FCM fcm;
     fcm.dbId = query.value("id").toInt();
     fcm.name = query.value("name").toString();
@@ -361,9 +370,52 @@ std::optional<FCM> ModelsRepository::getModel(const QString &modelName) {
     fcm.autoConfigureNumericValues = query.value("auto_configure_numeric_values").toBool();
     fcm.autoConfigureFuzzyValues = query.value("auto_configure_fuzzy_values").toBool();
     auto experimentsOpt = getExperiments(fcm.dbId);
-    if (!experimentsOpt) return {};
+    if (!experimentsOpt) {
+        return {};
+    }
     auto experiments = *experimentsOpt;
-    if (experiments.empty()) return {};
+    if (experiments.empty()) {
+        return {};
+    }
+    std::sort(experiments.begin(), experiments.end(), [](const Experiment &a, const Experiment &b) { return a.timestamp < b.timestamp; });
+    auto current = experiments.back();
+    experiments.pop_back();
+    fcm.terms = current.terms;
+    fcm.concepts = current.concepts;
+    fcm.weights = current.weights;
+    fcm.predictionParameters = current.predictionParameters;
+    fcm.experiments = experiments;
+    return fcm;
+}
+
+std::optional<FCM> ModelsRepository::getModel(int modelId) {
+    QSqlQuery query(db);
+    query.prepare(
+        "SELECT "
+        "id,name,description,autosave_on,auto_configure_terms_colors,"
+        "auto_configure_numeric_values,auto_configure_fuzzy_values "
+        "FROM models WHERE id=:id"
+    );
+    query.bindValue(":id", modelId);
+    if (!query.exec() || !query.next()) {
+        return {};
+    }
+    FCM fcm;
+    fcm.dbId = query.value("id").toInt();
+    fcm.name = query.value("name").toString();
+    fcm.description = query.value("description").toString();
+    fcm.autosaveOn = query.value("autosave_on").toBool();
+    fcm.autoConfigureTermsColors = query.value("auto_configure_terms_colors").toBool();
+    fcm.autoConfigureNumericValues = query.value("auto_configure_numeric_values").toBool();
+    fcm.autoConfigureFuzzyValues = query.value("auto_configure_fuzzy_values").toBool();
+    auto experimentsOpt = getExperiments(fcm.dbId);
+    if (!experimentsOpt) {
+        return {};
+    }
+    auto experiments = *experimentsOpt;
+    if (experiments.empty()) {
+        return {};
+    }
     std::sort(experiments.begin(), experiments.end(), [](const Experiment &a, const Experiment &b) { return a.timestamp < b.timestamp; });
     auto current = experiments.back();
     experiments.pop_back();
@@ -384,7 +436,9 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(int mode
         "fuzziness_degree "
         "FROM experiments WHERE model_id=:model_id");
     query.bindValue(":model_id", modelId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        return {};
+    }
     std::vector<Experiment> result;
     while (query.next()) {
         Experiment experiment;
@@ -406,10 +460,14 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(int mode
             return {};
         }
         auto termsOpt = getExperimentTerms(experiment.dbId);
-        if (!termsOpt) return {};
+        if (!termsOpt) {
+            return {};
+        }
         experiment.terms = *termsOpt;
         auto conceptsOpt = getExperimentConcepts(experiment.dbId, experiment.terms);
-        if (!conceptsOpt) return {};
+        if (!conceptsOpt) {
+            return {};
+        }
         std::map<int, std::shared_ptr<Concept>> conceptsByDbId;
         for (auto &c : *conceptsOpt) {
             auto ptr = std::make_shared<Concept>(c);
@@ -417,8 +475,12 @@ std::optional<std::vector<Experiment>> ModelsRepository::getExperiments(int mode
             experiment.concepts[ptr->id] = ptr;
         }
         auto weightsOpt = getExperimentWeights(experiment.dbId, experiment.terms, conceptsByDbId);
-        if (!weightsOpt) return {};
-        for (auto &w : *weightsOpt) experiment.weights[w.id] = std::make_shared<Weight>(w);
+        if (!weightsOpt) {
+            return {};
+        }
+        for (auto &w : *weightsOpt) {
+            experiment.weights[w.id] = std::make_shared<Weight>(w);
+        }
         result.push_back(experiment);
     }
     return result;
@@ -434,8 +496,9 @@ std::optional<std::vector<std::pair<int, QDateTime>>> ModelsRepository::getExper
     }
 
     std::vector<std::pair<int, QDateTime>> result;
-    while (query.next())
+    while (query.next()) {
         result.emplace_back(query.value("id").toInt(), query.value("timestamp").toDateTime());
+    }
 
     return result;
 }
@@ -448,7 +511,9 @@ std::optional<std::map<QUuid, std::shared_ptr<Term>>> ModelsRepository::getExper
         "tr_value_h,color_r,color_g,color_b,color_a,type FROM terms WHERE "
         "experiment_id=:experiment_id");
     query.bindValue(":experiment_id", experimentId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        return {};
+    }
     std::map<QUuid, std::shared_ptr<Term>> result;
     while (query.next()) {
         auto term = std::make_shared<Term>(Term{
@@ -479,15 +544,20 @@ std::optional<std::vector<Concept>> ModelsRepository::getExperimentConcepts(int 
         "SELECT id,uuid,name,description,term_id,first_step,x_pos,y_pos,name_location FROM "
         "concepts WHERE experiment_id=:experiment_id");
     query.bindValue(":experiment_id", experimentId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        return {};
+    }
     std::vector<Concept> result;
     while (query.next()) {
         std::shared_ptr<Term> termPtr = nullptr;
         auto termIdValue = query.value("term_id");
         if (!termIdValue.isNull()) {
             int dbTermId = termIdValue.toInt();
-            for (const auto &[_, t] : terms)
-                if (t->dbId == dbTermId) termPtr = t;
+            for (const auto &[_, t] : terms) {
+                if (t->dbId == dbTermId) {
+                    termPtr = t;
+                }
+            }
         }
         Concept concept {
             query.value("uuid").toUuid(),
@@ -514,26 +584,33 @@ std::optional<std::vector<Weight>> ModelsRepository::getExperimentWeights(
         "SELECT id,uuid,name,description,term_id,concept_from_id,concept_to_id "
         "FROM weights WHERE experiment_id=:experiment_id");
     query.bindValue(":experiment_id", experimentId);
-    if (!query.exec()) return {};
+    if (!query.exec()) {
+        return {};
+    }
     std::vector<Weight> result;
     while (query.next()) {
         std::shared_ptr<Term> termPtr = nullptr;
         auto termIdValue = query.value("term_id");
         if (!termIdValue.isNull()) {
             int dbTermId = termIdValue.toInt();
-            for (const auto &[_, t] : terms)
+            for (const auto &[_, t] : terms) {
                 if (t->dbId == dbTermId) {
                     termPtr = t;
                     break;
                 }
+            }
         }
         int dbConceptFromId = query.value("concept_from_id").toInt();
         int dbConceptToId = query.value("concept_to_id").toInt();
         QUuid conceptFromUuid, conceptToUuid;
         auto itFrom = conceptsByDbId.find(dbConceptFromId);
-        if (itFrom != conceptsByDbId.end()) conceptFromUuid = itFrom->second->id;
+        if (itFrom != conceptsByDbId.end()) {
+            conceptFromUuid = itFrom->second->id;
+        }
         auto itTo = conceptsByDbId.find(dbConceptToId);
-        if (itTo != conceptsByDbId.end()) conceptToUuid = itTo->second->id;
+        if (itTo != conceptsByDbId.end()) {
+            conceptToUuid = itTo->second->id;
+        }
         Weight weight{query.value("uuid").toUuid(), query.value("name").toString(), query.value("description").toString(), termPtr, conceptFromUuid, conceptToUuid};
         weight.dbId = query.value("id").toInt();
         result.emplace_back(weight);

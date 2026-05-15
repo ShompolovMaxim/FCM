@@ -2656,6 +2656,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Есть несохранённые изменения! Вы уверены, что хотите завершить выполнение программы?</translation>
     </message>
     <message>
+        <location filename="../src/presenter/saving/saving_export_presenter.cpp" line="88"/>
+        <source>This name is already taken</source>
+        <translation>Это имя уже занято</translation>
+    </message>
+    <message>
         <location filename="../src/ui/main_window/main_window.cpp" line="517"/>
         <location filename="../src/ui/main_window/main_window.cpp" line="1759"/>
         <source>Load</source>

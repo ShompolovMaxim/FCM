@@ -80,6 +80,19 @@ void SavingExportPresenter::save() {
         saveAs();
     } else {
         modelSetupPresenter->updateFCM();
+
+        auto savedModel = savingManager->getFCM(fcm->dbId);
+        if (savedModel && savedModel->name != fcm->name) {
+            const auto modelsNames = savingManager->getModelsNames();
+            if (modelsNames.contains(fcm->name)) {
+                if (fcm->autosaveOn) {
+                    emit currentModelNameRestoreRequested(savedModel->name);
+                }
+                QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("This name is already taken"));
+                return;
+            }
+        }
+
         savingManager->saveFCM(*fcm);
     }
 }
@@ -201,11 +214,13 @@ void SavingExportPresenter::onExportPng()
         "PNG Images (*.png)"
         );
 
-    if (fileName.isEmpty())
+    if (fileName.isEmpty()) {
         return;
+    }
 
-    if (!fileName.endsWith(".png", Qt::CaseInsensitive))
+    if (!fileName.endsWith(".png", Qt::CaseInsensitive)) {
         fileName += ".png";
+    }
 
     QPixmap pixmap = ui->graphicsViewGraph->grab();
 
@@ -226,11 +241,13 @@ void SavingExportPresenter::onExportJson() {
         "JSON files (*.json)"
         );
 
-    if (fileName.isEmpty())
+    if (fileName.isEmpty()) {
         return;
+    }
 
-    if (!fileName.endsWith(".json"))
+    if (!fileName.endsWith(".json")) {
         fileName += ".json";
+    }
 
     modelSetupPresenter->updateFCM();
     auto fcm = currentModel();

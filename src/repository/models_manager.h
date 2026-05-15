@@ -16,6 +16,7 @@ public:
     bool deleteFCM(int fcmDbId);
 
     std::optional<FCM> getFCM(const QString &modelName);
+    std::optional<FCM> getFCM(int modelId);
     QList<QString> getModelsNames();
 
 private:

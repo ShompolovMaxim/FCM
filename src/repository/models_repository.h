@@ -23,6 +23,7 @@ public:
     QList<QString> getModelsNames();
 
     std::optional<FCM> getModel(const QString& modelName);
+    std::optional<FCM> getModel(int modelId);
     std::optional<int> createModel(FCM& fcm);
     bool updateModel(const FCM& fcm);
     bool deleteModel(int modelId);

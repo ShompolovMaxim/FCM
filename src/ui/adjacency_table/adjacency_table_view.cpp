@@ -114,7 +114,9 @@ void AdjacencyTableView::weightDeleted(QUuid weightId) {
 }
 
 void AdjacencyTableView::conceptDeleted(QUuid conceptId) {
-    if (conceptsRows.find(conceptId) == conceptsRows.end()) return;
+    if (conceptsRows.find(conceptId) == conceptsRows.end()) {
+        return;
+    }
     int idx = conceptsRows[conceptId];
     model->removeRow(idx);
     model->removeColumn(idx);

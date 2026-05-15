@@ -79,11 +79,15 @@ void EdgeItem::updatePosition() {
     const auto geometry = buildGeometry(src->scenePos(), dst->scenePos(), 25, 25);
     if (!geometry.visible) {
         setPath(QPainterPath());
-        if (arrowItem) arrowItem->setVisible(false);
+        if (arrowItem) {
+            arrowItem->setVisible(false);
+        }
         return;
     }
 
-    if (arrowItem) arrowItem->setVisible(true);
+    if (arrowItem) {
+        arrowItem->setVisible(true);
+    }
     setPath(geometry.path);
     arrowItem->setPolygon(geometry.arrow);
 }

@@ -17,6 +17,7 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QPushButton>
+#include <QSignalBlocker>
 
 #include <algorithm>
 
@@ -49,7 +50,7 @@ ModelsSwitchingPresenter::ModelsSwitchingPresenter(
     fcm->name = mainWindowTr("New model");
     fcms.push_back(fcm);
 
-    connect(ui->modelName, &QLineEdit::textChanged, this, &ModelsSwitchingPresenter::nameChanged);
+    connect(ui->modelName, &QLineEdit::editingFinished, this, &ModelsSwitchingPresenter::nameChanged);
     connect(ui->actionNew, &QAction::triggered, this, &ModelsSwitchingPresenter::createNewModel);
 }
 
@@ -60,7 +61,7 @@ bool ModelsSwitchingPresenter::modelHasUnsavedChanges(std::shared_ptr<FCM> model
 
     std::optional<FCM> savedModel;
     if (model->dbId != -1) {
-        savedModel = savingManager->getFCM(model->name);
+        savedModel = savingManager->getFCM(model->dbId);
     }
 
     auto defaultFcm = FCM();
@@ -262,6 +263,17 @@ void ModelsSwitchingPresenter::loadFCM(std::shared_ptr<FCM> newFcm) {
     resetCommonUiState();
 }
 
+void ModelsSwitchingPresenter::restoreCurrentModelName(const QString &name) {
+    if (!fcm) {
+        return;
+    }
+
+    fcm->name = name;
+    QSignalBlocker blocker(ui->modelName);
+    ui->modelName->setText(name);
+    rebuildModelsMenu();
+}
+
 void ModelsSwitchingPresenter::setCurrentModel(std::shared_ptr<FCM> newFcm) {
     fcm = newFcm;
     auto it = std::find(fcms.begin(), fcms.end(), fcm);
@@ -270,8 +282,8 @@ void ModelsSwitchingPresenter::setCurrentModel(std::shared_ptr<FCM> newFcm) {
     }
 }
 
-void ModelsSwitchingPresenter::nameChanged(QString newName) {
-    fcm->name = newName;
+void ModelsSwitchingPresenter::nameChanged() {
+    fcm->name = ui->modelName->text();
     rebuildModelsMenu();
     emit autosaveRequested();
 }

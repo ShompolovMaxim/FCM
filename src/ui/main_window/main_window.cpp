@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     savingExportPresenter = std::make_shared<SavingExportPresenter>(ui, modelsSwitchingPresenter->modelsRef(), modelSetupPresenter, templatesManager, savingManager, this, nullptr);
     connect(savingExportPresenter.get(), &SavingExportPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
     connect(savingExportPresenter.get(), &SavingExportPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
+    connect(savingExportPresenter.get(), &SavingExportPresenter::currentModelNameRestoreRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::restoreCurrentModelName);
     connect(modelsJoinPresenter.get(), &ModelsJoinPresenter::addFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::addFCM);
     connect(modelsJoinPresenter.get(), &ModelsJoinPresenter::loadFCMRequested, modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::loadFCM);
     connect(modelsSwitchingPresenter.get(), &ModelsSwitchingPresenter::autosaveRequested, savingExportPresenter.get(), &SavingExportPresenter::autosave);

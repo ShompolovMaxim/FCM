@@ -145,6 +145,23 @@ std::optional<FCM> ModelsSavingManager::getFCM(const QString &modelName) {
     return fcmOpt;
 }
 
+std::optional<FCM> ModelsSavingManager::getFCM(int modelId) {
+    auto fcmOpt = repo.getModel(modelId);
+    if (!fcmOpt.has_value()) {
+        Logger::warn("Load model failed");
+        return {};
+    }
+
+    auto currentExperimentId = getCurrentExperimentId(*fcmOpt);
+    if (!currentExperimentId.has_value()) {
+        Logger::warn("Current experiment missing");
+        return {};
+    }
+
+    currentExperimentIds[fcmOpt->dbId] = *currentExperimentId;
+    return fcmOpt;
+}
+
 QList<QString> ModelsSavingManager::getModelsNames() {
     return repo.getModelsNames();
 }
@@ -459,5 +476,4 @@ void ModelsSavingManager::resetFCMDbIds(FCM &fcm) {
         }
     }
 }
-
 

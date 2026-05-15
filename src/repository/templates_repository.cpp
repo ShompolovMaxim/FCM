@@ -108,13 +108,17 @@ std::optional<int> TemplatesRepository::createTemplate(Template &templateModel) 
     int templateId = query.lastInsertId().toInt();
 
     for (const auto &term : templateModel.terms) {
-        if (!createTemplateTerm(*term, templateId)) return {};
+        if (!createTemplateTerm(*term, templateId)) {
+            return {};
+        }
     }
 
     std::map<const TemplateConcept *, int> conceptsIds;
     for (const auto &concept : templateModel.concepts) {
         auto idOpt = createTemplateConcept(*concept, templateId);
-        if (!idOpt) return {};
+        if (!idOpt) {
+            return {};
+        }
         conceptsIds[concept.get()] = *idOpt;
     }
 
@@ -131,7 +135,9 @@ std::optional<int> TemplatesRepository::createTemplate(Template &templateModel) 
             return {};
         }
 
-        if (!createTemplateWeight(*weight, templateId, fromIt->second, toIt->second)) return {};
+        if (!createTemplateWeight(*weight, templateId, fromIt->second, toIt->second)) {
+            return {};
+        }
     }
 
     return templateId;
@@ -145,9 +151,15 @@ bool TemplatesRepository::deleteTemplate(const QString &templateName) {
     }
     int templateId = *templateIdOpt;
 
-    if (!deleteTemplateWeights(templateId)) return false;
-    if (!deleteTemplateConcepts(templateId)) return false;
-    if (!deleteTemplateTerms(templateId)) return false;
+    if (!deleteTemplateWeights(templateId)) {
+        return false;
+    }
+    if (!deleteTemplateConcepts(templateId)) {
+        return false;
+    }
+    if (!deleteTemplateTerms(templateId)) {
+        return false;
+    }
 
     QSqlQuery query(db);
     query.prepare("DELETE FROM templates WHERE id=:id");

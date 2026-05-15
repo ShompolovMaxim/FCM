@@ -43,6 +43,7 @@ signals:
     void modelDeletionFinished(const QString &modelName, bool success);
     void addFCMRequested(std::shared_ptr<FCM> fcm);
     void loadFCMRequested(std::shared_ptr<FCM> fcm);
+    void currentModelNameRestoreRequested(const QString &name);
 
 private:
     std::shared_ptr<FCM> currentModel() const;

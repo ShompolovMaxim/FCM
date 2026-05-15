@@ -42,7 +42,7 @@ public:
     const std::vector<std::shared_ptr<FCM>>& models() const { return fcms; }
     std::vector<std::shared_ptr<FCM>>& modelsRef() { return fcms; }
 
-    void nameChanged(QString newName);
+    void nameChanged();
     void createNewModel();
 
     bool modelHasUnsavedChanges(std::shared_ptr<FCM> model);
@@ -53,6 +53,7 @@ public:
     void closeEvent(QCloseEvent* event);
     bool eventFilter(QObject* watched, QEvent* event);
     void loadFCM(std::shared_ptr<FCM> fcm);
+    void restoreCurrentModelName(const QString &name);
     void setCurrentModel(std::shared_ptr<FCM> fcm);
 
 signals:

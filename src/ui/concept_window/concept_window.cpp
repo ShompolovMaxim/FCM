@@ -184,8 +184,11 @@ void ConceptWindow::updateTermsList() {
     if (currentConcept->term) {
         QUuid termId = currentConcept->term->id;
         int index = ui->valueField->findData(QVariant::fromValue(termId));
-        if (index >= 0) ui->valueField->setCurrentIndex(index);
-        else ui->valueField->setCurrentIndex(0);
+        if (index >= 0) {
+            ui->valueField->setCurrentIndex(index);
+        } else {
+            ui->valueField->setCurrentIndex(0);
+        }
     } else {
         ui->valueField->setCurrentIndex(0);
     }
