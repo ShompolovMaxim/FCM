@@ -1,23 +1,15 @@
 #include "static_analysis_presenter.h"
 
 #include "model/color_value_adapter/linear_approximation_adapter.h"
+#include "ui_main_window.h"
+#include "ui/graph_editor/graph_scene.h"
 #include "ui/graph_editor/graph_view.h"
 
 #include <QSignalBlocker>
 #include <algorithm>
 
-StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm)
-    : tab(tab), presenter(presenter),fcm(fcm), analyzer(fcm), fuzzyAnalyzer(fcm) {
-    densityLabel = tab->findChild<QLabel*>("densityLabel");
-    complexityLabel = tab->findChild<QLabel*>("complexityLabel");
-    hierarchyLabel = tab->findChild<QLabel*>("hierarchyLabel");
-    table = tab->findChild<QTableWidget*>("factorsStatsTable");
-    graphConcept = tab->findChild<QComboBox*>("graphConcept");
-    influenceDirection = tab->findChild<QComboBox*>("influenceDirection");
-    influenceSteps = tab->findChild<QSpinBox*>("influenceSteps");
-    graphScene = dynamic_cast<GraphScene*>(tab->findChild<GraphView*>("graphicsView")->scene());
-    useFuzzyValuesStatic = tab->findChild<QCheckBox*>("useFuzzyValuesStatic");
-
+StaticAnalysisPresenter::StaticAnalysisPresenter(Ui::MainWindow* ui, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm)
+    : ui(ui), presenter(presenter), fcm(fcm), graphScene(dynamic_cast<GraphScene*>(ui->graphicsView->scene())), analyzer(fcm), fuzzyAnalyzer(fcm) {
     updateGraphConceptList();
 
     analyzer.init();
@@ -30,17 +22,17 @@ StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<C
     connect(presenter.get(), &CreationPresenter::weightUpdated, this, &StaticAnalysisPresenter::onWeightUpdated, Qt::QueuedConnection);
     connect(presenter.get(), &CreationPresenter::weightDeleted, this, &StaticAnalysisPresenter::onWeightDeleted, Qt::QueuedConnection);
 
-    connect(graphConcept, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
-    connect(influenceDirection, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
-    connect(influenceSteps, &QSpinBox::valueChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
-    connect(useFuzzyValuesStatic, &QCheckBox::checkStateChanged, this, &StaticAnalysisPresenter::useFuzzyValuesChanged);
+    connect(ui->graphConcept, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
+    connect(ui->influenceDirection, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
+    connect(ui->influenceSteps, &QSpinBox::valueChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
+    connect(ui->useFuzzyValuesStatic, &QCheckBox::checkStateChanged, this, &StaticAnalysisPresenter::useFuzzyValuesChanged);
 
     refreshUI();
 }
 
 void StaticAnalysisPresenter::reconfigure(std::shared_ptr<FCM> newFcm) {
     fcm = std::move(newFcm);
-    graphScene = dynamic_cast<GraphScene*>(tab->findChild<GraphView*>("graphicsView")->scene());
+    graphScene = dynamic_cast<GraphScene*>(ui->graphicsView->scene());
     analyzer = StaticAnalyzer(fcm);
     fuzzyAnalyzer = FuzzyStaticAnalyzer(fcm);
     updateGraphConceptList();
@@ -71,9 +63,9 @@ void StaticAnalysisPresenter::onConceptUpdated(std::shared_ptr<Concept>) {
 }
 
 void StaticAnalysisPresenter::onConceptDeleted(QUuid id) {
-    QVariant currentData = graphConcept->currentData();
+    QVariant currentData = ui->graphConcept->currentData();
     if (currentData.isValid() && currentData.toUuid() == id) {
-        graphConcept->setCurrentIndex(0);
+        ui->graphConcept->setCurrentIndex(0);
     }
 
     updateGraphConceptList();
@@ -101,13 +93,13 @@ void StaticAnalysisPresenter::onWeightDeleted(QUuid id) {
 }
 
 void StaticAnalysisPresenter::recalculateInfluence() {
-    if (graphConcept->count() == 0) {
+    if (ui->graphConcept->count() == 0) {
         return;
     }
-    if (graphConcept->currentIndex()) {
-        auto conceptId =graphConcept->currentData().toUuid();
-        auto steps = influenceSteps->value();
-        auto influenceFrom = influenceDirection->currentData(Qt::UserRole).toString() == "from";
+    if (ui->graphConcept->currentIndex()) {
+        auto conceptId = ui->graphConcept->currentData().toUuid();
+        auto steps = ui->influenceSteps->value();
+        auto influenceFrom = ui->influenceDirection->currentData(Qt::UserRole).toString() == "from";
         analyzer.updateInfluence(conceptId, steps, influenceFrom);
         fuzzyAnalyzer.updateInfluence(conceptId, steps, influenceFrom);
     }
@@ -115,44 +107,44 @@ void StaticAnalysisPresenter::recalculateInfluence() {
 }
 
 void StaticAnalysisPresenter::refreshUI(bool changeTable) {
-    const auto& result = useFuzzyValuesStatic->isChecked() ? fuzzyAnalyzer.getNumericResult() : analyzer.getResult();
+    const auto& result = ui->useFuzzyValuesStatic->isChecked() ? fuzzyAnalyzer.getNumericResult() : analyzer.getResult();
 
-    densityLabel->setText(tr("FCM density: ") + QString::number(result.density));
-    complexityLabel->setText(tr("FCM complexity: ") + QString::number(result.complexity));
-    hierarchyLabel->setText(tr("FCM hierarchy index: ") + QString::number(result.hierarchyIndex));
+    ui->densityLabel->setText(tr("FCM density: ") + QString::number(result.density));
+    ui->complexityLabel->setText(tr("FCM complexity: ") + QString::number(result.complexity));
+    ui->hierarchyLabel->setText(tr("FCM hierarchy index: ") + QString::number(result.hierarchyIndex));
 
     if (changeTable) {
-        table->setRowCount(result.factors.size());
-        table->setColumnCount(4);
-        table->setHorizontalHeaderLabels({tr("Concept name"), tr("Out"), tr("In"), tr("Centrality")});
+        ui->factorsStatsTable->setRowCount(result.factors.size());
+        ui->factorsStatsTable->setColumnCount(4);
+        ui->factorsStatsTable->setHorizontalHeaderLabels({tr("Concept name"), tr("Out"), tr("In"), tr("Centrality")});
 
         int row = 0;
         for (const auto& [idc, f] : result.factors) {
-            table->setItem(row,0, new QTableWidgetItem(f.conceptName));
-            table->setItem(row,1, new QTableWidgetItem(QString::number(f.outDegree)));
-            table->setItem(row,2, new QTableWidgetItem(QString::number(f.inDegree)));
-            table->setItem(row,3, new QTableWidgetItem(QString::number(f.centrality)));
+            ui->factorsStatsTable->setItem(row, 0, new QTableWidgetItem(f.conceptName));
+            ui->factorsStatsTable->setItem(row, 1, new QTableWidgetItem(QString::number(f.outDegree)));
+            ui->factorsStatsTable->setItem(row, 2, new QTableWidgetItem(QString::number(f.inDegree)));
+            ui->factorsStatsTable->setItem(row, 3, new QTableWidgetItem(QString::number(f.centrality)));
             row++;
         }
 
-        table->setWordWrap(true);
-        table->resizeRowsToContents();
+        ui->factorsStatsTable->setWordWrap(true);
+        ui->factorsStatsTable->resizeRowsToContents();
     }
 
     auto colorValueAdapter = LinearApproximationColorValueAdapter(fcm->terms);
     for (auto [id, concept] : fcm->concepts) {
-        if (graphConcept->count() > 1 && graphConcept->currentIndex()) {
-            graphScene->setConceptColor(id, colorValueAdapter.getColor(std::min(std::max(result.factors.at(id).influence, -1.0), 1.0), -1, 1, false, useFuzzyValuesStatic->isChecked()),
-                                        id == graphConcept->currentData().toUuid());
+        if (ui->graphConcept->count() > 1 && ui->graphConcept->currentIndex()) {
+            graphScene->setConceptColor(id, colorValueAdapter.getColor(std::min(std::max(result.factors.at(id).influence, -1.0), 1.0), -1, 1, false, ui->useFuzzyValuesStatic->isChecked()),
+                                        id == ui->graphConcept->currentData().toUuid());
         } else {
-            graphScene->setConceptColor(id, colorValueAdapter.getColor(0, -1, 1, false, useFuzzyValuesStatic->isChecked()), false);
+            graphScene->setConceptColor(id, colorValueAdapter.getColor(0, -1, 1, false, ui->useFuzzyValuesStatic->isChecked()), false);
         }
     }
 }
 
 void StaticAnalysisPresenter::updateGraphConceptList() {
-    QSignalBlocker blocker(graphConcept);
-    graphConcept->clear();
+    QSignalBlocker blocker(ui->graphConcept);
+    ui->graphConcept->clear();
 
     QList<QPair<QString, QUuid>> conceptItems;
     for (const auto& [id, concept] : fcm->concepts) {
@@ -164,21 +156,21 @@ void StaticAnalysisPresenter::updateGraphConceptList() {
                   return a.first < b.first;
               });
 
-    graphConcept->addItem("", QVariant());
+    ui->graphConcept->addItem("", QVariant());
     for (const auto& item : conceptItems) {
-        graphConcept->addItem(item.first, QVariant::fromValue(item.second));
+        ui->graphConcept->addItem(item.first, QVariant::fromValue(item.second));
     }
 
-    QVariant currentData = graphConcept->currentData();
+    QVariant currentData = ui->graphConcept->currentData();
     if (currentData.isValid()) {
-        for (int i = 0; i < graphConcept->count(); ++i) {
-            if (graphConcept->itemData(i) == currentData) {
-                graphConcept->setCurrentIndex(i);
+        for (int i = 0; i < ui->graphConcept->count(); ++i) {
+            if (ui->graphConcept->itemData(i) == currentData) {
+                ui->graphConcept->setCurrentIndex(i);
                 break;
             }
         }
     } else {
-        graphConcept->setCurrentIndex(0);
+        ui->graphConcept->setCurrentIndex(0);
     }
 }
 

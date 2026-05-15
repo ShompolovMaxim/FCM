@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     auto* staticAnalysisScene = new GraphScene(modelsSwitchingPresenter->currentModel(), creationPresenter, ElementWindowMode::UpdateElement);
     staticAnalysisScene->setMode(EditMode::EditValues);
     staticAnalysisScene->blockConceptCreationColorEdit(true);
-    ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(staticAnalysisScene);
+    ui->graphicsView->setScene(staticAnalysisScene);
 
     connect(ui->pushButtonMode, &QPushButton::clicked, scene, &GraphScene::switchMode);
     connect(ui->pushButtonScaleGraph, &QPushButton::clicked, ui->graphicsViewGraph, &GraphView::resetScale);
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pushButtonScaleSensitivity, &QPushButton::clicked, ui->graphicsViewSensitivity, &GraphView::resetScale);
 
     ui->factorsStatsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    staticAnalysisPresenter = new StaticAnalysisPresenter(ui->staticAnalysis, creationPresenter, modelsSwitchingPresenter->currentModel());
+    staticAnalysisPresenter = new StaticAnalysisPresenter(ui, creationPresenter, modelsSwitchingPresenter->currentModel());
     modelSetupPresenter = std::make_shared<ModelSetupPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, nullptr);
     simulationPresenter = std::make_shared<SimulationPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, this, nullptr);
     sensitivityPresenter = std::make_shared<SensitivityPresenter>(ui, modelsSwitchingPresenter->currentModelRef(), creationPresenter, this, nullptr);

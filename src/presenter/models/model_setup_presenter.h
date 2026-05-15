@@ -9,6 +9,7 @@
 #include "ui/graph_editor/edit_mode.h"
 
 class FCM;
+class Term;
 class QWidget;
 class CreationPresenter;
 class QKeyEvent;
@@ -49,6 +50,7 @@ signals:
 
 private:
     PredictionParameters getPredictionParameters() const;
+    std::shared_ptr<Term> findTerm(const QUuid& id) const;
     void updatePredictionParameters();
     void updateFuzzyValuePlot();
     void autoConfigureTermColor();

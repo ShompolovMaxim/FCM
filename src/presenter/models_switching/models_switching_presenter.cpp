@@ -228,11 +228,11 @@ void ModelsSwitchingPresenter::recreateScenes() {
     }
     delete oldSceneCreate;
 
-    auto* oldStaticAnalysisScene = ui->staticAnalysis->findChild<GraphView*>("graphicsView")->scene();
+    auto* oldStaticAnalysisScene = ui->graphicsView->scene();
     auto* newStaticAnalysisScene = new GraphScene(fcm, creationPresenter, ElementWindowMode::UpdateElement);
     newStaticAnalysisScene->blockConceptCreationColorEdit(true);
     newStaticAnalysisScene->setMode(EditMode::EditValues);
-    ui->staticAnalysis->findChild<GraphView*>("graphicsView")->setScene(newStaticAnalysisScene);
+    ui->graphicsView->setScene(newStaticAnalysisScene);
     delete oldStaticAnalysisScene;
 }
 

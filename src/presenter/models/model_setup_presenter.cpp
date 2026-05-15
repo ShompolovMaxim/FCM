@@ -311,8 +311,12 @@ void ModelSetupPresenter::onDeleteTerm() {
     if (current && current->parent()) {
         auto* parent = current->parent();
         auto id = current->data(0, Qt::UserRole).toUuid();
-        if (fcm->terms[id]->dbId != -1) {
-            fcm->deletedTermsIds.push_back(fcm->terms[id]->dbId);
+        auto term = findTerm(id);
+        if (!term) {
+            return;
+        }
+        if (term->dbId != -1) {
+            fcm->deletedTermsIds.push_back(term->dbId);
         }
         creationPresenter->deleteTerm(id);
         emit popagateTermUpdate();
@@ -322,9 +326,14 @@ void ModelSetupPresenter::onDeleteTerm() {
 }
 
 void ModelSetupPresenter::onChooseTermColor() {
-    QColor color = QColorDialog::getColor(Qt::white, parentWidget, QString(mainWindowTr("Choose term %1 color")).arg(fcm->terms[currentTermId]->name));
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
+
+    QColor color = QColorDialog::getColor(Qt::white, parentWidget, QString(mainWindowTr("Choose term %1 color")).arg(currentTerm->name));
     if (color.isValid()) {
-        fcm->terms[currentTermId]->color = color;
+        currentTerm->color = color;
         ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(color.name()));
         creationPresenter->updateTerm(currentTermId);
         emit popagateTermUpdate();
@@ -361,6 +370,22 @@ void ModelSetupPresenter::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWi
     }
 
     currentTermId = current->data(0, Qt::UserRole).toUuid();
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        currentTermId = QUuid();
+        ui->createTermButton->setEnabled(false);
+        ui->termValue->setEnabled(false);
+        ui->termValueL->setEnabled(false);
+        ui->termValueM->setEnabled(false);
+        ui->termValueU->setEnabled(false);
+        ui->termNotes->setEnabled(false);
+        ui->deleteTermButton->setEnabled(false);
+        ui->termColorButton->setEnabled(false);
+        ui->termColorButton->setStyleSheet("");
+        ui->fuzzyValuePlot->graph(0)->data()->clear();
+        ui->fuzzyValuePlot->replot();
+        return;
+    }
 
     ui->termValue->setEnabled(true);
     ui->termValueL->setEnabled(true);
@@ -370,7 +395,7 @@ void ModelSetupPresenter::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWi
     ui->deleteTermButton->setEnabled(true);
     ui->termColorButton->setEnabled(true);
 
-    double mn = fcm->terms[currentTermId]->type == ElementType::Node ? 0.0 : -1.0;
+    double mn = currentTerm->type == ElementType::Node ? 0.0 : -1.0;
     ui->termValue->setMinimum(mn);
     ui->termValue->setMaximum(1.0);
     ui->termValueL->setMinimum(mn);
@@ -380,11 +405,11 @@ void ModelSetupPresenter::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWi
     ui->termValueU->setMinimum(mn);
     ui->termValueU->setMaximum(1.0);
 
-    ui->termValue->setValue(fcm->terms[currentTermId]->value);
-    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
-    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
-    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
-    ui->termNotes->setMarkdownText(fcm->terms[currentTermId]->description);
+    ui->termValue->setValue(currentTerm->value);
+    ui->termValueL->setValue(currentTerm->fuzzyValue.l);
+    ui->termValueM->setValue(currentTerm->fuzzyValue.m);
+    ui->termValueU->setValue(currentTerm->fuzzyValue.u);
+    ui->termNotes->setMarkdownText(currentTerm->description);
     ui->termColorButton->setStyleSheet(QString(R"(
         QPushButton {
             background-color: %1;
@@ -395,7 +420,7 @@ void ModelSetupPresenter::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWi
             color: black;
             border: 1px solid black;
         }
-    )").arg(fcm->terms[currentTermId]->color.name()));
+    )").arg(currentTerm->color.name()));
     updateFuzzyValuePlot();
 }
 
@@ -409,7 +434,11 @@ void ModelSetupPresenter::onCurrentTabChanged(int index) {
 
 void ModelSetupPresenter::termNotesChanged() {
     if (ui->treeWidgetTerms->currentItem() && ui->treeWidgetTerms->currentItem()->parent()) {
-        fcm->terms[currentTermId]->description = ui->termNotes->markdownText();
+        auto currentTerm = findTerm(currentTermId);
+        if (!currentTerm) {
+            return;
+        }
+        currentTerm->description = ui->termNotes->markdownText();
     }
 }
 
@@ -417,41 +446,57 @@ void ModelSetupPresenter::autoConfigureTermColor() {
     if (!ui->autoColorConfiguration->isChecked()) {
         return;
     }
-    double meanTermValue = (fcm->terms[currentTermId]->value + fcm->terms[currentTermId]->fuzzyValue.defuzzify()) / 2;
-    if (fcm->terms[currentTermId]->type == ElementType::Node) {
-        fcm->terms[currentTermId]->color = DefaultColorValueAdapter().getColor(meanTermValue, 0, 1);
-    } else {
-        fcm->terms[currentTermId]->color = DefaultColorValueAdapter().getColor(meanTermValue, -1, 1);
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
     }
-    ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(fcm->terms[currentTermId]->color.name()));
+    double meanTermValue = (currentTerm->value + currentTerm->fuzzyValue.defuzzify()) / 2;
+    if (currentTerm->type == ElementType::Node) {
+        currentTerm->color = DefaultColorValueAdapter().getColor(meanTermValue, 0, 1);
+    } else {
+        currentTerm->color = DefaultColorValueAdapter().getColor(meanTermValue, -1, 1);
+    }
+    ui->termColorButton->setStyleSheet(QString("background-color: %1").arg(currentTerm->color.name()));
 }
 
 void ModelSetupPresenter::autoConfigureNumericValue() {
     if (!ui->autoNumericConfiguration->isChecked()) {
         return;
     }
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
     QSignalBlocker b1(ui->termValue);
-    fcm->terms[currentTermId]->value = fcm->terms[currentTermId]->fuzzyValue.defuzzify();
-    ui->termValue->setValue(fcm->terms[currentTermId]->fuzzyValue.defuzzify());
+    currentTerm->value = currentTerm->fuzzyValue.defuzzify();
+    ui->termValue->setValue(currentTerm->fuzzyValue.defuzzify());
 }
 
 void ModelSetupPresenter::autoConfigureFuzzyValue() {
     if (!ui->autoFuzzyConfiguration->isChecked()) {
         return;
     }
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
     QSignalBlocker b1(ui->termValueL);
     QSignalBlocker b2(ui->termValueM);
     QSignalBlocker b3(ui->termValueU);
-    fcm->terms[currentTermId]->fuzzyValue.l = std::max(fcm->terms[currentTermId]->value - 0.2, fcm->terms[currentTermId]->type == ElementType::Edge ? -1.0 : 0.0);
-    fcm->terms[currentTermId]->fuzzyValue.m = fcm->terms[currentTermId]->value;
-    fcm->terms[currentTermId]->fuzzyValue.u = std::min(fcm->terms[currentTermId]->value + 0.2, 1.0);
-    ui->termValueL->setValue(fcm->terms[currentTermId]->fuzzyValue.l);
-    ui->termValueM->setValue(fcm->terms[currentTermId]->fuzzyValue.m);
-    ui->termValueU->setValue(fcm->terms[currentTermId]->fuzzyValue.u);
+    currentTerm->fuzzyValue.l = std::max(currentTerm->value - 0.2, currentTerm->type == ElementType::Edge ? -1.0 : 0.0);
+    currentTerm->fuzzyValue.m = currentTerm->value;
+    currentTerm->fuzzyValue.u = std::min(currentTerm->value + 0.2, 1.0);
+    ui->termValueL->setValue(currentTerm->fuzzyValue.l);
+    ui->termValueM->setValue(currentTerm->fuzzyValue.m);
+    ui->termValueU->setValue(currentTerm->fuzzyValue.u);
 }
 
 void ModelSetupPresenter::onTermValueChanged(double value) {
-    fcm->terms[currentTermId]->value = value;
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
+    currentTerm->value = value;
     autoConfigureFuzzyValue();
     autoConfigureTermColor();
     updateFuzzyValuePlot();
@@ -460,15 +505,19 @@ void ModelSetupPresenter::onTermValueChanged(double value) {
 }
 
 void ModelSetupPresenter::onTermValueLChanged(double value) {
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
     if (ui->termValueM->value() < value) {
         ui->termValueM->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.m = value;
+        currentTerm->fuzzyValue.m = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.u = value;
+        currentTerm->fuzzyValue.u = value;
     }
-    fcm->terms[currentTermId]->fuzzyValue.l = value;
+    currentTerm->fuzzyValue.l = value;
     updateFuzzyValuePlot();
     autoConfigureNumericValue();
     autoConfigureTermColor();
@@ -477,15 +526,19 @@ void ModelSetupPresenter::onTermValueLChanged(double value) {
 }
 
 void ModelSetupPresenter::onTermValueMChanged(double value) {
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.l = value;
+        currentTerm->fuzzyValue.l = value;
     }
     if (ui->termValueU->value() < value) {
         ui->termValueU->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.u = value;
+        currentTerm->fuzzyValue.u = value;
     }
-    fcm->terms[currentTermId]->fuzzyValue.m = value;
+    currentTerm->fuzzyValue.m = value;
     updateFuzzyValuePlot();
     autoConfigureNumericValue();
     autoConfigureTermColor();
@@ -494,15 +547,19 @@ void ModelSetupPresenter::onTermValueMChanged(double value) {
 }
 
 void ModelSetupPresenter::onTermValueUChanged(double value) {
+    auto currentTerm = findTerm(currentTermId);
+    if (!currentTerm) {
+        return;
+    }
     if (ui->termValueL->value() > value) {
         ui->termValueL->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.l = value;
+        currentTerm->fuzzyValue.l = value;
     }
     if (ui->termValueM->value() > value) {
         ui->termValueM->setValue(value);
-        fcm->terms[currentTermId]->fuzzyValue.m = value;
+        currentTerm->fuzzyValue.m = value;
     }
-    fcm->terms[currentTermId]->fuzzyValue.u = value;
+    currentTerm->fuzzyValue.u = value;
     updateFuzzyValuePlot();
     autoConfigureNumericValue();
     autoConfigureTermColor();
@@ -516,15 +573,35 @@ void ModelSetupPresenter::updateFuzzyValuePlot() {
 }
 
 void ModelSetupPresenter::onItemChanged(QTreeWidgetItem  *item, int column) {
+    if (!item || column != 0 || !item->parent()) {
+        return;
+    }
+
     auto id = item->data(0, Qt::UserRole).toUuid();
+    auto termIt = fcm->terms.find(id);
+    if (id.isNull() || termIt == fcm->terms.end() || !termIt->second) {
+        Logger::warn("Term tree item missing");
+        return;
+    }
+
+    auto& currentTerm = termIt->second;
     for (const auto [termId, term] : fcm->terms) {
-        if (termId != id && term->type == fcm->terms[id]->type && item->text(0) == term->name) {
-            item->setText(0, fcm->terms[id]->name);
+        if (term && termId != id && term->type == currentTerm->type && item->text(0) == term->name) {
+            item->setText(0, currentTerm->name);
             QMessageBox::critical(parentWidget, mainWindowTr("Error"), mainWindowTr("There already is a term of this type with such a name"));
             return;
         }
     }
-    fcm->terms[id]->name = item->text(0);
+    currentTerm->name = item->text(0);
     creationPresenter->updateTerm(id);
+}
+
+std::shared_ptr<Term> ModelSetupPresenter::findTerm(const QUuid& id) const {
+    auto termIt = fcm->terms.find(id);
+    if (id.isNull() || termIt == fcm->terms.end() || !termIt->second) {
+        Logger::warn("Model setup term missing");
+        return {};
+    }
+    return termIt->second;
 }
 

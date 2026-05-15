@@ -1,5 +1,7 @@
 #include "models_repository.h"
 
+#include "common/logger.h"
+
 #include <QDateTime>
 #include <QDebug>
 #include <QSqlError>
@@ -282,10 +284,16 @@ std::optional<int> ModelsRepository::createWeight(Weight &weight, int experiment
     query.bindValue(":name", weight.name);
     query.bindValue(":description", weight.description);
     query.bindValue(":experiment_id", experimentId);
-    if (weight.term)
-        query.bindValue(":term_id", termsDBIds.at(weight.term->id));
-    else
+    if (weight.term) {
+        auto termIt = termsDBIds.find(weight.term->id);
+        if (termIt == termsDBIds.end()) {
+            Logger::warn("Weight term db id missing");
+            return {};
+        }
+        query.bindValue(":term_id", termIt->second);
+    } else {
         query.bindValue(":term_id", QVariant());
+    }
     query.bindValue(":concept_from_id", fromConceptId);
     query.bindValue(":concept_to_id", toConceptId);
     if (!query.exec()) {

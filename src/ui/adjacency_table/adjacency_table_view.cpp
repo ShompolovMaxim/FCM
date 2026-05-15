@@ -1,5 +1,7 @@
 #include "adjacency_table_view.h"
 
+#include "common/logger.h"
+
 #include <QMouseEvent>
 #include <QModelIndex>
 #include <algorithm>
@@ -13,6 +15,16 @@ AdjacencyTableView::AdjacencyTableView(QWidget* parent) : QTableView(parent), co
 }
 
 void AdjacencyTableView::onCellClicked(const QModelIndex& index) {
+    if (!presenter || !index.isValid()) {
+        return;
+    }
+
+    const int conceptCount = static_cast<int>(rowsConcepts.size());
+    if (index.row() < 0 || index.column() < 0 || index.row() >= conceptCount || index.column() >= conceptCount) {
+        Logger::warn("Adjacency cell index invalid");
+        return;
+    }
+
     if (idxsWeights.find(index) == idxsWeights.end()) {
         presenter->createWeight(rowsConcepts[index.row()], rowsConcepts[index.column()]);
     } else {
@@ -45,12 +57,25 @@ void AdjacencyTableView::conceptCreated(std::shared_ptr<Concept> concept) {
 }
 
 void AdjacencyTableView::weightCreated(std::shared_ptr<Weight> weight) {
-    QModelIndex idx = model->index(conceptsRows[weight->fromConceptId], conceptsRows[weight->toConceptId]);
+    const auto fromIt = conceptsRows.find(weight->fromConceptId);
+    const auto toIt = conceptsRows.find(weight->toConceptId);
+    if (fromIt == conceptsRows.end() || toIt == conceptsRows.end()) {
+        Logger::warn("Adjacency weight concept missing");
+        return;
+    }
+
+    QModelIndex idx = model->index(static_cast<int>(fromIt->second), static_cast<int>(toIt->second));
     idxsWeights[idx] = weight->id;
 }
 
 void AdjacencyTableView::conceptUpdated(std::shared_ptr<Concept> concept) {
-    int idx = conceptsRows[concept->id];
+    const auto conceptIt = conceptsRows.find(concept->id);
+    if (conceptIt == conceptsRows.end()) {
+        Logger::warn("Adjacency concept missing");
+        return;
+    }
+
+    int idx = static_cast<int>(conceptIt->second);
     model->setHeaderData(idx, Qt::Horizontal, concept->name);
     model->setHeaderData(idx, Qt::Vertical, concept->name);
     auto color = QColor(255, 255, 255);
@@ -63,7 +88,14 @@ void AdjacencyTableView::conceptUpdated(std::shared_ptr<Concept> concept) {
 }
 
 void AdjacencyTableView::weightUpdated(std::shared_ptr<Weight> weight) {
-    QModelIndex idx = model->index(conceptsRows[weight->fromConceptId], conceptsRows[weight->toConceptId]);
+    const auto fromIt = conceptsRows.find(weight->fromConceptId);
+    const auto toIt = conceptsRows.find(weight->toConceptId);
+    if (fromIt == conceptsRows.end() || toIt == conceptsRows.end()) {
+        Logger::warn("Adjacency weight concept missing");
+        return;
+    }
+
+    QModelIndex idx = model->index(static_cast<int>(fromIt->second), static_cast<int>(toIt->second));
     model->setData(idx, weight->name);
     auto color = QColor(0, 0, 0);
     if (weight->term) {
@@ -94,6 +126,15 @@ void AdjacencyTableView::conceptDeleted(QUuid conceptId) {
 }
 
 void AdjacencyTableView::updateConcept(int idx) {
+    if (!presenter) {
+        return;
+    }
+
+    if (idx < 0 || idx >= static_cast<int>(rowsConcepts.size())) {
+        Logger::warn("Adjacency concept index invalid");
+        return;
+    }
+
     presenter->updateConcept(rowsConcepts[idx], ElementWindowMode::UpdateElement);
 }
 
