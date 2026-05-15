@@ -11,7 +11,7 @@ SettingsPresenter::SettingsPresenter(
 ) : ui(ui),
     QObject{parent} {
     const auto lang = settings.value("language", "").toString();
-    translatorRus.load("FCM_ru_RU.qm");
+    translatorRus.load(QCoreApplication::applicationDirPath() + "/FCM_ru_RU.qm");
     translatorDefaultRus.load("qtbase_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     translatorWidgetsRus.load("qt_ru", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     if (lang.isEmpty()) {

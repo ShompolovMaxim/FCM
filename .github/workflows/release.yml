@@ -44,6 +44,8 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path dist | Out-Null
           Copy-Item ci-build/FCM.exe dist/FCM.exe
+          Copy-Item app.ini dist/app.ini
+          Copy-Item ci-build/FCM_ru_RU.qm dist/FCM_ru_RU.qm
           if (Test-Path ci-build/help) {
             Copy-Item ci-build/help dist/help -Recurse
           }
