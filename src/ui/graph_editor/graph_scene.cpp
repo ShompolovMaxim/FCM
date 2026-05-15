@@ -355,4 +355,3 @@ void GraphScene::conceptPositionChanged(QUuid id) {
     }
     presenter->updateConceptPosition(id, nodeIt->second->pos());
 }
-

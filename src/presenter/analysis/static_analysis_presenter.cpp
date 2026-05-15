@@ -3,6 +3,7 @@
 #include "model/color_value_adapter/linear_approximation_adapter.h"
 #include "ui/graph_editor/graph_view.h"
 
+#include <QSignalBlocker>
 #include <algorithm>
 
 StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<CreationPresenter> presenter, std::shared_ptr<FCM> fcm)
@@ -22,12 +23,12 @@ StaticAnalysisPresenter::StaticAnalysisPresenter(QWidget* tab, std::shared_ptr<C
     analyzer.init();
     fuzzyAnalyzer.init();
 
-    connect(presenter.get(), &CreationPresenter::conceptCreated, this, &StaticAnalysisPresenter::onConceptCreated);
-    connect(presenter.get(), &CreationPresenter::conceptUpdated, this, &StaticAnalysisPresenter::onConceptUpdated);
-    connect(presenter.get(), &CreationPresenter::conceptDeleted, this, &StaticAnalysisPresenter::onConceptDeleted);
-    connect(presenter.get(), &CreationPresenter::weightCreated, this, &StaticAnalysisPresenter::onWeightCreated);
-    connect(presenter.get(), &CreationPresenter::weightUpdated, this, &StaticAnalysisPresenter::onWeightUpdated);
-    connect(presenter.get(), &CreationPresenter::weightDeleted, this, &StaticAnalysisPresenter::onWeightDeleted);
+    connect(presenter.get(), &CreationPresenter::conceptCreated, this, &StaticAnalysisPresenter::onConceptCreated, Qt::QueuedConnection);
+    connect(presenter.get(), &CreationPresenter::conceptUpdated, this, &StaticAnalysisPresenter::onConceptUpdated, Qt::QueuedConnection);
+    connect(presenter.get(), &CreationPresenter::conceptDeleted, this, &StaticAnalysisPresenter::onConceptDeleted, Qt::QueuedConnection);
+    connect(presenter.get(), &CreationPresenter::weightCreated, this, &StaticAnalysisPresenter::onWeightCreated, Qt::QueuedConnection);
+    connect(presenter.get(), &CreationPresenter::weightUpdated, this, &StaticAnalysisPresenter::onWeightUpdated, Qt::QueuedConnection);
+    connect(presenter.get(), &CreationPresenter::weightDeleted, this, &StaticAnalysisPresenter::onWeightDeleted, Qt::QueuedConnection);
 
     connect(graphConcept, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
     connect(influenceDirection, &QComboBox::currentIndexChanged, this, &StaticAnalysisPresenter::recalculateInfluence);
@@ -150,6 +151,7 @@ void StaticAnalysisPresenter::refreshUI(bool changeTable) {
 }
 
 void StaticAnalysisPresenter::updateGraphConceptList() {
+    QSignalBlocker blocker(graphConcept);
     graphConcept->clear();
 
     QList<QPair<QString, QUuid>> conceptItems;

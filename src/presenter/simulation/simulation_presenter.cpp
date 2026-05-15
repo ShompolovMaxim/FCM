@@ -35,6 +35,8 @@ SimulationPresenter::SimulationPresenter(Ui::MainWindow* ui, std::shared_ptr<FCM
     QStandardItemModel* experimentsModel = new QStandardItemModel();
     experimentsModel->setHorizontalHeaderLabels({mainWindowTr("Algorithm"), mainWindowTr("Value type"), mainWindowTr("Activation function"), mainWindowTr("Metric"), mainWindowTr("Predict to static"), mainWindowTr("Threshold"), mainWindowTr("Steps less threshold"), mainWindowTr("Fixed steps"), mainWindowTr("Timestamp"), "", ""});
     ui->experimantsTable->setModel(experimentsModel);
+    ui->experimantsTable->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+    ui->experimantsTable->setSortingEnabled(true);
     ui->experimantsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     connect(ui->graphicsViewPredict, &GraphView::scaleChanged, this, &SimulationPresenter::updatePredictScaleLabel);
