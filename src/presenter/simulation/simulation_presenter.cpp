@@ -90,9 +90,23 @@ void SimulationPresenter::reconfigure() {
     ui->progressBarPredict->setValue(0);
     ui->labelMetricValue->setText(QString(mainWindowTr("Metric value: %1")).arg(currentMetricValue, 0, 'f', 4));
 
+    rebuildExperimentsTable();
+}
+
+void SimulationPresenter::rebuildExperimentsTable() {
+    const bool sortingEnabled = ui->experimantsTable->isSortingEnabled();
+    const int sortSection = ui->experimantsTable->horizontalHeader()->sortIndicatorSection();
+    const auto sortOrder = ui->experimantsTable->horizontalHeader()->sortIndicatorOrder();
+    ui->experimantsTable->setSortingEnabled(false);
+
     ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
     for (const auto& experiment : fcm->experiments) {
         addExperiment(experiment);
+    }
+
+    ui->experimantsTable->setSortingEnabled(sortingEnabled);
+    if (sortingEnabled && sortSection >= 0) {
+        ui->experimantsTable->sortByColumn(sortSection, sortOrder);
     }
 }
 
@@ -143,17 +157,26 @@ void SimulationPresenter::retranslateUi() {
                 deleteButton->setText(mainWindowTr("Delete"));
             }
 
+            bool ok = false;
+            const int experimentIndex = experimentsModel->index(row, 0).data(Qt::UserRole).toInt(&ok);
+            if (!ok || experimentIndex < 0 || experimentIndex >= static_cast<int>(fcm->experiments.size())) {
+                continue;
+            }
+
+            const auto& experiment = fcm->experiments[experimentIndex];
+
             QModelIndex idx = experimentsModel->index(row, 0);
-            experimentsModel->setData(idx, mainWindowTr(fcm->experiments[row].predictionParameters.algorithm.toUtf8().constData()));
-            experimentsModel->setData(experimentsModel->index(row, 1), fcm->experiments[row].predictionParameters.useFuzzyValues ? mainWindowTr("fuzzy") : mainWindowTr("numeric"));
+            experimentsModel->setData(idx, mainWindowTr(experiment.predictionParameters.algorithm.toUtf8().constData()));
+            experimentsModel->setData(experimentsModel->index(row, 1), experiment.predictionParameters.useFuzzyValues ? mainWindowTr("fuzzy") : mainWindowTr("numeric"));
+            experimentsModel->setData(experimentsModel->index(row, 3), mainWindowTr(experiment.predictionParameters.metric.toUtf8().constData()));
 
             idx = experimentsModel->index(row, 2);
-            auto activationFunctionText = mainWindowTr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
-            if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
-                activationFunctionText += "\n" + mainWindowTr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
+            auto activationFunctionText = mainWindowTr(experiment.predictionParameters.activationFunction.toUtf8().constData());
+            if (experiment.predictionParameters.activationFunction == "sigmoid" || experiment.predictionParameters.activationFunction == "hyperbolic tangent") {
+                activationFunctionText += "\n" + mainWindowTr("fuzziness degree") + " = " + QString::number(experiment.predictionParameters.fuzzinessDegree);
             }
             experimentsModel->setData(idx, activationFunctionText);
-            experimentsModel->setData(experimentsModel->index(row, 4), fcm->experiments[row].predictionParameters.predictToStatic ? mainWindowTr("yes") : mainWindowTr("no"));
+            experimentsModel->setData(experimentsModel->index(row, 4), experiment.predictionParameters.predictToStatic ? mainWindowTr("yes") : mainWindowTr("no"));
         }
 
         ui->experimantsTable->setWordWrap(true);
@@ -256,20 +279,21 @@ Experiment SimulationPresenter::createExperiment() {
     experiment.predictionParameters = fcm->predictionParameters;
     experiment.timestamp = QDateTime::currentDateTime();
     fcm->experiments.push_back(experiment);
-    addExperiment(experiment);
+    rebuildExperimentsTable();
     emit autosave();
     return experiment;
 }
 
 void SimulationPresenter::addExperiment(const Experiment& experiment) {
     auto experimentsModel = ui->experimantsTable->model();
-    int row = experimentsModel->rowCount();
+    const int row = experimentsModel->rowCount();
     experimentsModel->insertRow(row);
+    experimentsModel->setData(experimentsModel->index(row, 0), row, Qt::UserRole);
     experimentsModel->setData(experimentsModel->index(row, 0), mainWindowTr(experiment.predictionParameters.algorithm.toUtf8().constData()));
     experimentsModel->setData(experimentsModel->index(row, 1), experiment.predictionParameters.useFuzzyValues ? mainWindowTr("fuzzy") : mainWindowTr("numeric"));
-    auto activationFunctionText = mainWindowTr(fcm->experiments[row].predictionParameters.activationFunction.toUtf8().constData());
-    if (fcm->experiments[row].predictionParameters.activationFunction == "sigmoid" || fcm->experiments[row].predictionParameters.activationFunction == "hyperbolic tangent") {
-        activationFunctionText += "\n" + mainWindowTr("fuzziness degree") + " = " + QString::number(fcm->experiments[row].predictionParameters.fuzzinessDegree);
+    auto activationFunctionText = mainWindowTr(experiment.predictionParameters.activationFunction.toUtf8().constData());
+    if (experiment.predictionParameters.activationFunction == "sigmoid" || experiment.predictionParameters.activationFunction == "hyperbolic tangent") {
+        activationFunctionText += "\n" + mainWindowTr("fuzziness degree") + " = " + QString::number(experiment.predictionParameters.fuzzinessDegree);
     }
     experimentsModel->setData(experimentsModel->index(row, 2), activationFunctionText);
     experimentsModel->setData(experimentsModel->index(row, 3), mainWindowTr(experiment.predictionParameters.metric.toUtf8().constData()));
@@ -283,11 +307,12 @@ void SimulationPresenter::addExperiment(const Experiment& experiment) {
     for (int column = 0; column < experimentsModel->columnCount(); ++column) {
         experimentsModel->setData(experimentsModel->index(row, column), Qt::AlignCenter, Qt::TextAlignmentRole);
     }
+
     QPushButton* btn = new QPushButton(mainWindowTr("Load"), ui->experimantsTable);
-    btn->setProperty("row", row);
+    btn->setProperty("experimentIndex", experimentsModel->index(row, 0).data(Qt::UserRole));
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 9), btn);
     QPushButton* deleteButton = new QPushButton(mainWindowTr("Delete"), ui->experimantsTable);
-    deleteButton->setProperty("row", row);
+    deleteButton->setProperty("experimentIndex", experimentsModel->index(row, 0).data(Qt::UserRole));
     ui->experimantsTable->setIndexWidget(experimentsModel->index(row, 10), deleteButton);
     connect(deleteButton, &QPushButton::clicked, this, &SimulationPresenter::onDeleteExperiment);
     connect(btn, &QPushButton::clicked, this, &SimulationPresenter::loadExperiment);
@@ -301,8 +326,8 @@ void SimulationPresenter::loadExperiment() {
         return;
     }
 
-    int row = button->property("row").toInt();
-    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
+    int experimentIndex = button->property("experimentIndex").toInt();
+    if (experimentIndex < 0 || experimentIndex >= static_cast<int>(fcm->experiments.size())) {
         return;
     }
 
@@ -321,15 +346,16 @@ void SimulationPresenter::loadExperiment() {
     fcm->terms.clear();
     fcm->concepts.clear();
     fcm->weights.clear();
-    fcm->predictionParameters = fcm->experiments[row].predictionParameters;
-    for (const auto& [id, term] : fcm->experiments[row].terms) {
+    const auto& experiment = fcm->experiments[experimentIndex];
+    fcm->predictionParameters = experiment.predictionParameters;
+    for (const auto& [id, term] : experiment.terms) {
         fcm->terms[id] = std::make_shared<Term>(*term);
         fcm->terms[id]->dbId = -1;
         if (fcm->experiments.back().terms.find(id) != fcm->experiments.back().terms.end()) {
             fcm->terms[id]->description = fcm->experiments.back().terms[id]->description;
         }
     }
-    for (const auto& [id, concept] : fcm->experiments[row].concepts) {
+    for (const auto& [id, concept] : experiment.concepts) {
         fcm->concepts[id] = std::make_shared<Concept>(*concept);
         fcm->concepts[id]->term = concept->term ? fcm->terms[concept->term->id] : nullptr;
         fcm->concepts[id]->dbId = -1;
@@ -337,7 +363,7 @@ void SimulationPresenter::loadExperiment() {
             fcm->concepts[id]->description = fcm->experiments.back().concepts[id]->description;
         }
     }
-    for (const auto& [id, weight] : fcm->experiments[row].weights) {
+    for (const auto& [id, weight] : experiment.weights) {
         fcm->weights[id] = std::make_shared<Weight>(*weight);
         fcm->weights[id]->term = weight->term ? fcm->terms[weight->term->id] : nullptr;
         fcm->weights[id]->dbId = -1;
@@ -355,21 +381,17 @@ void SimulationPresenter::onDeleteExperiment() {
         return;
     }
 
-    int row = button->property("row").toInt();
-    if (row < 0 || row >= static_cast<int>(fcm->experiments.size())) {
+    int experimentIndex = button->property("experimentIndex").toInt();
+    if (experimentIndex < 0 || experimentIndex >= static_cast<int>(fcm->experiments.size())) {
         return;
     }
 
-    if (fcm->experiments[row].dbId != -1) {
-        fcm->deletedExperimentsIds.push_back(fcm->experiments[row].dbId);
+    if (fcm->experiments[experimentIndex].dbId != -1) {
+        fcm->deletedExperimentsIds.push_back(fcm->experiments[experimentIndex].dbId);
     }
 
-    fcm->experiments.erase(fcm->experiments.begin() + row);
-    ui->experimantsTable->model()->removeRows(0, ui->experimantsTable->model()->rowCount());
-
-    for (const auto& experiment : fcm->experiments) {
-        addExperiment(experiment);
-    }
+    fcm->experiments.erase(fcm->experiments.begin() + experimentIndex);
+    rebuildExperimentsTable();
     emit autosave();
 }
 

@@ -49,6 +49,7 @@ signals:
 
 private:
     void recreateScenePresenter();
+    void rebuildExperimentsTable();
 
     Ui::MainWindow* ui;
     QWidget* parentWidget;
