@@ -13,12 +13,12 @@ TEST(TrivalentTest, ValueInUpperQuarterReturnsMax) {
     EXPECT_DOUBLE_EQ(trivalent.activate(7.0), 8.0);
 }
 
-TEST(TrivalentTest, ValueInMiddleRangeReturnsMidpoint) {
+TEST(TrivalentTest, MiddleRangeReturnsMidpoint) {
     Trivalent trivalent(0.0, 8.0);
     EXPECT_DOUBLE_EQ(trivalent.activate(4.0), 4.0);
 }
 
-TEST(TrivalentTest, NegativeRangeIsHandledCorrectly) {
+TEST(TrivalentTest, HandlesNegativeRange) {
     Trivalent trivalent(-1.0, 1.0);
     EXPECT_DOUBLE_EQ(trivalent.activate(-0.75), -1.0);
     EXPECT_DOUBLE_EQ(trivalent.activate(0.0), 0.0);

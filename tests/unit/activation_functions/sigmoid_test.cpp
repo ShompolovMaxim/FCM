@@ -18,7 +18,7 @@ TEST(SigmoidTest, NegativeValueMatchesFormula) {
     EXPECT_NEAR(sigmoid.activate(-2.0), 1.0 / (1.0 + std::exp(1.0)), 1e-12);
 }
 
-TEST(SigmoidTest, LargerFuzzinessDegreeMakesFunctionSteeper) {
+TEST(SigmoidTest, HigherFuzzinessIsSteeper) {
     Sigmoid lessSteep(1.0);
     Sigmoid moreSteep(3.0);
 

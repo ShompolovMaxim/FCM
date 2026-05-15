@@ -34,23 +34,9 @@ CalculationFCM makeNumericFcm(bool includeWeights) {
     return fcm;
 }
 
-CalculationFCM makeFuzzyFcm(bool includeWeights) {
-    CalculationFCM fcm;
-    const QUuid first = QUuid("{11111111-1111-1111-1111-111111111111}");
-    const QUuid second = QUuid("{22222222-2222-2222-2222-222222222222}");
-    const QUuid weightId = QUuid("{33333333-3333-3333-3333-333333333333}");
-
-    fcm.concepts[first] = CalculationConcept{first, 0.0, {0.1, 0.2, 0.3}, 0};
-    fcm.concepts[second] = CalculationConcept{second, 0.0, {0.4, 0.5, 0.6}, 0};
-    if (includeWeights) {
-        fcm.weights[weightId] = CalculationWeight{weightId, 0.0, {-0.3, -0.2, -0.1}, first, second};
-    }
-    return fcm;
 }
 
-}
-
-TEST(MetricsManagerTest, UsesOnlyConceptValuesForConstWeightsAlgorithm) {
+TEST(MetricsManagerTest, UsesConceptValues) {
     auto metric = std::make_shared<RecordingMetric>();
     MetricsManager manager(metric, PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0});
 
@@ -65,11 +51,17 @@ TEST(MetricsManagerTest, UsesOnlyConceptValuesForConstWeightsAlgorithm) {
     EXPECT_EQ(metric->newValues, std::vector<double>({0.8, 0.9}));
 }
 
-TEST(MetricsManagerTest, ExpandsFuzzyConceptsAndWeightsForChangingWeightsAlgorithm) {
+TEST(MetricsManagerTest, ExpandsFuzzyValues) {
     auto metric = std::make_shared<RecordingMetric>();
     MetricsManager manager(metric, PredictionParameters{"changing weights", true, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0});
 
-    auto oldFcm = makeFuzzyFcm(true);
+    CalculationFCM oldFcm;
+    const QUuid first = QUuid("{11111111-1111-1111-1111-111111111111}");
+    const QUuid second = QUuid("{22222222-2222-2222-2222-222222222222}");
+    const QUuid weightId = QUuid("{33333333-3333-3333-3333-333333333333}");
+    oldFcm.concepts[first] = CalculationConcept{first, 0.0, {0.1, 0.2, 0.3}, 0};
+    oldFcm.concepts[second] = CalculationConcept{second, 0.0, {0.4, 0.5, 0.6}, 0};
+    oldFcm.weights[weightId] = CalculationWeight{weightId, 0.0, {-0.3, -0.2, -0.1}, first, second};
     auto newFcm = oldFcm;
     newFcm.concepts.begin()->second.triangularFuzzyValue = {0.0, 0.2, 0.4};
     std::next(newFcm.concepts.begin())->second.triangularFuzzyValue = {0.5, 0.6, 0.7};
@@ -81,7 +73,7 @@ TEST(MetricsManagerTest, ExpandsFuzzyConceptsAndWeightsForChangingWeightsAlgorit
     EXPECT_EQ(metric->newValues, std::vector<double>({0.0, 0.2, 0.4, 0.5, 0.6, 0.7, -0.2, 0.0, 0.2}));
 }
 
-TEST(MetricsManagerTest, ReturnsZeroWhenExpectedConceptIsMissing) {
+TEST(MetricsManagerTest, MissingConceptReturnsZero) {
     auto metric = std::make_shared<RecordingMetric>();
     MetricsManager manager(metric, PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0});
 

@@ -4,79 +4,6 @@
 
 namespace {
 
-std::shared_ptr<FCM> makeBaseModel() {
-    auto result = std::make_shared<FCM>();
-    result->description = "Base description";
-
-    const QUuid nodeLowId = QUuid::createUuid();
-    const QUuid nodeMidId = QUuid::createUuid();
-    const QUuid nodeHighId = QUuid::createUuid();
-    const QUuid edgeLowId = QUuid::createUuid();
-    const QUuid edgeMidId = QUuid::createUuid();
-    const QUuid edgeHighId = QUuid::createUuid();
-
-    auto nodeLow = std::make_shared<Term>();
-    nodeLow->id = nodeLowId;
-    nodeLow->name = "Node low";
-    nodeLow->description = "Node low description";
-    nodeLow->value = 0.0;
-    nodeLow->fuzzyValue = {0.0, 0.0, 0.0};
-    nodeLow->type = ElementType::Node;
-    nodeLow->color = QColor(10, 20, 30, 255);
-    result->terms.emplace(nodeLowId, nodeLow);
-
-    auto nodeMid = std::make_shared<Term>();
-    nodeMid->id = nodeMidId;
-    nodeMid->name = "Node mid";
-    nodeMid->description = "Node mid description";
-    nodeMid->value = 0.5;
-    nodeMid->fuzzyValue = {0.4, 0.5, 0.6};
-    nodeMid->type = ElementType::Node;
-    nodeMid->color = QColor(10, 20, 30, 255);
-    result->terms.emplace(nodeMidId, nodeMid);
-
-    auto nodeHigh = std::make_shared<Term>();
-    nodeHigh->id = nodeHighId;
-    nodeHigh->name = "Node high";
-    nodeHigh->description = "Node high description";
-    nodeHigh->value = 1.0;
-    nodeHigh->fuzzyValue = {0.9, 1.0, 1.0};
-    nodeHigh->type = ElementType::Node;
-    nodeHigh->color = QColor(10, 20, 30, 255);
-    result->terms.emplace(nodeHighId, nodeHigh);
-
-    auto edgeLow = std::make_shared<Term>();
-    edgeLow->id = edgeLowId;
-    edgeLow->name = "Edge low";
-    edgeLow->description = "Edge low description";
-    edgeLow->value = -1.0;
-    edgeLow->fuzzyValue = {-1.0, -1.0, -0.8};
-    edgeLow->type = ElementType::Edge;
-    edgeLow->color = QColor(10, 20, 30, 255);
-    result->terms.emplace(edgeLowId, edgeLow);
-
-    auto edgeMid = std::make_shared<Term>();
-    edgeMid->id = edgeMidId;
-    edgeMid->name = "Edge mid";
-    edgeMid->description = "Edge mid description";
-    edgeMid->value = 0.1;
-    edgeMid->fuzzyValue = {0.0, 0.1, 0.2};
-    edgeMid->type = ElementType::Edge;
-    edgeMid->color = QColor(10, 20, 30, 255);
-    result->terms.emplace(edgeMidId, edgeMid);
-
-    auto edgeHigh = std::make_shared<Term>();
-    edgeHigh->id = edgeHighId;
-    edgeHigh->name = "Edge high";
-    edgeHigh->description = "Edge high description";
-    edgeHigh->value = 0.9;
-    edgeHigh->fuzzyValue = {0.8, 0.9, 1.0};
-    edgeHigh->type = ElementType::Edge;
-    edgeHigh->color = QColor(10, 20, 30, 255);
-    result->terms.emplace(edgeHighId, edgeHigh);
-    return result;
-}
-
 std::shared_ptr<FCM> makeJoinedInput(double conceptA, double conceptB, double weightValue, size_t startStep) {
     const QUuid conceptAId = QUuid::createUuid();
     const QUuid conceptBId = QUuid::createUuid();
@@ -144,7 +71,7 @@ std::shared_ptr<FCM> makeJoinedInput(double conceptA, double conceptB, double we
 
 }
 
-TEST(ModelsJoinerTest, ReturnsEmptyModelWhenBaseIsMissing) {
+TEST(ModelsJoinerTest, MissingBaseReturnsEmptyModel) {
     ModelsJoiner joiner;
 
     const auto result = joiner.join(nullptr, {}, JoinMode::Numeric, "Result");
@@ -154,9 +81,77 @@ TEST(ModelsJoinerTest, ReturnsEmptyModelWhenBaseIsMissing) {
     EXPECT_TRUE(result->weights.empty());
 }
 
-TEST(ModelsJoinerTest, JoinsModelsByConceptNamesAndAveragesValues) {
+TEST(ModelsJoinerTest, JoinsAndAveragesValues) {
     ModelsJoiner joiner;
-    const auto base = makeBaseModel();
+    auto base = std::make_shared<FCM>();
+    base->description = "Base description";
+
+    const QUuid nodeLowId = QUuid::createUuid();
+    const QUuid nodeMidId = QUuid::createUuid();
+    const QUuid nodeHighId = QUuid::createUuid();
+    const QUuid edgeLowId = QUuid::createUuid();
+    const QUuid edgeMidId = QUuid::createUuid();
+    const QUuid edgeHighId = QUuid::createUuid();
+
+    auto nodeLow = std::make_shared<Term>();
+    nodeLow->id = nodeLowId;
+    nodeLow->name = "Node low";
+    nodeLow->description = "Node low description";
+    nodeLow->value = 0.0;
+    nodeLow->fuzzyValue = {0.0, 0.0, 0.0};
+    nodeLow->type = ElementType::Node;
+    nodeLow->color = QColor(10, 20, 30, 255);
+    base->terms.emplace(nodeLowId, nodeLow);
+
+    auto nodeMid = std::make_shared<Term>();
+    nodeMid->id = nodeMidId;
+    nodeMid->name = "Node mid";
+    nodeMid->description = "Node mid description";
+    nodeMid->value = 0.5;
+    nodeMid->fuzzyValue = {0.4, 0.5, 0.6};
+    nodeMid->type = ElementType::Node;
+    nodeMid->color = QColor(10, 20, 30, 255);
+    base->terms.emplace(nodeMidId, nodeMid);
+
+    auto nodeHigh = std::make_shared<Term>();
+    nodeHigh->id = nodeHighId;
+    nodeHigh->name = "Node high";
+    nodeHigh->description = "Node high description";
+    nodeHigh->value = 1.0;
+    nodeHigh->fuzzyValue = {0.9, 1.0, 1.0};
+    nodeHigh->type = ElementType::Node;
+    nodeHigh->color = QColor(10, 20, 30, 255);
+    base->terms.emplace(nodeHighId, nodeHigh);
+
+    auto edgeLow = std::make_shared<Term>();
+    edgeLow->id = edgeLowId;
+    edgeLow->name = "Edge low";
+    edgeLow->description = "Edge low description";
+    edgeLow->value = -1.0;
+    edgeLow->fuzzyValue = {-1.0, -1.0, -0.8};
+    edgeLow->type = ElementType::Edge;
+    edgeLow->color = QColor(10, 20, 30, 255);
+    base->terms.emplace(edgeLowId, edgeLow);
+
+    auto edgeMid = std::make_shared<Term>();
+    edgeMid->id = edgeMidId;
+    edgeMid->name = "Edge mid";
+    edgeMid->description = "Edge mid description";
+    edgeMid->value = 0.1;
+    edgeMid->fuzzyValue = {0.0, 0.1, 0.2};
+    edgeMid->type = ElementType::Edge;
+    edgeMid->color = QColor(10, 20, 30, 255);
+    base->terms.emplace(edgeMidId, edgeMid);
+
+    auto edgeHigh = std::make_shared<Term>();
+    edgeHigh->id = edgeHighId;
+    edgeHigh->name = "Edge high";
+    edgeHigh->description = "Edge high description";
+    edgeHigh->value = 0.9;
+    edgeHigh->fuzzyValue = {0.8, 0.9, 1.0};
+    edgeHigh->type = ElementType::Edge;
+    edgeHigh->color = QColor(10, 20, 30, 255);
+    base->terms.emplace(edgeHighId, edgeHigh);
     const std::vector<std::shared_ptr<FCM>> models = {
         makeJoinedInput(0.1, 0.9, 0.0, 2),
         makeJoinedInput(0.8, 0.2, 0.3, 4)

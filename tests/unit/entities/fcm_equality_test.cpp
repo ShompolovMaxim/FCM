@@ -6,70 +6,35 @@
 
 namespace {
 
-std::shared_ptr<Term> makeTerm(const QUuid& id, double value, const QString& name = "term") {
-    auto term = std::make_shared<Term>();
-    term->id = id;
-    term->name = name;
-    term->description = "description";
-    term->value = value;
-    term->fuzzyValue = {value - 1.0, value, value + 1.0};
-    term->color = QColor(Qt::red);
-    term->type = ElementType::Node;
-    return term;
-}
-
-std::shared_ptr<Concept> makeConcept(const QUuid& id, const std::shared_ptr<Term>& term) {
-    auto concept = std::make_shared<Concept>();
-    concept->id = id;
-    concept->name = "concept";
-    concept->description = "description";
-    concept->term = term;
-    concept->pos = QPointF(1.0, 2.0);
-    concept->startStep = 3;
-    return concept;
-}
-
-std::shared_ptr<Weight> makeWeight(
-    const QUuid& id,
-    const std::shared_ptr<Term>& term,
-    const QUuid& fromConceptId,
-    const QUuid& toConceptId
-) {
-    auto weight = std::make_shared<Weight>();
-    weight->id = id;
-    weight->name = "weight";
-    weight->description = "description";
-    weight->term = term;
-    weight->fromConceptId = fromConceptId;
-    weight->toConceptId = toConceptId;
-    return weight;
-}
-
-Experiment makeExperiment(
-    const std::shared_ptr<Term>& term,
-    const std::shared_ptr<Concept>& concept,
-    const std::shared_ptr<Weight>& weight,
-    const QDateTime& timestamp = QDateTime(QDate(2026, 1, 1), QTime(12, 0))
-) {
-    Experiment experiment;
-    experiment.terms.emplace(term->id, term);
-    experiment.concepts.emplace(concept->id, concept);
-    experiment.weights.emplace(weight->id, weight);
-    experiment.predictionParameters.algorithm = "standard";
-    experiment.predictionParameters.fixedSteps = 5;
-    experiment.timestamp = timestamp;
-    experiment.dbId = 42;
-    return experiment;
-}
-
 FCM makeModel() {
     const auto termId = QUuid::createUuid();
     const auto conceptId = QUuid::createUuid();
     const auto weightId = QUuid::createUuid();
 
-    auto term = makeTerm(termId, 2.0);
-    auto concept = makeConcept(conceptId, term);
-    auto weight = makeWeight(weightId, term, conceptId, conceptId);
+    auto term = std::make_shared<Term>();
+    term->id = termId;
+    term->name = "term";
+    term->description = "description";
+    term->value = 2.0;
+    term->fuzzyValue = {1.0, 2.0, 3.0};
+    term->color = QColor(Qt::red);
+    term->type = ElementType::Node;
+
+    auto concept = std::make_shared<Concept>();
+    concept->id = conceptId;
+    concept->name = "concept";
+    concept->description = "description";
+    concept->term = term;
+    concept->pos = QPointF(1.0, 2.0);
+    concept->startStep = 3;
+
+    auto weight = std::make_shared<Weight>();
+    weight->id = weightId;
+    weight->name = "weight";
+    weight->description = "description";
+    weight->term = term;
+    weight->fromConceptId = conceptId;
+    weight->toConceptId = conceptId;
 
     FCM fcm;
     fcm.name = "model";
@@ -79,7 +44,15 @@ FCM makeModel() {
     fcm.weights.emplace(weightId, weight);
     fcm.predictionParameters.algorithm = "standard";
     fcm.predictionParameters.fixedSteps = 5;
-    fcm.experiments.push_back(makeExperiment(term, concept, weight));
+    Experiment experiment;
+    experiment.terms.emplace(termId, term);
+    experiment.concepts.emplace(conceptId, concept);
+    experiment.weights.emplace(weightId, weight);
+    experiment.predictionParameters.algorithm = "standard";
+    experiment.predictionParameters.fixedSteps = 5;
+    experiment.timestamp = QDateTime(QDate(2026, 1, 1), QTime(12, 0));
+    experiment.dbId = 42;
+    fcm.experiments.push_back(experiment);
     fcm.autosaveOn = true;
     fcm.dbId = 7;
     fcm.deletedTermsIds.append(1);
@@ -91,7 +64,7 @@ FCM makeModel() {
 
 }
 
-TEST(FcmEqualityTest, IgnoresDbIdsDeletedIdsAndPointerIdentity) {
+TEST(FcmEqualityTest, IgnoresRuntimeOnlyFields) {
     FCM lhs = makeModel();
     FCM rhs = lhs;
 
@@ -110,14 +83,22 @@ TEST(FcmEqualityTest, IgnoresDbIdsDeletedIdsAndPointerIdentity) {
     rhs.terms.begin()->second = rhsTerm;
     rhs.concepts.begin()->second = rhsConcept;
     rhs.weights.begin()->second = rhsWeight;
-    rhs.experiments.front() = makeExperiment(rhsTerm, rhsConcept, rhsWeight);
+    Experiment experiment;
+    experiment.terms.emplace(rhsTerm->id, rhsTerm);
+    experiment.concepts.emplace(rhsConcept->id, rhsConcept);
+    experiment.weights.emplace(rhsWeight->id, rhsWeight);
+    experiment.predictionParameters.algorithm = "standard";
+    experiment.predictionParameters.fixedSteps = 5;
+    experiment.timestamp = QDateTime(QDate(2026, 1, 1), QTime(12, 0));
+    experiment.dbId = 42;
+    rhs.experiments.front() = experiment;
     rhs.experiments.front().dbId = 123;
 
     EXPECT_EQ(lhs, rhs);
     EXPECT_FALSE(lhs != rhs);
 }
 
-TEST(FcmEqualityTest, DetectsDifferenceInComparedFields) {
+TEST(FcmEqualityTest, DetectsFieldChanges) {
     FCM lhs = makeModel();
     FCM rhs = lhs;
 

@@ -34,7 +34,7 @@ TEST(MetricsFactoryTest, CreatesMAPE) {
     EXPECT_DOUBLE_EQ(metric->calculate({100.0, 200.0}, {110.0, 180.0}), 10.0);
 }
 
-TEST(MetricsFactoryTest, ReturnsNullptrForUnknownMetric) {
+TEST(MetricsFactoryTest, UnknownMetricReturnsNullptr) {
     MetricsFactory factory;
     EXPECT_EQ(factory.create("unknown"), nullptr);
 }

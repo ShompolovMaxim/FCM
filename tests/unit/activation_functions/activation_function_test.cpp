@@ -9,7 +9,7 @@ public:
     }
 };
 
-TEST(ActivationFunctionTest, ActivatesTriangularFuzzyValueComponentWise) {
+TEST(ActivationFunctionTest, ActivatesFuzzyValue) {
     TestActivationFunction activationFunction;
     TriangularFuzzyValue value {-1.0, 0.5, 2.0};
 

@@ -10,7 +10,7 @@ TEST(TriangularFuzzyValueTest, PlusEqualsAddsComponents) {
     EXPECT_DOUBLE_EQ(value.u, 9.0);
 }
 
-TEST(TriangularFuzzyValueTest, PlusReturnsNewValueWithAddedComponents) {
+TEST(TriangularFuzzyValueTest, PlusReturnsAddedValue) {
     TriangularFuzzyValue left {1.0, 2.0, 3.0};
     TriangularFuzzyValue right {4.0, 5.0, 6.0};
 
@@ -24,7 +24,7 @@ TEST(TriangularFuzzyValueTest, PlusReturnsNewValueWithAddedComponents) {
     EXPECT_DOUBLE_EQ(left.u, 3.0);
 }
 
-TEST(TriangularFuzzyValueTest, MultiplyEqualsCalculatesBoundsAndMiddleValue) {
+TEST(TriangularFuzzyValueTest, MultiplyEqualsUpdatesValue) {
     TriangularFuzzyValue value {-1.0, 2.0, 3.0};
     value *= TriangularFuzzyValue {4.0, 5.0, 6.0};
 
@@ -33,7 +33,7 @@ TEST(TriangularFuzzyValueTest, MultiplyEqualsCalculatesBoundsAndMiddleValue) {
     EXPECT_DOUBLE_EQ(value.u, 18.0);
 }
 
-TEST(TriangularFuzzyValueTest, MultiplyReturnsNewValueWithCalculatedBounds) {
+TEST(TriangularFuzzyValueTest, MultiplyReturnsValue) {
     TriangularFuzzyValue left {-1.0, 2.0, 3.0};
     TriangularFuzzyValue right {4.0, 5.0, 6.0};
 
@@ -47,7 +47,7 @@ TEST(TriangularFuzzyValueTest, MultiplyReturnsNewValueWithCalculatedBounds) {
     EXPECT_DOUBLE_EQ(left.u, 3.0);
 }
 
-TEST(TriangularFuzzyValueTest, DefuzzifyReturnsAverageOfComponents) {
+TEST(TriangularFuzzyValueTest, DefuzzifyReturnsAverage) {
     TriangularFuzzyValue value {1.0, 4.0, 7.0};
     EXPECT_DOUBLE_EQ(value.defuzzify(), 4.0);
 }

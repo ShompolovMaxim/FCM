@@ -89,7 +89,7 @@ std::shared_ptr<FCM> makeAnalysisModel(bool fuzzy) {
 
 }
 
-TEST(StaticAnalyzerTest, CalculatesMetricsForSimpleGraph) {
+TEST(StaticAnalyzerTest, CalculatesGraphMetrics) {
     const auto fcm = makeAnalysisModel(false);
     StaticAnalyzer analyzer(fcm);
 
@@ -107,7 +107,7 @@ TEST(StaticAnalyzerTest, CalculatesMetricsForSimpleGraph) {
     EXPECT_DOUBLE_EQ(result.factors.at(QUuid("{22222222-2222-2222-2222-222222222222}")).influence, -0.25);
 }
 
-TEST(StaticAnalyzerTest, UpdatesFactorMetricsWhenWeightChanges) {
+TEST(StaticAnalyzerTest, UpdatesFactorsOnWeightChange) {
     const auto fcm = makeAnalysisModel(false);
     StaticAnalyzer analyzer(fcm);
     analyzer.init();
@@ -121,7 +121,7 @@ TEST(StaticAnalyzerTest, UpdatesFactorMetricsWhenWeightChanges) {
     EXPECT_DOUBLE_EQ(result.factors.at(QUuid("{22222222-2222-2222-2222-222222222222}")).inDegree, 0.75);
 }
 
-TEST(FuzzyStaticAnalyzerTest, NumericProjectionMatchesEquivalentCrispWeights) {
+TEST(FuzzyStaticAnalyzerTest, MatchesCrispWeights) {
     const auto fcm = makeAnalysisModel(true);
     FuzzyStaticAnalyzer analyzer(fcm);
 

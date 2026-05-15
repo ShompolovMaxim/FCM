@@ -16,7 +16,7 @@ TEST(BivalentTest, ValueAtMidpointReturnsMin) {
     EXPECT_DOUBLE_EQ(bivalent.activate(5.0), 0.0);
 }
 
-TEST(BivalentTest, NegativeRangeIsHandledCorrectly) {
+TEST(BivalentTest, HandlesNegativeRange) {
     Bivalent bivalent(-1.0, 1.0);
     EXPECT_DOUBLE_EQ(bivalent.activate(-0.2), -1.0);
     EXPECT_DOUBLE_EQ(bivalent.activate(0.2), 1.0);

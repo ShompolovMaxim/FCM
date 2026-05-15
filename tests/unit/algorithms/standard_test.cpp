@@ -3,7 +3,7 @@
 
 #include "test_utils.h"
 
-TEST(StandardPredictionAlgorithmTest, UpdatesConceptValuesAndAppliesConceptActivation) {
+TEST(StandardPredictionAlgorithmTest, UpdatesConceptValues) {
     auto conceptsActivationFunction = std::make_shared<ShiftActivationFunction>(1.0);
     auto weightsActivationFunction = std::make_shared<ShiftActivationFunction>(100.0);
     StandardPredictionAlgorithm algorithm(conceptsActivationFunction, weightsActivationFunction);
@@ -19,7 +19,7 @@ TEST(StandardPredictionAlgorithmTest, UpdatesConceptValuesAndAppliesConceptActiv
     EXPECT_DOUBLE_EQ(weight.value, 3.0);
 }
 
-TEST(StandardPredictionAlgorithmTest, AppliesWeightOnlyAfterBothConceptsReachStartStep) {
+TEST(StandardPredictionAlgorithmTest, RespectsStartStep) {
     auto conceptsActivationFunction = std::make_shared<ShiftActivationFunction>(1.0);
     auto weightsActivationFunction = std::make_shared<ShiftActivationFunction>(100.0);
     StandardPredictionAlgorithm algorithm(conceptsActivationFunction, weightsActivationFunction);

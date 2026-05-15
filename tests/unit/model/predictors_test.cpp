@@ -21,7 +21,7 @@ struct NumericFcmFixture {
 
 }
 
-TEST(PredictorTest, PerformsPredictionAndTracksHistory) {
+TEST(PredictorTest, PredictsAndTracksHistory) {
     NumericFcmFixture fixture;
     Predictor predictor(PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 2, 1.0}, fixture.fcm);
 
@@ -41,7 +41,7 @@ TEST(PredictorTest, PerformsPredictionAndTracksHistory) {
     EXPECT_EQ(weightHistory, std::vector<double>({1.0, 1.0, 1.0}));
 }
 
-TEST(PredictorTest, InvalidRequestsReturnSafeFallbacks) {
+TEST(PredictorTest, InvalidRequestsFallback) {
     NumericFcmFixture fixture;
     Predictor predictor(PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0}, fixture.fcm);
 
@@ -54,7 +54,7 @@ TEST(PredictorTest, InvalidRequestsReturnSafeFallbacks) {
     EXPECT_TRUE(history.empty());
 }
 
-TEST(FinalStatePredictorTest, PredictReturnsFinalStateForConfiguredSteps) {
+TEST(FinalStatePredictorTest, ReturnsFinalState) {
     NumericFcmFixture fixture;
     FinalStatePredictor predictor(PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 2, 1.0});
 
@@ -64,7 +64,7 @@ TEST(FinalStatePredictorTest, PredictReturnsFinalStateForConfiguredSteps) {
     EXPECT_DOUBLE_EQ(result.metricValue, 0.0);
 }
 
-TEST(FinalStatePredictorTest, RequestStopBeforePredictKeepsInitialState) {
+TEST(FinalStatePredictorTest, StopKeepsInitialState) {
     NumericFcmFixture fixture;
     FinalStatePredictor predictor(PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 5, 1.0});
     predictor.requestStop();

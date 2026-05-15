@@ -19,14 +19,14 @@ std::vector<CalculationFCM> makeHistory(std::initializer_list<double> metrics) {
 
 }
 
-TEST(StopConditionsTest, FixedStepsConditionStopsAfterConfiguredNumberOfSteps) {
+TEST(StopConditionsTest, FixedStepsStopsAtLimit) {
     FixedStepsCondition condition(PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 2, 1.0});
 
     EXPECT_FALSE(condition.finished(makeHistory({0.0, 0.0})));
     EXPECT_TRUE(condition.finished(makeHistory({0.0, 0.0, 0.0})));
 }
 
-TEST(StopConditionsTest, StaticConditionChecksLastMetricsAgainstThreshold) {
+TEST(StopConditionsTest, StaticChecksRecentMetrics) {
     StaticCondition condition(PredictionParameters{"const weights", false, "threshold-linear", "MSE", true, 0.1, 2, 5, 1.0});
 
     EXPECT_FALSE(condition.finished(makeHistory({0.2, 0.05})));
@@ -34,7 +34,7 @@ TEST(StopConditionsTest, StaticConditionChecksLastMetricsAgainstThreshold) {
     EXPECT_TRUE(condition.finished(makeHistory({0.2, 0.05, 0.1, 0.02})));
 }
 
-TEST(StopConditionsTest, FactoryCreatesExpectedConditionType) {
+TEST(StopConditionsTest, FactoryCreatesExpectedType) {
     StopConditionsFactory factory;
 
     const auto fixed = factory.create(PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0});

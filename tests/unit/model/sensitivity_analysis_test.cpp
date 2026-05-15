@@ -6,27 +6,10 @@
 
 #include <cmath>
 
-namespace {
-
-CalculationConcept makeConceptForIteration(double value) {
-    return CalculationConcept{QUuid::createUuid(), value, {0.2, 0.3, 0.4}, 0};
-}
-
-CalculationFCM makeSensitivityFcm(QUuid& conceptId, QUuid& weightId) {
-    CalculationFCM fcm;
-    conceptId = QUuid("{11111111-1111-1111-1111-111111111111}");
-    weightId = QUuid("{22222222-2222-2222-2222-222222222222}");
-    fcm.concepts[conceptId] = CalculationConcept{conceptId, 0.4, {0.4, 0.4, 0.4}, 0};
-    fcm.weights[weightId] = CalculationWeight{weightId, 0.5, {0.5, 0.5, 0.5}, conceptId, conceptId};
-    return fcm;
-}
-
-}
-
-TEST(SensitivityAnalysisTest, NumericChangeFactoryProducesSymmetricRange) {
+TEST(SensitivityAnalysisTest, BuildsSymmetricRange) {
     SensitivityAnalysisParameters parameters{0.2, true, false, 2, 1, "MSE"};
     auto range = ChangeIterationFactory<CalculationConcept>::create(
-        makeConceptForIteration(0.5),
+        CalculationConcept{QUuid::createUuid(), 0.5, {0.2, 0.3, 0.4}, 0},
         parameters,
         PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0}
     );
@@ -46,10 +29,12 @@ TEST(SensitivityAnalysisTest, NumericChangeFactoryProducesSymmetricRange) {
     EXPECT_EQ(changes, std::vector<double>({-0.4, -0.2, 0.0, 0.2, 0.4}));
 }
 
-TEST(SensitivityAnalysisTest, ZeroChangeAnalysisProducesZeroSensitivityAndCompletes) {
-    QUuid conceptId;
-    QUuid weightId;
-    const auto fcm = makeSensitivityFcm(conceptId, weightId);
+TEST(SensitivityAnalysisTest, ProducesZeroSensitivity) {
+    const QUuid conceptId("{11111111-1111-1111-1111-111111111111}");
+    const QUuid weightId("{22222222-2222-2222-2222-222222222222}");
+    CalculationFCM fcm;
+    fcm.concepts[conceptId] = CalculationConcept{conceptId, 0.4, {0.4, 0.4, 0.4}, 0};
+    fcm.weights[weightId] = CalculationWeight{weightId, 0.5, {0.5, 0.5, 0.5}, conceptId, conceptId};
 
     const SensitivityAnalysisParameters parameters{0.0, true, true, 1, 2, "MSE"};
     const auto predictionParameters = PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0};

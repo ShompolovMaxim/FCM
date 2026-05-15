@@ -8,7 +8,7 @@
 
 #include "test_utils.h"
 
-TEST(AlgorithmsFactoryTest, CreatesStandardPredictionAlgorithm) {
+TEST(AlgorithmsFactoryTest, CreatesStandard) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
@@ -21,7 +21,7 @@ TEST(AlgorithmsFactoryTest, CreatesStandardPredictionAlgorithm) {
     EXPECT_NE(dynamic_cast<StandardPredictionAlgorithm*>(algorithm.get()), nullptr);
 }
 
-TEST(AlgorithmsFactoryTest, CreatesWeightsPredictionAlgorithm) {
+TEST(AlgorithmsFactoryTest, CreatesChangingWeights) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
@@ -34,7 +34,7 @@ TEST(AlgorithmsFactoryTest, CreatesWeightsPredictionAlgorithm) {
     EXPECT_NE(dynamic_cast<WeightsPredictionAlgorithm*>(algorithm.get()), nullptr);
 }
 
-TEST(AlgorithmsFactoryTest, CreatesStandardFuzzyAlgorithm) {
+TEST(AlgorithmsFactoryTest, CreatesStandardFuzzy) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
@@ -47,7 +47,7 @@ TEST(AlgorithmsFactoryTest, CreatesStandardFuzzyAlgorithm) {
     EXPECT_NE(dynamic_cast<StandardFuzzyAlgorithm*>(algorithm.get()), nullptr);
 }
 
-TEST(AlgorithmsFactoryTest, CreatesWeightsPredictionFuzzyAlgorithm) {
+TEST(AlgorithmsFactoryTest, CreatesChangingWeightsFuzzy) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(
@@ -60,7 +60,7 @@ TEST(AlgorithmsFactoryTest, CreatesWeightsPredictionFuzzyAlgorithm) {
     EXPECT_NE(dynamic_cast<WeightsPredictionFuzzyAlgorithm*>(algorithm.get()), nullptr);
 }
 
-TEST(AlgorithmsFactoryTest, ReturnsNullptrForUnknownAlgorithm) {
+TEST(AlgorithmsFactoryTest, UnknownReturnsNullptr) {
     AlgorithmsFactory factory;
 
     std::shared_ptr<PredictionAlgorithm> algorithm = factory.create(

@@ -110,8 +110,17 @@ function(add_repository_test target_name test_source)
     )
 
     target_link_libraries(${target_name} PRIVATE gtest gtest_main Qt6::Core Qt6::Gui)
+    add_custom_command(TARGET ${target_name} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory
+            $<TARGET_FILE_DIR:${target_name}>/repository/data
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/repository/data
+            $<TARGET_FILE_DIR:${target_name}>/repository/data
+    )
     add_test_runtime_dependencies(${target_name})
-    gtest_discover_tests(${target_name})
+    gtest_discover_tests(${target_name}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    )
 endfunction()
 
 function(add_model_logic_test target_name test_source)

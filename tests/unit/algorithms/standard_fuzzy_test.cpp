@@ -3,7 +3,7 @@
 
 #include "test_utils.h"
 
-TEST(StandardFuzzyAlgorithmTest, UpdatesFuzzyConceptValuesAndAppliesConceptActivation) {
+TEST(StandardFuzzyAlgorithmTest, UpdatesFuzzyConceptValues) {
     auto conceptsActivationFunction = std::make_shared<ShiftActivationFunction>(1.0);
     auto weightsActivationFunction = std::make_shared<ShiftActivationFunction>(100.0);
     StandardFuzzyAlgorithm algorithm(conceptsActivationFunction, weightsActivationFunction);
@@ -27,7 +27,7 @@ TEST(StandardFuzzyAlgorithmTest, UpdatesFuzzyConceptValuesAndAppliesConceptActiv
     EXPECT_DOUBLE_EQ(weight.triangularFuzzyValue.u, 4.0);
 }
 
-TEST(StandardFuzzyAlgorithmTest, AppliesFuzzyWeightOnlyAfterBothConceptsReachStartStep) {
+TEST(StandardFuzzyAlgorithmTest, RespectsStartStep) {
     auto conceptsActivationFunction = std::make_shared<ShiftActivationFunction>(1.0);
     auto weightsActivationFunction = std::make_shared<ShiftActivationFunction>(100.0);
     StandardFuzzyAlgorithm algorithm(conceptsActivationFunction, weightsActivationFunction);

@@ -3,31 +3,24 @@
 #include "repository/json_repository.h"
 
 #include <QFile>
-#include <QFileInfo>
 #include <QJsonDocument>
 #include <QTemporaryDir>
 
 namespace {
 
-QString testDataPath(const QString& fileName) {
-    const QString baseDir = QFileInfo(QString::fromUtf8(__FILE__)).absolutePath();
-    return baseDir + "/data/" + fileName;
-}
-
-QByteArray readFile(const QString& path) {
+QJsonDocument readJsonDocument(const QString& path) {
     QFile file(path);
     EXPECT_TRUE(file.open(QIODevice::ReadOnly)) << path.toStdString();
-    return file.readAll();
-}
 
-QJsonDocument readJsonDocument(const QString& path) {
     QJsonParseError error;
-    const auto document = QJsonDocument::fromJson(readFile(path), &error);
+    const auto document = QJsonDocument::fromJson(file.readAll(), &error);
     EXPECT_EQ(error.error, QJsonParseError::NoError) << error.errorString().toStdString();
     return document;
 }
 
-FCM makeModelForExport() {
+}
+
+TEST(JsonRepositoryTest, ExportWritesExpectedJson) {
     auto mainTerm = std::make_shared<Term>();
     mainTerm->id = QUuid("{11111111-1111-1111-1111-111111111111}");
     mainTerm->name = "High demand";
@@ -131,13 +124,7 @@ FCM makeModelForExport() {
     fcm.concepts.emplace(targetConcept->id, targetConcept);
     fcm.weights.emplace(weight->id, weight);
     fcm.experiments.push_back(experiment);
-    return fcm;
-}
 
-}
-
-TEST(JsonRepositoryTest, ExportToJsonWritesExpectedDocument) {
-    const FCM fcm = makeModelForExport();
     QTemporaryDir tempDir;
     ASSERT_TRUE(tempDir.isValid());
 
@@ -145,13 +132,13 @@ TEST(JsonRepositoryTest, ExportToJsonWritesExpectedDocument) {
     ASSERT_TRUE(JsonRepository::exportToJson(fcm, outputPath));
 
     const auto actualDocument = readJsonDocument(outputPath);
-    const auto expectedDocument = readJsonDocument(testDataPath("full_model.json"));
+    const auto expectedDocument = readJsonDocument("repository/data/full_model.json");
 
     EXPECT_EQ(actualDocument, expectedDocument);
 }
 
-TEST(JsonRepositoryTest, ImportFromJsonReadsCompleteModel) {
-    const auto imported = JsonRepository::importFromJson(testDataPath("full_model.json"));
+TEST(JsonRepositoryTest, ImportReadsCompleteModel) {
+    const auto imported = JsonRepository::importFromJson("repository/data/full_model.json");
     ASSERT_TRUE(imported.has_value());
 
     const FCM& fcm = imported.value();
@@ -221,8 +208,8 @@ TEST(JsonRepositoryTest, ImportFromJsonReadsCompleteModel) {
     ASSERT_EQ(experiment.weights.size(), 1U);
 }
 
-TEST(JsonRepositoryTest, ImportFromJsonAppliesDefaultsForLegacyJson) {
-    const auto imported = JsonRepository::importFromJson(testDataPath("legacy_model.json"));
+TEST(JsonRepositoryTest, ImportAppliesLegacyDefaults) {
+    const auto imported = JsonRepository::importFromJson("repository/data/legacy_model.json");
     ASSERT_TRUE(imported.has_value());
 
     const FCM& fcm = imported.value();
@@ -244,8 +231,8 @@ TEST(JsonRepositoryTest, ImportFromJsonAppliesDefaultsForLegacyJson) {
     EXPECT_TRUE(experiment.weights.empty());
 }
 
-TEST(JsonRepositoryTest, ImportFromJsonIgnoresMissingLinkedTerms) {
-    const auto imported = JsonRepository::importFromJson(testDataPath("missing_term_links.json"));
+TEST(JsonRepositoryTest, IgnoresMissingTerms) {
+    const auto imported = JsonRepository::importFromJson("repository/data/missing_term_links.json");
     ASSERT_TRUE(imported.has_value());
 
     const FCM& fcm = imported.value();
@@ -258,7 +245,7 @@ TEST(JsonRepositoryTest, ImportFromJsonIgnoresMissingLinkedTerms) {
     EXPECT_EQ(weight->term, nullptr);
 }
 
-TEST(JsonRepositoryTest, ImportFromJsonReturnsNulloptForIncorrectJson) {
-    const auto imported = JsonRepository::importFromJson(testDataPath("incorrect.json"));
+TEST(JsonRepositoryTest, ImportRejectsIncorrectJson) {
+    const auto imported = JsonRepository::importFromJson("repository/data/incorrect.json");
     EXPECT_FALSE(imported.has_value());
 }

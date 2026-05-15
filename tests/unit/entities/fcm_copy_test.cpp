@@ -5,7 +5,13 @@
 
 namespace {
 
-std::shared_ptr<FCM> makeModel() {
+}
+
+TEST(FcmCopyTest, NullInputReturnsNullptr) {
+    EXPECT_EQ(cloneFCMForRuntime(nullptr), nullptr);
+}
+
+TEST(FcmCopyTest, CreatesDeepCopy) {
     const QUuid nodeTermId("{11111111-1111-1111-1111-111111111111}");
     const QUuid edgeTermId("{22222222-2222-2222-2222-222222222222}");
     const QUuid conceptId("{33333333-3333-3333-3333-333333333333}");
@@ -56,32 +62,21 @@ std::shared_ptr<FCM> makeModel() {
     weight->fromConceptId = conceptId;
     weight->toConceptId = otherConceptId;
 
-    auto fcm = std::make_shared<FCM>();
-    fcm->name = "Original";
-    fcm->description = "Runtime copy source";
-    fcm->predictionParameters = PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0};
-    fcm->autosaveOn = true;
-    fcm->dbId = 42;
-    fcm->deletedTermsIds = {1};
-    fcm->deletedConceptsIds = {2};
-    fcm->deletedWeightsIds = {3};
-    fcm->deletedExperimentsIds = {4};
-    fcm->terms.emplace(nodeTermId, nodeTerm);
-    fcm->terms.emplace(edgeTermId, edgeTerm);
-    fcm->concepts.emplace(conceptId, concept);
-    fcm->concepts.emplace(otherConceptId, otherConcept);
-    fcm->weights.emplace(weightId, weight);
-    return fcm;
-}
-
-}
-
-TEST(FcmCopyTest, ReturnsNullptrForNullInput) {
-    EXPECT_EQ(cloneFCMForRuntime(nullptr), nullptr);
-}
-
-TEST(FcmCopyTest, CreatesDeepCopyAndReconnectsTermPointers) {
-    const auto original = makeModel();
+    auto original = std::make_shared<FCM>();
+    original->name = "Original";
+    original->description = "Runtime copy source";
+    original->predictionParameters = PredictionParameters{"const weights", false, "threshold-linear", "MSE", false, 0.0, 1, 1, 1.0};
+    original->autosaveOn = true;
+    original->dbId = 42;
+    original->deletedTermsIds = {1};
+    original->deletedConceptsIds = {2};
+    original->deletedWeightsIds = {3};
+    original->deletedExperimentsIds = {4};
+    original->terms.emplace(nodeTermId, nodeTerm);
+    original->terms.emplace(edgeTermId, edgeTerm);
+    original->concepts.emplace(conceptId, concept);
+    original->concepts.emplace(otherConceptId, otherConcept);
+    original->weights.emplace(weightId, weight);
 
     const auto clone = cloneFCMForRuntime(original);
 

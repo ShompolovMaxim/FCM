@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-TEST(ActivationFunctionsFactoryTest, CreatesSigmoidWithSpecifiedFuzzinessDegree) {
+TEST(ActivationFunctionsFactoryTest, CreatesSigmoid) {
     ActivationFunctionsFactory factory;
 
     std::shared_ptr<ActivationFunction> activationFunction = factory.create("sigmoid", ElementType::Node, 2.0);
@@ -18,7 +18,7 @@ TEST(ActivationFunctionsFactoryTest, CreatesSigmoidWithSpecifiedFuzzinessDegree)
     EXPECT_NEAR(activationFunction->activate(1.0), 1.0 / (1.0 + std::exp(-2.0)), 1e-12);
 }
 
-TEST(ActivationFunctionsFactoryTest, CreatesTanhWithSpecifiedFuzzinessDegree) {
+TEST(ActivationFunctionsFactoryTest, CreatesTanh) {
     ActivationFunctionsFactory factory;
 
     std::shared_ptr<ActivationFunction> activationFunction = factory.create("hyperbolic tangent", ElementType::Node, 2.0);
@@ -28,7 +28,7 @@ TEST(ActivationFunctionsFactoryTest, CreatesTanhWithSpecifiedFuzzinessDegree) {
     EXPECT_NEAR(activationFunction->activate(1.0), std::tanh(2.0), 1e-12);
 }
 
-TEST(ActivationFunctionsFactoryTest, CreatesNodeSpecificFunctionsInZeroOneRange) {
+TEST(ActivationFunctionsFactoryTest, CreatesNodeFunctions) {
     ActivationFunctionsFactory factory;
 
     std::shared_ptr<ActivationFunction> bivalent = factory.create("bivalent", ElementType::Node, 0.0);
@@ -46,7 +46,7 @@ TEST(ActivationFunctionsFactoryTest, CreatesNodeSpecificFunctionsInZeroOneRange)
     EXPECT_DOUBLE_EQ(trivalent->activate(0.5), 0.5);
 }
 
-TEST(ActivationFunctionsFactoryTest, CreatesEdgeSpecificFunctionsInMinusOneOneRange) {
+TEST(ActivationFunctionsFactoryTest, CreatesEdgeFunctions) {
     ActivationFunctionsFactory factory;
 
     std::shared_ptr<ActivationFunction> bivalent = factory.create("bivalent", ElementType::Edge, 0.0);
@@ -61,7 +61,7 @@ TEST(ActivationFunctionsFactoryTest, CreatesEdgeSpecificFunctionsInMinusOneOneRa
     EXPECT_DOUBLE_EQ(trivalent->activate(0.0), 0.0);
 }
 
-TEST(ActivationFunctionsFactoryTest, ReturnsNullptrForUnknownFunction) {
+TEST(ActivationFunctionsFactoryTest, UnknownFunctionReturnsNullptr) {
     ActivationFunctionsFactory factory;
     EXPECT_EQ(factory.create("unknown", ElementType::Node, 1.0), nullptr);
 }

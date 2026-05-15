@@ -6,7 +6,7 @@ TEST(MAPETest, ReturnsZeroForEqualVectors) {
     EXPECT_DOUBLE_EQ(mape.calculate({1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}), 0.0);
 }
 
-TEST(MAPETest, CalculatesMeanAbsolutePercentageError) {
+TEST(MAPETest, CalculatesPercentageError) {
     MAPE mape;
     EXPECT_DOUBLE_EQ(mape.calculate({100.0, 200.0}, {110.0, 180.0}), 10.0);
 }

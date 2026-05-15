@@ -18,7 +18,7 @@ TEST(TanhTest, NegativeValueMatchesFormula) {
     EXPECT_NEAR(tanh.activate(-2.0), std::tanh(-1.0), 1e-12);
 }
 
-TEST(TanhTest, LargerFuzzinessDegreeMakesFunctionSteeper) {
+TEST(TanhTest, HigherFuzzinessIsSteeper) {
     Tanh lessSteep(1.0);
     Tanh moreSteep(3.0);
 
